@@ -2,3 +2,4 @@
 dist/scripts
 dist/tests
 dist/Makefile
+dist/modules/**/tests

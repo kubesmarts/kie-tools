@@ -3,7 +3,7 @@
 Package based on [`kogito-data-index-ephemeral-image`](../kogito-data-index-ephemeral-image).
 This image is based on its version upstream. Internally, the package will run a few preparation scritps to:
 
-1. Pull the app in zip formant from a given URL. This app must be based on the [`kogito-data-index-ephemeral-image`](../kogito-data-index-ephemeral-image).
+1. Pull the app in zip format from a given URL. This app must be based on the [`kogito-data-index-ephemeral-image`](../kogito-data-index-ephemeral-image).
 2. Save the artifact in zip format to the local Cekit Cache.
 3. Update the [`dist/modules`](generated/modules) directory with MD5 and artifact name.
 4. Save everything needed to build this image with Cekit in the [`dist`](generated) directory. This directory must be commited to the git branch since it will be used by internal tools to build the final image.
