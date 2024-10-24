@@ -1,0 +1,4 @@
+!dist
+dist/scripts
+dist/tests
+dist/Makefile

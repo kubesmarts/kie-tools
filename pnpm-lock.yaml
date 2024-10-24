@@ -7052,6 +7052,60 @@ importers:
         specifier: ^5.5.3
         version: 5.5.3
 
+  packages/osl-data-index-ephemeral-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie/kogito-data-index-ephemeral-image':
+        specifier: workspace:*
+        version: link:../kogito-data-index-ephemeral-image
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-env
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-images-modules:
+    devDependencies:
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
   packages/patternfly-base:
     devDependencies:
       '@kie-tools/root-env':
@@ -7481,6 +7535,15 @@ importers:
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
+
+  packages/redhat-python-env:
+    devDependencies:
+      '@kie-tools/python-venv':
+        specifier: workspace:*
+        version: link:../python-venv
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
 
   packages/root-env: {}
 
