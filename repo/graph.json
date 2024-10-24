@@ -162,6 +162,8 @@
       { "id": "@kie/kogito-jit-runner-image" },
       { "id": "@kie/kogito-jobs-service-allinone-image" },
       { "id": "@kie-tools/unitables" },
+      { "id": "@osl/osl-data-index-ephemeral-image" },
+      { "id": "@osl/osl-images-modules" },
       { "id": "pmml-vscode-extension" },
       { "id": "@kie-tools/runtime-tools-components" },
       { "id": "@kie-tools/runtime-tools-shared-gateway-api" },
@@ -2005,6 +2007,21 @@
         "weight": 1
       },
       {
+        "source": "@osl/osl-data-index-ephemeral-image",
+        "target": "@kie/kogito-data-index-ephemeral-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-data-index-ephemeral-image",
+        "target": "@osl/osl-images-modules",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-images-modules",
+        "target": "@kie-tools/sonataflow-image-common",
+        "weight": 1
+      },
+      {
         "source": "pmml-vscode-extension",
         "target": "@kie-tools-core/vscode-extension",
         "weight": 1
@@ -2672,6 +2689,8 @@
     ["@kie-tools-core/notifications", "packages/notifications"],
     ["@kie-tools/online-editor", "packages/online-editor"],
     ["@kie-tools-core/operating-system", "packages/operating-system"],
+    ["@osl/osl-data-index-ephemeral-image", "packages/osl-data-index-ephemeral-image"],
+    ["@osl/osl-images-modules", "packages/osl-images-modules"],
     ["@kie-tools-core/patternfly-base", "packages/patternfly-base"],
     ["@kie-tools/playwright-base", "packages/playwright-base"],
     ["@kie-tools/pmml-editor", "packages/pmml-editor"],
