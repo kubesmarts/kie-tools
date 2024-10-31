@@ -1,0 +1,66 @@
+name: "CI :: OSL :: Sync Main"
+
+on:
+  workflow_dispatch: # Allows you to run the workflow manually from the Actions tab
+  schedule:
+    - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC (adjust as needed)
+
+env:
+  UPSTREAM_URL: https://github.com/apache/incubator-kie-tools.git
+  IGNORED_FILES: ".github/supporting-files/ci/partitions .github/workflows/ci_build.yml pnpm-lock.yaml repo/graph.dot repo/graph.json" # List files or paths to ignore, separated by spaces
+  SYNC_BRANCH: "main-sync-$(date +'%Y%m%d-%H%M%S')"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          ref: main # Check out the "main" branch in your fork
+
+      - name: Add Upstream Remote
+        run: |
+          git remote add upstream $UPSTREAM_URL
+          git fetch upstream
+
+      - name: Create Sync Branch with Timestamp
+        run: |
+          git checkout -b $SYNC_BRANCH
+          git push -u origin $SYNC_BRANCH
+
+      - name: Temporarily Remove Ignored Files
+        run: |
+          for file in $IGNORED_FILES; do
+              git rm --cached "$file" || true
+          done
+          git commit -m "Temporarily remove ignored files to avoid conflicts during sync" || echo "No files to commit"
+
+      - name: Sync with Upstream Main
+        run: |
+          git merge upstream/main
+
+      - name: Restore Ignored Files
+        run: |
+          git restore --staged $IGNORED_FILES
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
+
+      - name: Bootstrap
+        env:
+          PLAYWRIGHT_BASE__installDeps: "true"
+        uses: ./.github/actions/bootstrap
+
+      - name: Commit and Push Changes to Sync Branch
+        run: |
+          git add .
+          git commit -m "Sync with upstream/main and recreated ignored files"
+          git push origin $SYNC_BRANCH
+
+      - name: Create Pull Request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create --title "Sync with upstream/main" --body "Automated sync with upstream main, recreated ignored files." --head $SYNC_BRANCH --base main
