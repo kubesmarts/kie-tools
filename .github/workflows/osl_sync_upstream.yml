@@ -1,0 +1,29 @@
+name: "CI :: OSL :: Sync Upstream"
+
+on:
+  workflow_dispatch: # Allows you to run the workflow manually from the Actions tab
+  schedule:
+    - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC (adjust as needed)
+
+env:
+  UPSTREAM_URL: https://github.com/apache/incubator-kie-tools
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: upstream
+
+      - name: Add Upstream Remote
+        run: |
+          git remote add upstream $UPSTREAM_URL
+          git fetch upstream
+
+      - name: Sync with Upstream Main
+        run: |
+          git merge upstream/main
+          git push origin upstream
