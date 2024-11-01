@@ -25,25 +25,28 @@ jobs:
           git remote add upstream $UPSTREAM_URL
           git fetch upstream
 
-      - name: Create Sync Branch with Timestamp
+      - name: Create Sync Branch
         run: |
           git checkout -b $SYNC_BRANCH
           git push -u origin $SYNC_BRANCH
 
-      - name: Temporarily Remove Ignored Files
+      - name: Move Ignored Files Temporarily
         run: |
+          mkdir temp_ignored_files
           for file in $IGNORED_FILES; do
-              git rm --cached "$file" || true
+            [ -f "$file" ] && mv "$file" temp_ignored_files/
           done
-          git commit -m "Temporarily remove ignored files to avoid conflicts during sync" || echo "No files to commit"
 
       - name: Sync with Upstream Main
         run: |
-          git merge upstream/main
+          git merge upstream/main -X theirs --no-edit
 
-      - name: Restore Ignored Files
+      - name: Restore and Recreate Ignored Files
         run: |
-          git restore --staged $IGNORED_FILES
+          for file in $IGNORED_FILES; do
+            [ -f "temp_ignored_files/$(basename "$file")" ] && mv "temp_ignored_files/$(basename "$file")" "$file"
+          done
+          rm -rf temp_ignored_files
 
       - name: Setup environment
         uses: ./.github/actions/setup-env
@@ -63,4 +66,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --title "Sync with upstream/main" --body "Automated sync with upstream main, recreated ignored files." --head $SYNC_BRANCH --base main
+          gh pr create --title "Sync with upstream/main" --body "[$(date +'%Y%m%d-%H%M%S')] - Automated sync with upstream main" --head $SYNC_BRANCH --base main
