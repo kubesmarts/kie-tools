@@ -33,8 +33,8 @@ jobs:
       - name: Move Ignored Files Temporarily
         run: |
           mkdir temp_ignored_files
-          for file in $IGNORED_FILES; do
-            [ -f "$file" ] && mv "$file" temp_ignored_files/
+          for item in $IGNORED_ITEMS; do
+            [ -e "$item" ] && mv "$item" temp_ignored_items/
           done
 
       - name: Sync with Upstream Main
@@ -43,10 +43,10 @@ jobs:
 
       - name: Restore and Recreate Ignored Files
         run: |
-          for file in $IGNORED_FILES; do
-            [ -f "temp_ignored_files/$(basename "$file")" ] && mv "temp_ignored_files/$(basename "$file")" "$file"
-          done
-          rm -rf temp_ignored_files
+          for item in $IGNORED_ITEMS; do
+             [ -e "temp_ignored_items/$(basename "$item")" ] && mv "temp_ignored_items/$(basename "$item")" "$item"
+           done
+           rm -rf temp_ignored_items
 
       - name: Setup environment
         uses: ./.github/actions/setup-env
