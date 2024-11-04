@@ -6,8 +6,8 @@ on:
     - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC (adjust as needed)
 
 env:
-  UPSTREAM_URL: https://github.com/apache/incubator-kie-tools.git
-  IGNORED_FILES: ".github/supporting-files/ci/partitions .github/workflows/ci_build.yml pnpm-lock.yaml repo/graph.dot repo/graph.json" # List files or paths to ignore, separated by spaces
+  UPSTREAM_URL: ${{ secrets.UPSTREAM_URL }}
+  IGNORED_FILES: ${{ vars.IGNORED_FILES }}
   SYNC_BRANCH: "main-sync-$(date +'%Y%m%d-%H%M%S')"
 
 jobs:
@@ -24,6 +24,12 @@ jobs:
         run: |
           git remote add upstream $UPSTREAM_URL
           git fetch upstream
+
+      - name: Setup Git Environment
+        shell: bash
+        run: |
+          git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
+          git config --global user.email "${{ secrets.KIE1_EMAIL }}"
 
       - name: Create Sync Branch
         run: |
