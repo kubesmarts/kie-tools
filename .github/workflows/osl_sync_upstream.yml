@@ -35,7 +35,7 @@ jobs:
         run: |
           set -x
           git remote add upstream "${{ secrets.UPSTREAM_URL }}"
-          git fetch upstream
+          git fetch upstream main
 
       - name: Sync with Upstream Main
         run: |
