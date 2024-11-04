@@ -6,12 +6,12 @@ on:
     - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC (adjust as needed)
 
 env:
-  UPSTREAM_URL: ${{ secrets.UPSTREAM_URL }}
+  UPSTREAM_URL: ${{ vars.UPSTREAM_URL }}
   IGNORED_FILES: ${{ vars.IGNORED_FILES }}
   SYNC_BRANCH: "main-sync-$(date +'%Y%m%d-%H%M%S')"
 
 jobs:
-  sync:
+  sync_main_apache:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,7 +23,7 @@ jobs:
       - name: Add Upstream Remote
         run: |
           git remote add upstream $UPSTREAM_URL
-          git fetch upstream
+          git fetch upstream main
 
       - name: Setup Git Environment
         shell: bash
@@ -33,6 +33,8 @@ jobs:
 
       - name: Create Sync Branch
         run: |
+          SYNC_BRANCH="main-sync-$(date +'%Y%m%d-%H%M%S')"
+          echo "SYNC_BRANCH=$SYNC_BRANCH" >> $GITHUB_ENV
           git checkout -b $SYNC_BRANCH
           git push -u origin $SYNC_BRANCH
 
@@ -66,10 +68,10 @@ jobs:
         run: |
           git add .
           git commit -m "Sync with upstream/main and recreated ignored files"
-          git push origin $SYNC_BRANCH
+          git push origin "${{ env.SYNC_BRANCH }}"
 
       - name: Create Pull Request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --title "Sync with upstream/main" --body "[$(date +'%Y%m%d-%H%M%S')] - Automated sync with upstream main" --head $SYNC_BRANCH --base main
+          gh pr create --title "Sync with upstream/main" --body "[$(date +'%Y%m%d-%H%M%S')] - Automated sync with upstream main" --head "${{ env.SYNC_BRANCH }}" --base main
