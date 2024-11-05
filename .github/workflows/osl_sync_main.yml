@@ -74,4 +74,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --title "Sync with upstream/main" --body "[$(date +'%Y%m%d-%H%M%S')] - Automated sync with upstream main" --head "${{ env.SYNC_BRANCH }}" --base main
+          gh pr create --title "[$(date +'%Y%m%d-%H%M%S')] - Sync with upstream/main" --body "Automated sync with upstream main" --head "${{ env.SYNC_BRANCH }}" --base main
