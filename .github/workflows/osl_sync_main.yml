@@ -42,7 +42,7 @@ jobs:
           mkdir temp_ignored_items
           for item in $IGNORED_ITEMS; do
             if [ -e "$item" ]; then
-              mv "$item" temp_ignored_items/
+              mv -v "$item" temp_ignored_items/
             else
               echo "Warning: $item does not exist"
             fi
@@ -55,7 +55,7 @@ jobs:
       - name: Restore and Recreate Ignored Files
         run: |
           for item in $IGNORED_ITEMS; do
-             [ -e "temp_ignored_items/$(basename "$item")" ] && mv "temp_ignored_items/$(basename "$item")" "$item"
+             [ -e "temp_ignored_items/$(basename "$item")" ] && mv -v "temp_ignored_items/$(basename "$item")" "$item"
            done
            rm -rf temp_ignored_items
 
