@@ -54,7 +54,7 @@ const TaskInboxContainer: React.FC<OUIAProps> = ({ ouiaId, ouiaSafe }) => {
 
   return (
     <EmbeddedTaskInbox
-      {...componentOuiaProps(ouiaId, "tasks-container", ouiaSafe)}
+      {...componentOuiaProps(ouiaId, "task-inbox-container", ouiaSafe)}
       initialState={gatewayApi.taskInboxState}
       driver={gatewayApi}
       allTaskStates={getAllTaskStates()}

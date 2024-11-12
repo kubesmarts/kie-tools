@@ -214,12 +214,12 @@ const TaskInboxToolbar: React.FC<TaskInboxToolbarProps & OUIAProps> = ({
 
   return (
     <Toolbar
-      id="tasks-with-filter"
+      id="task-inbox-with-filter"
       className="pf-m-toggle-group-container"
       collapseListedFiltersBreakpoint="xl"
       clearAllFilters={doResetFilter}
       clearFiltersButtonText="Reset to default"
-      {...componentOuiaProps(ouiaId, "tasks-toolbar", ouiaSafe)}
+      {...componentOuiaProps(ouiaId, "task-inbox-toolbar", ouiaSafe)}
     >
       <ToolbarContent>{toolbarItems}</ToolbarContent>
     </Toolbar>

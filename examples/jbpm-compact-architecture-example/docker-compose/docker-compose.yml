@@ -1,8 +1,10 @@
+version: "3"
+
 services:
   postgres:
     container_name: postgres
     image: postgres:16.1-alpine3.19
-    profiles: ["infra", "example-only", "full"]
+    profiles: ["infra", "example", "full"]
     ports:
       - "5432:5432"
     volumes:
@@ -19,7 +21,7 @@ services:
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4:8.2
-    profiles: ["infra", "example-only", "full"]
+    profiles: ["infra", "example", "full"]
     ports:
       - 8055:80
     depends_on:
@@ -43,7 +45,7 @@ services:
   jbpm-compact-architecture-example-service:
     container_name: jbpm-compact-architecture-example-service
     image: dev.local/${USER}/jbpm-compact-architecture-example-service:${PROJECT_VERSION}
-    profiles: ["example-only", "full"]
+    profiles: ["example", "full"]
     ports:
       - "8080:8080"
     environment:

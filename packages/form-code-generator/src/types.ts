@@ -33,16 +33,15 @@ export interface FormConfiguration {
 }
 
 export interface FormAsset<FormThemeFileExt extends string> {
-  name: string;
-  fileName: string;
+  id: string;
+  assetName: string;
   content: string;
-  fileExt: FormThemeFileExt;
+  type: FormThemeFileExt;
   config: FormConfiguration;
 }
 
 export interface FormCodeGenerationError {
   error: Error;
-  fileName: string;
 }
 
 export interface FormCodeGeneratorTheme<
@@ -52,10 +51,7 @@ export interface FormCodeGeneratorTheme<
   generate: (formSchema: FormSchema) => CustomFormAsset;
 }
 
-export interface FormCodeGeneration<
-  FormThemeFileExt extends string,
-  CustomFormAsset extends FormAsset<FormThemeFileExt>,
-> {
-  formAsset: CustomFormAsset | undefined;
+export interface FormCodeGeneration<FormThemeFileExt extends string> {
+  formAsset: FormAsset<FormThemeFileExt> | undefined;
   formError: FormCodeGenerationError | undefined;
 }

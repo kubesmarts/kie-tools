@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { BackendProxy } from "@kie-tools-core/backend/dist/api";
 import {
   EditorContent,
   EditorTheme,
@@ -24,6 +25,7 @@ import {
   StateControlCommand,
 } from "@kie-tools-core/editor/dist/api";
 import { SharedValueProvider } from "@kie-tools-core/envelope-bus/dist/api";
+
 import { I18n } from "@kie-tools-core/i18n/dist/core";
 import { Notification } from "@kie-tools-core/notifications/dist/api";
 import { DefaultVsCodeKieEditorChannelApiImpl } from "@kie-tools-core/vscode-extension/dist/DefaultVsCodeKieEditorChannelApiImpl";
@@ -51,6 +53,7 @@ export class DashbuilderViewerChannelApiImpl implements DashbuilderViewerChannel
     private readonly editor: VsCodeKieEditorController,
     resourceContentService: ResourceContentService,
     vscodeWorkspace: VsCodeWorkspaceChannelApiImpl,
+    backendProxy: BackendProxy,
     vscodeNotifications: VsCodeNotificationsChannelApiImpl,
     javaCodeCompletionApi: JavaCodeCompletionApi,
     viewType: string,
@@ -61,6 +64,7 @@ export class DashbuilderViewerChannelApiImpl implements DashbuilderViewerChannel
       editor,
       resourceContentService,
       vscodeWorkspace,
+      backendProxy,
       vscodeNotifications,
       javaCodeCompletionApi,
       viewType,

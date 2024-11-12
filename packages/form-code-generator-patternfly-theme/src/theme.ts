@@ -31,14 +31,15 @@ export const patternflyFormCodeGeneratorTheme: FormCodeGeneratorTheme<Patternfly
   generate: (formSchema) => {
     const form = renderForm({
       id: formSchema.name,
+      sanitizedId: formSchema.name,
       schema: new JSONSchemaBridge(formSchema.schema, () => true),
       disabled: false,
       placeholder: true,
     });
     return {
-      name: formSchema.name,
-      fileName: `${formSchema.name}.${PATTERNFLY_FILE_EXT}`,
-      fileExt: PATTERNFLY_FILE_EXT,
+      id: formSchema.name,
+      assetName: `${formSchema.name}.${PATTERNFLY_FILE_EXT}`,
+      type: PATTERNFLY_FILE_EXT,
       content: unescape(form),
       config: {
         schema: JSON.stringify(formSchema.schema),

@@ -354,7 +354,7 @@ const JobsManagementTable: React.FC<JobsManagementTableProps & OUIAProps> = ({
       actionResolver={checkNotEmpty() ? actionResolver : undefined}
       sortBy={sortBy}
       onSort={onSort}
-      aria-label="Jobs table"
+      aria-label="Jobs management Table"
       className="kogito-jobs-management__table"
       {...componentOuiaProps(ouiaId, "jobs-management-table", ouiaSafe)}
     >

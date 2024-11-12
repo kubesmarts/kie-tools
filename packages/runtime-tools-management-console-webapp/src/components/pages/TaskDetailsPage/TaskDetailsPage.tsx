@@ -159,7 +159,7 @@ const TaskDetailsPage: React.FC<RouteComponentProps<Props> & OUIAProps> = ({ oui
             <Card className={"kogito-management-console__full-size"}>
               <ServerErrors error={error} variant="large">
                 <Button variant="primary" onClick={() => goToInbox()}>
-                  Go to Tasks
+                  Go to Inbox
                 </Button>
               </ServerErrors>
             </Card>
@@ -229,7 +229,7 @@ const TaskDetailsPage: React.FC<RouteComponentProps<Props> & OUIAProps> = ({ oui
                 taskInboxGatewayApi.clearOpenTask();
               }}
             >
-              Tasks
+              Task Inbox
             </Link>
           </BreadcrumbItem>
           <BreadcrumbItem>{userTask.referenceName}</BreadcrumbItem>

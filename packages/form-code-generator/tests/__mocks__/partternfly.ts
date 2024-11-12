@@ -22,10 +22,10 @@ import { FormCodeGeneratorTheme, FormSchema } from "../../dist/types";
 export const dummyPatternflyTheme: FormCodeGeneratorTheme<"tsx"> = {
   generate({ schema, name }: FormSchema) {
     return {
-      name,
+      id: name,
       content: name,
-      fileExt: "tsx",
-      fileName: `${name}.tsx`,
+      type: "tsx",
+      assetName: `${name}.tsx`,
       config: {
         schema: JSON.stringify(schema),
         resources: { styles: {}, scripts: {} },

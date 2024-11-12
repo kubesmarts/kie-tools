@@ -28,11 +28,11 @@ describe("FormCodeGenerator tests", () => {
         formSchemas: [{ name: "", schema: {} }],
         formCodeGeneratorTheme: {
           generate: ({ name, schema }) => ({
-            fileName: "",
+            assetName: "",
             config: { schema: "", resources: { scripts: {}, styles: {} } },
             content: "",
-            name: "",
-            fileExt: "",
+            id: "",
+            type: "",
           }),
         },
       });
@@ -41,10 +41,10 @@ describe("FormCodeGenerator tests", () => {
       expect(formCode[0]).toEqual(
         expect.objectContaining({
           formAsset: expect.objectContaining({
-            name: "",
-            fileName: "",
+            id: "",
+            assetName: "",
             config: { resources: { scripts: {}, styles: {} }, schema: "" },
-            fileExt: "",
+            type: "",
           }),
           formError: undefined,
         })
@@ -61,10 +61,10 @@ describe("FormCodeGenerator tests", () => {
       expect(formCode[0]).toEqual(
         expect.objectContaining({
           formAsset: expect.objectContaining({
-            name: "test",
-            fileName: "test.tsx",
+            id: "test",
+            assetName: "test.tsx",
             config: { resources: { scripts: {}, styles: {} }, schema: "{}" },
-            fileExt: "tsx",
+            type: "tsx",
           }),
           formError: undefined,
         })
@@ -84,10 +84,10 @@ describe("FormCodeGenerator tests", () => {
       expect(formCode[0]).toEqual(
         expect.objectContaining({
           formAsset: expect.objectContaining({
-            name: "Apply#For#Visa",
-            fileName: "Apply#For#Visa.tsx",
+            id: "Apply#For#Visa",
+            assetName: "Apply#For#Visa.tsx",
             config: { resources: { scripts: {}, styles: {} }, schema: JSON.stringify(ApplyForVisaSchema) },
-            fileExt: "tsx",
+            type: "tsx",
           }),
           formError: undefined,
         })
@@ -95,10 +95,10 @@ describe("FormCodeGenerator tests", () => {
       expect(formCode[1]).toEqual(
         expect.objectContaining({
           formAsset: expect.objectContaining({
-            name: "ConfirmTravel",
-            fileName: "ConfirmTravel.tsx",
+            id: "ConfirmTravel",
+            assetName: "ConfirmTravel.tsx",
             config: { resources: { scripts: {}, styles: {} }, schema: JSON.stringify(ConfirmTravelSchema) },
-            fileExt: "tsx",
+            type: "tsx",
           }),
           formError: undefined,
         })
@@ -118,10 +118,10 @@ describe("FormCodeGenerator tests", () => {
             }
 
             return {
-              name: schema.name,
+              id: schema.name,
               content: schema.name,
-              fileExt: "txt",
-              fileName: `${schema.name}.txt`,
+              type: "txt",
+              assetName: `${schema.name}.txt`,
               config: {
                 schema: "",
                 resources: { styles: {}, scripts: {} },
@@ -139,10 +139,10 @@ describe("FormCodeGenerator tests", () => {
       expect(formCode[1]).toEqual(
         expect.objectContaining({
           formAsset: expect.objectContaining({
-            name: "ConfirmTravel",
-            fileName: "ConfirmTravel.txt",
+            id: "ConfirmTravel",
+            assetName: "ConfirmTravel.txt",
             config: { resources: { scripts: {}, styles: {} }, schema: "" },
-            fileExt: "txt",
+            type: "txt",
           }),
           formError: undefined,
         })

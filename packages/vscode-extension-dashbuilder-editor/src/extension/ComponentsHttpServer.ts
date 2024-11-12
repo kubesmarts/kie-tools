@@ -17,14 +17,14 @@
  * under the License.
  */
 
+import { LocalHttpServer } from "@kie-tools-core/backend/dist/api";
 import { getPortPromise } from "portfinder";
 import * as http from "http";
 import * as fs from "fs";
 import * as path from "path";
 
-export class ComponentServer {
+export class ComponentServer extends LocalHttpServer {
   private server: http.Server;
-  public port: number | undefined;
 
   requestListener = (request: any, response: any) => {
     if (["/", "", "index.html"].includes(request.url)) {
@@ -33,8 +33,8 @@ export class ComponentServer {
       return;
     }
 
-    const userInput = path.normalize(request.url).replace(/^(\.\.(\/|\\|$))+/, "");
-    const filePath = path.join(this.componentsPath, userInput);
+    var userInput = path.normalize(request.url).replace(/^(\.\.(\/|\\|$))+/, "");
+    var filePath = path.join(this.componentsPath, userInput);
     if (filePath.indexOf(this.componentsPath) !== 0) {
       console.debug("Denying access to file " + filePath);
       response.writeHead(403);
@@ -58,7 +58,9 @@ export class ComponentServer {
     });
   };
 
-  constructor(private readonly componentsPath: string) {}
+  constructor(private readonly componentsPath: string) {
+    super();
+  }
 
   identify(): string {
     return "Components HTTP Server";
