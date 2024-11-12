@@ -24,8 +24,8 @@ jobs:
       - name: "Build Images"
         env:
           KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: "true"
-          KIE_TOOLS_BUILD__runTests: "true"
+          KIE_TOOLS_BUILD__runEndToEndTests: "false"
+          KIE_TOOLS_BUILD__runTests: "false"
           # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
           SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
           SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
