@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: com.redhat.osl.dataindex-ephemeral
-version: "main"
+version: "1.35.0"
 
 artifacts:
   - name: data-index-service-inmemory

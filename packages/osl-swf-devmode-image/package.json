@@ -22,9 +22,9 @@
     "image:cekit:build:win32": "echo \"Build skipped on Windows\"",
     "image:cekit:cache:artifacts": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && ./generated/scripts/process-cekit-artifact.sh \"$(build-env oslSwfDevmodeImage.artifactUrl)\",\"$(build-env oslSwfDevmodeImage.mavenRepositoryUrl)\" modules/osl-swf-devmode-runtime/module.yaml",
     "image:cekit:copy": "rsync -av --exclude='modules/kogito-data-index*' --exclude='modules/kogito-jobs-service*' --include='*'  node_modules/@kie-tools/sonataflow-image-common/resources/ generated/ && cp -R node_modules/@osl/osl-images-modules/resources/* ./generated/ && cp -R resources/* ./generated/ && mkdir -p generated/modules/sonataflow/devmode/runtime/ && cp -r node_modules/@kie-tools/sonataflow-devmode-image/resources/modules/sonataflow/devmode/runtime/common generated/modules/sonataflow/devmode/runtime/",
-    "image:cekit:generate": "pnpm setup:env make -C ./generated _fix_platform_versions",
+    "image:cekit:fixversions": "pnpm setup:env make -C ./generated _fix_platform_versions",
     "image:cekit:generated": "run-script-os",
-    "image:cekit:generated:linux:darwin": "pnpm cleanup && pnpm image:cekit:copy && pnpm image:cekit:cache:artifacts && pnpm image:cekit:generate && pnpm format",
+    "image:cekit:generated:linux:darwin": "pnpm cleanup && pnpm image:cekit:copy && pnpm image:cekit:cache:artifacts && pnpm image:cekit:fixversions && pnpm format",
     "image:cekit:generated:win32": "echo \"Build skipped on Windows\"",
     "install": "node install.js && pnpm format",
     "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env oslSwfDevmodeImage.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env oslSwfDevmodeImage.account) KOGITO_IMAGE_NAME=$(build-env oslSwfDevmodeImage.name) KOGITO_IMAGE_TAG=$(build-env oslSwfDevmodeImage.buildTag) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkus) KOGITO_VERSION=$(build-env versions.kogito)"

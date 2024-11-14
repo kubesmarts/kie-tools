@@ -18,14 +18,14 @@
 #
 name: "openshift-serverless-1/logic-management-console-rhel8"
 from: "registry.access.redhat.com/ubi8/httpd-24:latest"
-version: "main"
+version: "1.35.0"
 description: "OpenShift Serverless Logic Management Console Image"
 
 labels:
   - name: "io.quarkus.platform.version"
-    value: "### SET ME DURING BUILD PROCESS ###"
+    value: "3.8.6.redhat-00004"
   - name: "org.kie.kogito.version"
-    value: "### SET ME DURING BUILD PROCESS ###"
+    value: "9.102.0.redhat-00004"
   - name: "maintainer"
     value: "Red Hat <serverless-logic-team@redhat.com>"
   - name: "io.k8s.description"
@@ -77,4 +77,4 @@ osbs:
   extra_dir: osbs-extra/logic-management-console-rhel8
   repository:
     name: containers/openshift-serverless-1-logic-management-console
-    branch: openshift-serverless-main-rhel-8
+    branch: openshift-serverless-1.35-rhel-8

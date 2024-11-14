@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: com.redhat.osl.management.console
-version: "main"
+version: "1.35.0"
 description: "OpenShift Serverless Management Console Image Configuration"
 
 execute:

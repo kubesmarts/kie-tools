@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: com.redhat.osl.swf.builder.runtime
-version: "main"
+version: "1.35.0"
 description: "OpenShift Serverless Logic builder module with required extensions"
 
 artifacts:
