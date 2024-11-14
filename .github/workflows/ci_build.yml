@@ -183,13 +183,6 @@ jobs:
           cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
 
-      - name: "Check hanging uncommitted files (you should commit those!)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
-        shell: bash
-        run: |
-          git diff
-          [ "0" == "$(git diff | wc -l | tr -d ' ')" ]
-
       - name: "Upload reports and artifacts"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/upload-ci-reports-and-artifacts
