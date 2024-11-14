@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: com.redhat.osl.swf.devmode.runtime
-version: "main"
+version: "1.35.0"
 description: "OpenShift Serverless Logic devmode with required extensions"
 
 envs:
