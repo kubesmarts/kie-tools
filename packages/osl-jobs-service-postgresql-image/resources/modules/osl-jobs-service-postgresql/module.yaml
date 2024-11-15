@@ -22,8 +22,8 @@ version: "main"
 
 artifacts:
   - name: jobs-service-postgresql
-    description: "## UPDATED DURING BUILD ##"
-    md5: "## UPDATED DURING BUILD ##"
+    description: "jobs-service-postgresql-9.102.0.redhat-00004-image-build.zip"
+    md5: "87ca8142a52adc4e9f4fa20c821e2c74"
     target: jobs-service-postgresql-image-build.zip
 
 packages:

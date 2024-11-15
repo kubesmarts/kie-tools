@@ -43,12 +43,12 @@ envs:
 
 artifacts:
   - name: kogito-devmode-quarkus-app
-    description: "## UPDATED DURING BUILD ##"
-    md5: "## UPDATED DURING BUILD ##"
+    description: "kogito-devmode-quarkus-app-9.102.0.redhat-00004-image-build.zip"
+    md5: "3826066b2967135dbd7bea0f50bb2105"
     target: kogito-devmode-quarkus-app-image-build.zip
   - name: kogito-devmode-maven-repository
-    description: "## UPDATED DURING BUILD ##"
-    md5: "## UPDATED DURING BUILD ##"
+    description: "kogito-devmode-maven-repository-9.102.0.redhat-00004-image-build.zip"
+    md5: "750c96be4767210eb85823e43706f3b5"
     target: kogito-devmode-maven-repository-image-build.zip
 
 execute:
