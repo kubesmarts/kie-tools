@@ -31,7 +31,7 @@ envs:
 
 artifacts:
   - name: sonataflow-management-console-webapp
-    description: "## UPDATED DURING BUILD ##"
+    description: "sonataflow-management-console-webapp-9.102.0.redhat-00004-image-build"
     dest: /home/kogito/management-console/app
     target: sonataflow-management-console-webapp-image-build.zip
-    md5: "## UPDATED DURING BUILD ##"
+    md5: "e1dd25a794ed2bf92f010437dc65eed6"
