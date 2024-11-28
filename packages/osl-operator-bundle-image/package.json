@@ -1,0 +1,48 @@
+{
+  "private": true,
+  "name": "@osl/osl-operator-bundle-image",
+  "version": "0.0.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/kubesmarts/kie-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kubesmarts/kie-tools.git"
+  },
+  "bugs": {
+    "url": "https://issues.redhat.com/projects/SRVLOGIC"
+  },
+  "scripts": {
+    "build:dev": "run-script-os",
+    "build:dev:darwin:linux": "pnpm cleanup && pnpm manifests:copy && pnpm manifests:update && pnpm resources:copy",
+    "build:dev:win32": "echo \"Build skipped on Windows\"",
+    "build:prod": "pnpm build:dev",
+    "cleanup": "rimraf generated && mkdir generated",
+    "format": "prettier --write . --ignore-path=../../.prettierignore --ignore-path=../../.gitignore",
+    "image:cekit:build": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cd generated && cekit -v --descriptor logic-operator-bundle-image.yaml build docker --no-squash",
+    "install": "node install.js && pnpm format",
+    "manifests:copy": "cp -R node_modules/@kie-tools/sonataflow-operator/config generated/ && cp -R node_modules/@kie-tools/sonataflow-operator/bundle generated/ && rm -rf generated/bundle/manifests/sonataflow-operator*.yaml && rm -rf generated/config/manifests/bases/*.yaml && cp -R resources/config generated/ && cp node_modules/@kie-tools/sonataflow-operator/Makefile generated/ && cp -R node_modules/@kie-tools/sonataflow-operator/hack generated/ && cp node_modules/@kie-tools/sonataflow-operator/PROJECT generated/",
+    "manifests:update": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && python resources/scripts/update_manifests.py logic-operator-system logic-operator-rhel8",
+    "resources:copy": "cp -R resources/modules generated/ && cp resources/*.yaml generated/",
+    "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate"
+  },
+  "devDependencies": {
+    "@kie-tools/root-env": "workspace:*",
+    "@kie-tools/sonataflow-image-common": "workspace:*",
+    "@kie-tools/sonataflow-operator": "workspace:*",
+    "@osl/osl-images-modules": "workspace:*",
+    "@osl/redhat-env": "workspace:*",
+    "@osl/redhat-python-venv": "workspace:*",
+    "cross-env": "^7.0.3",
+    "replace-in-file": "^7.1.0",
+    "rimraf": "^3.0.2",
+    "run-script-os": "^1.1.6"
+  },
+  "kieTools": {
+    "requiredPreinstalledCliCommands": [
+      "python3",
+      "make",
+      "s2i"
+    ]
+  }
+}
