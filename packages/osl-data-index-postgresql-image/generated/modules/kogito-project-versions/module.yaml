@@ -23,11 +23,11 @@ description: "Kogito Project versions information"
 
 envs:
   - name: "KOGITO_VERSION"
-    value: "9.102.0.redhat-00004"
+    value: "9.102.0.redhat-00005"
     description: Defines the Kogito version to be used by the builder images. Not intended to be changed by end user.
   - name: "QUARKUS_PLATFORM_VERSION"
     value: "3.8.6.SP2-redhat-00002"
     description: Defines the Quarkus Platform version to be used by the builder images. Not intended to be changed by end user.
   - name: "SONATAFLOW_QUARKUS_DEVUI_VERSION"
-    value: "9.102.0.redhat-00004"
+    value: "9.102.0.redhat-00005"
     description: Defines the SonataFlow Quarkus Dev UI version to be used by the devmode image. Not intended to be changed by end user.

@@ -25,7 +25,7 @@ labels:
   - name: "io.quarkus.platform.version"
     value: "3.8.6.SP2-redhat-00002"
   - name: "org.kie.kogito.version"
-    value: "9.102.0.redhat-00004"
+    value: "9.102.0.redhat-00005"
   - name: "maintainer"
     value: "Red Hat <serverless-logic-team@redhat.com>"
   - name: "io.k8s.description"

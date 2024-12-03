@@ -30,7 +30,7 @@ labels:
   - name: "io.quarkus.platform.version"
     value: "3.8.6.SP2-redhat-00002"
   - name: "org.kie.kogito.version"
-    value: "9.102.0.redhat-00004"
+    value: "9.102.0.redhat-00005"
   - name: "com.redhat.component"
     value: "openshift-serverless-1-logic-swf-builder-rhel8-container"
   - name: "maintainer"
