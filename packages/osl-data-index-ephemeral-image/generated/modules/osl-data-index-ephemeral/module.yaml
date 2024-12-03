@@ -22,8 +22,8 @@ version: "1.35.0"
 
 artifacts:
   - name: data-index-service-inmemory
-    description: "data-index-service-inmemory-9.102.0.redhat-00004-image-build.zip"
-    md5: "8cf4a238679da32f22d68d75aecc6054"
+    description: "data-index-service-inmemory-9.102.0.redhat-00005-image-build.zip"
+    md5: "56959ae66d320258ce7ea36777988fbc"
     target: data-index-service-inmemory-image-build.zip
 
 execute:
