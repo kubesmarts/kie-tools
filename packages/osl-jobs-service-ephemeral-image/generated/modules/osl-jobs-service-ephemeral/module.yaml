@@ -22,8 +22,8 @@ version: "1.35.0"
 
 artifacts:
   - name: jobs-service-inmemory
-    description: "jobs-service-inmemory-9.102.0.redhat-00004-image-build.zip"
-    md5: "ad090d1f9f12dde67f8022aaeb68d745"
+    description: "jobs-service-inmemory-9.102.0.redhat-00005-image-build.zip"
+    md5: "8c916b78e8c417eb3bf3abbc30cb5b84"
     target: jobs-service-inmemory-image-build.zip
 
 packages:
