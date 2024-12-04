@@ -1,3 +1,5 @@
 generated/config
 generated/hack
 generated/bundle/manifests/logic-operator-rhel8.clusterserviceversion.yaml
+generated/Makefile
+generated/PROJECT

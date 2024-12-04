@@ -1,11 +1,28 @@
 # OSL Operator Bundle Image
 
-## TODO:
+This bundle package inherits the ENV variables from `sonataflow-operator` package. Meaning that you must export that vars in order to build the bundle image since the registry, tag, and version are the same from the operator with the `-bundle` prefix in the name:
 
-- [x] - Make custom production CSV file as the basis for manifest generation
-- [x] - Use `sonataflow-operator` make file to build prod manifests - we will need to access operator's API code.
-- [ ] - Update images in the operator code base to use env
-- [ ] - Update Makefile to not run `manifests` in the `bundle` recipe
-- [ ] - Update Makefile to receive arguments for the package name
-- [ ] - Update Makefile to receive arguments to the image descriptor in the `bundle-build` recipe
-- [x] - Build Image using the metadata created via bundle
+```shell
+# REQUIRED ENV:
+export KIE_TOOLS_BUILD__buildContainerImages=true
+
+# OPTIONAL ENVs:
+# Image name/tag information. This information is optional, this package has these set by default.
+export OSL_OPERATOR_BUNDLE_IMAGE__registry=registry.access.redhat.com
+export OSL_OPERATOR_BUNDLE_IMAGE__account=openshift-serverless-1
+export OSL_OPERATOR_BUNDLE_IMAGE__name=logic-operator-bundle
+# This version is also optional since once branched, we can update the `root-env` package env `KIE_TOOLS_BUILD__streamName` to the OSL version.
+export OSL_OPERATOR_BUNDLE_IMAGE__buildTag=1.35
+
+# Platform images
+export OSL..
+
+
+
+# Quarkus/Kogito version. This information will be set in the image labels and internal builds in `root-env`.
+# Optionally you can also use Cekit overrides when building the final image in the internal systems.
+export QUARKUS_PLATFORM_version=3.8.6
+export KOGITO_RUNTIME_version=9.101-redhat
+
+pnpm build:dev # build:prod also works, does the same currently.
+```

@@ -14,17 +14,17 @@
   },
   "scripts": {
     "build:dev": "run-script-os",
-    "build:dev:darwin:linux": "pnpm cleanup && pnpm manifests:copy && pnpm manifests:update && pnpm resources:copy",
+    "build:dev:darwin:linux": "pnpm cleanup && pnpm manifests:copy && pnpm manifests:update && pnpm manifests:bundle && pnpm resources:copy",
     "build:dev:win32": "echo \"Build skipped on Windows\"",
     "build:prod": "pnpm build:dev",
     "cleanup": "rimraf generated && mkdir generated",
     "format": "prettier --write . --ignore-path=../../.prettierignore --ignore-path=../../.gitignore",
-    "image:cekit:build": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cd generated && cekit -v --descriptor logic-operator-bundle-image.yaml build docker --no-squash",
+    "image:cekit:build": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cd generated && make BUNDLE_DESCRIPTOR=\"logic-operator-bundle-image.yaml\" ignore_tag=true bundle-build",
     "install": "node install.js && pnpm format",
+    "manifests:bundle": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && make -C ./generated PACKAGE_NAME=\"logic-operator-rhel8\" VERSION=\"$(build-env oslOperatorBundleImage.version)\" IMAGE_TAG=\"$(build-env oslOperatorBundleImage.operator.buildTag)\" IMAGE_TAG_BASE=$(build-env oslOperatorBundleImage.operator.registry)/$(build-env oslOperatorBundleImage.operator.account)/$(build-env oslOperatorBundleImage.operator.name) bundle",
     "manifests:copy": "cp -R node_modules/@kie-tools/sonataflow-operator/config generated/ && cp -R node_modules/@kie-tools/sonataflow-operator/bundle generated/ && rm -rf generated/bundle/manifests/sonataflow-operator*.yaml && rm -rf generated/config/manifests/bases/*.yaml && cp -R resources/config generated/ && cp node_modules/@kie-tools/sonataflow-operator/Makefile generated/ && cp -R node_modules/@kie-tools/sonataflow-operator/hack generated/ && cp node_modules/@kie-tools/sonataflow-operator/PROJECT generated/",
     "manifests:update": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && python resources/scripts/update_manifests.py logic-operator-system logic-operator-rhel8",
-    "resources:copy": "cp -R resources/modules generated/ && cp resources/*.yaml generated/",
-    "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate"
+    "resources:copy": "cp -R resources/modules generated/ && cp resources/*.yaml generated/"
   },
   "devDependencies": {
     "@kie-tools/root-env": "workspace:*",

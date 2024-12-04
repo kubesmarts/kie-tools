@@ -20,9 +20,11 @@
 const { varsWithName, composeEnv, getOrDefault } = require("@kie-tools-scripts/build-env");
 const rootEnv = require("@kie-tools/root-env/env");
 const redHatEnv = require("@osl/redhat-env/env");
-const sonataflowOperatorEnv = require("@kie-tools/sonataflow-operator/env");
+//const sonataflowOperatorEnv = require("@kie-tools/sonataflow-operator/env");
 
-module.exports = composeEnv([rootEnv, redHatEnv, sonataflowOperatorEnv], {
+// We need sonataflowOperatorEnv 'cause the operator's Makefile refers to it
+
+module.exports = composeEnv([rootEnv, redHatEnv], {
   vars: varsWithName({
     OSL_OPERATOR_BUNDLE_IMAGE__registry: {
       default: "registry.access.redhat.com",
@@ -40,6 +42,22 @@ module.exports = composeEnv([rootEnv, redHatEnv, sonataflowOperatorEnv], {
       default: rootEnv.env.root.streamName,
       description: "The image tag.",
     },
+    OSL_OPERATOR_IMAGE__registry: {
+      default: "registry.access.redhat.com",
+      description: "The image registry.",
+    },
+    OSL_OPERATOR_IMAGE__account: {
+      default: "openshift-serverless-1",
+      description: "The image registry account.",
+    },
+    OSL_OPERATOR_IMAGE__name: {
+      default: "logic-rhel8-operator",
+      description: "The image name.",
+    },
+    OSL_OPERATOR_IMAGE__buildTag: {
+      default: rootEnv.env.root.streamName,
+      description: "The image tag.",
+    },
   }),
   get env() {
     return {
@@ -49,6 +67,12 @@ module.exports = composeEnv([rootEnv, redHatEnv, sonataflowOperatorEnv], {
         name: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE_IMAGE__name),
         buildTag: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE_IMAGE__buildTag),
         version: require("../package.json").version,
+        operator: {
+          registry: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__registry),
+          account: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__account),
+          name: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__name),
+          buildTag: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__buildTag),
+        },
       },
     };
   },
