@@ -15,9 +15,7 @@ export OSL_OPERATOR_BUNDLE_IMAGE__name=logic-operator-bundle
 export OSL_OPERATOR_BUNDLE_IMAGE__buildTag=1.35
 
 # Platform images
-export OSL..
-
-
+# TODO - Upstream first to fulfill the docker files, configuration and anywhere else requiring images. Then we reuse it here.
 
 # Quarkus/Kogito version. This information will be set in the image labels and internal builds in `root-env`.
 # Optionally you can also use Cekit overrides when building the final image in the internal systems.
