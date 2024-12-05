@@ -37,6 +37,12 @@ execSync(
   { stdio: "inherit" }
 );
 
+execSync(
+  `${activateCmd} && \
+  python3 resources/scripts/bump_csv.py ${env.oslOperatorBundleImage.version}`,
+  { stdio: "inherit" }
+);
+
 // Find and read the -image.yaml file
 const resourcesPath = path.resolve(__dirname, "./resources");
 const files = fs.readdirSync(resourcesPath);

@@ -35,10 +35,8 @@ metadata:
     operatorframework.io/suggested-namespace: openshift-serverless-logic
     operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift
       Platform Plus"]'
-    operators.operatorframework.io/builder: operator-sdk-v1.25.0
     operators.operatorframework.io/internal-objects: '["sonataflowbuilds.sonataflow.org"]'
-    operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-    repository: https://github.com/kiegroup/kogito-serverless-operator/
+    repository: https://github.com/kubesmarts/kie-tools
     support: Red Hat
   name: logic-operator-rhel8.v0.0.0
   namespace: placeholder
@@ -259,7 +257,7 @@ spec:
       mediatype: image/svg+xml
   install:
     spec:
-      deployments: null
+      deployments:
     strategy: ""
   installModes:
     - supported: false
@@ -298,4 +296,4 @@ spec:
     - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
       name: IMAGE_KUBE_RBAC_PROXY
   replaces: logic-operator-rhel8.v1.34.0
-  version: 1.35.0
+  version: 0.0.0
