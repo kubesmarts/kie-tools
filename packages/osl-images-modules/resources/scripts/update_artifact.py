@@ -7,7 +7,7 @@ from ruamel.yaml import YAML
 
 def find_artifact_by_name(artifacts, file_name_suffix):
     for artifact in artifacts:
-        if artifact.get('name') and artifact['name'] in file_name_suffix:
+        if file_name_suffix in artifact.get('name') and artifact['name']:
             return artifact
     return None
 

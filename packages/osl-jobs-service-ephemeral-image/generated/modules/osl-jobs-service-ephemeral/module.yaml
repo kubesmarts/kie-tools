@@ -21,10 +21,9 @@ name: com.redhat.osl.jobs-service-ephemeral
 version: "1.35.0"
 
 artifacts:
-  - name: jobs-service-inmemory
-    description: "jobs-service-inmemory-9.102.0.redhat-00005-image-build.zip"
+  - name: jobs-service-inmemory-image-build.zip
+    description: "jobs-service-inmemory-9.102.0.redhat-00005-image-build"
     md5: "8c916b78e8c417eb3bf3abbc30cb5b84"
-    target: jobs-service-inmemory-image-build.zip
 
 packages:
   install:

@@ -21,10 +21,9 @@ name: com.redhat.osl.jobs-service-postgresql
 version: "main"
 
 artifacts:
-  - name: jobs-service-postgresql
-    description: "jobs-service-postgresql-9.102.0.redhat-00005-image-build.zip"
+  - name: jobs-service-postgresql-image-build.zip
+    description: "jobs-service-postgresql-9.102.0.redhat-00005-image-build"
     md5: "45becdb9d620c0da9ca0c4ecff5263f6"
-    target: jobs-service-postgresql-image-build.zip
 
 packages:
   install:

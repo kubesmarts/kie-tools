@@ -21,10 +21,9 @@ name: com.redhat.osl.dataindex-postgresql
 version: "1.35.0"
 
 artifacts:
-  - name: data-index-service-postgresql
-    description: "data-index-service-postgresql-9.102.0.redhat-00005-image-build.zip"
+  - name: data-index-service-postgresql-image-build.zip
+    description: "data-index-service-postgresql-9.102.0.redhat-00005-image-build"
     md5: "a49078c53672c6dd6309be9c60c2cc75"
-    target: data-index-service-postgresql-image-build.zip
 
 execute:
   - script: configure
