@@ -7,10 +7,8 @@ on:
 
 env:
   UPSTREAM_URL: ${{ vars.UPSTREAM_URL }}
-  IGNORED_FILES: "${{ vars.IGNORED_FILES }}"
   SYNC_BRANCH: "main-sync-$(date +'%Y%m%d-%H%M%S')"
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
-  # packages in partition0.txt
   PNPM_FILTER: "-F '@kie-tools/kn-plugin-workflow...' -F '@osl/osl-data-index-ephemeral-image...' -F '@osl/osl-data-index-postgresql-image...' -F '@osl/osl-jobs-service-ephemeral-image...' -F '@osl/osl-jobs-service-postgresql-image...' -F '@osl/osl-management-console-image...' -F '@osl/osl-swf-builder-image...' -F '@osl/osl-swf-devmode-image...'"
 
 jobs:
@@ -24,7 +22,6 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        id: checkout_pr
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.KIE1_TOKEN }}
@@ -36,7 +33,6 @@ jobs:
           git fetch upstream main
 
       - name: Setup Git Environment
-        shell: bash
         run: |
           git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
           git config --global user.email "${{ secrets.KIE1_EMAIL }}"
@@ -47,64 +43,54 @@ jobs:
           echo "SYNC_BRANCH=$SYNC_BRANCH" >> $GITHUB_ENV
           git checkout -b $SYNC_BRANCH
 
-      - name: Move Ignored Files Temporarily
+      - name: Attempt Merge with Upstream
+        id: merge
         run: |
-          mkdir temp_ignored_items
-          for item in $IGNORED_FILES; do
-            if [ -e "$item" ]; then
-              mv -v "$item" temp_ignored_items/
-            else
-              echo "Warning: $item does not exist"
-            fi
-          done
+          git merge upstream/main --no-edit || echo "CONFLICT" >> $GITHUB_ENV
 
-      - name: Remove conflicts before Merge
-        run: rm -f pnpm-lock.yaml repo/graph.dot repo/graph.json
-
-      - name: Sync with Upstream Main
+      - name: Handle Conflicts
+        if: contains(steps.merge.outputs.result, 'CONFLICT')
         run: |
-          git merge upstream/main -X theirs --no-edit --allow-unrelated-histories
+          echo "Conflicts detected. Resolving specific files..."
+          git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
+          pnpm bootstrap --no-frozen-lockfile
+          git add .
+          git merge --continue --no-edit
 
-      - name: Restore and Recreate Ignored Files
+      - name: Run Bootstrap (No Conflicts)
+        if: "!contains(steps.merge.outputs.result, 'CONFLICT')"
         run: |
-          for item in $IGNORED_FILES; do
-             [ -e "temp_ignored_items/$(basename "$item")" ] && mv -v "temp_ignored_items/$(basename "$item")" "$item"
-          done
+          pnpm bootstrap --no-frozen-lockfile
 
-      - name: Setup environment
-        uses: ./.github/actions/setup-env
-
-      - name: Bootstrap (Regenerate Dependencies)
-        run: pnpm bootstrap --no-frozen-lockfile
-
-      - name: "FULL → Build"
-        shell: bash
-        env:
-          KIE_TOOLS_BUILD__runTests: "false"
-          KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__ignoreTestFailures: "true"
-          KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: "true"
-          NODE_OPTIONS: "--max_old_space_size=4096"
+      - name: Build (Rebuild Files)
         run: >-
           eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 
       - name: Commit and Push Changes to Sync Branch
+        if: contains(steps.merge.outputs.result, 'CONFLICT') || git status --porcelain | grep -q '^[ACDM]'
         run: |
+          echo "Changes detected. Committing and pushing..."
+          git status --porcelain
           git add .
-          git commit -m "Sync with upstream/main and recreated ignored files"
+          git commit -m "Sync with upstream/main and resolved conflicts"
+          git push -u origin "${{ env.SYNC_BRANCH }}"
+
+      - name: Push Changes (No Conflict or Changes)
+        if: "!contains(steps.merge.outputs.result, 'CONFLICT') && !git status --porcelain | grep -q '^[ACDM]'"
+        run: |
+          echo "No conflicts or changes detected. Pushing merged branch."
           git push -u origin "${{ env.SYNC_BRANCH }}"
 
       - name: Create Pull Request
-        shell: bash
         env:
           RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         run: |
-          set -x
-          # Use double quotes for variable substitution in sed
-          sed "s|\\\$RUN_URL|${RUN_URL}|g" .github/supporting-files/ci/templates/osl_sync_pr_template.md > temp.md
-          prTitle="[$(date +'%Y%m%d-%H%M%S')] - Automatic PR: Sync main with main-apache"
+          prTitle="[$(date +'%Y%m%d-%H%M%S')] - Automatic PR: Sync main with upstream"
+          reviewersOption=""
           if [[ -n "${{ vars.SYNC_REVIEWERS }}" ]]; then
             reviewersOption="--reviewer ${{ vars.SYNC_REVIEWERS }}"
           fi
-          gh pr create --title "${prTitle}" --body-file temp.md --repo kubesmarts/kie-tools --base main $reviewersOption
+          gh pr create --title "${prTitle}" \
+                       --body "Automated sync PR with upstream changes." \
+                       --repo kubesmarts/kie-tools \
+                       --base main $reviewersOption
