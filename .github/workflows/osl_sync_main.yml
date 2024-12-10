@@ -95,6 +95,7 @@ jobs:
         if: env.MERGE_RESULT == 'SUCCESS' && env.HAS_CHANGES == 'false'
         run: |
           echo "No conflicts or changes detected. Pushing merged branch."
+          git push -u origin "${{ env.SYNC_BRANCH }}"
           echo "SYNC_CHANGES=No conflicts or changes detected"
 
       - name: Create Pull Request
