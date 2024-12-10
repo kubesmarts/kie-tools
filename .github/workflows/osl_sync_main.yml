@@ -9,7 +9,7 @@ env:
   UPSTREAM_URL: ${{ vars.UPSTREAM_URL }}
   SYNC_BRANCH: "main-sync-$(date +'%Y%m%d-%H%M%S')"
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
-  PNPM_FILTER: "-F '@kie-tools/kn-plugin-workflow...' -F '@osl/osl-data-index-ephemeral-image...' -F '@osl/osl-data-index-postgresql-image...' -F '@osl/osl-jobs-service-ephemeral-image...' -F '@osl/osl-jobs-service-postgresql-image...' -F '@osl/osl-management-console-image...' -F '@osl/osl-swf-builder-image...' -F '@osl/osl-swf-devmode-image...'"
+  PNPM_FILTER: ${{ vars.SYNC_PNPM_FILTER }}
 
 jobs:
   sync_main_apache:
@@ -70,27 +70,33 @@ jobs:
         if: contains(steps.merge.outputs.result, 'CONFLICT') || git status --porcelain | grep -q '^[ACDM]'
         run: |
           echo "Changes detected. Committing and pushing..."
-          git status --porcelain
+          SYNC_CHANGES=$(git status --porcelain) >> $GITHUB_ENV
           git add .
           git commit -m "Sync with upstream/main and resolved conflicts"
           git push -u origin "${{ env.SYNC_BRANCH }}"
+          echo $SYNC_CHANGES
 
       - name: Push Changes (No Conflict or Changes)
         if: "!contains(steps.merge.outputs.result, 'CONFLICT') && !git status --porcelain | grep -q '^[ACDM]'"
         run: |
           echo "No conflicts or changes detected. Pushing merged branch."
+          SYNC_CHANGES="No conflicts or changes detected" >> $GITHUB_ENV
           git push -u origin "${{ env.SYNC_BRANCH }}"
 
       - name: Create Pull Request
         env:
           RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         run: |
-          prTitle="[$(date +'%Y%m%d-%H%M%S')] - Automatic PR: Sync main with upstream"
+          set -x
+          # Use double quotes for variable substitution in sed
+          sed -e "s|\\\$RUN_URL|${RUN_URL}|g" -e "s|\\\$SYNC_CHANGES|${SYNC_CHANGES}|g" .github/supporting-files/ci/templates/osl_sync_pr_template.md > temp.md
+
+          prTitle="[$(date +'%Y-%m-%d %H%M%S')] - :robot: Automatic PR: Sync main with upstream"
           reviewersOption=""
           if [[ -n "${{ vars.SYNC_REVIEWERS }}" ]]; then
             reviewersOption="--reviewer ${{ vars.SYNC_REVIEWERS }}"
           fi
           gh pr create --title "${prTitle}" \
-                       --body "Automated sync PR with upstream changes." \
+                       --body-file temp.md \
                        --repo kubesmarts/kie-tools \
                        --base main $reviewersOption
