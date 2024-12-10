@@ -7,7 +7,6 @@ on:
 
 env:
   UPSTREAM_URL: ${{ vars.UPSTREAM_URL }}
-  SYNC_BRANCH: "main-sync-$(date +'%Y%m%d-%H%M%S')"
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
   PNPM_FILTER: ${{ vars.SYNC_PNPM_FILTER }}
 
@@ -46,10 +45,20 @@ jobs:
       - name: Attempt Merge with Upstream
         id: merge
         run: |
-          git merge upstream/main --no-edit || echo "CONFLICT" >> $GITHUB_ENV
+          git merge upstream/main --no-edit || echo "CONFLICT" > merge_result.txt
+        continue-on-error: true
+
+      - name: Check for Merge Conflicts
+        id: check_conflicts
+        run: |
+          if [ -f merge_result.txt ]; then
+            echo "MERGE_RESULT=CONFLICT" >> $GITHUB_ENV
+          else
+            echo "MERGE_RESULT=SUCCESS" >> $GITHUB_ENV
+          fi
 
       - name: Handle Conflicts
-        if: contains(steps.merge.outputs.result, 'CONFLICT')
+        if: env.MERGE_RESULT == 'CONFLICT'
         run: |
           echo "Conflicts detected. Resolving specific files..."
           git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
@@ -58,30 +67,35 @@ jobs:
           git merge --continue --no-edit
 
       - name: Run Bootstrap (No Conflicts)
-        if: "!contains(steps.merge.outputs.result, 'CONFLICT')"
+        if: env.MERGE_RESULT == 'SUCCESS'
         run: |
           pnpm bootstrap --no-frozen-lockfile
 
-      - name: Build (Rebuild Files)
-        run: >-
-          eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
+      - name: Capture Uncommitted Changes
+        id: capture_changes
+        run: |
+          SYNC_CHANGES=$(git status --porcelain)
+          echo "SYNC_CHANGES=$SYNC_CHANGES" >> $GITHUB_ENV
+          if [ -n "$SYNC_CHANGES" ]; then
+            echo "HAS_CHANGES=true" >> $GITHUB_ENV
+          else
+            echo "HAS_CHANGES=false" >> $GITHUB_ENV
+          fi
 
       - name: Commit and Push Changes to Sync Branch
-        if: contains(steps.merge.outputs.result, 'CONFLICT') || git status --porcelain | grep -q '^[ACDM]'
+        if: env.MERGE_RESULT == 'CONFLICT' || env.HAS_CHANGES == 'true'
         run: |
           echo "Changes detected. Committing and pushing..."
-          SYNC_CHANGES=$(git status --porcelain) >> $GITHUB_ENV
+          echo "SYNC_CHANGES=${SYNC_CHANGES}"
           git add .
           git commit -m "Sync with upstream/main and resolved conflicts"
           git push -u origin "${{ env.SYNC_BRANCH }}"
-          echo $SYNC_CHANGES
 
       - name: Push Changes (No Conflict or Changes)
-        if: "!contains(steps.merge.outputs.result, 'CONFLICT') && !git status --porcelain | grep -q '^[ACDM]'"
+        if: env.MERGE_RESULT == 'SUCCESS' && env.HAS_CHANGES == 'false'
         run: |
           echo "No conflicts or changes detected. Pushing merged branch."
-          SYNC_CHANGES="No conflicts or changes detected" >> $GITHUB_ENV
-          git push -u origin "${{ env.SYNC_BRANCH }}"
+          echo "SYNC_CHANGES=No conflicts or changes detected"
 
       - name: Create Pull Request
         env:
