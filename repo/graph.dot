@@ -162,6 +162,7 @@ digraph G {
   "@osl/osl-jobs-service-postgresql-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-management-console-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/sonataflow-management-console-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
+  "@osl/osl-operator-bundle-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-swf-builder-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-swf-devmode-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/sonataflow-devmode-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
@@ -520,6 +521,10 @@ digraph G {
   "@osl/osl-management-console-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];
   "@osl/osl-management-console-image" -> "@osl/redhat-env" [ style = "dashed", color = "black" ];
   "@osl/osl-management-console-image" -> "@osl/redhat-python-venv" [ style = "dashed", color = "black" ];
+  "@osl/osl-operator-bundle-image" -> "@kie-tools/sonataflow-operator" [ style = "dashed", color = "black" ];
+  "@osl/osl-operator-bundle-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];
+  "@osl/osl-operator-bundle-image" -> "@osl/redhat-env" [ style = "dashed", color = "black" ];
+  "@osl/osl-operator-bundle-image" -> "@osl/redhat-python-venv" [ style = "dashed", color = "black" ];
   "@osl/osl-swf-builder-image" -> "@kie-tools/maven-base" [ style = "dashed", color = "black" ];
   "@osl/osl-swf-builder-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];
   "@osl/osl-swf-builder-image" -> "@osl/redhat-env" [ style = "dashed", color = "black" ];
