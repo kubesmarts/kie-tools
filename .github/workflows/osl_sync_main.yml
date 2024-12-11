@@ -91,7 +91,7 @@ jobs:
         id: capture_changes
         run: |
           SYNC_CHANGES=$(git status --porcelain)
-          echo "SYNC_CHANGES=$SYNC_CHANGES" >> $GITHUB_ENV
+          echo "SYNC_CHANGES=${SYNC_CHANGES}" >> $GITHUB_ENV
           if [ -n "$SYNC_CHANGES" ]; then
             echo "HAS_CHANGES=true" >> $GITHUB_ENV
           else
@@ -102,7 +102,6 @@ jobs:
         if: env.MERGE_RESULT == 'CONFLICT' || env.HAS_CHANGES == 'true'
         run: |
           echo "Changes detected. Committing and pushing..."
-          echo "SYNC_CHANGES=${SYNC_CHANGES}"
           git add .
           git commit -m "Sync with upstream/main and resolved conflicts"
           git push -u origin "${{ env.SYNC_BRANCH }}"
@@ -112,7 +111,7 @@ jobs:
         run: |
           echo "No conflicts or changes detected. Pushing merged branch."
           git push -u origin "${{ env.SYNC_BRANCH }}"
-          echo "SYNC_CHANGES=No conflicts or changes detected"
+          echo "SYNC_CHANGES=No conflicts or changes detected." >> $GITHUB_ENV
 
       - name: Create Pull Request
         env:
@@ -122,7 +121,7 @@ jobs:
           # Use double quotes for variable substitution in sed
           sed -e "s|\\\$RUN_URL|${RUN_URL}|g" -e "s|\\\$SYNC_CHANGES|${SYNC_CHANGES}|g" .github/supporting-files/ci/templates/osl_sync_pr_template.md > temp.md
 
-          prTitle="[$(date +'%Y-%m-%d %H%M%S')] - :robot: Automatic PR: Sync main with upstream"
+          prTitle="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Automated PR: Sync main with upstream"
           reviewersOption=""
           if [[ -n "${{ vars.SYNC_REVIEWERS }}" ]]; then
             reviewersOption="--reviewer ${{ vars.SYNC_REVIEWERS }}"
