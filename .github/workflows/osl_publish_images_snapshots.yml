@@ -2,6 +2,11 @@ name: "CI :: OSL :: Publish Images Snapshots"
 
 on:
   workflow_dispatch:
+    inputs:
+      KOGITO_VERSION:
+        description: "Specify the version for Kogito Runtime"
+        required: false
+        default: ""
 
 jobs:
   publish_images_snapshots:
@@ -10,6 +15,21 @@ jobs:
     steps:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
+
+      - name: "Exporting KOGITO_RUNTIME_version"
+        run: |
+          if [ -n "${{ github.event.inputs.KOGITO_VERSION }}" ]; then
+            echo "KOGITO_RUNTIME_version=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+            echo "IMAGE_TAG=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+          else
+            echo "IMAGE_TAG=main"
+            echo "No KOGITO_VERSION input provided. Keeping the default or existing behavior."
+          fi
+
+      - name: "Verify Exported Variables"
+        run: |
+          echo "KOGITO_RUNTIME_version: $KOGITO_RUNTIME_version"
+          echo "IMAGE_TAG: $IMAGE_TAG"
 
       - name: "Setup environment"
         uses: ./.github/actions/setup-env
@@ -60,5 +80,7 @@ jobs:
         run: |
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
-            docker push quay.io/kubesmarts/$image:main || { echo "Failed to push $image"; exit 1; }
+            docker tag quay.io/kubesmarts/$image:${{ env.IMAGE_TAG }} quay.io/kubesmarts/$image:latest
+            docker push quay.io/kubesmarts/$image:${{ env.IMAGE_TAG }} || { echo "Failed to push $image with tag $IMAGE_TAG to Quay"; exit 1; }
+            docker push quay.io/kubesmarts/$image:latest || { echo "Failed to push $image:latest"; exit 1; }
           done
