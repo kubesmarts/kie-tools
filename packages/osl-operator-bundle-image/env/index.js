@@ -27,7 +27,7 @@ const redHatEnv = require("@osl/redhat-env/env");
 module.exports = composeEnv([rootEnv, redHatEnv], {
   vars: varsWithName({
     OSL_OPERATOR_BUNDLE_IMAGE__registry: {
-      default: "registry.access.redhat.com",
+      default: "registry.redhat.io",
       description: "The image registry.",
     },
     OSL_OPERATOR_BUNDLE_IMAGE__account: {
@@ -43,7 +43,7 @@ module.exports = composeEnv([rootEnv, redHatEnv], {
       description: "The image tag.",
     },
     OSL_OPERATOR_IMAGE__registry: {
-      default: "registry.access.redhat.com",
+      default: "registry.redhat.io",
       description: "The image registry.",
     },
     OSL_OPERATOR_IMAGE__account: {
