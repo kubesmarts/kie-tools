@@ -54,7 +54,7 @@ labels:
   - name: com.redhat.delivery.operator.bundle
     value: "true"
   - name: com.redhat.openshift.versions
-    value: v4.12
+    value: v4.16
 
 modules:
   repositories:
