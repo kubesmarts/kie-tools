@@ -175,6 +175,7 @@
       { "id": "@kie-tools/sonataflow-management-console-image" },
       { "id": "@kie-tools/sonataflow-management-console-image-env" },
       { "id": "@kie-tools/sonataflow-management-console-webapp" },
+      { "id": "@osl/osl-operator-bundle-image" },
       { "id": "@osl/osl-swf-builder-image" },
       { "id": "@osl/osl-swf-devmode-image" },
       { "id": "pmml-vscode-extension" },
@@ -2212,6 +2213,26 @@
         "weight": 1
       },
       {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@kie-tools/sonataflow-operator",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/osl-images-modules",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/redhat-env",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/redhat-python-venv",
+        "weight": 1
+      },
+      {
         "source": "@osl/osl-swf-builder-image",
         "target": "@kie-tools/maven-base",
         "weight": 1
@@ -2877,6 +2898,7 @@
     ["@osl/osl-jobs-service-ephemeral-image", "packages/osl-jobs-service-ephemeral-image"],
     ["@osl/osl-jobs-service-postgresql-image", "packages/osl-jobs-service-postgresql-image"],
     ["@osl/osl-management-console-image", "packages/osl-management-console-image"],
+    ["@osl/osl-operator-bundle-image", "packages/osl-operator-bundle-image"],
     ["@osl/osl-swf-builder-image", "packages/osl-swf-builder-image"],
     ["@osl/osl-swf-devmode-image", "packages/osl-swf-devmode-image"],
     ["@kie-tools-core/patternfly-base", "packages/patternfly-base"],
