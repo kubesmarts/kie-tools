@@ -54,7 +54,7 @@ labels:
   - name: com.redhat.delivery.operator.bundle
     value: "true"
   - name: com.redhat.openshift.versions
-    value: v4.16
+    value: v4.13
 
 modules:
   repositories:
@@ -76,6 +76,8 @@ osbs:
       platforms:
         only:
           - x86_64
+          - aarch64
+          - ppc64le
   extra_dir: osbs-extra
   repository:
     name: containers/openshift-serverless-1-logic-operator-bundle
