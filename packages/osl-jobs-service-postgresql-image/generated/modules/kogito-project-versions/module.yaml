@@ -23,7 +23,7 @@ description: "Kogito Project versions information"
 
 envs:
   - name: "KOGITO_VERSION"
-    value: "999-20241016-SNAPSHOT"
+    value: "999-20241208-SNAPSHOT"
     description: Defines the Kogito version to be used by the builder images. Not intended to be changed by end user.
   - name: "QUARKUS_PLATFORM_GROUPID"
     value: "io.quarkus.platform"
