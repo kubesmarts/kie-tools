@@ -47,12 +47,12 @@ jobs:
       - name: Attempt Merge with Upstream
         id: merge
         run: |
-          git merge upstream/main --no-edit || echo "CONFLICT" > merge_result.txt
+          git merge upstream/main --no-edit || echo "CONFLICT" > /tmp/merge_result.txt
 
       - name: Check for Merge Conflicts
         id: check_conflicts
         run: |
-          if [ -f merge_result.txt ]; then
+          if [ -f /tmp/merge_result.txt ]; then
             echo "MERGE_RESULT=CONFLICT" >> $GITHUB_ENV
           else
             echo "MERGE_RESULT=SUCCESS" >> $GITHUB_ENV
@@ -118,7 +118,7 @@ jobs:
           set -x
           SYNC_CHANGES=$(cat /tmp/sync_changes.txt)
           ESCAPED_CHANGES=$(echo "$SYNC_CHANGES" | sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|\\n|g' -e 's|/|\\/|g')
-          
+
           # Use double quotes for variable substitution in sed
           sed -e "s|\\\$RUN_URL|${RUN_URL}|g" -e "s|\\\$SYNC_CHANGES|${ESCAPED_CHANGES}|g" .github/supporting-files/ci/templates/osl_sync_pr_template.md > temp.md
 
