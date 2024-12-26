@@ -1,0 +1,52 @@
+{
+  "private": true,
+  "name": "@osl/osl-operator-bundle-image",
+  "version": "0.0.0",
+  "description": "",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/kubesmarts/kie-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kubesmarts/kie-tools.git"
+  },
+  "bugs": {
+    "url": "https://issues.redhat.com/projects/SRVLOGIC"
+  },
+  "scripts": {
+    "build:dev": "run-script-os",
+    "build:dev:darwin:linux": "pnpm cleanup && pnpm manifests:copy && pnpm manifests:update && pnpm manifests:bundle && pnpm image:cekit:copy && pnpm format",
+    "build:dev:win32": "echo \"Build skipped on Windows\"",
+    "build:prod": "pnpm build:dev",
+    "cleanup": "rimraf generated && mkdir generated",
+    "format": "prettier --write . --ignore-path=../../.prettierignore --ignore-path=../../.gitignore",
+    "image:cekit:build": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cd generated && make BUNDLE_DESCRIPTOR=\"logic-operator-bundle-image.yaml\" ignore_tag=true bundle-build",
+    "image:cekit:copy": "cp -R resources/modules generated/ && cp resources/*.yaml generated/",
+    "install": "node install.js && pnpm format",
+    "manifests:bundle": "pnpm manifests:bundle:gen && pnpm manifests:bundle:add-annotations",
+    "manifests:bundle:add-annotations": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && python resources/scripts/add_annotations.py",
+    "manifests:bundle:gen": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && make -C ./generated PACKAGE_NAME=\"logic-operator-rhel8\" VERSION=\"$(build-env oslOperatorBundleImage.version)\" IMAGE_TAG=\"$(build-env oslOperatorBundleImage.operator.buildTag)\" IMAGE_TAG_BASE=$(build-env oslOperatorBundleImage.operator.registry)/$(build-env oslOperatorBundleImage.operator.account)/$(build-env oslOperatorBundleImage.operator.name) bundle",
+    "manifests:copy": "pnpm manifests:copy:operator && pnpm manifests:copy:resources",
+    "manifests:copy:operator": "OP_PATH=node_modules/@kie-tools/sonataflow-operator && cp -R ${OP_PATH}/config generated/ && cp -R ${OP_PATH}/bin generated/ && mkdir -p generated/bundle/manifests && cp ${OP_PATH}/bundle/manifests/sonataflow.org_sonataflow* generated/bundle/manifests/ && rm -rf generated/config/manifests/bases/*.yaml && cp ${OP_PATH}/Makefile generated/ && cp -R ${OP_PATH}/hack generated/ && cp ${OP_PATH}/PROJECT generated/",
+    "manifests:copy:resources": "cp -R resources/config generated/",
+    "manifests:update": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && python resources/scripts/update_manifests.py logic-operator-system logic-operator-rhel8"
+  },
+  "devDependencies": {
+    "@kie-tools/root-env": "workspace:*",
+    "@kie-tools/sonataflow-image-common": "workspace:*",
+    "@kie-tools/sonataflow-operator": "workspace:*",
+    "@osl/osl-images-modules": "workspace:*",
+    "@osl/redhat-env": "workspace:*",
+    "@osl/redhat-python-venv": "workspace:*",
+    "cross-env": "^7.0.3",
+    "replace-in-file": "^7.1.0",
+    "rimraf": "^3.0.2",
+    "run-script-os": "^1.1.6"
+  },
+  "kieTools": {
+    "requiredPreinstalledCliCommands": [
+      "python3",
+      "make",
+      "s2i"
+    ]
+  }
+}
