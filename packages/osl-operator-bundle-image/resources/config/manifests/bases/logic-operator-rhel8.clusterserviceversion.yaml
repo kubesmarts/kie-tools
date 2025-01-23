@@ -38,7 +38,7 @@ metadata:
     operators.operatorframework.io/internal-objects: '["sonataflowbuilds.sonataflow.org"]'
     repository: https://github.com/kubesmarts/kie-tools
     support: Red Hat
-  name: logic-operator-rhel8.v0.0.0
+  name: logic-operator-rhel8.v1.35.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -296,4 +296,4 @@ spec:
     - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
       name: IMAGE_KUBE_RBAC_PROXY
   replaces: logic-operator-rhel8.v1.34.0
-  version: 0.0.0
+  version: 1.35.0
