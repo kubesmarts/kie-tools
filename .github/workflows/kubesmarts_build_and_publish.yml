@@ -75,8 +75,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.m2
-          key: ${{ runner.os }}-daily-dev-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-daily-dev-m2
+          key: ${{ runner.os }}-kubesmarts_build_and_publish-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-kubesmarts_build_and_publish-m2
 
       - name: "Setup environment"
         uses: ./kie-tools/.github/actions/setup-env
