@@ -80,42 +80,35 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
-      #
-      # - name: "Setup environment"
-      #   uses: ./kie-tools/.github/actions/setup-env
-      #   with:
-      #     working_dir: kie-tools
-      #
-      # - name: "Bootstrap"
-      #   id: bootstrap
-      #   uses: ./kie-tools/.github/actions/bootstrap
-      #   with:
-      #     working_dir: kie-tools
-      #
-      # - name: "Parse `commit_sha`"
-      #   id: commit_sha
-      #   shell: bash
-      #   run: |
-      #     cd kie-tools
-      #     echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-      #
-      # - name: "Build serverless-logic-web-tools"
-      #   run: |
-      #     if [ "${{ inputs.environment }}" = "dev" ]; then
-      #       export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ steps.version.outputs.version }} (daily-dev) @ ${{ steps.commit_sha.outputs.commit_sha }}"
-      #     elif [ "${{ inputs.environment }}" = "staging" ]; then
-      #       export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.tag }} (staging) @ ${{ steps.commit_sha.outputs.commit_sha }}"
-      #     fi
-      #     echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
-      #     cd kie-tools
-      #     pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
 
-      - name: "Write testfile.txt"
+      - name: "Setup environment"
+        uses: ./kie-tools/.github/actions/setup-env
+        with:
+          working_dir: kie-tools
+
+      - name: "Bootstrap"
+        id: bootstrap
+        uses: ./kie-tools/.github/actions/bootstrap
+        with:
+          working_dir: kie-tools
+
+      - name: "Parse `commit_sha`"
         id: commit_sha
         shell: bash
         run: |
-          mkdir -p kie-tools/packages/serverless-logic-web-tools/dist/
-          echo "ok" > kie-tools/packages/serverless-logic-web-tools/dist/testfile.txt
+          cd kie-tools
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: "Build serverless-logic-web-tools"
+        run: |
+          if [ "${{ inputs.environment }}" = "dev" ]; then
+            export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ steps.version.outputs.version }} (daily-dev) @ ${{ steps.commit_sha.outputs.commit_sha }}"
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.tag }} (staging) @ ${{ steps.commit_sha.outputs.commit_sha }}"
+          fi
+          echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
+          cd kie-tools
+          pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
 
       - name: "Checkout serverless-logic-sandbox-deployment"
         uses: actions/checkout@v3
