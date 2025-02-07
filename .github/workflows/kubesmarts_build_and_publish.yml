@@ -57,11 +57,6 @@ jobs:
     if: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO != '' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Git Environment
-        run: |
-          git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
-          git config --global user.email "${{ secrets.KIE1_EMAIL }}"
-
       - name: "Clone kie-tools"
         uses: actions/checkout@v3
         with:
@@ -148,6 +143,8 @@ jobs:
             mkdir -p $DEPLOYMENT_DIR
           fi
           cp -r ../kie-tools/packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
+          git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
+          git config --global user.email "${{ secrets.KIE1_EMAIL }}"
           echo "Commit changes"
           git add . && git commit -m "Deploy ${{ inputs.tag }} (${{ inputs.environment }})" || echo "No changes."
 
