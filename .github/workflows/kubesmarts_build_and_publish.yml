@@ -25,6 +25,7 @@ env:
   DASHBUILDER__viewerImageAccount: "kubesmarts"
   DASHBUILDER__viewerImageName: "incubator-kie-dashbuilder-viewer"
   DASHBUILDER__viewerImageRegistry: "quay.io"
+  GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
   KIE_TOOLS_BUILD__buildContainerImages: "false"
   KIE_TOOLS_BUILD__runEndToEndTests: "false"
   KIE_TOOLS_BUILD__runLinters: "false"
@@ -56,6 +57,11 @@ jobs:
     if: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO != '' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Git Environment
+        run: |
+          git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
+          git config --global user.email "${{ secrets.KIE1_EMAIL }}"
+
       - name: "Clone kie-tools"
         uses: actions/checkout@v3
         with:
@@ -142,8 +148,6 @@ jobs:
             mkdir -p $DEPLOYMENT_DIR
           fi
           cp -r ../kie-tools/packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
-          git config --global user.email "kie-group-tools@googlegroups.com"
-          git config --global user.name "KIE Group Tools (kie-group-tools)"
           echo "Commit changes"
           git add . && git commit -m "Deploy ${{ inputs.tag }} (${{ inputs.environment }})" || echo "No changes."
 
