@@ -1,0 +1,144 @@
+name: "Build and Publish"
+
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        type: boolean
+        required: true
+      environment:
+        description: Environment for the workflow (dev, staging, prod)
+        required: true
+        default: dev
+        type: string
+      tag:
+        type: string
+        required: false
+        default: main
+    secrets:
+      kie_group_tools_token:
+        required: false
+      gh_token:
+        required: false
+env:
+  SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO || 'kubesmarts/sandbox-deployment' }}
+  DASHBUILDER__viewerImageAccount: "kubesmarts"
+  DASHBUILDER__viewerImageName: "incubator-kie-dashbuilder-viewer"
+  DASHBUILDER__viewerImageRegistry: "quay.io"
+  KIE_TOOLS_BUILD__buildContainerImages: "false"
+  KIE_TOOLS_BUILD__runEndToEndTests: "false"
+  KIE_TOOLS_BUILD__runLinters: "false"
+  KIE_TOOLS_BUILD__runTests: "false"
+  SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageName: "incubator-kie-serverless-logic-web-tools-base-builder"
+  SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageRegistry: "quay.io"
+  SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageTag: "${{ inputs.tag }}"
+  SERVERLESS_LOGIC_WEB_TOOLS__buildInfo: ""
+  SERVERLESS_LOGIC_WEB_TOOLS__corsProxyUrl: ${{ (inputs.environment == 'dev' &&  'https://daily-dev-cors-proxy-kie-sandbox.rhba-0ad6762cc85bcef5745bb684498c2436-0000.us-south.containers.appdomain.cloud' ) || (inputs.environment == 'staging' &&  'https://staging-cors-proxy-kie-sandbox.rhba-0ad6762cc85bcef5745bb684498c2436-0000.us-south.containers.appdomain.cloud' ) || 'https://cors-proxy-kie-sandbox.rhba-0ad6762cc85bcef5745bb684498c2436-0000.us-south.containers.appdomain.cloud' }}
+  SERVERLESS_LOGIC_WEB_TOOLS__dashbuilderViewerImageTag: "${{ inputs.tag }}"
+  SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryName: "sandbox-catalog"
+  SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryOrg: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryRef: "${{ inputs.tag }}"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageAccount: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageName: "incubator-kie-serverless-logic-web-tools-swf-builder"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageRegistry: "quay.io"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageTag: "${{ inputs.tag }}"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageName: "incubator-kie-serverless-logic-web-tools-swf-dev-mode"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageTag: "${{ inputs.tag }}"
+  SERVERLESS_LOGIC_WEB_TOOLS__version: ${{ (inputs.environment == 'dev' && '0.0.0') || inputs.tag }}
+  WEBPACK__minimize: "true"
+  WEBPACK__tsLoaderTranspileOnly: "false"
+
+jobs:
+  build:
+    if: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Clone kie-tools"
+        uses: actions/checkout@v3
+        with:
+          path: kie-tools
+          ref: ${{ inputs.tag }}
+
+      # This bash script will set an output version for this step. It can be used with steps.version.outputs.version
+      - name: "Output version"
+        id: version
+        run: |
+          cd kie-tools
+          echo "version=$(node -e "console.log(require('./package.json').version);")" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: "Cache Maven packages"
+        if: github.event_name != 'pull_request'
+        uses: actions/cache@9b0c1fce7a93df8e3bb8926b0d6e9d89e92f20a7
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-daily-dev-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-daily-dev-m2
+
+      - name: "Setup environment"
+        uses: ./kie-tools/.github/actions/setup-env
+        with:
+          working_dir: kie-tools
+
+      - name: "Bootstrap"
+        id: bootstrap
+        uses: ./kie-tools/.github/actions/bootstrap
+        with:
+          working_dir: kie-tools
+
+      - name: "Parse `commit_sha`"
+        id: commit_sha
+        shell: bash
+        run: |
+          cd kie-tools
+          echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
+      - name: "Build serverless-logic-web-tools"
+        run: |
+          if [ "${{ inputs.environment }}" = "dev" ]; then
+            export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ steps.version.outputs.version }} (daily-dev) @ ${{ steps.commit_sha.outputs.commit_sha }}"
+          elif [ "${{ inputs.environment }}" = "staging" ]; then
+            export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.tag }} (staging) @ ${{ steps.commit_sha.outputs.commit_sha }}"
+          fi
+          echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
+          cd kie-tools
+          pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
+
+      - name: "Checkout serverless-logic-sandbox-deployment"
+        uses: actions/checkout@v3
+        with:
+          token: ${{ github.event_name != 'pull_request' && secrets.KIE_GROUP_TOOLS_TOKEN || secrets.GITHUB_TOKEN }}
+          path: serverless-logic-sandbox-deployment
+          repository: ${{ env.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO }}
+          ref: gh-pages
+
+      - name: "Update serverless-logic-sandbox-deployment resources"
+        if: ${{ !inputs.dry_run && github.event_name != 'pull_request' }}
+        shell: bash
+        run: |
+          if [ "${{ inputs.environment }}" == "dev" ]; then
+            export DEPLOYMENT_DIR="dev"
+          elif [ "${{ inputs.environment }}" == "staging" ]; then
+            export DEPLOYMENT_DIR="staging/${{ inputs.tag }}"
+          else
+            export DEPLOYMENT_DIR="."
+          fi
+          echo "DEPLOYMENT_DIR=$DEPLOYMENT_DIR"
+          cd serverless-logic-sandbox-deployment
+          shopt -s extglob
+          if [ "${{ inputs.environment }}" == "prod" ]; then
+            rm -rf -- !("dev"|"staging"|".nojekyll"|"CNAME"|"0.25.0"|"schemas")
+          else
+            rm -rf $DEPLOYMENT_DIR
+            mkdir -p $DEPLOYMENT_DIR
+          fi
+          cp -r ../kie-tools/packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
+          git config --global user.email "kie-group-tools@googlegroups.com"
+          git config --global user.name "KIE Group Tools (kie-group-tools)"
+          echo "Commit changes and push"
+          git add . && git commit -m "Deploy ${{ inputs.tag }} (${{ inputs.environment }})" || echo "No changes."
+          git push origin gh-pages
+          cd -
