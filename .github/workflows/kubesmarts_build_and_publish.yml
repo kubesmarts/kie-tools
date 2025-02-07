@@ -123,7 +123,6 @@ jobs:
           ref: gh-pages
 
       - name: "Update serverless-logic-sandbox-deployment resources"
-        if: ${{ !inputs.dry_run && github.event_name != 'pull_request' }}
         shell: bash
         run: |
           if [ "${{ inputs.environment }}" == "dev" ]; then
@@ -145,7 +144,21 @@ jobs:
           cp -r ../kie-tools/packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
           git config --global user.email "kie-group-tools@googlegroups.com"
           git config --global user.name "KIE Group Tools (kie-group-tools)"
-          echo "Commit changes and push"
+          echo "Commit changes"
           git add . && git commit -m "Deploy ${{ inputs.tag }} (${{ inputs.environment }})" || echo "No changes."
+
+      - name: "Dry run: Git push"
+        if: ${{ inputs.dry_run || github.event_name == 'pull_request' }}
+        shell: bash
+        run: |
+          echo "Dry run mode: Simulating git push"
+          cd serverless-logic-sandbox-deployment
+          git push --dry-run origin gh-pages
+
+      - name: "Git push"
+        if: ${{ !inputs.dry_run && github.event_name != 'pull_request' }}
+        shell: bash
+        run: |
+          echo "Pushing changes to gh-pages"
+          cd serverless-logic-sandbox-deployment
           git push origin gh-pages
-          cd -
