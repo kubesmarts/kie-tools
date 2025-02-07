@@ -110,7 +110,7 @@ jobs:
       - name: "Checkout serverless-logic-sandbox-deployment"
         uses: actions/checkout@v3
         with:
-          token: ${{ github.event_name != 'pull_request' && secrets.KIE_GROUP_TOOLS_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ github.event_name != 'pull_request' && secrets.KIE1_TOKEN || secrets.GITHUB_TOKEN }}
           path: serverless-logic-sandbox-deployment
           repository: ${{ env.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO }}
           ref: gh-pages
