@@ -70,13 +70,13 @@ jobs:
           echo "version=$(node -e "console.log(require('./package.json').version);")" >> $GITHUB_OUTPUT
         shell: bash
 
-      # - name: "Cache Maven packages"
-      #   if: github.event_name != 'pull_request'
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.m2
-      #     key: ${{ runner.os }}-kubesmarts_build_and_publish-m2-${{ hashFiles('**/pom.xml') }}
-      #     restore-keys: ${{ runner.os }}-kubesmarts_build_and_publish-m2
+      - name: "Cache Maven packages"
+        if: github.event_name != 'pull_request'
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
       #
       # - name: "Setup environment"
       #   uses: ./kie-tools/.github/actions/setup-env
