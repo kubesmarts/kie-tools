@@ -17,5 +17,6 @@ jobs:
       environment: dev
       tag: main
     secrets:
-      kie_group_tools_token: ${{ secrets.KIE_GROUP_TOOLS_TOKEN }}
-      gh_token: ${{ secrets.GITHUB_TOKEN }}
+      KIE1_TOKEN: ${{ secrets.KIE1_TOKEN }}
+      KIE1_EMAIL: ${{ secrets.KIE1_EMAIL }}
+      KIE1_USER_NAME: ${{ secrets.KIE1_USER_NAME }}

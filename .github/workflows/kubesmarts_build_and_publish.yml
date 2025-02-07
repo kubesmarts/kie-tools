@@ -16,10 +16,12 @@ on:
         required: false
         default: main
     secrets:
-      kie_group_tools_token:
-        required: false
-      gh_token:
-        required: false
+      KIE1_TOKEN:
+        required: true
+      KIE1_USER_NAME:
+        required: true
+      KIE1_EMAIL:
+        required: true
 env:
   SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO || 'kubesmarts/sandbox-deployment' }}
   DASHBUILDER__viewerImageAccount: "kubesmarts"
