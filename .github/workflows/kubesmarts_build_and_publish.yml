@@ -111,8 +111,8 @@ jobs:
         id: commit_sha
         shell: bash
         run: |
-          mkdir -p ../kie-tools/packages/serverless-logic-web-tools/dist/
-          echo "ok" > ../kie-tools/packages/serverless-logic-web-tools/dist/testfile.txt
+          mkdir -p kie-tools/packages/serverless-logic-web-tools/dist/
+          echo "ok" > kie-tools/packages/serverless-logic-web-tools/dist/testfile.txt
 
       - name: "Checkout serverless-logic-sandbox-deployment"
         uses: actions/checkout@v3
