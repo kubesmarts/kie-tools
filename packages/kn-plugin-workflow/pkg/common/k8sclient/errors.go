@@ -7,7 +7,7 @@
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an
@@ -16,20 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jbpm.quarkus.devui.runtime.config;
 
-import java.util.List;
+package k8sclient
 
-import io.quarkus.runtime.annotations.ConfigGroup;
-import io.quarkus.runtime.annotations.ConfigItem;
-import io.smallrye.config.WithName;
+type NoDeploymentFoundError string
 
-@ConfigGroup
-public interface UserConfig {
-
-    /**
-     * Groups which the user belong to.
-     */
-    @WithName("groups")
-    public List<String> groups();
+func (e NoDeploymentFoundError) Error() string {
+	return string(e)
 }
+
+const (
+	NoDeploymentFound = NoDeploymentFoundError("No deployment found")
+)
