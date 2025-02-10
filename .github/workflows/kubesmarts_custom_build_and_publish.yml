@@ -1,4 +1,4 @@
-name: "Custom version :: Build and Publish"
+name: "Kubesmarts :: Custom version :: Build and Publish"
 
 on:
   workflow_dispatch:

@@ -1,4 +1,4 @@
-name: "Build and Publish"
+name: "Kubesmarts :: Build and Publish"
 
 on:
   workflow_call:

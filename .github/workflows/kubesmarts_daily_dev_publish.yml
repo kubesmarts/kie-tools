@@ -1,4 +1,4 @@
-name: "Daily dev :: Publish"
+name: "Kubesmarts :: Daily dev :: Publish"
 
 on:
   schedule:
