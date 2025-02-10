@@ -12,6 +12,7 @@ env:
 
 jobs:
   sync_main_apache:
+    if: ${{ vars.ENABLE_OSL_SYNC_MAIN == 'yes' }}
     runs-on: ubuntu-latest
 
     permissions:
