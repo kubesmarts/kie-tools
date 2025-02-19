@@ -167,6 +167,7 @@ digraph G {
   "@osl/redhat-env" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/redhat-python-venv" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-data-index-postgresql-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
+  "@osl/osl-db-migrator-tool-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-jobs-service-ephemeral-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-jobs-service-postgresql-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-management-console-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
@@ -534,6 +535,10 @@ digraph G {
   "@osl/osl-data-index-postgresql-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];
   "@osl/osl-data-index-postgresql-image" -> "@osl/redhat-env" [ style = "dashed", color = "black" ];
   "@osl/osl-data-index-postgresql-image" -> "@osl/redhat-python-venv" [ style = "dashed", color = "black" ];
+  "@osl/osl-db-migrator-tool-image" -> "@kie-tools/kogito-db-migrator-tool-image" [ style = "dashed", color = "black" ];
+  "@osl/osl-db-migrator-tool-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];
+  "@osl/osl-db-migrator-tool-image" -> "@osl/redhat-env" [ style = "dashed", color = "black" ];
+  "@osl/osl-db-migrator-tool-image" -> "@osl/redhat-python-venv" [ style = "dashed", color = "black" ];
   "@osl/osl-images-modules" -> "@kie-tools/sonataflow-image-common" [ style = "dashed", color = "black" ];
   "@osl/osl-jobs-service-ephemeral-image" -> "@kie/kogito-jobs-service-ephemeral-image" [ style = "dashed", color = "black" ];
   "@osl/osl-jobs-service-ephemeral-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];

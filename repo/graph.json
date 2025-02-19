@@ -205,6 +205,7 @@
       { "id": "@osl/redhat-env" },
       { "id": "@osl/redhat-python-venv" },
       { "id": "@osl/osl-data-index-postgresql-image" },
+      { "id": "@osl/osl-db-migrator-tool-image" },
       { "id": "@osl/osl-jobs-service-ephemeral-image" },
       { "id": "@osl/osl-jobs-service-postgresql-image" },
       { "id": "@osl/osl-management-console-image" },
@@ -2252,6 +2253,26 @@
         "weight": 1
       },
       {
+        "source": "@osl/osl-db-migrator-tool-image",
+        "target": "@kie-tools/kogito-db-migrator-tool-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-db-migrator-tool-image",
+        "target": "@osl/osl-images-modules",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-db-migrator-tool-image",
+        "target": "@osl/redhat-env",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-db-migrator-tool-image",
+        "target": "@osl/redhat-python-venv",
+        "weight": 1
+      },
+      {
         "source": "@osl/osl-jobs-service-ephemeral-image",
         "target": "@kie/kogito-jobs-service-ephemeral-image",
         "weight": 1
@@ -3062,6 +3083,7 @@
     ["@kie-tools-core/operating-system", "packages/operating-system"],
     ["@osl/osl-data-index-ephemeral-image", "packages/osl-data-index-ephemeral-image"],
     ["@osl/osl-data-index-postgresql-image", "packages/osl-data-index-postgresql-image"],
+    ["@osl/osl-db-migrator-tool-image", "packages/osl-db-migrator-tool-image"],
     ["@osl/osl-images-modules", "packages/osl-images-modules"],
     ["@osl/osl-jobs-service-ephemeral-image", "packages/osl-jobs-service-ephemeral-image"],
     ["@osl/osl-jobs-service-postgresql-image", "packages/osl-jobs-service-postgresql-image"],
