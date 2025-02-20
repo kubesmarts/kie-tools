@@ -20,7 +20,7 @@ schema_version: 1
 
 name: "openshift-serverless-1/logic-data-index-ephemeral-rhel8"
 version: "main"
-from: "registry.access.redhat.com/ubi8/openjdk-17:latest"
+from: "registry.access.redhat.com/ubi8/openjdk-17-runtime:latest"
 description: "Red Hat build of Runtime image for Kogito Data Index Service for ephemeral
   PostgreSQL persistence provider"
 
