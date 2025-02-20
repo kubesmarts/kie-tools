@@ -18,7 +18,7 @@
 #
 schema_version: 1
 
-name: "openshift-serverless-1/db-migrator-tool-rhel8"
+name: "openshift-serverless-1/logic-db-migrator-tool-rhel8"
 version: "main"
 from: "registry.access.redhat.com/ubi8/openjdk-17-runtime:latest"
 description: "Red Hat build of Runtime image for Kogito DB Migrator Tool"
