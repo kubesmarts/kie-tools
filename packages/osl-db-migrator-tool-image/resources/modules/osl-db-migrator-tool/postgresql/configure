@@ -27,4 +27,10 @@ mkdir -p "${KOGITO_HOME}"/bin/
 unzip "${SOURCES_DIR}"/db-migrator-tool-image-build.zip -d "${KOGITO_HOME}"/bin/
 
 cp "${ADDED_DIR}"/kogito-app-launch.sh "${KOGITO_HOME}"
-chmod +x-w "${KOGITO_HOME}"/kogito-app-launch.sh
+
+echo "Changing permissions for app launch"
+chgrp -R 0 "${KOGITO_HOME}"
+chown -R 1001 "${KOGITO_HOME}"
+chmod -R g=u "${KOGITO_HOME}"
+
+chmod +x "${KOGITO_HOME}"/kogito-app-launch.sh
