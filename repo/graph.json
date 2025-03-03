@@ -2672,6 +2672,11 @@
         "weight": 1
       },
       {
+        "source": "@kie-tools/text-editor",
+        "target": "@kie-tools-core/monaco-editor",
+        "weight": 1
+      },
+      {
         "source": "@kie-tools/yard-editor",
         "target": "@kie-tools-core/editor",
         "weight": 1
