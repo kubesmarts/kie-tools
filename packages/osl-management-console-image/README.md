@@ -37,4 +37,4 @@ Then you can export the directory `generated` to any system to build the image v
 > Do not modify any file in the `generated` directory. Always use the `pnpm build:dev` to generate this package.
 
 > [!IMPORTANT]
-> The file in `generated/modules/osl-management-console/added/image-env-to-json-standalone` is not tracked in git because it's a binary file that changes every time `pnpm build:dev` runs and rebuild the whole dependencies structure. For that reason, before running cekit standalone run `pnpm copy:image-env-to-json`. Or simply copy this binary from `packages/image-env-to-json/dist/linux/image-env-to-json-standalone`.
+> The file in `generated/modules/osl-management-console/added/image-env-to-json-linux-amd64` is not tracked in git because it's a binary file that changes every time `pnpm build:dev` runs and rebuild the whole dependencies structure. For that reason, before running cekit standalone run `pnpm copy:image-env-to-json`. Or simply copy this binary from `packages/image-env-to-json/dist/image-env-to-json-linux-amd64`.

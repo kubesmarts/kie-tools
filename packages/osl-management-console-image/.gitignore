@@ -3,4 +3,4 @@ generated/scripts
 generated/tests
 generated/Makefile
 generated/modules/**/tests
-generated/modules/osl-management-console/added/image-env-to-json-standalone
+generated/modules/osl-management-console/added/image-env-to-json-linux-amd64

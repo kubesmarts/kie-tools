@@ -19,7 +19,7 @@
     "build:prod": "pnpm build:dev",
     "cleanup": "rimraf generated && mkdir -p generated/modules/osl-management-console",
     "copy:assets": " pnpm env-json:schema:generate && pnpm copy:image-env-to-json",
-    "copy:image-env-to-json": "cp -a ./node_modules/@kie-tools/image-env-to-json/dist/linux/image-env-to-json-standalone ./generated/modules/osl-management-console/added",
+    "copy:image-env-to-json": "cp -a ./node_modules/@kie-tools/image-env-to-json/dist/image-env-to-json-linux-amd64 ./generated/modules/osl-management-console/added",
     "env-json:schema:generate": "ts-json-schema-generator --tsconfig ./node_modules/@kie-tools/sonataflow-management-console-webapp/tsconfig.json --path ./node_modules/@kie-tools/sonataflow-management-console-webapp/src/env/EnvJson.ts --type EnvJson --id EnvJson --out ./generated/modules/osl-management-console/added/EnvJson.schema.json",
     "format": "prettier --write . --ignore-path=../../.prettierignore --ignore-path=../../.gitignore",
     "image:cekit:build": "run-script-if --bool \"$(build-env containerImages.build)\" --then \"pnpm build:dev\" \"pnpm setup:env make -C ./generated build\"",
