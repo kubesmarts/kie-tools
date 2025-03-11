@@ -280,15 +280,11 @@ async function getDirsOfDependencies(leafPackageNames: Set<string>) {
 
   // creating a file for the filters is required by windows CI to avoid the error "command line too long"
   fs.writeFileSync(__ARG_tmpPartitionFilterPath, packagesFilter);
-  console.log("### packagesFilter", packagesFilter);
 
-  const result = new Set(
+  return new Set(
     stdoutArray(execSync(`bash -c "pnpm $(cat ${__ARG_tmpPartitionFilterPath}) exec bash -c pwd"`).toString()) //
       .map((pkgDir) => convertToPosixPathRelativeToRepoRoot(pkgDir))
   );
-  console.log("### result", result);
-  exit(1);
-  return result;
 }
 
 function convertToPosixPathRelativeToRepoRoot(targetPath: string) {
