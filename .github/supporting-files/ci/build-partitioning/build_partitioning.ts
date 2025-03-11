@@ -283,7 +283,7 @@ async function getDirsOfDependencies(leafPackageNames: Set<string>) {
   console.log("### packagesFilter", packagesFilter);
 
   const result = new Set(
-    stdoutArray(execSync(`bash -c "pnpm $(< ${__ARG_tmpPartitionFilterPath}) exec bash -c pwd"`).toString()) //
+    stdoutArray(execSync(`bash -c "pnpm $(cat ${__ARG_tmpPartitionFilterPath}) exec bash -c pwd"`).toString()) //
       .map((pkgDir) => convertToPosixPathRelativeToRepoRoot(pkgDir))
   );
   console.log("### result", result);
