@@ -85,6 +85,8 @@ async function getPartitions(): Promise<Array<None | Full | Partial>> {
   console.log(`[build-partitioning] headSha:       ${__ARG_headSha}`);
   console.log(`[build-partitioning] forceFull:     ${forceFull}`);
   console.log(`[build-partitioning] outputPath:    ${__ARG_outputPath}`);
+  console.log(`[build-partitioning] partition:    ${__ARG_partitionFilePaths}`);
+  console.log(`[build-partitioning] tmpPartitionFilterPath:    ${__ARG_tmpPartitionFilterPath}`);
   console.log(`[build-partitioning] ---------------`);
   console.log(``);
 
