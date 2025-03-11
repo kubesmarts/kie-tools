@@ -32,6 +32,7 @@ import * as path from "path";
 import * as fs from "fs";
 import { execSync } from "child_process";
 import { parseArgs } from "util";
+import { exit } from "process";
 
 const {
   values: {
@@ -80,13 +81,13 @@ process.exit(0);
 async function getPartitions(): Promise<Array<None | Full | Partial>> {
   console.log(``);
   console.log(`[build-partitioning] --- Summary ---`);
-  console.log(`[build-partitioning] graphJsonPath: ${__ARG_graphJsonPath}`);
-  console.log(`[build-partitioning] baseSha:       ${__ARG_baseSha}`);
-  console.log(`[build-partitioning] headSha:       ${__ARG_headSha}`);
-  console.log(`[build-partitioning] forceFull:     ${forceFull}`);
-  console.log(`[build-partitioning] outputPath:    ${__ARG_outputPath}`);
-  console.log(`[build-partitioning] partition:    ${__ARG_partitionFilePaths}`);
-  console.log(`[build-partitioning] tmpPartitionFilterPath:    ${__ARG_tmpPartitionFilterPath}`);
+  console.log(`[build-partitioning] graphJsonPath:            ${__ARG_graphJsonPath}`);
+  console.log(`[build-partitioning] baseSha:                  ${__ARG_baseSha}`);
+  console.log(`[build-partitioning] headSha:                  ${__ARG_headSha}`);
+  console.log(`[build-partitioning] forceFull:                ${forceFull}`);
+  console.log(`[build-partitioning] outputPath:               ${__ARG_outputPath}`);
+  console.log(`[build-partitioning] partition:                ${__ARG_partitionFilePaths}`);
+  console.log(`[build-partitioning] tmpPartitionFilterPath:   ${__ARG_tmpPartitionFilterPath}`);
   console.log(`[build-partitioning] ---------------`);
   console.log(``);
 
@@ -279,11 +280,15 @@ async function getDirsOfDependencies(leafPackageNames: Set<string>) {
 
   // creating a file for the filters is required by windows CI to avoid the error "command line too long"
   fs.writeFileSync(__ARG_tmpPartitionFilterPath, packagesFilter);
+  console.log("### packagesFilter", packagesFilter);
 
-  return new Set(
+  const result = new Set(
     stdoutArray(execSync(`bash -c "pnpm $(< ${__ARG_tmpPartitionFilterPath}) exec bash -c pwd"`).toString()) //
       .map((pkgDir) => convertToPosixPathRelativeToRepoRoot(pkgDir))
   );
+  console.log("### result", result);
+  exit(1);
+  return result;
 }
 
 function convertToPosixPathRelativeToRepoRoot(targetPath: string) {
