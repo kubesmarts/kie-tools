@@ -41,6 +41,7 @@ const {
     headSha: __ARG_headSha,
     graphJsonPath: __ARG_graphJsonPath,
     partition: __ARG_partitionFilePaths,
+    tmpPartitionFilterPath: __ARG_tmpPartitionFilterPath,
   },
 } = parseArgs({
   args: Bun.argv,
@@ -51,6 +52,7 @@ const {
     forceFull: { type: "string" },
     outputPath: { type: "string" },
     partition: { type: "string", multiple: true },
+    tmpPartitionFilterPath: { type: "string", default: "/tmp/partition-filter.txt" },
   },
   strict: true,
   allowPositionals: true,
@@ -272,8 +274,12 @@ async function getDirsOfDependencies(leafPackageNames: Set<string>) {
     return new Set<string>();
   }
   const packagesFilter = [...leafPackageNames].map((pkgName) => `-F ${pkgName}...`).join(" ");
+
+  // creating a file for the filters is required by windows CI to avoid the error "command line too long"
+  fs.writeFileSync(__ARG_tmpPartitionFilterPath, packagesFilter);
+
   return new Set(
-    stdoutArray(execSync(`bash -c "pnpm ${packagesFilter} exec bash -c pwd"`).toString()) //
+    stdoutArray(execSync(`bash -c "pnpm $(< ${__ARG_tmpPartitionFilterPath}) exec bash -c pwd"`).toString()) //
       .map((pkgDir) => convertToPosixPathRelativeToRepoRoot(pkgDir))
   );
 }
