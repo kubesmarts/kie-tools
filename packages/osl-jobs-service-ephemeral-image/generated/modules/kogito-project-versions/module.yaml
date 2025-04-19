@@ -18,19 +18,19 @@
 #
 schema_version: 1
 name: org.kie.kogito.project.versions
-version: "main"
+version: "1.36.0"
 description: "Kogito Project versions information"
 
 envs:
   - name: "KOGITO_VERSION"
-    value: "999-20250316-SNAPSHOT"
+    value: "9.103.0.redhat-00002"
     description: Defines the Kogito version to be used by the builder images. Not intended to be changed by end user.
   - name: "QUARKUS_PLATFORM_GROUPID"
     value: "io.quarkus.platform"
     description: Defines the Quarkus Platform groupId to be used by the builder images. Not intended to be changed by end user.
   - name: "QUARKUS_PLATFORM_VERSION"
-    value: "3.15.3"
+    value: "3.15.4.redhat-00001"
     description: Defines the Quarkus Platform version to be used by the builder images. Not intended to be changed by end user.
   - name: "SONATAFLOW_QUARKUS_DEVUI_VERSION"
-    value: "### SET ME DURING BUILD PROCESS ###"
+    value: "9.103.0.redhat-00002"
     description: Defines the SonataFlow Quarkus Dev UI version to be used by the devmode image. Not intended to be changed by end user.
