@@ -15,7 +15,7 @@
 schema_version: 1
 name: "openshift-serverless-1/logic-operator-bundle"
 description: "OpenShift Serverless Logic Operator Bundle"
-version: "main"
+version: "1.36.0"
 from: "scratch"
 
 labels:
@@ -81,4 +81,4 @@ osbs:
   extra_dir: osbs-extra
   repository:
     name: containers/openshift-serverless-1-logic-operator-bundle
-    branch: openshift-serverless-main-rhel-8
+    branch: openshift-serverless-1.36-rhel-8

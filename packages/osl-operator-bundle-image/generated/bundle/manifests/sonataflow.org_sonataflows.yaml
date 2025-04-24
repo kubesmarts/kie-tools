@@ -4,6 +4,8 @@ metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.16.4
   creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: sonataflow-operator
   name: sonataflows.sonataflow.org
 spec:
   group: sonataflow.org
@@ -1959,9 +1961,14 @@ spec:
                     for the workflow
                   maxProperties: 2
                   properties:
-                    migrateDBOnStartUp:
-                      description: Whether to migrate database on service startup?
-                      type: boolean
+                    dbMigrationStrategy:
+                      default: service
+                      description: |-
+                        DB Migration approach for data-index and jobs-service. Use the following values as described.
+                        job: use job based approach provided by the SonataFlow operator.
+                        service: service itself shall migrate the db and will not use SonataFlow operator.
+                        none: no database migration functionality needed.
+                      type: string
                     postgresql:
                       description: Connect configured services to a postgresql database.
                       maxProperties: 2
@@ -10033,10 +10040,20 @@ spec:
                 endpoint:
                   description: Endpoint is an externally accessible URL of the workflow
                   type: string
+                finalizerAttempts:
+                  type: integer
+                finalizerSucceed:
+                  type: boolean
                 flowCRC:
                   format: int32
                   type: integer
+                lastTimeFinalizerAttempt:
+                  format: date-time
+                  type: string
                 lastTimeRecoverAttempt:
+                  format: date-time
+                  type: string
+                lastTimeStatusNotified:
                   format: date-time
                   type: string
                 observedGeneration:
