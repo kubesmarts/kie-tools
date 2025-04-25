@@ -824,5 +824,5 @@ spec:
       name: kube-rbac-proxy
     - image: registry.redhat.io/openshift-serverless-1/logic-rhel8-operator@sha256:ffae74d76431b428341abfe8b8b704323261c224ff9140a2ea2782c0524f222f
       name: manager
-  replaces: logic-operator-rhel8.v1.34.0
+  replaces: logic-operator-rhel8.v1.35.0
   version: 0.0.0
