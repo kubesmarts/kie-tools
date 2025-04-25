@@ -17,7 +17,8 @@ def previous_version(version: str) -> str:
         minor -= 1
     else:
         if major == 0:
-            raise ValueError("Cannot compute a previous version for 0.0.x")
+            print(f"Won't change 'replaces' in CSV since version is incompatible {version}")
+            return version
         major -= 1
         minor = patch = 0
 
