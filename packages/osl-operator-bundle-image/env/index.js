@@ -66,7 +66,7 @@ module.exports = composeEnv([rootEnv, redHatEnv], {
         account: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE_IMAGE__account),
         name: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE_IMAGE__name),
         buildTag: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE_IMAGE__buildTag),
-        version: require("../package.json").version,
+        version: rootEnv.env.root.version,
         operator: {
           registry: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__registry),
           account: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__account),
