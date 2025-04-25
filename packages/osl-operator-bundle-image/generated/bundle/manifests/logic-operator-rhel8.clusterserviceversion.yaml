@@ -824,5 +824,5 @@ spec:
       name: manager
     - image: gcr.io/kubebuilder/kube-rbac-proxy@sha256:d4883d7c622683b3319b5e6b3a7edfbf2594c18060131a8bf64504805f875522
       name: kube-rbac-proxy
-  replaces: logic-operator-rhel8.v1.34.0
+  replaces: logic-operator-rhel8.v1.35.0
   version: 0.0.0
