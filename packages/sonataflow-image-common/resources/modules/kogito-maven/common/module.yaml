@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: org.kie.kogito.maven.common
-version: "main"
+version: "1.36.0"
 
 envs:
   - name: "MAVEN_VERSION"

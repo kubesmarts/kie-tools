@@ -41,7 +41,7 @@ kind:
 images:
   - name: controller
     newName: docker.io/apache/incubator-kie-sonataflow-operator
-    newTag: main
+    newTag: 1.36.0
 # Patching the manager deployment file to add an env var with the operator namespace in
 patches:
   - patch: |-
