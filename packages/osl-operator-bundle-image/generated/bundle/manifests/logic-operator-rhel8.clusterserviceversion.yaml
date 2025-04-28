@@ -120,7 +120,7 @@ metadata:
     capabilities: Basic Install
     categories: Application Runtime
     certified: "false"
-    createdAt: "2025-04-25T15:34:26Z"
+    createdAt: "2025-04-28T13:32:09Z"
     description: OpenShift Serverless Logic Kubernetes Operator for deploying workflow applications based on the CNCF Serverless Workflow specification
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
@@ -136,7 +136,7 @@ metadata:
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     repository: https://github.com/kubesmarts/kie-tools
     support: Red Hat
-  name: logic-operator-rhel8.v0.0.0
+  name: logic-operator-rhel8.v1.36.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -820,9 +820,9 @@ spec:
   provider:
     name: Red Hat
   relatedImages:
-    - image: gcr.io/kubebuilder/kube-rbac-proxy@sha256:d4883d7c622683b3319b5e6b3a7edfbf2594c18060131a8bf64504805f875522
-      name: kube-rbac-proxy
     - image: registry.redhat.io/openshift-serverless-1/logic-rhel8-operator@sha256:ffae74d76431b428341abfe8b8b704323261c224ff9140a2ea2782c0524f222f
       name: manager
+    - image: gcr.io/kubebuilder/kube-rbac-proxy@sha256:d4883d7c622683b3319b5e6b3a7edfbf2594c18060131a8bf64504805f875522
+      name: kube-rbac-proxy
   replaces: logic-operator-rhel8.v1.35.0
-  version: 0.0.0
+  version: 1.36.0
