@@ -24,3 +24,14 @@ export KOGITO_RUNTIME_version=9.101-redhat
 
 pnpm build:dev # build:prod also works, does the same currently.
 ```
+
+## Build with Operator SHA
+
+If SHA256 is required for the operator's image, you can do:
+
+```shell
+# Replace '123' with your actual SHA
+export OSL_OPERATOR_IMAGE__buildTag=sha256:123
+# This var tells the bundle to use SHA instead of whatever is defined in the version
+export USE_IMAGE_DIGESTS=true
+```
