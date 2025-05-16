@@ -1,5 +1,0 @@
-<% if(multiple) { %>
-    formData.<%=name%> = getMultipleSelectValues("<%=name%>");
-<% } else { %>
-    formData.<%=name%> = document.getElementById("<%=id%>").value;
-<% } %>

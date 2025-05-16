@@ -79,6 +79,34 @@
             <updatePolicy>never</updatePolicy>
           </snapshots>
         </repository>
+        <repository>
+          <id>redhat-ga-all-repository</id>
+          <name>Red Hat GA (all)</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>redhat-cr-repository</id>
+          <name>Red Hat CR</name>
+          <url>https://indy.psi.redhat.com/api/content/maven/group/static</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>
@@ -88,6 +116,34 @@
           <layout>default</layout>
           <releases>
             <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>redhat-ga-all-repository</id>
+          <name>Red Hat GA repository (all)</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>redhat-cr-repository</id>
+          <name>Red Hat CR repository</name>
+          <url>https://indy.psi.redhat.com/api/content/maven/group/static</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
           </releases>
           <snapshots>

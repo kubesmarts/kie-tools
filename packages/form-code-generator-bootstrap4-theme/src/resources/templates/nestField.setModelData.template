@@ -1,5 +1,0 @@
-<% _.each(props.children, function(child) { %>
-    <% if (child.setValueFromModelCode) { %>
-        <%= child.setValueFromModelCode.code %>
-    <% } %>
-<% }); %>

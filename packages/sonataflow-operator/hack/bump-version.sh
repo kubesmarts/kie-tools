@@ -22,7 +22,7 @@ set -e
 
 imageName=$(pnpm build-env sonataFlowOperator.registry)/$(pnpm build-env sonataFlowOperator.account)/$(pnpm build-env sonataFlowOperator.name)
 imageTag=$(pnpm build-env sonataFlowOperator.buildTag)
-version=$(pnpm build-env sonataFlowOperator.version)
+version=$(pnpm build-env root.version)
 
 if [ -z "${version}" ]; then
   echo "Please inform the new version"
@@ -30,18 +30,31 @@ if [ -z "${version}" ]; then
 fi
 
 newMajorMinorVersion=${version%.*}
-
 targetSonataflowOperatorImage="${imageName}:${imageTag}"
 
 echo "Set new version to ${version} (majorMinor = ${newMajorMinorVersion}, imageName:imageTag = ${targetSonataflowOperatorImage})"
 
-node -p "require('replace-in-file').sync({ from: /\bnewTag:.*\b/g, to: 'newTag: ${version}', files: ['./config/manager/kustomization.yaml'] });"
+# Always update newName
 node -p "require('replace-in-file').sync({ from: /\bnewName:.*\b/g, to: 'newName: ${imageName}', files: ['./config/manager/kustomization.yaml'] });"
 
+# Conditionally update newTag
+if [ "${USE_IMAGE_DIGESTS}" != "true" ]; then
+  node -p "require('replace-in-file').sync({ from: /\bnewTag:.*\b/g, to: 'newTag: ${version}', files: ['./config/manager/kustomization.yaml'] });"
+else
+  echo "Skipping newTag replacement due to USE_IMAGE_DIGESTS=true"
+fi
+
+# Update versions in manifests
 node -p "require('replace-in-file').sync({ from: /\bversion: .*\b/g, to: 'version: ${version}', files: ['./images/bundle.yaml'] });"
 node -p "require('replace-in-file').sync({ from: /\bversion: .*\b/g, to: 'version: ${version}', files: ['./images/manager.yaml'] });"
 
+# Update Go version constants
 node -p "require('replace-in-file').sync({ from: /\boperatorVersion = .*/g, to: 'operatorVersion = \"${version}\"', files: ['version/version.go'] });"
-node -p "require('replace-in-file').sync({ from: /\btagVersion = .*/g, to: 'tagVersion = \"${imageTag}\"', files: ['version/version.go'] });"
+
+if [ "${USE_IMAGE_DIGESTS}" = "true" ]; then
+  node -p "require('replace-in-file').sync({ from: /\btagVersion = .*/g, to: 'tagVersion = \"${version}\"', files: ['version/version.go'] });"
+else
+  node -p "require('replace-in-file').sync({ from: /\btagVersion = .*/g, to: 'tagVersion = \"${imageTag}\"', files: ['version/version.go'] });"
+fi
 
 echo "Version bumped to ${version}"

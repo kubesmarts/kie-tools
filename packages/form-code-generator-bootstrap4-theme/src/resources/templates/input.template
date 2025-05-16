@@ -1,8 +1,0 @@
-<input type="<%=type%>"
-    id="<%=id%>"
-    name="<%=name%>"
-    class="form-control"
-    <%=autoComplete==='off' ? ' autoComplete="off"' : ''%>
-    <%=disabled ? "disabled" : ""%>
-    <%=placeholder ? `placeholder="${placeholder}"` : ''%>
-    value="<%=value%>"/>

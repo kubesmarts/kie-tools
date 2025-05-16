@@ -1,1 +1,0 @@
-<% if (isListItem) { %>document.getElementById(`<%=id%>`).value = value<%= valuePath %> ?? "";<% } else { %>document.getElementById("<%=id%>").value = data?.<%=path%> ?? "";<% } %>

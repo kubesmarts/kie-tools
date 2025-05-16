@@ -1,6 +1,0 @@
-    formData.<%=props.name%> = {};
-<% _.each(props.children, function(child) { %>
-    <% if (child.writeValueToModelCode) { %>
-        <%= child.writeValueToModelCode.code %>
-    <% } %>
-<% }); %>

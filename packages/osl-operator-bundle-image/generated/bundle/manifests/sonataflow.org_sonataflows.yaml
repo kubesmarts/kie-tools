@@ -375,7 +375,6 @@ spec:
                                           a 'produced' event definition,
                                         type: string
                                     required:
-                                      - resultEventRef
                                       - triggerEventRef
                                     type: object
                                   functionRef:
@@ -649,7 +648,6 @@ spec:
                                                   name of a 'produced' event definition,
                                                 type: string
                                             required:
-                                              - resultEventRef
                                               - triggerEventRef
                                             type: object
                                           functionRef:
@@ -894,7 +892,6 @@ spec:
                                             of a 'produced' event definition,
                                           type: string
                                       required:
-                                        - resultEventRef
                                         - triggerEventRef
                                       type: object
                                     functionRef:
@@ -1203,7 +1200,6 @@ spec:
                                             of a 'produced' event definition,
                                           type: string
                                       required:
-                                        - resultEventRef
                                         - triggerEventRef
                                       type: object
                                     functionRef:
@@ -1415,7 +1411,6 @@ spec:
                                                   name of a 'produced' event definition,
                                                 type: string
                                             required:
-                                              - resultEventRef
                                               - triggerEventRef
                                             type: object
                                           functionRef:
