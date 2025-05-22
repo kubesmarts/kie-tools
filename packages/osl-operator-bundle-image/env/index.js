@@ -20,11 +20,9 @@
 const { varsWithName, composeEnv, getOrDefault } = require("@kie-tools-scripts/build-env");
 const rootEnv = require("@kie-tools/root-env/env");
 const redHatEnv = require("@osl/redhat-env/env");
-//const sonataflowOperatorEnv = require("@kie-tools/sonataflow-operator/env");
+const sonataflowOperatorEnv = require("@kie-tools/sonataflow-operator/env");
 
-// We need sonataflowOperatorEnv 'cause the operator's Makefile refers to it
-
-module.exports = composeEnv([rootEnv, redHatEnv], {
+module.exports = composeEnv([rootEnv, redHatEnv, sonataflowOperatorEnv], {
   vars: varsWithName({
     OSL_OPERATOR_BUNDLE_IMAGE__registry: {
       default: "registry.redhat.io",
@@ -39,22 +37,6 @@ module.exports = composeEnv([rootEnv, redHatEnv], {
       description: "The image name.",
     },
     OSL_OPERATOR_BUNDLE_IMAGE__buildTag: {
-      default: rootEnv.env.root.streamName,
-      description: "The image tag.",
-    },
-    OSL_OPERATOR_IMAGE__registry: {
-      default: "registry.redhat.io",
-      description: "The image registry.",
-    },
-    OSL_OPERATOR_IMAGE__account: {
-      default: "openshift-serverless-1",
-      description: "The image registry account.",
-    },
-    OSL_OPERATOR_IMAGE__name: {
-      default: "logic-rhel8-operator",
-      description: "The image name.",
-    },
-    OSL_OPERATOR_IMAGE__buildTag: {
       default: rootEnv.env.root.streamName,
       description: "The image tag.",
     },
@@ -83,12 +65,6 @@ module.exports = composeEnv([rootEnv, redHatEnv], {
         proxyImage: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE__proxyImage),
         namespace: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE__namespace),
         namePrefix: getOrDefault(this.vars.OSL_OPERATOR_BUNDLE__namePrefix),
-        operator: {
-          registry: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__registry),
-          account: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__account),
-          name: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__name),
-          buildTag: getOrDefault(this.vars.OSL_OPERATOR_IMAGE__buildTag),
-        },
       },
     };
   },

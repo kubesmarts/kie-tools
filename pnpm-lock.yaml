@@ -8378,9 +8378,33 @@ importers:
       '@kie-tools/sonataflow-operator':
         specifier: workspace:*
         version: link:../sonataflow-operator
+      '@osl/osl-data-index-ephemeral-image':
+        specifier: workspace:*
+        version: link:../osl-data-index-ephemeral-image
+      '@osl/osl-data-index-postgresql-image':
+        specifier: workspace:*
+        version: link:../osl-data-index-postgresql-image
+      '@osl/osl-db-migrator-tool-image':
+        specifier: workspace:*
+        version: link:../osl-db-migrator-tool-image
       '@osl/osl-images-modules':
         specifier: workspace:*
         version: link:../osl-images-modules
+      '@osl/osl-jobs-service-ephemeral-image':
+        specifier: workspace:*
+        version: link:../osl-jobs-service-ephemeral-image
+      '@osl/osl-jobs-service-postgresql-image':
+        specifier: workspace:*
+        version: link:../osl-jobs-service-postgresql-image
+      '@osl/osl-management-console-image':
+        specifier: workspace:*
+        version: link:../osl-management-console-image
+      '@osl/osl-swf-builder-image':
+        specifier: workspace:*
+        version: link:../osl-swf-builder-image
+      '@osl/osl-swf-devmode-image':
+        specifier: workspace:*
+        version: link:../osl-swf-devmode-image
       '@osl/redhat-env':
         specifier: workspace:*
         version: link:../redhat-env
@@ -57783,7 +57807,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
       '@types/node': 22.13.10
-      acorn: 8.10.0
+      acorn: 8.12.1
       acorn-walk: 8.2.0
       arg: 4.1.0
       create-require: 1.1.1
