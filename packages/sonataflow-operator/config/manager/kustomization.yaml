@@ -39,9 +39,9 @@ kind:
   Kustomization
   # Changed during "make build", do not attempt to modify it manually!
 images:
-  - digest: sha256:ffae74d76431b428341abfe8b8b704323261c224ff9140a2ea2782c0524f222f
-    name: controller
-    newName: registry.redhat.io/openshift-serverless-1/openshift-serverless-1-logic-rhel8-operator
+  - name: controller
+    newName: docker.io/apache/incubator-kie-sonataflow-operator
+    newTag: 1.36.0
 # Patching the manager deployment file to add an env var with the operator namespace in
 patches:
   - patch: |-

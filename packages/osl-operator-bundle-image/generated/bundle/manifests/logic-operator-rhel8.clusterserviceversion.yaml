@@ -120,8 +120,9 @@ metadata:
     capabilities: Basic Install
     categories: Application Runtime
     certified: "false"
-    createdAt: "2025-05-16T16:19:55Z"
-    description: OpenShift Serverless Logic Kubernetes Operator for deploying workflow applications based on the CNCF Serverless Workflow specification
+    createdAt: "2025-05-22T03:08:03Z"
+    description: OpenShift Serverless Logic Kubernetes Operator for deploying workflow
+      applications based on the CNCF Serverless Workflow specification
     features.operators.openshift.io/disconnected: "false"
     features.operators.openshift.io/fips-compliant: "false"
     features.operators.openshift.io/proxy-aware: "false"
@@ -130,7 +131,8 @@ metadata:
     features.operators.openshift.io/token-auth-azure: "false"
     features.operators.openshift.io/token-auth-gcp: "false"
     operatorframework.io/suggested-namespace: openshift-serverless-logic
-    operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift Platform Plus"]'
+    operators.openshift.io/valid-subscription: '["OpenShift Container Platform", "OpenShift
+      Platform Plus"]'
     operators.operatorframework.io/builder: operator-sdk-v1.35.0
     operators.operatorframework.io/internal-objects: '["sonataflowbuilds.sonataflow.org"]'
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
@@ -142,7 +144,8 @@ spec:
   apiservicedefinitions: {}
   customresourcedefinitions:
     owned:
-      - description: SonataFlowBuild is an internal custom resource to control workflow build instances in the target platform
+      - description: SonataFlowBuild is an internal custom resource to control workflow
+          build instances in the target platform
         displayName: Sonata Flow Build
         kind: SonataFlowBuild
         name: sonataflowbuilds.sonataflow.org
@@ -151,10 +154,14 @@ spec:
             name: An Openshift Build Config
             version: build.openshift.io/v1
         specDescriptors:
-          - description: 'Arguments lists the command line arguments to send to the internal builder command. Depending on the build method you might set this attribute instead of BuildArgs. For example: ".spec.arguments=verbose=3". Please see the SonataFlow guides.'
+          - description: 'Arguments lists the command line arguments to send to the internal
+              builder command. Depending on the build method you might set this attribute
+              instead of BuildArgs. For example: ".spec.arguments=verbose=3". Please see
+              the SonataFlow guides.'
             displayName: Arguments
             path: arguments
-          - description: Optional build arguments that can be set to the internal build (e.g. Docker ARG)
+          - description: Optional build arguments that can be set to the internal build
+              (e.g. Docker ARG)
             displayName: BuildArgs
             path: buildArgs
           - description: Optional environment variables to add to the internal build
@@ -163,7 +170,10 @@ spec:
           - description: Resources optional compute resource requirements for the builder
             displayName: Resources
             path: resources
-          - description: Timeout defines the Build maximum execution duration. The Build deadline is set to the Build start time plus the Timeout duration. If the Build deadline is exceeded, the Build context is canceled, and its phase set to BuildPhaseFailed.
+          - description: Timeout defines the Build maximum execution duration. The Build
+              deadline is set to the Build start time plus the Timeout duration. If the
+              Build deadline is exceeded, the Build context is canceled, and its phase
+              set to BuildPhaseFailed.
             displayName: Timeout
             path: timeout
         statusDescriptors:
@@ -176,11 +186,13 @@ spec:
           - description: ImageTag The final image tag produced by this build instance
             displayName: ImageTag
             path: imageTag
-          - description: InnerBuild is a reference to an internal build object, which can be anything known only to internal builders.
+          - description: InnerBuild is a reference to an internal build object, which
+              can be anything known only to internal builders.
             displayName: InnerBuild
             path: innerBuild
         version: v1alpha08
-      - description: SonataFlowClusterPlatform is the Schema for the sonataflowclusterplatforms API
+      - description: SonataFlowClusterPlatform is the Schema for the sonataflowclusterplatforms
+          API
         displayName: Sonata Flow Cluster Platform
         kind: SonataFlowClusterPlatform
         name: sonataflowclusterplatforms.sonataflow.org
@@ -189,10 +201,12 @@ spec:
             name: A SonataFlow Platform
             version: sonataflow.org/v1alpha08
         specDescriptors:
-          - description: Capabilities defines which platform capabilities should be applied cluster-wide. If nil, defaults to `capabilities.workflows["services"]`
+          - description: Capabilities defines which platform capabilities should be applied
+              cluster-wide. If nil, defaults to `capabilities.workflows["services"]`
             displayName: Capabilities
             path: capabilities
-          - description: PlatformRef defines which existing SonataFlowPlatform's supporting services should be used cluster-wide.
+          - description: PlatformRef defines which existing SonataFlowPlatform's supporting
+              services should be used cluster-wide.
             displayName: PlatformRef
             path: platformRef
           - description: Name of the SonataFlowPlatform
@@ -206,7 +220,8 @@ spec:
             displayName: version
             path: version
         version: v1alpha08
-      - description: SonataFlowPlatform is the descriptor for the workflow platform infrastructure.
+      - description: SonataFlowPlatform is the descriptor for the workflow platform
+          infrastructure.
         displayName: Sonata Flow Platform
         kind: SonataFlowPlatform
         name: sonataflowplatforms.sonataflow.org
@@ -218,10 +233,14 @@ spec:
           - description: Build Attributes for building workflows in the target platform
             displayName: Build
             path: build
-          - description: 'Arguments lists the command line arguments to send to the internal builder command. Depending on the build method you might set this attribute instead of BuildArgs. For example: ".spec.arguments=verbose=3". Please see the SonataFlow guides.'
+          - description: 'Arguments lists the command line arguments to send to the internal
+              builder command. Depending on the build method you might set this attribute
+              instead of BuildArgs. For example: ".spec.arguments=verbose=3". Please see
+              the SonataFlow guides.'
             displayName: Arguments
             path: build.template.arguments
-          - description: Optional build arguments that can be set to the internal build (e.g. Docker ARG)
+          - description: Optional build arguments that can be set to the internal build
+              (e.g. Docker ARG)
             displayName: BuildArgs
             path: build.template.buildArgs
           - description: Optional environment variables to add to the internal build
@@ -230,26 +249,38 @@ spec:
           - description: Resources optional compute resource requirements for the builder
             displayName: Resources
             path: build.template.resources
-          - description: Timeout defines the Build maximum execution duration. The Build deadline is set to the Build start time plus the Timeout duration. If the Build deadline is exceeded, the Build context is canceled, and its phase set to BuildPhaseFailed.
+          - description: Timeout defines the Build maximum execution duration. The Build
+              deadline is set to the Build start time plus the Timeout duration. If the
+              Build deadline is exceeded, the Build context is canceled, and its phase
+              set to BuildPhaseFailed.
             displayName: Timeout
             path: build.template.timeout
-          - description: DevMode Attributes for running workflows in devmode (immutable, no build required)
+          - description: DevMode Attributes for running workflows in devmode (immutable,
+              no build required)
             displayName: DevMode
             path: devMode
-          - description: "Services attributes for deploying supporting applications like Data Index & Job Service. Only workflows without the `sonataflow.org/profile: dev` annotation will be configured to use these service(s). Setting this will override the use of any cluster-scoped services that might be defined via `SonataFlowClusterPlatform`."
+          - description: "Services attributes for deploying supporting applications like
+              Data Index & Job Service. Only workflows without the `sonataflow.org/profile:
+              dev` annotation will be configured to use these service(s). Setting this
+              will override the use of any cluster-scoped services that might be defined
+              via `SonataFlowClusterPlatform`."
             displayName: Services
             path: services
-          - description: PodTemplate describes the deployment details of this platform service instance.
+          - description: PodTemplate describes the deployment details of this platform
+              service instance.
             displayName: podTemplate
             path: services.dataIndex.podTemplate
-          - description: PodTemplate describes the deployment details of this platform service instance.
+          - description: PodTemplate describes the deployment details of this platform
+              service instance.
             displayName: podTemplate
             path: services.jobService.podTemplate
         statusDescriptors:
-          - description: Cluster what kind of cluster you're running (ie, plain Kubernetes or OpenShift)
+          - description: Cluster what kind of cluster you're running (ie, plain Kubernetes
+              or OpenShift)
             displayName: cluster
             path: cluster
-          - description: ClusterPlatformRef information related to the (optional) active SonataFlowClusterPlatform
+          - description: ClusterPlatformRef information related to the (optional) active
+              SonataFlowClusterPlatform
             displayName: clusterPlatformRef
             path: clusterPlatformRef
           - description: Info generic information related to the build
@@ -259,7 +290,8 @@ spec:
             displayName: version
             path: version
         version: v1alpha08
-      - description: SonataFlow is the descriptor representation for a workflow application based on the CNCF Serverless Workflow specification.
+      - description: SonataFlow is the descriptor representation for a workflow application
+          based on the CNCF Serverless Workflow specification.
         displayName: Sonata Flow
         kind: SonataFlow
         name: sonataflows.sonataflow.org
@@ -286,17 +318,20 @@ spec:
           - description: Flow the workflow definition.
             displayName: flow
             path: flow
-          - description: PodTemplate describes the deployment details of this SonataFlow instance.
+          - description: PodTemplate describes the deployment details of this SonataFlow
+              instance.
             displayName: podTemplate
             path: podTemplate
-          - description: Resources workflow resources that are linked to this workflow definition. For example, a collection of OpenAPI specification files.
+          - description: Resources workflow resources that are linked to this workflow
+              definition. For example, a collection of OpenAPI specification files.
             displayName: resources
             path: resources
           - description: Sink describes the sinkBinding details of this SonataFlow instance.
             displayName: sink
             path: sink
         statusDescriptors:
-          - description: Address is used as a part of Addressable interface (status.address.url) for knative
+          - description: Address is used as a part of Addressable interface (status.address.url)
+              for knative
             displayName: address
             path: address
           - description: Endpoint is an externally accessible URL of the workflow
@@ -304,10 +339,12 @@ spec:
             path: endpoint
           - displayName: lastTimeRecoverAttempt
             path: lastTimeRecoverAttempt
-          - description: keeps track of how many failure recovers a given workflow had so far
+          - description: keeps track of how many failure recovers a given workflow had
+              so far
             displayName: recoverFailureAttempts
             path: recoverFailureAttempts
-          - description: Services displays which platform services are being used by this workflow
+          - description: Services displays which platform services are being used by this
+              workflow
             displayName: services
             path: services
         version: v1alpha08
@@ -694,7 +731,7 @@ spec:
                         valueFrom:
                           fieldRef:
                             fieldPath: metadata.namespace
-                    image: registry.redhat.io/openshift-serverless-1/logic-rhel8-operator@sha256:ffae74d76431b428341abfe8b8b704323261c224ff9140a2ea2782c0524f222f
+                    image: registry.redhat.io/openshift-serverless-1/logic-rhel8-operator:1.36.0
                     livenessProbe:
                       httpGet:
                         path: /healthz
@@ -819,10 +856,5 @@ spec:
   minKubeVersion: 1.23.0
   provider:
     name: Red Hat
-  relatedImages:
-    - image: registry.redhat.io/openshift-serverless-1/logic-rhel8-operator@sha256:ffae74d76431b428341abfe8b8b704323261c224ff9140a2ea2782c0524f222f
-      name: manager
-    - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
-      name: kube-rbac-proxy
   replaces: logic-operator-rhel8.v1.35.0
   version: 1.36.0
