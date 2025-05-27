@@ -37,7 +37,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "8080:http"
   - name: "org.kie.kogito.version"
-    value: "9.103.0.redhat-00003"
+    value: "9.103.0.redhat-00004"
 
 envs:
   - name: "SCRIPT_DEBUG"

@@ -123,7 +123,7 @@
     <version.maven.surefire.plugin>3.5.0</version.maven.surefire.plugin>
 
     <!-- Apache KIE -->
-    <version.org.kie.kogito>9.103.0.redhat-00003</version.org.kie.kogito>
+    <version.org.kie.kogito>9.103.0.redhat-00004</version.org.kie.kogito>
     <version.org.drools>9.103.0.redhat-00002</version.org.drools>
 
     <!-- Quarkus -->
