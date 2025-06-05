@@ -5,8 +5,8 @@ This image is based on its version upstream. Internally, the package will run a 
 
 1. Pull the app in zip format from a given URL. This app must be based on the [`kogito-data-index-ephemeral-image`](../kogito-data-index-ephemeral-image).
 2. Save the artifact in zip format to the local Cekit Cache.
-3. Update the [`generated/modules`](generated/modules) directory with MD5 and artifact name.
-4. Save everything needed to build this image with Cekit in the [`generated`](generated) directory. This directory must be commited to the git branch since it will be used by internal tools to build the final image.
+3. Update the [`dist/modules`](dist/modules) directory with MD5 and artifact name.
+4. Save everything needed to build this image with Cekit in the [`dist`](dist) directory. This directory must be commited to the git branch since it will be used by internal tools to build the final image.
 5. Finally build the image locally, so users can verify and run tests if necessary.
 
 ## Usage
@@ -34,11 +34,11 @@ export KOGITO_RUNTIME_version=9.101-redhat
 pnpm build:dev # build:prod also works, does the same currently.
 ```
 
-Then you can export the directory `generated` to any system to build the image via Cekit.
+Then you can export the directory `dist` to any system to build the image via Cekit.
 
 > [!IMPORTANT]
-> Do not modify any file in the `generated` directory. Always use the `pnpm build:dev` to generate this package.
+> Do not modify any file in the `dist` directory. Always use the `pnpm build:dev` to generate this package.
 
-The script `pnpm build:dev` won't build the image, but will make the Cekit files available in the `generated` directory.
+The script `pnpm build:dev` won't build the image, but will make the Cekit files available in the `dist` directory.
 Since it requires Red Hat specific libraries and tools, it might not be ideal to build the image immediately.
 There's a command just to build the image `pnpm image:cekit:build`.

@@ -2402,17 +2402,42 @@
       },
       {
         "source": "@osl/osl-operator-bundle-image",
-        "target": "@osl/osl-images-modules",
+        "target": "@osl/osl-data-index-ephemeral-image",
         "weight": 1
       },
       {
         "source": "@osl/osl-operator-bundle-image",
-        "target": "@osl/redhat-env",
+        "target": "@osl/osl-data-index-postgresql-image",
         "weight": 1
       },
       {
         "source": "@osl/osl-operator-bundle-image",
-        "target": "@osl/redhat-python-venv",
+        "target": "@osl/osl-db-migrator-tool-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/osl-jobs-service-ephemeral-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/osl-jobs-service-postgresql-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/osl-management-console-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/osl-swf-builder-image",
+        "weight": 1
+      },
+      {
+        "source": "@osl/osl-operator-bundle-image",
+        "target": "@osl/osl-swf-devmode-image",
         "weight": 1
       },
       {

@@ -1,0 +1,100 @@
+name: "CI :: OSL :: Export Dist to osl-images"
+
+on:
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
+  PNPM_FILTER: ${{ vars.OSL_IMAGES_PNPM_FILTER }}
+  OSL_PACKAGES: ${{ vars.OSL_PACKAGES }}
+
+jobs:
+  export_dist:
+    runs-on: ubuntu-latest
+    if: ${{ vars.ENABLE_OSL_DIST_EXPORT == 'yes' }}
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout Source Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.KIE1_TOKEN }}
+          ref: main
+
+      - name: Setup Environment Variables
+        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
+        shell: bash
+
+      - name: Run pnpm bootstrap
+        run: pnpm bootstrap --no-frozen-lockfile
+        shell: bash
+
+      - name: Build OSL Packages
+        run: eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
+        shell: bash
+
+      - name: Clone Target Repo (osl-images)
+        run: |
+          set -euo pipefail
+          git clone --depth=1 https://github.com/kubesmarts/osl-images.git target-repo
+          echo "TARGET_REPO_DIR=target-repo" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Copy Dist Outputs to Target Repo
+        run: |
+          set -euo pipefail
+          for pkg in ${{ env.OSL_PACKAGES }}; do
+            SRC="packages/${pkg}/dist"
+            DEST="target-repo/${pkg}"
+            echo "Copying $SRC to $DEST"
+            if [ -d "$SRC" ]; then
+              mkdir -p "$DEST"
+              cp -r "$SRC/"* "$DEST/"
+            else
+              echo "⚠️ Warning: $SRC does not exist. Skipping."
+            fi
+          done
+        shell: bash
+
+      - name: Commit and Push to Target Repo
+        run: |
+          set -euo pipefail
+          cd target-repo
+          git config user.name "${{ secrets.KIE1_USER_NAME }}"
+          git config user.email "${{ secrets.KIE1_EMAIL }}"
+
+          BRANCH="export-dist-$(date +'%Y%m%d-%H%M%S')"
+          git checkout -b "$BRANCH"
+          git add .
+          git commit -m "chore: export OSL dist from main"
+          git push -u origin "$BRANCH"
+          echo "EXPORT_BRANCH=$BRANCH" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.KIE1_TOKEN }}
+          SYNC_REVIEWERS: ${{ vars.SYNC_REVIEWERS }}
+        run: |
+          set -euo pipefail
+
+          PR_TITLE="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Export OSL dist from main"
+          REVIEWERS_OPTION=""
+          if [[ -n "$SYNC_REVIEWERS" ]]; then
+            REVIEWERS_OPTION="--reviewer $SYNC_REVIEWERS"
+          fi
+
+          PR_URL=$(gh pr create \
+            --repo kubesmarts/osl-images \
+            --title "$PR_TITLE" \
+            --body "This PR includes the latest dist output for packages: $OSL_PACKAGES" \
+            --base main \
+            --head "$EXPORT_BRANCH" $REVIEWERS_OPTION)
+
+          echo "✅ Created PR: $PR_URL"
+        shell: bash

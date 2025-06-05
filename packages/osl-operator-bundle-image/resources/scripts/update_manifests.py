@@ -1,9 +1,9 @@
 import sys
 import ruamel.yaml
 
-KUSTOMIZATION_DEFAULT_PATH = "generated/config/default/kustomization.yaml"
-KUSTOMIZATION_MANIFESTS_PATH = "generated/config/manifests/kustomization.yaml"
-DEPLOYMENT_PATCH_PATH = "generated/config/default/manager_auth_proxy_patch.yaml"
+KUSTOMIZATION_DEFAULT_PATH = "dist/config/default/kustomization.yaml"
+KUSTOMIZATION_MANIFESTS_PATH = "dist/config/manifests/kustomization.yaml"
+DEPLOYMENT_PATCH_PATH = "dist/config/default/manager_auth_proxy_patch.yaml"
 
 def update_default_kustomization(new_namespace, new_name_prefix):
     yaml = ruamel.yaml.YAML()

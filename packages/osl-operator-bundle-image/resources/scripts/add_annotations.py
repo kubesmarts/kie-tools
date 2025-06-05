@@ -6,7 +6,7 @@ from ruamel.yaml import YAML
 
 # Constants for file paths
 SOURCE_BUNDLE_ANNOTATIONS_PATH = 'resources/bundle/metadata/annotations.yaml'
-DEST_BUNDLE_ANNOTATIONS_PATH = 'generated/bundle/metadata/annotations.yaml'
+DEST_BUNDLE_ANNOTATIONS_PATH = 'dist/bundle/metadata/annotations.yaml'
 
 # Validate if the source and destination file paths exist
 if not os.path.exists(SOURCE_BUNDLE_ANNOTATIONS_PATH):

@@ -1,3 +1,1 @@
-@osl/osl-management-console-image
-@osl/osl-swf-builder-image
-@osl/osl-swf-devmode-image
+@osl/osl-operator-bundle-image

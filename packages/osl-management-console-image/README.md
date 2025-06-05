@@ -6,8 +6,8 @@ Internally, the package will run a few preparation scritps to:
 
 1. Pull the webapp in zip formant from a given URL. This app must be based on the [`sonataflow-management-console-webapp`](../sonataflow-management-console-webapp).
 2. Save the artifact in zip format to the local Cekit Cache.
-3. Update the [`generated/modules`](generated/modules) directory with MD5 and artifact name.
-4. Save everything needed to build this image with Cekit in the [`generated`](generated) directory. This directory must be commited to the git branch since it will be used by internal tools to build the final image.
+3. Update the [`dist/modules`](dist/modules) directory with MD5 and artifact name.
+4. Save everything needed to build this image with Cekit in the [`dist`](dist) directory. This directory must be commited to the git branch since it will be used by internal tools to build the final image.
 5. Finally build the image locally, so users can verify and run tests if necessary.
 
 ## Usage
@@ -31,10 +31,10 @@ export KOGITO_RUNTIME_version=9.101-redhat
 pnpm build:dev # build:prod also works, does the same currently.
 ```
 
-Then you can export the directory `generated` to any system to build the image via Cekit.
+Then you can export the directory `dist` to any system to build the image via Cekit.
 
 > [!IMPORTANT]
-> Do not modify any file in the `generated` directory. Always use the `pnpm build:dev` to generate this package.
+> Do not modify any file in the `dist` directory. Always use the `pnpm build:dev` to generate this package.
 
 > [!IMPORTANT]
-> The file in `generated/modules/osl-management-console/added/image-env-to-json-linux-amd64` is not tracked in git because it's a binary file that changes every time `pnpm build:dev` runs and rebuild the whole dependencies structure. For that reason, before running cekit standalone run `pnpm copy:image-env-to-json`. Or simply copy this binary from `packages/image-env-to-json/dist/image-env-to-json-linux-amd64`.
+> The file in `dist/modules/osl-management-console/added/image-env-to-json-linux-amd64` is not tracked in git because it's a binary file that changes every time `pnpm build:dev` runs and rebuild the whole dependencies structure. For that reason, before running cekit standalone run `pnpm copy:image-env-to-json`. Or simply copy this binary from `packages/image-env-to-json/dist/image-env-to-json-linux-amd64`.
