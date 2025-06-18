@@ -50,12 +50,12 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=4096"
         shell: bash
 
-      - name: Clone Target Repo (osl-images)
-        run: |
-          set -euo pipefail
-          git clone --depth=1 https://github.com/kubesmarts/osl-images.git target-repo
-          echo "TARGET_REPO_DIR=target-repo" >> $GITHUB_ENV
-        shell: bash
+      - name: Checkout Target Repo (osl-images)
+        uses: actions/checkout@v4
+        with:
+          repository: kubesmarts/osl-images
+          token: ${{ secrets.KIE1_TOKEN }}
+          path: target-repo
 
       - name: Copy Dist Outputs to Target Repo
         run: |
