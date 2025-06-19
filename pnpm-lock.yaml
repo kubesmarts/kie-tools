@@ -8211,6 +8211,9 @@ importers:
       '@kie-tools/sonataflow-image-common':
         specifier: workspace:*
         version: link:../sonataflow-image-common
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3

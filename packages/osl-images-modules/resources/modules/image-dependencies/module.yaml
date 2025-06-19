@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: com.redhat.osl.image.dependencies
-version: "0.0.0"
+version: "main"
 description: holds common dependencies across images
 
 execute:

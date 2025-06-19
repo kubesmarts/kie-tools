@@ -2232,13 +2232,13 @@
         "weight": 1
       },
       {
-        "source": "@osl/osl-data-index-ephemeral-image",
-        "target": "@osl/redhat-python-venv",
+        "source": "@osl/osl-images-modules",
+        "target": "@kie-tools/sonataflow-image-common",
         "weight": 1
       },
       {
         "source": "@osl/osl-images-modules",
-        "target": "@kie-tools/sonataflow-image-common",
+        "target": "@osl/redhat-python-venv",
         "weight": 1
       },
       {
@@ -2267,11 +2267,6 @@
         "weight": 1
       },
       {
-        "source": "@osl/osl-data-index-postgresql-image",
-        "target": "@osl/redhat-python-venv",
-        "weight": 1
-      },
-      {
         "source": "@osl/osl-db-migrator-tool-image",
         "target": "@kie-tools/kogito-db-migrator-tool-image",
         "weight": 1
@@ -2284,11 +2279,6 @@
       {
         "source": "@osl/osl-db-migrator-tool-image",
         "target": "@osl/redhat-env",
-        "weight": 1
-      },
-      {
-        "source": "@osl/osl-db-migrator-tool-image",
-        "target": "@osl/redhat-python-venv",
         "weight": 1
       },
       {
@@ -2307,11 +2297,6 @@
         "weight": 1
       },
       {
-        "source": "@osl/osl-jobs-service-ephemeral-image",
-        "target": "@osl/redhat-python-venv",
-        "weight": 1
-      },
-      {
         "source": "@osl/osl-jobs-service-postgresql-image",
         "target": "@kie/kogito-jobs-service-postgresql-image",
         "weight": 1
@@ -2327,11 +2312,6 @@
         "weight": 1
       },
       {
-        "source": "@osl/osl-jobs-service-postgresql-image",
-        "target": "@osl/redhat-python-venv",
-        "weight": 1
-      },
-      {
         "source": "@osl/osl-management-console-image",
         "target": "@kie-tools/sonataflow-management-console-image",
         "weight": 1
@@ -2344,11 +2324,6 @@
       {
         "source": "@osl/osl-management-console-image",
         "target": "@osl/redhat-env",
-        "weight": 1
-      },
-      {
-        "source": "@osl/osl-management-console-image",
-        "target": "@osl/redhat-python-venv",
         "weight": 1
       },
       {
@@ -2462,11 +2437,6 @@
         "weight": 1
       },
       {
-        "source": "@osl/osl-swf-builder-image",
-        "target": "@osl/redhat-python-venv",
-        "weight": 1
-      },
-      {
         "source": "@osl/osl-swf-devmode-image",
         "target": "@kie-tools/sonataflow-devmode-image",
         "weight": 1
@@ -2479,11 +2449,6 @@
       {
         "source": "@osl/osl-swf-devmode-image",
         "target": "@osl/redhat-env",
-        "weight": 1
-      },
-      {
-        "source": "@osl/osl-swf-devmode-image",
-        "target": "@osl/redhat-python-venv",
         "weight": 1
       },
       {

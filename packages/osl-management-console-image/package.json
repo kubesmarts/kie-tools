@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build:dev": "run-script-os",
-    "build:dev:linux:darwin": "pnpm cleanup && pnpm copy:assets && pnpm image:cekit:dist && pnpm format",
+    "build:dev:linux:darwin": "pnpm image:cekit:dist",
     "build:dev:win32": "echo \"Build skipped on macOS and Windows\"",
     "build:prod": "pnpm build:dev",
     "cleanup": "rimraf dist && mkdir -p dist/modules/osl-management-console",
@@ -26,7 +26,7 @@
     "image:cekit:cache:artifacts": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && ./dist/scripts/process-cekit-artifact.sh \"$(build-env oslManagementConsoleImage.artifactUrl)\" modules/osl-management-console/module.yaml",
     "image:cekit:copy": "rsync -av --include='modules/kogito-system-user' --include='modules/kogito-project-versions' --exclude='modules/kogito-*' --exclude='modules/sonataflow*' --include='*'  node_modules/@kie-tools/sonataflow-image-common/resources/ dist/ && cp -R node_modules/@osl/osl-images-modules/resources/scripts ./dist/ && cp -R node_modules/@osl/osl-images-modules/resources/modules/pkg-update ./dist/modules && cp -R resources/* ./dist/ && pnpm image:cekit:copy-modules",
     "image:cekit:copy-modules": "rsync -av --exclude='module.yaml' node_modules/@kie-tools/sonataflow-management-console-image/resources/modules/sonataflow/management-console/ dist/modules/osl-management-console",
-    "image:cekit:dist": "pnpm image:cekit:copy && pnpm image:cekit:cache:artifacts && pnpm image:cekit:fixversions",
+    "image:cekit:dist": "pnpm cleanup && pnpm copy:assets && pnpm image:cekit:copy && pnpm image:cekit:cache:artifacts && pnpm image:cekit:fixversions && pnpm format",
     "image:cekit:fixversions": "pnpm setup:env make -C ./dist _fix_platform_versions",
     "install": "node install.js && pnpm format",
     "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env oslManagementConsoleImage.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env oslManagementConsoleImage.account) KOGITO_IMAGE_NAME=$(build-env oslManagementConsoleImage.name) KOGITO_IMAGE_TAG=$(build-env oslManagementConsoleImage.buildTag) QUARKUS_PLATFORM_GROUPID=$(build-env kogitoImagesCekitModules.quarkusGroupId) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkus) KOGITO_VERSION=$(build-env versions.kogito) SONATAFLOW_MANAGEMENT_CONSOLE_PORT=$(build-env oslManagementConsoleImage.port)"

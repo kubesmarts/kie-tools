@@ -12,10 +12,13 @@
   "bugs": {
     "url": "https://issues.redhat.com/projects/SRVLOGIC"
   },
-  "scripts": {},
+  "scripts": {
+    "install": "node install.js"
+  },
   "devDependencies": {
     "@kie-tools/root-env": "workspace:*",
     "@kie-tools/sonataflow-image-common": "workspace:*",
+    "@osl/redhat-python-venv": "workspace:*",
     "cross-env": "^7.0.3",
     "replace-in-file": "^7.1.0",
     "rimraf": "^3.0.2",

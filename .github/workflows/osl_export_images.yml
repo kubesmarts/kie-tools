@@ -57,19 +57,51 @@ jobs:
           token: ${{ secrets.KIE1_TOKEN }}
           path: target-repo
 
-      - name: Copy Dist Outputs to Target Repo
+      - name: Consolidate Dist Outputs to Target Repo
         run: |
           set -euo pipefail
+
+          BASE="target-repo/images-dist"
+          mkdir -p "$BASE/modules" "$BASE/scripts"
+
           for pkg in ${{ env.OSL_PACKAGES }}; do
             SRC="packages/${pkg}/dist"
-            DEST="target-repo/${pkg}"
-            echo "Copying $SRC to $DEST"
-            if [ -d "$SRC" ]; then
-              mkdir -p "$DEST"
-              cp -r "$SRC/"* "$DEST/"
-            else
-              echo "⚠️ Warning: $SRC does not exist. Skipping."
+            echo "🖨 Processing dist for $pkg"
+
+            if [ ! -d "$SRC" ]; then
+              echo "⚠️  $SRC not found, skipping."
+              continue
             fi
+
+            # ── Merge modules ───────────────────────────────────────────────────────
+            if [ -d "$SRC/modules" ]; then
+              cp -r "$SRC/modules/"* "$BASE/modules/"
+            fi
+
+            # ── Merge scripts ───────────────────────────────────────────────────────
+            if [ -d "$SRC/scripts" ]; then
+              cp -r "$SRC/scripts/"* "$BASE/scripts/"
+            fi
+
+            # ── Copy package YAMLs ──────────────────────────────────────────────────
+            for yf in "$SRC"/*.yaml; do
+              fname="$(basename "$yf")"
+              case "$fname" in
+                content-sets.yaml)
+                  # only copy the first one
+                  if [ ! -f "$BASE/content-sets.yaml" ]; then
+                    cp "$yf" "$BASE/"
+                  fi
+                  ;;
+                *)
+                  # this will copy image.yaml (or any other yaml) for each pkg
+                  cp "$yf" "$BASE/"
+                  ;;
+              esac
+            done
+
+            # ── Skip tests/ and Makefile ───────────────────────────────────────────
+            # (We never copied them, so nothing to remove.)
           done
         shell: bash
 
