@@ -1,1 +1,6 @@
 @kie-tools/kn-plugin-workflow
+<<<<<<< HEAD
+=======
+@kie-tools/sonataflow-management-console-image
+@kie/kogito-jit-runner-image
+>>>>>>> upstream/main
