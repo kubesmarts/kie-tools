@@ -1,9 +1,9 @@
 name: "CI :: OSL :: Sync Main"
 
 on:
-  workflow_dispatch: # Allows you to run the workflow manually from the Actions tab
+  workflow_dispatch:
   schedule:
-    - cron: "0 2 * * 1" # Runs every Monday at 2 AM UTC (adjust as needed)
+    - cron: "0 2 * * 1"
 
 env:
   UPSTREAM_URL: ${{ vars.UPSTREAM_URL }}
@@ -26,55 +26,38 @@ jobs:
         with:
           token: ${{ secrets.KIE1_TOKEN }}
           ref: main
+          fetch-depth: 0
 
       - name: Add Upstream Remote
         run: |
           git remote add upstream $UPSTREAM_URL
           git fetch --unshallow upstream main
 
-      - name: Setup Git Environment
+      - name: Setup Git Environment & CLI
         run: |
           git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
           git config --global user.email "${{ secrets.KIE1_EMAIL }}"
+          git config --global merge.ours.driver true
+          echo "${{ secrets.KIE1_TOKEN }}" \
+          | gh auth login --with-token --hostname github.com
 
       - name: Create Sync Branch
         run: |
           SYNC_BRANCH="main-sync-$(date +'%Y%m%d-%H%M%S')"
           echo "SYNC_BRANCH=$SYNC_BRANCH" >> $GITHUB_ENV
-          git checkout -b $SYNC_BRANCH
-          git merge-base HEAD upstream/main
-          git show $(git merge-base HEAD upstream/main)
+          git checkout -b "$SYNC_BRANCH"
 
-      - name: Attempt Merge with Upstream
+      - name: Merge upstream/main (prefer theirs)
         id: merge
-        run: |
-          git merge upstream/main --no-edit || echo "CONFLICT" > /tmp/merge_result.txt
+        run: git merge upstream/main -X theirs --no-edit || true
 
-      - name: Check for Merge Conflicts
-        id: check_conflicts
-        run: |
-          if [ -f /tmp/merge_result.txt ]; then
-            echo "MERGE_RESULT=CONFLICT" >> $GITHUB_ENV
-          else
-            echo "MERGE_RESULT=SUCCESS" >> $GITHUB_ENV
-          fi
+      - name: Reset lock & graph to upstream
+        run: git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
 
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
-      - name: Handle Conflicts
-        if: env.MERGE_RESULT == 'CONFLICT'
-        run: |
-          echo "Conflicts detected. Resolving specific files..."
-          git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
-          pnpm bootstrap --no-frozen-lockfile
-
-      - name: Run Bootstrap (No Conflicts)
-        if: env.MERGE_RESULT == 'SUCCESS'
-        run: |
-          pnpm bootstrap --no-frozen-lockfile
-
-      - name: "Run Build"
+      - name: Bootstrap & Build
         shell: bash
         env:
           KIE_TOOLS_BUILD__runTests: "false"
@@ -83,61 +66,51 @@ jobs:
           KIE_TOOLS_BUILD__ignoreTestFailures: "true"
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: "true"
           NODE_OPTIONS: "--max_old_space_size=4096"
-        run: >-
-          eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
+        run: |
+          pnpm bootstrap --no-frozen-lockfile
+          pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod
 
-      - name: Capture Uncommitted Changes
+      - name: Capture Changes
         id: capture_changes
         run: |
-          SYNC_CHANGES=$(git status --porcelain)
-          echo "$SYNC_CHANGES" > /tmp/sync_changes.txt
-          if [ -n "$SYNC_CHANGES" ]; then
+          git status --porcelain > /tmp/sync_changes.txt
+          if [ -s /tmp/sync_changes.txt ]; then
             echo "HAS_CHANGES=true" >> $GITHUB_ENV
           else
             echo "HAS_CHANGES=false" >> $GITHUB_ENV
           fi
 
-      - name: Commit and Push Changes to Sync Branch
-        if: env.MERGE_RESULT == 'CONFLICT' || env.HAS_CHANGES == 'true'
+      - name: Commit & Push (if there are changes)
+        if: env.HAS_CHANGES == 'true'
         run: |
-          echo "Changes detected. Committing and pushing..."
           git add .
-          git commit -m "Sync with upstream/main and resolved conflicts"
+          git commit -m "🤖 Sync with upstream/main (auto-theirs)"
           git push -u origin "${{ env.SYNC_BRANCH }}"
 
-      - name: Push Changes (No Conflict or Changes)
-        if: env.MERGE_RESULT == 'SUCCESS' && env.HAS_CHANGES == 'false'
-        run: |
-          echo "No conflicts or changes detected. Pushing merged branch."
-          git push -u origin "${{ env.SYNC_BRANCH }}"
-          echo "No conflicts or changes detected." > /tmp/sync_changes.txt
+      - name: Push Sync Branch (no changes)
+        if: env.HAS_CHANGES == 'false'
+        run: git push -u origin "${{ env.SYNC_BRANCH }}"
 
       - name: Create Pull Request
         env:
           RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
         run: |
-          set -x
-          SYNC_CHANGES=$(cat /tmp/sync_changes.txt)
+          # build a trimmed-change list for the PR body
+          SYNC_CHANGES=$(head -c 5000 /tmp/sync_changes.txt; echo "…")
+          ESCAPED=$(printf '%s' "$SYNC_CHANGES" \
+                    | sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|\\n|g' -e 's|/|\\/|g')
+          sed \
+            -e "s|\\\$RUN_URL|${RUN_URL}|g" \
+            -e "s|\\\$TRUNCATED_SYNC_CHANGES|${ESCAPED}|g" \
+            .github/supporting-files/ci/templates/osl_sync_pr_template.md \
+            > pr_body.md
 
-          # Truncate SYNC_CHANGES to 5000 
-          MAX_CHARS=5000
-          if [ ${#SYNC_CHANGES} -gt $MAX_CHARS ]; then
-            TRUNCATED_SYNC_CHANGES="${SYNC_CHANGES:0:$MAX_CHARS}..."
-          else
-            TRUNCATED_SYNC_CHANGES="$SYNC_CHANGES"
+          REVIEWERS_ARG=""
+          if [ -n "${{ vars.SYNC_REVIEWERS }}" ]; then
+            REVIEWERS_ARG="--reviewer ${{ vars.SYNC_REVIEWERS }}"
           fi
-
-          ESCAPED_CHANGES=$(echo "$TRUNCATED_SYNC_CHANGES" | sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|\\n|g' -e 's|/|\\/|g')
-
-          # Use double quotes for variable substitution in sed
-          sed -e "s|\\\$RUN_URL|${RUN_URL}|g" -e "s|\\\$TRUNCATED_SYNC_CHANGES|${ESCAPED_CHANGES}|g" .github/supporting-files/ci/templates/osl_sync_pr_template.md > temp.md
-
-          prTitle="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Automated PR: Sync main with upstream"
-          reviewersOption=""
-          if [[ -n "${{ vars.SYNC_REVIEWERS }}" ]]; then
-            reviewersOption="--reviewer ${{ vars.SYNC_REVIEWERS }}"
-          fi
-          gh pr create --title "${prTitle}" \
-                       --body-file temp.md \
-                       --repo kubesmarts/kie-tools \
-                       --base main $reviewersOption
+          gh pr create \
+            --title "[$(date +'%Y-%m-%d:%H%M%S')] 🤖 Sync main with upstream" \
+            --body-file pr_body.md \
+            --repo kubesmarts/kie-tools \
+            --base main $REVIEWERS_ARG

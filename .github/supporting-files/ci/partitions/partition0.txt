@@ -1,1 +1,2 @@
 @kie-tools/kn-plugin-workflow
+@osl/osl-operator-bundle-image
