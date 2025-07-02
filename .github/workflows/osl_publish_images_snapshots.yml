@@ -4,11 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       KOGITO_VERSION:
-        description: "Specify the version for Kogito Runtime"
+        description: "Specify the version for Kogito Runtime. Ignored if OSL_VERSION is set."
         required: false
         default: ""
       IMAGE_TAG:
         description: "Specify the tag for the images"
+        required: false
+        default: ""
+      OSL_VERSION:
+        description: "Specify the version for OSL. Ignored if KOGITO_VERSION is set."
         required: false
         default: ""
 
@@ -24,6 +28,8 @@ jobs:
         run: |
           if [ -n "${{ github.event.inputs.KOGITO_VERSION }}" ]; then
             echo "KOGITO_RUNTIME_version=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+          if [ -n "${{ github.event.inputs.OSL_VERSION }}" ]; then
+            echo "KOGITO_RUNTIME_version=${{ github.event.inputs.OSL_VERSION }}" >> $GITHUB_ENV
           else
             echo "No KOGITO_VERSION input provided. Keeping the default or existing behavior."
           fi
@@ -54,7 +60,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: "Clone and Build Additional Apache Repositories"
-        if: ${{ env.KOGITO_RUNTIME_version == '999-SNAPSHOT' }}
+        if: ${{ env.KOGITO_RUNTIME_version == '999-SNAPSHOT' && github.event.inputs.OSL_VERSION == '' }}
         run: |
           echo "KOGITO_RUNTIME_version is 999-SNAPSHOT: Cloning and building extra repositories."
 
@@ -78,6 +84,32 @@ jobs:
           mvn clean install -Dquickly
           cd ..
           rm -rf incubator-kie-kogito-apps
+
+      - name: "Clone and Build Additional Midstream (OSL) Repositories"
+        if: ${{ github.event.inputs.OSL_VERSION != '' }}
+        run: |
+          echo "KOGITO_RUNTIME_version is a midstream version: Cloning and building extra repositories."
+
+          echo "Cloning drools (${{ github.event.inputs.OSL_VERSION }} branch)..."
+          git clone --depth 1 --branch ${{ github.event.inputs.OSL_VERSION }} https://github.com/kiegroup/drools.git
+          cd drools
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf drools
+
+          echo "Cloning kogito-runtimes (${{ github.event.inputs.OSL_VERSION }} branch)..."
+          git clone --depth 1 --branch ${{ github.event.inputs.OSL_VERSION }} https://github.com/kiegroup/kogito-runtimes.git
+          cd kogito-runtimes
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf incubator-kie-kogito-runtimes
+
+          echo "Cloning kogito-apps (${{ github.event.inputs.OSL_VERSION }} branch)..."
+          git clone --depth 1 --branch ${{ github.event.inputs.OSL_VERSION }} https://github.com/kiegroup/kogito-apps.git
+          cd kogito-apps
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-apps
 
       - name: "Bootstrap"
         env:
