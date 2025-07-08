@@ -102,7 +102,7 @@ jobs:
           cd kogito-runtimes
           mvn clean install -Dquickly
           cd ..
-          rm -rf incubator-kie-kogito-runtimes
+          rm -rf kogito-runtimes
 
           echo "Cloning kogito-apps (${{ github.event.inputs.OSL_VERSION }} branch)..."
           git clone --depth 1 --branch ${{ github.event.inputs.OSL_VERSION }} https://github.com/kiegroup/kogito-apps.git
