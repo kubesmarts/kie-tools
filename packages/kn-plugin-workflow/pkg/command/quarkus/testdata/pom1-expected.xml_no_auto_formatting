@@ -199,5 +199,24 @@
             <name>Apache Snapshot Repository Group</name>
             <url>https://repository.apache.org/content/groups/snapshots/</url>
         </repository>
+        <repository>
+            <id>redhat-ga-public-repository</id>
+            <name>RedHat GA Public Repository</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+        </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>redhat-ga-public-repository</id>
+            <name>RedHat GA Public Repository</name>
+            <url>https://maven.repository.redhat.com/ga/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
