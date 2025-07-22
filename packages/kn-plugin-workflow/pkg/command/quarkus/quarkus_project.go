@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strconv"
 	"strings"
 
 	"github.com/apache/incubator-kie-tools/packages/kn-plugin-workflow/pkg/common"
@@ -41,6 +42,23 @@ type Repository struct {
 	Id   string
 	Name string
 	Url  string
+}
+
+type Releases struct {
+	Enabled bool
+}
+
+type Snapshots struct {
+	Enabled bool
+}
+
+type PluginRepository struct {
+	Id        string
+	Name      string
+	Url       string
+	Layout    string
+	Releases  Releases
+	Snapshots Snapshots
 }
 
 var filesToRemove = []string{"mvnw", "mvnw.cmd", ".mvn",
@@ -179,6 +197,15 @@ func manipulatePomToKogito(filename string, cfg CreateQuarkusProjectConfig) erro
 		{Id: "central", Name: "Central Repository", Url: "https://repo.maven.apache.org/maven2"},
 		{Id: "apache-public-repository-group", Name: "Apache Public Repository Group", Url: "https://repository.apache.org/content/groups/public/"},
 		{Id: "apache-snapshot-repository-group", Name: "Apache Snapshot Repository Group", Url: "https://repository.apache.org/content/groups/snapshots/"},
+		{Id: "redhat-ga-public-repository", Name: "RedHat GA Public Repository", Url: "https://maven.repository.redhat.com/ga/"},
+	}
+
+	var pluginRepositories = []PluginRepository{
+		{Id: "redhat-ga-public-repository", Name: "RedHat GA Public Repository", Url: "https://maven.repository.redhat.com/ga/",
+			Layout:    "default",
+			Releases:  Releases{Enabled: true},
+			Snapshots: Snapshots{Enabled: true},
+		},
 	}
 
 	var project = doc.FindElement("//project")
@@ -192,6 +219,23 @@ func manipulatePomToKogito(filename string, cfg CreateQuarkusProjectConfig) erro
 		repository.CreateElement("id").SetText(repo.Id)
 		repository.CreateElement("name").SetText(repo.Name)
 		repository.CreateElement("url").SetText(repo.Url)
+	}
+
+	doc.Indent(4)
+
+	pluginRepositoriesElement := project.FindElement("//pluginRepositories")
+	if pluginRepositoriesElement == nil {
+		pluginRepositoriesElement = project.CreateElement("pluginRepositories")
+	}
+
+	for _, plugin := range pluginRepositories {
+		var repository = pluginRepositoriesElement.CreateElement("pluginRepository")
+		repository.CreateElement("id").SetText(plugin.Id)
+		repository.CreateElement("name").SetText(plugin.Name)
+		repository.CreateElement("url").SetText(plugin.Url)
+		repository.CreateElement("layout").SetText(plugin.Layout)
+		repository.CreateElement("releases").CreateElement("enabled").SetText(strconv.FormatBool(plugin.Releases.Enabled))
+		repository.CreateElement("snapshots").CreateElement("enabled").SetText(strconv.FormatBool(plugin.Releases.Enabled))
 	}
 
 	doc.Indent(4)
