@@ -7,6 +7,7 @@ env:
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
   PNPM_FILTER: ${{ vars.OSL_IMAGES_PNPM_FILTER }}
   OSL_PACKAGES: ${{ vars.OSL_IMAGES_PACKAGES }}
+  KOGITO_VERSION: 999-SNAPSHOT
 
 jobs:
   export_dist:
@@ -32,20 +33,18 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
 
-      - name: Setup pnpm
-        run: pnpm bootstrap --no-frozen-lockfile
-        shell: bash
-
       - name: Setup Environment Variables
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
 
       - name: Run pnpm bootstrap
-        run: pnpm bootstrap --no-frozen-lockfile
+        run: eval "pnpm bootstrap ${{ env.OSL_IMAGES_PNPM_FILTER }} --no-frozen-lockfile"
+        env:
+          KOGITO_RUNTIMES_version: "${{ env.KOGITO_VERSION}}"
         shell: bash
 
       - name: Build OSL Packages
-        run: eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
+        run: eval "pnpm ${{ env.OSL_IMAGES_PNPM_FILTER }} --workspace-concurrency=1 build:prod"
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
         shell: bash
