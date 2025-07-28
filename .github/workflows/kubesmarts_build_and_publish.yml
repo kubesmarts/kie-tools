@@ -71,14 +71,6 @@ jobs:
           path: kie-tools
           ref: ${{ inputs.tag }}
 
-      # This bash script will set an output version for this step. It can be used with steps.version.outputs.version
-      - name: "Output version"
-        id: version
-        run: |
-          cd kie-tools
-          echo "version=$(node -e "console.log(require('./package.json').version);")" >> $GITHUB_OUTPUT
-        shell: bash
-
       - name: "Cache Maven packages"
         if: github.event_name != 'pull_request'
         uses: actions/cache@v4
@@ -108,7 +100,7 @@ jobs:
       - name: "Build serverless-logic-web-tools"
         run: |
           if [ "${{ inputs.environment }}" = "dev" ]; then
-            export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ steps.version.outputs.version }} (daily-dev) @ ${{ steps.commit_sha.outputs.commit_sha }}"
+            export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.version }} (daily-dev) @ ${{ steps.commit_sha.outputs.commit_sha }}"
           elif [ "${{ inputs.environment }}" = "staging" ]; then
             export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.version }} (staging) @ ${{ steps.commit_sha.outputs.commit_sha }}"
           fi
