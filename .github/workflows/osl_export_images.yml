@@ -7,7 +7,6 @@ env:
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
   PNPM_FILTER: ${{ vars.OSL_IMAGES_PNPM_FILTER }}
   OSL_PACKAGES: ${{ vars.OSL_IMAGES_PACKAGES }}
-  KOGITO_VERSION: 999-SNAPSHOT
 
 jobs:
   export_dist:
@@ -37,10 +36,19 @@ jobs:
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
 
+      - name: Get Kiegroup git ref urls
+        id: get_kiegroup_git_refs
+        run: |
+          DROOLS_AND_KOGITO__droolsRepoUrl=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/main | awk '{print $1}')
+          DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/main | awk '{print $1}')
+          DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/main | awk '{print $1}')
+
       - name: Run pnpm bootstrap
         run: eval "pnpm bootstrap ${{ env.OSL_IMAGES_PNPM_FILTER }} --no-frozen-lockfile"
         env:
-          KOGITO_RUNTIMES_version: "${{ env.KOGITO_VERSION}}"
+          DROOLS_AND_KOGITO__droolsRepoUrl: "${{ steps.get_kiegroup_git_refs.DROOLS_AND_KOGITO__droolsRepoUrl}}"
+          DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
+          DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
         shell: bash
 
       - name: Build OSL Packages
