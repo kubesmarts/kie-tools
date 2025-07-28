@@ -32,6 +32,13 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
 
+      - name: Run pnpm bootstrap
+        run: eval "pnpm bootstrap ${{ env.OSL_IMAGES_PNPM_FILTER }} --no-frozen-lockfile"
+        env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+        shell: bash
+
       - name: Setup Environment Variables
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
@@ -41,9 +48,9 @@ jobs:
         run: |
           # Get Kiegroup Drools Git Ref
           DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/main | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__droolsRepoUrl=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
+          echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
 
-          Get Kiegroup Runtimes Git Ref
+          # Get Kiegroup Runtimes Git Ref
           RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/main | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
 
@@ -54,7 +61,9 @@ jobs:
       - name: Run pnpm bootstrap
         run: eval "pnpm bootstrap ${{ env.OSL_IMAGES_PNPM_FILTER }} --no-frozen-lockfile"
         env:
-          DROOLS_AND_KOGITO__droolsRepoUrl: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoUrl}}"
+          DROOLS_AND_KOGITO__forceBuild: true
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoUrl}}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
         shell: bash
