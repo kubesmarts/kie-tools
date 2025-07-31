@@ -3,6 +3,9 @@ name: "CI :: OSL :: Publish Images Snapshots"
 on:
   workflow_dispatch:
     inputs:
+      dry_run:
+        type: boolean
+        required: true
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
@@ -58,26 +61,26 @@ jobs:
         run: |
           echo "KOGITO_RUNTIME_version is 999-SNAPSHOT: Cloning and building extra repositories."
 
-          echo "Cloning incubator-kie-drools (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-drools.git
-          cd incubator-kie-drools
+          echo "Cloning drools (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          cd drools
           mvn clean install -Dquickly
           cd ..
-          rm -rf incubator-kie-drools
+          rm -rf drools
 
-          echo "Cloning incubator-kie-kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-kogito-runtimes.git
-          cd incubator-kie-kogito-runtimes
+          echo "Cloning kogito-runtimes (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          cd kogito-runtimes
           mvn clean install -Dquickly
           cd ..
-          rm -rf incubator-kie-kogito-runtimes
+          rm -rf kogito-runtimes
 
-          echo "Cloning incubator-kie-kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-kogito-apps.git
-          cd incubator-kie-kogito-apps
+          echo "Cloning kogito-apps (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          cd kogito-apps
           mvn clean install -Dquickly
           cd ..
-          rm -rf incubator-kie-kogito-apps
+          rm -rf kogito-apps
 
       - name: "Bootstrap"
         env:
@@ -130,6 +133,7 @@ jobs:
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
       - name: "Push Images to Quay"
+        if: ${{ !inputs.dry_run }}
         run: |
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
