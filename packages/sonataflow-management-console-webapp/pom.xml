@@ -32,52 +32,18 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.apache.kie.sonataflow</groupId>
-  <artifactId>sonataflow-quarkus-devui-parent</artifactId>
+  <artifactId>sonataflow-management-console-webapp</artifactId>
 
-  <name>KIE Tools :: SonataFlow Quarkus Dev UI Extension</name>
+  <name>KIE Tools :: SonataFlow Management Console Webapp</name>
 
   <packaging>pom</packaging>
 
   <properties>
     <project.build.outputTimestamp>2024-01-12T00:00:00Z</project.build.outputTimestamp>
-    <java.module.name>org.kie.kogito.quarkus.swf.dev.ui</java.module.name>
+    <java.module.name>org.kie.sonataflow.management.console.webapp</java.module.name>
   </properties>
 
-  <modules>
-    <module>sonataflow-quarkus-devui-deployment</module>
-    <module>sonataflow-quarkus-devui</module>
-    <module>sonataflow-quarkus-devui-bom</module>
-  </modules>
-
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>io.quarkus</groupId>
-          <artifactId>quarkus-maven-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <configuration>
-            <systemPropertyVariables>
-              <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-            </systemPropertyVariables>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <configuration>
-            <systemPropertyVariables>
-              <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
-            </systemPropertyVariables>
-          </configuration>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
       <plugin>
         <groupId>com.github.eirslett</groupId>
@@ -96,12 +62,34 @@
               <skip>${skip.ui.build}</skip>
               <pnpmInheritsProxyConfigFromMaven>false</pnpmInheritsProxyConfigFromMaven>
               <arguments
-              >-F serverless-workflow-dev-ui-webapp... -F !@kie-tools/dmn-marshaller-backend-compatibility-tester -F !@kie-tools/dmn-testing-models build:prod</arguments>
+              >-F sonataflow-management-console-webapp... -F !@kie-tools/dmn-marshaller-backend-compatibility-tester -F !@kie-tools/dmn-testing-models build:prod</arguments>
               <environmentVariables>
                 <KIE_TOOLS_BUILD__runTests>false</KIE_TOOLS_BUILD__runTests>
                 <KIE_TOOLS_BUILD__runIntegrationTests>false</KIE_TOOLS_BUILD__runIntegrationTests>
+                <SONATAFLOW_MANAGEMENT_CONSOLE_WEBAPP__sonataflowEnvMode
+                >PROD</SONATAFLOW_MANAGEMENT_CONSOLE_WEBAPP__sonataflowEnvMode>
               </environmentVariables>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/image-build-zip.xml</descriptor>
+          </descriptors>
+        </configuration>
+        <executions>
+          <execution>
+            <id>zip-dist-folder</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>

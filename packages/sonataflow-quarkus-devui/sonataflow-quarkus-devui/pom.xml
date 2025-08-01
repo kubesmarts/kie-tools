@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.apache.kie.sonataflow</groupId>
     <artifactId>sonataflow-quarkus-devui-parent</artifactId>
-    <version>${revision}</version>
+    <version>999-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>sonataflow-quarkus-devui</artifactId>
