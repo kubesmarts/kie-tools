@@ -28,6 +28,10 @@ patchedDependencies:
 importers:
 
   .:
+    dependencies:
+      '@kie/lock-treatment-tool':
+        specifier: ^0.2.4
+        version: 0.2.4
     devDependencies:
       '@kie-tools-scripts/bootstrap':
         specifier: workspace:*
@@ -18496,6 +18500,11 @@ packages:
   '@kie-tools/emscripten-fs@0.0.2':
     resolution: {integrity: sha512-dxmfwq2F+yxawuGrVVRGmTeZHTqRHa79Vp4FX2KEXHAA9AgK1aaVz8mxZxXYFs2ycfp30NjWvhZCOIRbIKTjAQ==}
 
+  '@kie/lock-treatment-tool@0.2.4':
+    resolution: {integrity: sha512-6hf/5AgpVehOC96MwYyn0ZZjE6wfACctVocbEYwZN/v8/asfusry1Ci10OW+5LkvTEyuUWt86hulNohBI7sJPg==}
+    engines: {node: '>=12.13.0'}
+    hasBin: true
+
   '@koa/cors@5.0.0':
     resolution: {integrity: sha512-x/iUDjcS90W69PryLDIMgFyV21YLTnG9zOpPXS7Bkt2b8AsY3zZsIpOLBkYr9fBcF3HbkKaER5hOBZLfpLgYNw==}
     engines: {node: '>= 14.0.0'}
@@ -26669,6 +26678,9 @@ packages:
   lilconfig@3.1.1:
     resolution: {integrity: sha512-O18pf7nyvHTckunPWCV1XUNXU1piu01y2b7ATJ0ppkUkk8ocqVWBrYjJBCwHDjD/ZWcfyrA0P4gKhzWGi5EINQ==}
     engines: {node: '>=14'}
+
+  line-reader@0.4.0:
+    resolution: {integrity: sha512-AYJ8g+eE7v+Ba4s/cuYqzuNulH/WbjdKQ55fvx8fNVn8WQzTpioY6vI1MoxTuMgcHYX3VlmZWbVvnkIqkyJbCA==}
 
   lines-and-columns@1.1.6:
     resolution: {integrity: sha512-8ZmlJFVK9iCmtLz19HpSsR8HaAMWBT284VMNednLwlIMDP2hJDCIhUp0IZ2xUcZ+Ob6BM0VvCSJwzASDM45NLQ==}
@@ -39806,6 +39818,11 @@ snapshots:
 
   '@kie-tools/emscripten-fs@0.0.2': {}
 
+  '@kie/lock-treatment-tool@0.2.4':
+    dependencies:
+      line-reader: 0.4.0
+      yargs: 17.7.2
+
   '@koa/cors@5.0.0':
     dependencies:
       vary: 1.1.2
@@ -52686,6 +52703,8 @@ snapshots:
 
   lilconfig@3.1.1: {}
 
+  line-reader@0.4.0: {}
+
   lines-and-columns@1.1.6: {}
 
   linkify-it@3.0.3:
@@ -57772,7 +57791,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
       '@types/node': 22.13.10
-      acorn: 8.10.0
+      acorn: 8.12.1
       acorn-walk: 8.2.0
       arg: 4.1.0
       create-require: 1.1.1
