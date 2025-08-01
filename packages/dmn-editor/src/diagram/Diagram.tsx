@@ -766,6 +766,8 @@ export const Diagram = React.forwardRef<DiagramRef, { container: React.RefObject
                       __readonly_externalDmnsIndex: state
                         .computed(state)
                         .getDirectlyIncludedExternalModelsByNamespace(externalModelsByNamespace).dmns,
+                      __readonly_href: node.id,
+                      __readonly_dmnObjectId: node.data.dmnObject?.["@_id"] ?? "",
                       change: {
                         isExternal: !!node.data.dmnObjectQName.prefix,
                         nodeType: node.type as NodeType,
@@ -789,6 +791,7 @@ export const Diagram = React.forwardRef<DiagramRef, { container: React.RefObject
                         },
                       },
                     });
+                    // Handles resizing a decision contained in a decision service in a DRD resizes it in all DRDs to keep Decision Services consistent
                     if (node.type === NODE_TYPES.decision && node.data.parentRfNode) {
                       const dsContainingDecision = node.data.parentRfNode;
                       const drds = state.dmn.model.definitions["dmndi:DMNDI"]?.["dmndi:DMNDiagram"] ?? [];
@@ -894,6 +897,7 @@ export const Diagram = React.forwardRef<DiagramRef, { container: React.RefObject
                       });
                     }
                   }
+                  // Handles repositioning a decision in a decision service in a DRD repositions it in all DRDs to have the Decision Service consistent
                   if (node.type === NODE_TYPES.decision && node.data.parentRfNode) {
                     const parentDecisionService = node.data.parentRfNode;
                     const drds = state.dmn.model.definitions["dmndi:DMNDI"]?.["dmndi:DMNDiagram"] ?? [];
@@ -917,6 +921,32 @@ export const Diagram = React.forwardRef<DiagramRef, { container: React.RefObject
                           (parentShape["dc:Bounds"]?.["@_x"] ?? 0) + relativePosinCurrentDS.x;
                         dsShape["dc:Bounds"]["@_y"] =
                           (parentShape["dc:Bounds"]?.["@_y"] ?? 0) + relativePosinCurrentDS.y;
+                      }
+                      // Remove decision from decision service
+                      let isInside = true;
+                      if (
+                        node.data.shape["dc:Bounds"] &&
+                        parentShape &&
+                        parentShape["dc:Bounds"] &&
+                        !parentShape["@_isCollapsed"]
+                      ) {
+                        isInside =
+                          node.data.shape["dc:Bounds"]["@_x"] >= parentShape["dc:Bounds"]["@_x"] &&
+                          node.data.shape["dc:Bounds"]["@_y"] >= parentShape!["dc:Bounds"]["@_y"] &&
+                          node.data.shape["dc:Bounds"]!["@_x"] + node.data.shape["dc:Bounds"]["@_width"] <=
+                            parentShape["dc:Bounds"]["@_x"] + parentShape!["dc:Bounds"]["@_width"] &&
+                          node.data.shape["dc:Bounds"]["@_y"] + node.data.shape["dc:Bounds"]["@_height"] <=
+                            parentShape["dc:Bounds"]["@_y"] + parentShape!["dc:Bounds"]["@_height"];
+                      }
+                      const { diagramElements } = addOrGetDrd({
+                        definitions: state.dmn.model.definitions,
+                        drdIndex: i,
+                      });
+                      const dmnShapeIndex = (diagramElements ?? []).findIndex(
+                        (d) => d["@_dmnElementRef"] === dsShape?.["@_dmnElementRef"]
+                      );
+                      if (dmnShapeIndex >= 0 && !isInside) {
+                        diagramElements?.splice(dmnShapeIndex, 1);
                       }
                     }
                   }
