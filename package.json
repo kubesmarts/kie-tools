@@ -18,6 +18,9 @@
     "update-stream-name-to": "kie-tools--update-stream-name-to",
     "update-version-to": "kie-tools--update-version-to"
   },
+  "dependencies": {
+    "@kie/lock-treatment-tool": "^0.2.4"
+  },
   "devDependencies": {
     "@kie-tools-scripts/bootstrap": "workspace:*",
     "@kie-tools-scripts/build-env": "workspace:*",
