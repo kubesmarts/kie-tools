@@ -59,24 +59,25 @@ jobs:
       - name: "Clone and Build Additional Apache Repositories"
         if: ${{ env.KOGITO_RUNTIME_version == '999-SNAPSHOT' }}
         run: |
-          echo "KOGITO_RUNTIME_version is 999-SNAPSHOT: Cloning and building extra repositories."
+          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+          cd ..
 
-          echo "Cloning drools (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          echo "Cloning drools (${{ env.OSL_IMAGE_TAG }} branch)..."
+          git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/drools.git
           cd drools
           mvn clean install -Dquickly
           cd ..
           rm -rf drools
 
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          echo "Cloning kogito-runtimes (${{ env.OSL_IMAGE_TAG }} branch)..."
+          git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
           mvn clean install -Dquickly
           cd ..
           rm -rf kogito-runtimes
 
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          echo "Cloning kogito-apps (${{ env.OSL_IMAGE_TAG }} branch)..."
+          git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
           mvn clean install -Dquickly
           cd ..
@@ -133,7 +134,7 @@ jobs:
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
       - name: "Push Images to Quay"
-        if: ${{ !inputs.dry_run }}
+        if: ${{ !github.event.inputs.dry_run }}
         run: |
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
