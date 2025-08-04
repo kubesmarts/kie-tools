@@ -57,7 +57,7 @@
     <version.jacoco.maven.plugin>0.8.12</version.jacoco.maven.plugin>
 
     <version.frontend.plugin>1.15.0</version.frontend.plugin>
-    <version.node>v20.15.0</version.node>
+    <version.node>v22.18.0</version.node>
     <version.npm>6.10.3</version.npm>
     <version.pnpm>9.3.0</version.pnpm>
 
@@ -170,7 +170,8 @@
               <arguments>config set registry ${env.NPM_REGISTRY_URL}</arguments>
             </configuration>
           </execution>
-          <execution>
+          <!-- 
+              execution>
             <id>npm install lock-treatment-tool</id>
             <goals>
               <goal>npm</goal>
@@ -187,9 +188,9 @@
             </goals>
             <configuration>
               <skip>${skip.ui.deps}</skip>
-              <arguments>run env -- locktt --skipIntegrity</arguments>
             </configuration>
-          </execution>
+        </execution
+            -->
           <execution>
             <id>pnpm bootstrap sonataflow-quarkus-devui sonataflow-management-console-webapp</id>
             <goals>
