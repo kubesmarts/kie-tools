@@ -26,6 +26,9 @@ MGMT_CONSOLE_HOME="${KOGITO_HOME}/management-console"
 cp -v "${SCRIPT_DIR}/added/EnvJson.schema.json" "${MGMT_CONSOLE_HOME}"
 cp -v "${SCRIPT_DIR}/added/image-env-to-json-linux-amd64" "${MGMT_CONSOLE_HOME}"
 
+# Create a directory for webapp
+mkdir "${MGMT_CONSOLE_HOME}/app"
+
 # Unzip the app
 cd "${MGMT_CONSOLE_HOME}/app"
 unzip -q "sonataflow-management-console-webapp-image-build.zip"
