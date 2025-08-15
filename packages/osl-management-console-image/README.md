@@ -4,7 +4,7 @@ Package based on [`sonataflow-management-console-image`](../sonataflow-managemen
 This image is based on its version upstream, adding a thin layer to pull the base Management Console WebApp from a given repository.
 Internally, the package will run a few preparation scritps to:
 
-1. Pull the webapp in zip formant from a given URL. This app must be based on the [`sonataflow-management-console-webapp`](../sonataflow-management-console-webapp).
+1. Pull the webapp in zip format from a given URL. This app must be based on the [`sonataflow-management-console-webapp`](../sonataflow-management-console-webapp).
 2. Save the artifact in zip format to the local Cekit Cache.
 3. Update the [`dist/modules`](dist/modules) directory with MD5 and artifact name.
 4. Save everything needed to build this image with Cekit in the [`dist`](dist) directory. This directory must be commited to the git branch since it will be used by internal tools to build the final image.

@@ -199,7 +199,7 @@
             <configuration>
               <skip>${skip.ui.deps}</skip>
               <arguments
-              >bootstrap -F @kie-tools/sonataflow-quarkus-devui... -F @kie-tools/sonataflow-management-console-webapp... -F @kie-tools/kogito-db-migrator-tool...</arguments>
+              >bootstrap -F @kie-tools/sonataflow-quarkus-devui... -F @kie-tools/sonataflow-management-console-webapp... -F @kie-tools/kogito-db-migrator-tool... -F @kie-tools/kogito-data-index-webapp...</arguments>
             </configuration>
           </execution>
         </executions>
