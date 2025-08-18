@@ -32,11 +32,37 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
 
-      - name: Run pnpm bootstrap
+      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
+        run: |
+          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+          cd ..
+
+          echo "Cloning drools main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          cd drools
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf drools
+
+          echo "Cloning kogito-runtimes (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          cd kogito-runtimes
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-runtimes
+
+          echo "Cloning kogito-apps (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          cd kogito-apps
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-apps
+
+      - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999.0.0"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
         shell: bash
 
       - name: Setup Environment Variables
@@ -47,29 +73,37 @@ jobs:
         id: get_kiegroup_git_refs
         run: |
           # Get Kiegroup Drools Git Ref
-          DROOLS_AND_KOGITO__droolsRepoUrl=https://github.com/kiegroup/drools
-          DROOLS_GIT_REF=$(git ls-remote "${{ DROOLS_AND_KOGITO__droolsRepoUrl }}" refs/heads/main | awk '{print $1}')
+          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/main | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
 
           # Get Kiegroup Runtimes Git Ref
-          DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl=https://github.com/kiegroup/kogito-runtimes
-          RUNTIMES_GIT_REF=$(git ls-remote "${{ DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl }}" refs/heads/main | awk '{print $1}')
+          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/main | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
 
           # Get Kiegroup Apps Git Ref
-          DROOLS_AND_KOGITO__kogitoAppsRepoUrl=https://github.com/kiegroup/kogito-apps
-          APPS_GIT_REF=$(git ls-remote "${{ DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/main | awk '{print $1}')
+          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/main | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
-      - name: Run pnpm bootstrap
+      - name: Prepare maven-base with .mvn/maven.config
+        id: prepare_maven_base_config
+        run: |
+          mkdir ./packages/maven-base/.mvn
+          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
+
+      - name: Run pnpm bootstrap - second time
         run: eval "pnpm bootstrap ${{ env.PNPM_FILTER }} --no-frozen-lockfile"
         env:
-          DROOLS_AND_KOGITO__forceBuild: true
-          KOGITO_RUNTIME_version: "999.0.0"
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
         shell: bash
+
+      - name: Replace pre-build step in kogito-db-migrator-tool
+        run: |
+          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
 
       - name: Build OSL Packages
         run: eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
