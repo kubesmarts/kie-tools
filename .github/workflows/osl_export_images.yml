@@ -105,6 +105,9 @@ jobs:
         run: |
           sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
 
+      - name: Modify pom.xml of sonataflow-quarkus-devui
+        run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
+
       - name: Build OSL Packages
         run: eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
         env:
