@@ -14,3 +14,6 @@ packages/xml-parser-ts-codegen/src/schemas/xsd-incomplete--manually-written/XSD.
 # @prettier/parser-xml shouldn't mess with auto-generated IntelliJ files
 _intellij-project
 *.iml
+
+# ignore OSL supporting files
+.github/supporting-files/ci/osl/**
