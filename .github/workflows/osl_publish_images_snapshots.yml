@@ -65,21 +65,21 @@ jobs:
           echo "Cloning drools (${{ env.OSL_IMAGE_TAG }} branch)..."
           git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/drools.git
           cd drools
-          mvn clean install -Dquickly
+          mvn -B clean install -Dquickly
           cd ..
           rm -rf drools
 
           echo "Cloning kogito-runtimes (${{ env.OSL_IMAGE_TAG }} branch)..."
           git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn clean install -Dquickly
+          mvn -B clean install -Dquickly
           cd ..
           rm -rf kogito-runtimes
 
           echo "Cloning kogito-apps (${{ env.OSL_IMAGE_TAG }} branch)..."
           git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn clean install -Dquickly
+          mvn -B clean install -Dquickly
           cd ..
           rm -rf kogito-apps
 
