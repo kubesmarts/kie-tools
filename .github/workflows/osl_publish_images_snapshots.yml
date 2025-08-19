@@ -57,6 +57,7 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: "Clone and Build Additional Apache Repositories"
+        id: build_additional_repos
         if: ${{ env.KOGITO_RUNTIME_version == '999-SNAPSHOT' }}
         run: |
           echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
@@ -65,6 +66,7 @@ jobs:
           echo "Cloning drools (${{ env.OSL_IMAGE_TAG }} branch)..."
           git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/drools.git
           cd drools
+          echo "DROOLS_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           mvn -B clean install -Dquickly
           cd ..
           rm -rf drools
@@ -72,14 +74,16 @@ jobs:
           echo "Cloning kogito-runtimes (${{ env.OSL_IMAGE_TAG }} branch)..."
           git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn -B clean install -Dquickly
+          echo "KOGITO_RUNTIMES_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          mvn -B clean install -Dproductized -Dquickly
           cd ..
           rm -rf kogito-runtimes
 
           echo "Cloning kogito-apps (${{ env.OSL_IMAGE_TAG }} branch)..."
           git clone --depth 1 --branch ${{ env.OSL_IMAGE_TAG }} https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn -B clean install -Dquickly
+          echo "KOGITO_APPS_SHA=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+          mvn -B clean install -DskipUI -Dproductized -Dquickly
           cd ..
           rm -rf kogito-apps
 
@@ -89,6 +93,25 @@ jobs:
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
+
+      - name: "Set KOGITO_VERSION"
+        run: |
+          DROOLS_SHA=${{ steps.build_additional_repos.outputs.DROOLS_SHA }}
+          KOGITO_RUNTIMES_SHA=${{ steps.build_additional_repos.outputs.KOGITO_RUNTIMES_SHA }}
+          KOGITO_APPS_SHA=${{ steps.build_additional_repos.outputs.KOGITO_APPS_SHA }}
+          pnpm update-kogito-version-to --maven "${{ github.event.inputs.KOGITO_VERSION }}-local" --droolsGitRef "${DROOLS_SHA}" --kogitoRuntimesGitRef "${KOGITO_RUNTIMES_SHA}" --kogitoAppsGitRef "${KOGITO_APPS_SHA}"
+
+      - name: Verify maven-base version.org.kie.kogito
+        run: |
+          VALUE=$(mvn help:evaluate \
+            -Dexpression=version.org.kie.kogito \
+            -q -DforceStdout \
+            -f packages/maven-base/pom.xml)
+
+          if [ "$VALUE" != "123" ]; then
+            echo "version.org.kie.kogito is not ${{ github.event.inputs.KOGITO_VERSION }}, got: $VALUE"
+            exit 1
+          fi
 
       - name: "Build Images"
         env:
