@@ -1,0 +1,33 @@
+        <execution>
+            <id>install-node-and-npm</id>
+            <goals>
+                <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+                <skip>${skip.ui.deps}</skip>
+                <nodeVersion>${version.node}</nodeVersion>
+                <npmVersion>${version.npm}</npmVersion>
+            </configuration>
+        </execution>
+        <execution>
+            <id>install-node-and-pnpm</id>
+            <goals>
+                <goal>install-node-and-pnpm</goal>
+                </goals>
+            <configuration>
+                <skip>${skip.ui.deps}</skip>
+                <nodeVersion>${version.node}</nodeVersion>
+                <pnpmVersion>${version.pnpm}</pnpmVersion>
+            </configuration>
+        </execution>
+        <execution>
+            <id>npm config set registry</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <skip>${skipNpmConfigRegistry}</skip>
+                <arguments>config set registry ${env.NPM_REGISTRY_URL}</arguments>
+            </configuration>
+        </execution>
+        
