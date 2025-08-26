@@ -33,7 +33,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: "Setup environment"
-        uses: apache/incubator-kie-tools/.github/actions/setup-env@main
+        uses: kubesmarts/kie-tools/.github/actions/setup-env@main
 
       - name: Build KIE Tools
         run: mvn clean install
