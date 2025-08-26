@@ -122,10 +122,6 @@ jobs:
           git diff
           [ "0" == "$(git diff | wc -l | tr -d ' ')" ]
 
-      - name: Replace pre-build step in kogito-db-migrator-tool
-        run: |
-          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
-
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
