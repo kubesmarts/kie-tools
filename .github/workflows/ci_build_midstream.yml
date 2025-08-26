@@ -36,7 +36,9 @@ jobs:
         uses: kubesmarts/kie-tools/.github/actions/setup-env@main
 
       - name: Build KIE Tools
-        run: mvn clean install
+        run: mvn clean install -B
+        env:
+          DROOLS_AND_KOGITO__skip: true
 
       # This step works well but can consume midstream storage
       # - name: Upload JAR artifacts
