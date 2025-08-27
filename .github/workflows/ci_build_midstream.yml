@@ -44,21 +44,21 @@ jobs:
           echo "Cloning drools main branch)..."
           git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
           cd drools
-          mvn clean install -Dquickly
+          mvn -B clean install -Dquickly
           cd ..
           rm -rf drools
 
           echo "Cloning kogito-runtimes (main branch)..."
           git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn clean install -Dquickly
+          mvn -B clean install -Dquickly
           cd ..
           rm -rf kogito-runtimes
 
           echo "Cloning kogito-apps (main branch)..."
           git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn clean install -Dquickly
+          mvn -B clean install -Dquickly
           cd ..
           rm -rf kogito-apps
 
@@ -102,7 +102,7 @@ jobs:
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
-        run: mvn clean install
+        run: mvn -B clean install
 
       # This step works well but can consume midstream storage
       # - name: Upload JAR artifacts
