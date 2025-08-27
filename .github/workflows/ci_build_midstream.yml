@@ -36,6 +36,32 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
+      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
+        run: |
+          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+          cd ..
+
+          echo "Cloning drools main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          cd drools
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf drools
+
+          echo "Cloning kogito-runtimes (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          cd kogito-runtimes
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-runtimes
+
+          echo "Cloning kogito-apps (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          cd kogito-apps
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-apps
+
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
@@ -68,32 +94,6 @@ jobs:
           mkdir ./packages/maven-base/.mvn
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
-
-      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
-        run: |
-          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
-          cd ..
-
-          echo "Cloning drools main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
-          cd drools
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf drools
-
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
-          cd kogito-runtimes
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf kogito-runtimes
-
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
-          cd kogito-apps
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf kogito-apps
 
       - name: Build KIE Tools
         env:
