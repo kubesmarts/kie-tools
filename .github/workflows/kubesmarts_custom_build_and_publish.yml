@@ -11,9 +11,15 @@ on:
         required: true
         default: dev
       tag:
-        description: Tag to build
-        required: false
+        description: Tag for the images and kie-tools branch, leave default for dev environment
+        type: string
+        required: true
         default: main
+      version:
+        description: Sandbox version, leave default for dev environment.
+        type: string
+        required: true
+        default: 0.0.0
 
 concurrency:
   group: kubesmarts-custom-build-publish-${{ github.event.inputs.environment }}
@@ -26,6 +32,7 @@ jobs:
       dry_run: ${{ fromJSON(github.event.inputs.dry_run) }}
       environment: ${{ github.event.inputs.environment }}
       tag: ${{ github.event.inputs.tag }}
+      version: ${{ github.event.inputs.version }}
     secrets:
       KIE1_TOKEN: ${{ secrets.KIE1_TOKEN }}
       KIE1_EMAIL: ${{ secrets.KIE1_EMAIL }}
