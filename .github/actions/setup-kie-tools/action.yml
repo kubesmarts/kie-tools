@@ -1,0 +1,133 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+name: "Setup and bootstrap kie-tools repository"
+description: ""
+
+inputs:
+  KOGITO_VERSION:
+    description: "The version for Kogito Runtime"
+    required: false
+    default: "999-SNAPSHOT"
+  DEPS_BRANCHNAME:
+    description: "The branch to pull for Drools, Runtimes and Apps repositories"
+    required: false
+    default: "main"
+  ENABLE_BUILD_DEPS_REPOSITORIES:
+    description: "Set to true to build  Drools, Runtimes and Apps repositories"
+    type: boolean
+    required: true
+  PNPM_FILTER:
+    description: "The filter to use for the bootstrap step"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Environment Variables
+      run: bash ./.github/supporting-files/ci/osl/export_vars.sh
+      shell: bash
+
+    - name: "Clone and Build Drools, Runtimes and Apps repositories"
+      if: inputs.ENABLE_BUILD_DEPS_REPOSITORIES == 'true'
+      shell: bash
+      run: |
+        echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+        cd ..
+
+        echo "Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}"
+        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}
+        cd drools
+        mvn -B clean install -Dquickly
+        cd ..
+        rm -rf drools
+
+        echo "Cloning kogito-runtimes (${{ inputs.DEPS_BRANCHNAME }} branch..."
+        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}
+        cd kogito-runtimes
+        mvn -B clean install -Dquickly
+        cd ..
+        rm -rf kogito-runtimes
+
+        echo "Cloning kogito-apps (${{ inputs.DEPS_BRANCHNAME }} branch..."
+        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}
+        cd kogito-apps
+        mvn -B clean install -Dquickly
+        cd ..
+        rm -rf kogito-apps
+
+    - name: Get Kiegroup git ref urls
+      id: get_kiegroup_git_refs
+      shell: bash
+      run: |
+        # Get Kiegroup Drools Git Ref
+        DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        # Get Kiegroup Runtimes Git Ref
+        RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        # Get Kiegroup Apps Git Ref
+        APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
+
+    - name: Prepare maven-base with .mvn/maven.config
+      id: prepare_maven_base_config
+      shell: bash
+      run: |
+        mkdir ./packages/maven-base/.mvn
+        echo "-Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }}" > "./packages/maven-base/.mvn/maven.config"
+        echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
+
+    - name: Run pnpm bootstrap - second time
+      run: eval "pnpm bootstrap ${{ inputs.PNPM_FILTER }} --no-frozen-lockfile"
+      env:
+        DROOLS_AND_KOGITO__skip: true
+        KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+        DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
+        DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
+        DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
+      shell: bash
+
+    - name: Verify maven-base version.org.kie.kogito
+      shell: bash
+      run: |
+        MAVEN_BASE_KOGITO_VERSION=$(mvn help:evaluate \
+          -Dexpression=version.org.kie.kogito \
+          -q -DforceStdout \
+          -f packages/maven-base/pom.xml)
+
+        echo "Detected version.org.kie.kogito: $MAVEN_BASE_KOGITO_VERSION"
+        if [ "$MAVEN_BASE_KOGITO_VERSION" != "${{ inputs.KOGITO_VERSION }}" ]; then
+          echo "Maven-base KOGITO_VERSION is not ${{ inputs.KOGITO_VERSION }}, got: $MAVEN_BASE_KOGITO_VERSION"
+          exit 1
+        fi
+
+    - name: Verify root-env version.kogito
+      shell: bash
+      run: |
+        ROOT_ENV_KOGITO_VERSION=$(node -p "require('./packages/root-env/env').env.versions.kogito")
+
+        echo "Detected version.kogito: $ROOT_ENV_KOGITO_VERSION"
+        if [ "$ROOT_ENV_KOGITO_VERSION" != "${{ inputs.KOGITO_VERSION }}"  ]; then
+          echo "Root-env KOGITO_VERSION is not ${{ inputs.KOGITO_VERSION }}, got: $ROOT_ENV_KOGITO_VERSION"
+          exit 1
+        fi
