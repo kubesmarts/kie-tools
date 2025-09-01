@@ -59,7 +59,9 @@ jobs:
           restore-keys: ${{ runner.os }}-maven
 
       - name: "Setup kie-tools repository"
-        uses: ./.github/actions/setup-kie-tools
+        # TODO: use this
+        # uses: ./.github/actions/setup-kie-tools
+        uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-611-Web-tools-images-use-apache-snapshot-kogito-runtimes-artifacts
         with:
           KOGITO_VERSION: ${{ github.event.inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ github.event.inputs.IMAGE_TAG }}
@@ -112,6 +114,8 @@ jobs:
       - name: "Push Images to Quay"
         if: ${{ !inputs.dry_run }}
         run: |
+          # TODO: remove this
+          exit 1
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
 
