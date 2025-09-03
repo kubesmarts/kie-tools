@@ -40,6 +40,13 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Run pnpm bootstrap - first time
+      run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
+      env:
+        DROOLS_AND_KOGITO__skip: true
+        KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+      shell: bash
+
     - name: Setup Environment Variables
       run: bash ./.github/supporting-files/ci/osl/export_vars.sh
       shell: bash
