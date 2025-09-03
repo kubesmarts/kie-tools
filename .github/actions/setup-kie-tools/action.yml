@@ -41,14 +41,20 @@ runs:
   using: "composite"
   steps:
     - name: Run pnpm bootstrap - first time
-      run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
+      run: |
+        echo "::group::Run pnpm bootstrap - first time"
+        pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
+        echo "::endgroup::"
       env:
         DROOLS_AND_KOGITO__skip: true
         KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
       shell: bash
 
     - name: Setup Environment Variables
-      run: bash ./.github/supporting-files/ci/osl/export_vars.sh
+      run: |
+        echo "::group::Setup Environment Variables"
+        bash ./.github/supporting-files/ci/osl/export_vars.sh
+        echo "::endgroup::"
       shell: bash
 
     - name: "Clone and Build Drools, Runtimes and Apps repositories"
@@ -58,32 +64,37 @@ runs:
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
         cd ..
 
-        echo "Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}
         cd drools
         mvn -B clean install -Dquickly
         cd ..
         rm -rf drools
+        echo "::endgroup::"
 
-        echo "Cloning kogito-runtimes (${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "::group::Cloning kogito-runtimes (${{ inputs.DEPS_BRANCHNAME }} branch..."
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}
         cd kogito-runtimes
         mvn -B clean install -Dquickly
         cd ..
         rm -rf kogito-runtimes
+        echo "::endgroup::"
 
-        echo "Cloning kogito-apps (${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "::group::Cloning kogito-apps (${{ inputs.DEPS_BRANCHNAME }} branch..."
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}
         cd kogito-apps
         mvn -B clean install -Dquickly
         cd ..
         rm -rf kogito-apps
+        echo "::endgroup::"
 
     - name: Get Kiegroup git ref urls
       id: get_kiegroup_git_refs
       shell: bash
       run: |
+        echo "::group::Get Kiegroup git ref urls"
+
         # Get Kiegroup Drools Git Ref
         DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
         echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
@@ -96,16 +107,23 @@ runs:
         APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
         echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
+        echo "::endgroup::"
+
     - name: Prepare maven-base with .mvn/maven.config
       id: prepare_maven_base_config
       shell: bash
       run: |
+        echo "::group::Prepare maven-base with .mvn/maven.config"
         mkdir ./packages/maven-base/.mvn
         echo "-Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }}" > "./packages/maven-base/.mvn/maven.config"
         echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
+        echo "::endgroup::"
 
     - name: Run pnpm bootstrap - second time
-      run: eval "pnpm bootstrap ${{ inputs.PNPM_FILTER }} --no-frozen-lockfile"
+      run: |
+        echo "::group::Run pnpm bootstrap - second time"
+        eval "pnpm bootstrap ${{ inputs.PNPM_FILTER }} --no-frozen-lockfile"
+        echo "::endgroup::"
       env:
         DROOLS_AND_KOGITO__skip: true
         KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
@@ -117,6 +135,7 @@ runs:
     - name: Verify maven-base version.org.kie.kogito
       shell: bash
       run: |
+        echo "::group::Verify maven-base version.org.kie.kogito"
         MAVEN_BASE_KOGITO_VERSION=$(mvn help:evaluate \
           -Dexpression=version.org.kie.kogito \
           -q -DforceStdout \
@@ -127,10 +146,12 @@ runs:
           echo "Maven-base KOGITO_VERSION is not ${{ inputs.KOGITO_VERSION }}, got: $MAVEN_BASE_KOGITO_VERSION"
           exit 1
         fi
+        echo "::endgroup::"
 
     - name: Verify root-env version.kogito
       shell: bash
       run: |
+        echo "::group::Verify root-env version.kogito"
         ROOT_ENV_KOGITO_VERSION=$(node -p "require('./packages/root-env/env').env.versions.kogito")
 
         echo "Detected version.kogito: $ROOT_ENV_KOGITO_VERSION"
@@ -138,3 +159,4 @@ runs:
           echo "Root-env KOGITO_VERSION is not ${{ inputs.KOGITO_VERSION }}, got: $ROOT_ENV_KOGITO_VERSION"
           exit 1
         fi
+        echo "::endgroup::"
