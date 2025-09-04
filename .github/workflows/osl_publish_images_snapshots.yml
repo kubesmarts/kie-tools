@@ -70,6 +70,7 @@ jobs:
 
       - name: "Build Images"
         env:
+          DROOLS_AND_KOGITO__skip: true
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__runTests: "false"
@@ -94,6 +95,7 @@ jobs:
           SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
+          SONATAFLOW_QUARKUS_DEVUI_VERSION: ${{ github.event.inputs.KOGITO_VERSION }}
           DASHBUILDER__viewerImageRegistry: "quay.io"
           DASHBUILDER__viewerImageAccount: "kubesmarts"
           SONATAFLOW_OPERATOR__registry: "quay.io"
