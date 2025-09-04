@@ -50,16 +50,13 @@ runs:
         KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
       shell: bash
 
-    - name: Setup Environment Variables
-      run: |
-        echo "::group::Setup Environment Variables"
-        bash ./.github/supporting-files/ci/osl/export_vars.sh
-        echo "::endgroup::"
-      shell: bash
-
-    - name: "Clone and Build Drools, Runtimes and Apps repositories"
+    - name: Clone and Build Drools, Runtimes and Apps repositories
       if: inputs.ENABLE_BUILD_DEPS_REPOSITORIES == 'true'
       shell: bash
+      env:
+        DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
+        DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl: https://github.com/kiegroup/kogito-runtimes
+        DROOLS_AND_KOGITO__kogitoAppsRepoUrl: https://github.com/kiegroup/kogito-apps
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
         cd ..
@@ -73,7 +70,8 @@ runs:
         rm -rf drools
         echo "::endgroup::"
 
-        echo "::group::Cloning kogito-runtimes (${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "::group::Cloning kogito-runtimes ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}
         cd kogito-runtimes
         mvn -B clean install -Dquickly
@@ -81,13 +79,21 @@ runs:
         rm -rf kogito-runtimes
         echo "::endgroup::"
 
-        echo "::group::Cloning kogito-apps (${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "::group::Cloning kogito-apps ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}
         cd kogito-apps
         mvn -B clean install -Dquickly
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"
+
+    - name: Setup Environment Variables
+      run: |
+        echo "::group::Setup Environment Variables"
+        bash ./.github/supporting-files/ci/osl/export_vars.sh
+        echo "::endgroup::"
+      shell: bash
 
     - name: Get Kiegroup git ref urls
       id: get_kiegroup_git_refs
