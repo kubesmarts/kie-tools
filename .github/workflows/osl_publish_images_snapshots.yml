@@ -15,6 +15,41 @@ on:
         required: false
         default: "main"
 
+env:
+  DROOLS_AND_KOGITO__skip: true
+  KIE_TOOLS_BUILD__buildContainerImages: "true"
+  KIE_TOOLS_BUILD__runEndToEndTests: "false"
+  KIE_TOOLS_BUILD__runTests:
+    "false"
+    # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
+  SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
+  SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
+  SONATAFLOW_DEVMODE_IMAGE__registry: "quay.io"
+  SONATAFLOW_DEVMODE_IMAGE__account: "kubesmarts"
+  SONATAFLOW_MANAGEMENT_CONSOLE__registry: "quay.io"
+  SONATAFLOW_MANAGEMENT_CONSOLE__account: "kubesmarts"
+  KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__registry: "quay.io"
+  KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__account: "kubesmarts"
+  KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__registry: "quay.io"
+  KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__account: "kubesmarts"
+  KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__registry: "quay.io"
+  KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__account: "kubesmarts"
+  KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__registry: "quay.io"
+  KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__account: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageRegistry: "quay.io"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageAccount: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageRegistry: "quay.io"
+  SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
+  SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
+  SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: ${{ github.event.inputs.KOGITO_VERSION }}
+  DASHBUILDER__viewerImageRegistry: "quay.io"
+  DASHBUILDER__viewerImageAccount: "kubesmarts"
+  SONATAFLOW_OPERATOR__registry: "quay.io"
+  SONATAFLOW_OPERATOR__account: "kubesmarts"
+  KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
+  KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
+
 jobs:
   publish_images_snapshots:
     runs-on: ubuntu-latest
@@ -69,41 +104,6 @@ jobs:
           PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
 
       - name: "Build Images"
-        env:
-          DROOLS_AND_KOGITO__skip: true
-          KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__runTests: "false"
-          # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
-          SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
-          SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
-          SONATAFLOW_DEVMODE_IMAGE__registry: "quay.io"
-          SONATAFLOW_DEVMODE_IMAGE__account: "kubesmarts"
-          SONATAFLOW_MANAGEMENT_CONSOLE__registry: "quay.io"
-          SONATAFLOW_MANAGEMENT_CONSOLE__account: "kubesmarts"
-          KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__registry: "quay.io"
-          KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__account: "kubesmarts"
-          KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__registry: "quay.io"
-          KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__account: "kubesmarts"
-          KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__registry: "quay.io"
-          KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__account: "kubesmarts"
-          KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__registry: "quay.io"
-          KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__account: "kubesmarts"
-          SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageRegistry: "quay.io"
-          SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageAccount: "kubesmarts"
-          SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageRegistry: "quay.io"
-          SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
-          SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
-          SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
-          SONATAFLOW_QUARKUS_DEVUI_VERSION: ${{ github.event.inputs.KOGITO_VERSION }}
-          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: ${{ github.event.inputs.KOGITO_VERSION }}
-          DASHBUILDER__viewerImageRegistry: "quay.io"
-          DASHBUILDER__viewerImageAccount: "kubesmarts"
-          SONATAFLOW_OPERATOR__registry: "quay.io"
-          SONATAFLOW_OPERATOR__account: "kubesmarts"
-          KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
-          KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
-
         run: >-
           eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 

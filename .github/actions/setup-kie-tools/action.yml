@@ -169,6 +169,8 @@ runs:
         echo "::endgroup::"
 
     - name: Verify root-env version.kogito
+      env:
+        KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
       shell: bash
       run: |
         echo "::group::Verify root-env version.kogito"
