@@ -145,12 +145,12 @@ runs:
         sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
         echo "::endgroup::"
 
-    - name: Modify pom.xml of sonataflow-quarkus-devui
-      shell: bash
-      run: |
-        echo "::group::Modify pom.xml of sonataflow-quarkus-devui"
-        python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
-        echo "::endgroup::"
+    # - name: Modify pom.xml of sonataflow-quarkus-devui
+    #   shell: bash
+    #   run: |
+    #     echo "::group::Modify pom.xml of sonataflow-quarkus-devui"
+    #     python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
+    #     echo "::endgroup::"
 
     - name: Verify maven-base version.org.kie.kogito
       shell: bash
