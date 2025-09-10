@@ -54,6 +54,13 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
+      - name: Replace pre-build step in kogito-db-migrator-tool
+        run: |
+          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+
+      - name: Modify pom.xml of sonataflow-quarkus-devui
+        run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
+
       - name: Bootstrap & Build
         shell: bash
         env:
@@ -65,7 +72,7 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=4096"
         run: |
           pnpm bootstrap --no-frozen-lockfile
-          pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod
+          pnpm -r ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod
 
       - name: Capture Changes
         id: capture_changes
