@@ -42,7 +42,8 @@ env:
   SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
   SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
   SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
-  SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: ${{ github.event.inputs.KOGITO_VERSION }}
+  SONATAFLOW_QUARKUS_DEVUI_VERSION: 999-SNAPSHOT
+  SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: 999-SNAPSHOT
   DASHBUILDER__viewerImageRegistry: "quay.io"
   DASHBUILDER__viewerImageAccount: "kubesmarts"
   SONATAFLOW_OPERATOR__registry: "quay.io"
@@ -104,7 +105,8 @@ jobs:
           PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
 
       - name: "Build Images"
-        run: >-
+        shell: bash
+        run: |
           eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 
       - name: "Login to Quay"
