@@ -58,8 +58,9 @@ jobs:
     steps:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.IMAGE_TAG }}
+        # TODO: uncomment this
+        # with:
+        #   ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
