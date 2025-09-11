@@ -50,7 +50,7 @@ module.exports = composeEnv([rootEnv, redHatEnv, sonataflowOperatorEnv], {
       description: "Namespace name for the installation bundle",
     },
     OSL_OPERATOR_BUNDLE__namePrefix: {
-      default: "logic-operator-rhel8",
+      default: "logic-operator-rhel9",
       description: "Name prefix for objects in the bundle",
     },
   }),

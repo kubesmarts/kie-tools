@@ -38,7 +38,7 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv, redHatEnv], {
       description: "The image registry account.",
     },
     OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__name: {
-      default: "logic-jobs-service-ephemeral-rhel8",
+      default: "logic-jobs-service-ephemeral-rhel9",
       description: "The image name.",
     },
     OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__buildTag: {

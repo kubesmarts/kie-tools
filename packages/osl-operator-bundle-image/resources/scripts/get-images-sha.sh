@@ -26,7 +26,7 @@
 # Note: brewkoji package is required.
 #
 
-imagesBrewPackageName=("openshift-serverless-1-logic-rhel8-operator-container")
+imagesBrewPackageName=("openshift-serverless-1-logic-rhel9-operator-container")
 
 if ! command -v brew > /dev/null;
 then
@@ -41,7 +41,7 @@ then
 fi
 
 oslVersion=$1
-brewTag="openshift-serverless-${oslVersion}-rhel-8-container-candidate"
+brewTag="openshift-serverless-${oslVersion}-rhel-9-container-candidate"
 for brewPackageName in ${imagesBrewPackageName[@]}; do
     echo "Finding latest Brew build for package ${brewPackageName}"
     brewBuild=$(brew latest-build ${brewTag} ${brewPackageName} | tail -n1 | cut -d ' ' -f1)

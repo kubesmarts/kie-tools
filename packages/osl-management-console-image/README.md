@@ -21,7 +21,7 @@ export OSL_MANAGEMENT_CONSOLE_IMAGE__artifactUrl=<artifact URL>
 # Image name/tag information. This information is optional, you can see the env/index.js for the default values.
 export OSL_MANAGEMENT_CONSOLE_IMAGE__registry=registry.access.redhat.com
 export OSL_MANAGEMENT_CONSOLE_IMAGE__account=openshift-serverless-1
-export OSL_MANAGEMENT_CONSOLE_IMAGE__name=logic-management-console-rhel8
+export OSL_MANAGEMENT_CONSOLE_IMAGE__name=logic-management-console-rhel9
 export OSL_MANAGEMENT_CONSOLE_IMAGE__buildTag=1.34
 # Quarkus/Kogito version. This information will be set in the image labels and internal builds.
 # Optionally you can also use Cekit overrides when building the final image in the internal systems.

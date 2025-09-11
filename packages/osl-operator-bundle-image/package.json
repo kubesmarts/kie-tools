@@ -25,7 +25,7 @@
     "install": "node install.js && pnpm format",
     "manifests:bundle": "pnpm manifests:bundle:gen && pnpm manifests:bundle:add-annotations",
     "manifests:bundle:add-annotations": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && python resources/scripts/add_annotations.py",
-    "manifests:bundle:gen": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && make -C ./dist PACKAGE_NAME=\"logic-operator-rhel8\" VERSION=\"$(build-env oslOperatorBundleImage.version)\" IMAGE_TAG=\"$(build-env sonataFlowOperator.buildTag)\" IMAGE_TAG_BASE=$(build-env sonataFlowOperator.registry)/$(build-env sonataFlowOperator.account)/$(build-env sonataFlowOperator.name) bundle",
+    "manifests:bundle:gen": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && make -C ./dist PACKAGE_NAME=\"logic-operator-rhel9\" VERSION=\"$(build-env oslOperatorBundleImage.version)\" IMAGE_TAG=\"$(build-env sonataFlowOperator.buildTag)\" IMAGE_TAG_BASE=$(build-env sonataFlowOperator.registry)/$(build-env sonataFlowOperator.account)/$(build-env sonataFlowOperator.name) bundle",
     "manifests:cleanup": "mv dist/bundle dist/modules/com.redhat.osl.bundleinstall/ && rm -rf dist/bin dist/config dist/hack dist/bundle.Dockerfile dist/PROJECT",
     "manifests:copy": "pnpm manifests:copy:operator && pnpm manifests:copy:resources",
     "manifests:copy:operator": "OP_PATH=node_modules/@kie-tools/sonataflow-operator && cp -R ${OP_PATH}/config dist/ && cp -R ${OP_PATH}/bin dist/ && mkdir -p dist/bundle/manifests && cp ${OP_PATH}/bundle/manifests/sonataflow.org_sonataflow* dist/bundle/manifests/ && rm -rf dist/config/manifests/bases/*.yaml && cp ${OP_PATH}/Makefile dist/ && cp -R ${OP_PATH}/hack dist/ && cp ${OP_PATH}/PROJECT dist/",

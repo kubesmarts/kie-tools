@@ -38,7 +38,7 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv, redHatEnv], {
       description: "The image registry account.",
     },
     OSL_DATA_INDEX_EPHEMERAL_IMAGE__name: {
-      default: "logic-data-index-ephemeral-rhel8",
+      default: "logic-data-index-ephemeral-rhel9",
       description: "The image name.",
     },
     OSL_DATA_INDEX_EPHEMERAL_IMAGE__buildTag: {

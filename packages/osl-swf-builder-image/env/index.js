@@ -42,7 +42,7 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv, redHatEnv], {
       description: "The image registry account.",
     },
     OSL_SWF_BUILDER_IMAGE__name: {
-      default: "logic-swf-builder-rhel8",
+      default: "logic-swf-builder-rhel9",
       description: "The image name.",
     },
     OSL_SWF_BUILDER_IMAGE__buildTag: {

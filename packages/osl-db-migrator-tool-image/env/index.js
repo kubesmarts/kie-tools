@@ -38,7 +38,7 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv, redHatEnv], {
       description: "The image registry account.",
     },
     OSL_DB_MIGRATOR_TOOL_IMAGE__name: {
-      default: "logic-db-migrator-tool-rhel8",
+      default: "logic-db-migrator-tool-rhel9",
       description: "The image name.",
     },
     OSL_DB_MIGRATOR_TOOL_IMAGE__buildTag: {
