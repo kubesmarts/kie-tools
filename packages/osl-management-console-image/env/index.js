@@ -38,7 +38,7 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv, redHatEnv], {
       description: "The image registry account.",
     },
     OSL_MANAGEMENT_CONSOLE_IMAGE__name: {
-      default: "logic-management-console-rhel8",
+      default: "logic-management-console-rhel9",
       description: "The image name.",
     },
     OSL_MANAGEMENT_CONSOLE_IMAGE__buildTag: {

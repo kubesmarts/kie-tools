@@ -4,7 +4,7 @@ from pathlib import Path
 import ruamel.yaml
 
 CSV_BASE_PATH = Path(
-    "resources/config/manifests/bases/logic-operator-rhel8.clusterserviceversion.yaml"
+    "resources/config/manifests/bases/logic-operator-rhel9.clusterserviceversion.yaml"
 )
 
 
@@ -33,9 +33,9 @@ def update_versioning_csv(new_version: str) -> None:
     with CSV_BASE_PATH.open("r") as f:
         data = yaml.load(f)
 
-    data["metadata"]["name"] = f"logic-operator-rhel8.v{new_version}"
+    data["metadata"]["name"] = f"logic-operator-rhel9.v{new_version}"
     data["spec"]["version"] = new_version
-    data["spec"]["replaces"] = f"logic-operator-rhel8.v{previous_version(new_version)}"
+    data["spec"]["replaces"] = f"logic-operator-rhel9.v{previous_version(new_version)}"
 
     with CSV_BASE_PATH.open("w") as f:
         yaml.dump(data, f)

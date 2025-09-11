@@ -18,28 +18,26 @@
 #
 schema_version: 1
 
-name: "openshift-serverless-1/logic-data-index-ephemeral-rhel8"
+name: "openshift-serverless-1/logic-db-migrator-tool-rhel9"
 version: "main"
-from: "registry.access.redhat.com/ubi8/openjdk-17-runtime:latest"
-description: "Red Hat build of Runtime image for Kogito Data Index Service for ephemeral
-  PostgreSQL persistence provider"
+from: "registry.access.redhat.com/ubi9/openjdk-17-runtime:latest"
+description: "Red Hat build of Runtime image for Kogito DB Migrator Tool"
 
 labels:
   - name: "com.redhat.component"
-    value: "openshift-serverless-1-logic-data-index-ephemeral-rhel8-container"
+    value: "openshift-serverless-1-logic-db-migrator-tool-rhel9-container"
   - name: "maintainer"
     value: "serverless-logic <bsig-cloud@redhat.com>"
   - name: "io.k8s.description"
-    value: "Red Hat build of Runtime image for Kogito Data Index Service for ephemeral
-      PostgreSQL persistence provider"
+    value: "Red Hat build of Runtime image for Kogito DB Migrator Tool"
   - name: "io.k8s.display-name"
-    value: "Red Hat build of Kogito Data Index Service - ephemeral PostgreSQL"
+    value: "Red Hat build of Kogito DB Migrator Tool"
   - name: "io.openshift.tags"
-    value: "logic-data-index,kogito,data-index,data-index-ephemeral"
+    value: "logic-db-migrator-tool,kogito,db-migrator-tool"
   - name: "io.openshift.expose-services"
     value: "8080:http"
   - name: "org.kie.kogito.version"
-    value: "### SET ME DURING BUILD PROCESS ###"
+    value: "999-SNAPSHOT"
 
 envs:
   - name: "SCRIPT_DEBUG"
@@ -47,10 +45,6 @@ envs:
     description: "If set to true, ensures that the bash scripts are executed with the
       -x option, printing the commands and their arguments as they are executed. Also
       debug JVM initialization."
-  - name: "KOGITO_DATA_INDEX_QUARKUS_PROFILE"
-    value: "http-events-support"
-    description: "Allows to change the event connection type. The possible values are
-      :`kafka-events-support` or `http-events-support`(default)"
 
 modules:
   repositories:
@@ -61,8 +55,7 @@ modules:
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.dynamic.resources
     - name: org.kie.kogito.launch.scripts
-    - name: com.redhat.osl.dataindex-ephemeral
-    - name: org.kie.kogito.dataindex.common
+    - name: com.redhat.osl.db-migrator-tool
     - name: org.kie.kogito.security.custom.truststores
     - name: com.redhat.osl.pkg-update
 
@@ -80,10 +73,10 @@ osbs:
           - ppc64le
       compose:
         pulp_repos: true
-  extra_dir: osbs-extra/logic-data-index-ephemeral-rhel8
+  extra_dir: osbs-extra/logic-db-migrator-tool-rhel9
   repository:
-    name: containers/openshift-serverless-1-logic-data-index-ephemeral
-    branch: openshift-serverless-main-rhel-8
+    name: containers/openshift-serverless-1-logic-db-migrator-tool
+    branch: openshift-serverless-main-rhel-9
 
 ports:
   - value: 8080

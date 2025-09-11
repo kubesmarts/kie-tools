@@ -38,7 +38,7 @@ metadata:
     operators.operatorframework.io/internal-objects: '["sonataflowbuilds.sonataflow.org"]'
     repository: https://github.com/kubesmarts/kie-tools
     support: Red Hat
-  name: logic-operator-rhel8.v0.0.0
+  name: logic-operator-rhel9.v0.0.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -291,13 +291,13 @@ spec:
   provider:
     name: Red Hat
   relatedImages:
-    - image: registry.redhat.io/openshift-serverless-1/logic-operator-rhel8:1.35.0
+    - image: registry.redhat.io/openshift-serverless-1/logic-operator-rhel9:1.35.0
       name: IMAGE_LOGIC_SWF_OPERATOR
-    - image: registry.redhat.io/openshift-serverless-1/logic-swf-devmode-rhel8:1.35.0
+    - image: registry.redhat.io/openshift-serverless-1/logic-swf-devmode-rhel9:1.35.0
       name: IMAGE_LOGIC_SWF_DEVMODE
-    - image: registry.redhat.io/openshift-serverless-1/logic-swf-builder-rhel8:1.35.0
+    - image: registry.redhat.io/openshift-serverless-1/logic-swf-builder-rhel9:1.35.0
       name: IMAGE_LOGIC_SWF_BUILDER
     - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
       name: IMAGE_KUBE_RBAC_PROXY
-  replaces: logic-operator-rhel8.v0.0.0
+  replaces: logic-operator-rhel9.v0.0.0
   version: 0.0.0
