@@ -3,14 +3,17 @@ name: "CI :: OSL :: Publish Images Snapshots"
 on:
   workflow_dispatch:
     inputs:
+      dry_run:
+        type: boolean
+        required: true
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
-        default: ""
+        default: "999-SNAPSHOT"
       IMAGE_TAG:
         description: "Specify the tag for the images"
         required: false
-        default: ""
+        default: "main"
 
 jobs:
   publish_images_snapshots:
@@ -19,6 +22,9 @@ jobs:
     steps:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
+        # TODO: uncomment this
+        # with:
+        #   ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
@@ -53,45 +59,24 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-maven
 
-      - name: "Clone and Build Additional Apache Repositories"
-        if: ${{ env.KOGITO_RUNTIME_version == '999-SNAPSHOT' }}
-        run: |
-          echo "KOGITO_RUNTIME_version is 999-SNAPSHOT: Cloning and building extra repositories."
-
-          echo "Cloning incubator-kie-drools (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-drools.git
-          cd incubator-kie-drools
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf incubator-kie-drools
-
-          echo "Cloning incubator-kie-kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-kogito-runtimes.git
-          cd incubator-kie-kogito-runtimes
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf incubator-kie-kogito-runtimes
-
-          echo "Cloning incubator-kie-kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-kogito-apps.git
-          cd incubator-kie-kogito-apps
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf incubator-kie-kogito-apps
-
-      - name: "Bootstrap"
-        env:
-          PLAYWRIGHT_BASE__installDeps: "true"
-        uses: ./.github/actions/bootstrap
+      - name: "Setup kie-tools repository"
+        # TODO: use this
+        # uses: ./.github/actions/setup-kie-tools
+        uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-611-Web-tools-images-use-apache-snapshot-kogito-runtimes-artifacts
         with:
-          pnpm_filter_string: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
+          KOGITO_VERSION: ${{ github.event.inputs.KOGITO_VERSION }}
+          DEPS_BRANCHNAME: ${{ github.event.inputs.IMAGE_TAG }}
+          ENABLE_BUILD_DEPS_REPOSITORIES: true
+          PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
 
       - name: "Build Images"
         env:
+          DROOLS_AND_KOGITO__skip: true
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__runTests: "false"
-          # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
+          KIE_TOOLS_BUILD__runTests:
+            "false"
+            # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
           SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
           SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
           SONATAFLOW_DEVMODE_IMAGE__registry: "quay.io"
@@ -112,14 +97,16 @@ jobs:
           SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
+          SONATAFLOW_QUARKUS_DEVUI_VERSION: 999-SNAPSHOT
+          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: 999-SNAPSHOT
           DASHBUILDER__viewerImageRegistry: "quay.io"
           DASHBUILDER__viewerImageAccount: "kubesmarts"
           SONATAFLOW_OPERATOR__registry: "quay.io"
           SONATAFLOW_OPERATOR__account: "kubesmarts"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
-
-        run: >-
+        shell: bash
+        run: |
           eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 
       - name: "Login to Quay"
@@ -130,7 +117,10 @@ jobs:
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
       - name: "Push Images to Quay"
+        if: ${{ !inputs.dry_run }}
         run: |
+          # TODO: remove this
+          exit 1
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
 
