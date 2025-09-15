@@ -2399,7 +2399,7 @@
       },
       {
         "source": "@osl/osl-swf-builder-image",
-        "target": "@kie-tools/maven-base",
+        "target": "@kie-tools/sonataflow-builder-image",
         "weight": 1
       },
       {

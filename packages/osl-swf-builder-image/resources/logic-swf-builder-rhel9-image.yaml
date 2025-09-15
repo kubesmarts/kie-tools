@@ -59,6 +59,7 @@ modules:
     - name: com.redhat.osl.maven
     - name: org.kie.kogito.project.versions
     - name: org.kie.sonataflow.common.scripts
+    - name: org.kie.sonataflow.builder.runtime
     - name: com.redhat.osl.swf.builder.runtime
     - name: com.redhat.osl.pkg-update
 
