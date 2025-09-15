@@ -89,7 +89,8 @@ jobs:
             --baseSha='${{ steps.checkout_pr.outputs.base_sha }}' \
             --headSha='${{steps.checkout_pr.outputs.head_sha }}' \
             --graphJsonPath='./repo/graph.json' \
-            --partition='./.github/supporting-files/ci/partitions/partition0.txt'
+            --partition='./.github/supporting-files/ci/partitions/partition0.txt' \
+            --partition='./.github/supporting-files/ci/partitions/partition1.txt'
 
           npm -g uninstall bun turbo
 
