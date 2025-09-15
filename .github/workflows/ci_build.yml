@@ -106,9 +106,44 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
+      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
+        run: |
+          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+          cd ..
+
+          echo "Cloning drools main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          cd drools
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf drools
+
+          echo "Cloning kogito-runtimes (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          cd kogito-runtimes
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-runtimes
+
+          echo "Cloning kogito-apps (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          cd kogito-apps
+          mvn clean install -Dquickly
+          cd ..
+          rm -rf kogito-apps
+
+      - name: Prepare maven-base with .mvn/maven.config
+        id: prepare_maven_base_config
+        run: |
+          mkdir ./packages/maven-base/.mvn
+          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
+
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
