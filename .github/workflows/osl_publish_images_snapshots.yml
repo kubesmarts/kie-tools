@@ -15,6 +15,9 @@ on:
         required: false
         default: "main"
 
+permissions:
+  contents: read
+
 jobs:
   publish_images_snapshots:
     runs-on: ubuntu-latest
@@ -28,18 +31,18 @@ jobs:
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
-          if [ -n "${{ github.event.inputs.KOGITO_VERSION }}" ]; then
-            echo "KOGITO_RUNTIME_version=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+          if [ -n "${{ inputs.KOGITO_VERSION }}" ]; then
+            echo "KOGITO_RUNTIME_version=${{ inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
           else
             echo "No KOGITO_VERSION input provided. Keeping the default or existing behavior."
           fi
 
       - name: "Exporting OSL_IMAGE_TAG"
         run: |
-          if [ -n "${{ github.event.inputs.IMAGE_TAG }}" ]; then
-            echo "OSL_IMAGE_TAG=${{ github.event.inputs.IMAGE_TAG }}" >> $GITHUB_ENV
-          elif [ -n "${{ github.event.inputs.KOGITO_VERSION }}" ]; then
-            echo "OSL_IMAGE_TAG=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+          if [ -n "${{ inputs.IMAGE_TAG }}" ]; then
+            echo "OSL_IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> $GITHUB_ENV
+          elif [ -n "${{ inputs.KOGITO_VERSION }}" ]; then
+            echo "OSL_IMAGE_TAG=${{ inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
           else
             echo "OSL_IMAGE_TAG=main" >> $GITHUB_ENV
           fi
@@ -52,26 +55,19 @@ jobs:
       - name: "Setup environment"
         uses: ./.github/actions/setup-env
 
-      - name: "Cache Maven repository"
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
       - name: "Setup kie-tools repository"
         # TODO: use this
         # uses: ./.github/actions/setup-kie-tools
         uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-611-Web-tools-images-use-apache-snapshot-kogito-runtimes-artifacts
         with:
-          KOGITO_VERSION: ${{ github.event.inputs.KOGITO_VERSION }}
-          DEPS_BRANCHNAME: ${{ github.event.inputs.IMAGE_TAG }}
-          ENABLE_BUILD_DEPS_REPOSITORIES: true
+          KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
+          DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}
           PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
 
       - name: "Build Images"
         env:
           DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__runTests:
@@ -97,8 +93,8 @@ jobs:
           SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
-          SONATAFLOW_QUARKUS_DEVUI_VERSION: 999-SNAPSHOT
-          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: 999-SNAPSHOT
+          # SONATAFLOW_QUARKUS_DEVUI_VERSION: "${{ inputs.KOGITO_VERSION }}"
+          # SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
           DASHBUILDER__viewerImageRegistry: "quay.io"
           DASHBUILDER__viewerImageAccount: "kubesmarts"
           SONATAFLOW_OPERATOR__registry: "quay.io"

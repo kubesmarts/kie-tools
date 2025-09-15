@@ -29,10 +29,6 @@ inputs:
     description: "The branch to pull for Drools, Runtimes and Apps repositories"
     required: false
     default: "main"
-  ENABLE_BUILD_DEPS_REPOSITORIES:
-    description: "Set to true to build  Drools, Runtimes and Apps repositories"
-    type: boolean
-    required: true
   PNPM_FILTER:
     description: "The filter to use for the bootstrap step"
     required: true
@@ -40,18 +36,40 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Run pnpm bootstrap - first time
-      run: |
-        echo "::group::Run pnpm bootstrap - first time"
-        pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
-        echo "::endgroup::"
+    - name: Get Kiegroup git ref urls
       env:
-        DROOLS_AND_KOGITO__skip: true
-        KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+        DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
+        DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl: https://github.com/kiegroup/kogito-runtimes
+        DROOLS_AND_KOGITO__kogitoAppsRepoUrl: https://github.com/kiegroup/kogito-apps
+      id: get_kiegroup_git_refs
       shell: bash
+      run: |
+        echo "::group::Get Kiegroup git ref urls"
+
+        # Get Kiegroup Drools Git Ref
+        DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        # Get Kiegroup Runtimes Git Ref
+        RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        # Get Kiegroup Apps Git Ref
+        APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        echo "::endgroup::"
+
+    - name: "Cache Maven repository"
+      id: m2
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
+        restore-keys: ${{ runner.os }}-maven
 
     - name: Clone and Build Drools, Runtimes and Apps repositories
-      if: inputs.ENABLE_BUILD_DEPS_REPOSITORIES == 'true'
+      if: steps.m2.outputs.cache-hit != 'true'
       shell: bash
       env:
         DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
@@ -88,32 +106,22 @@ runs:
         rm -rf kogito-apps
         echo "::endgroup::"
 
+    - name: Run pnpm bootstrap - first time
+      run: |
+        echo "::group::Run pnpm bootstrap - first time"
+        pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
+        echo "::endgroup::"
+      env:
+        DROOLS_AND_KOGITO__skip: true
+        KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+      shell: bash
+
     - name: Setup Environment Variables
       run: |
         echo "::group::Setup Environment Variables"
         bash ./.github/supporting-files/ci/osl/export_vars.sh
         echo "::endgroup::"
       shell: bash
-
-    - name: Get Kiegroup git ref urls
-      id: get_kiegroup_git_refs
-      shell: bash
-      run: |
-        echo "::group::Get Kiegroup git ref urls"
-
-        # Get Kiegroup Drools Git Ref
-        DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-        # Get Kiegroup Runtimes Git Ref
-        RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
-
-        # Get Kiegroup Apps Git Ref
-        APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-        echo "::endgroup::"
 
     - name: Prepare maven-base with .mvn/maven.config
       id: prepare_maven_base_config
@@ -136,6 +144,8 @@ runs:
         DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
         DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
         DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
+        # SONATAFLOW_QUARKUS_DEVUI_VERSION: "${{ inputs.KOGITO_VERSION }}"
+        # SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
       shell: bash
 
     - name: Replace pre-build step in kogito-db-migrator-tool
