@@ -85,12 +85,11 @@ jobs:
           bun ./.github/supporting-files/ci/build-partitioning/build_partitioning.ts \
             --outputPath='/tmp/partitions.json' \
             --tmpPartitionFilterPath='/tmp/partition-filter.txt' \
-            --forceFull='true' \
+            --forceFull='${{ !github.event.pull_request }}' \
             --baseSha='${{ steps.checkout_pr.outputs.base_sha }}' \
             --headSha='${{steps.checkout_pr.outputs.head_sha }}' \
             --graphJsonPath='./repo/graph.json' \
-            --partition='./.github/supporting-files/ci/partitions/partition0.txt' \
-            --partition='./.github/supporting-files/ci/partitions/partition1.txt'
+            --partition='./.github/supporting-files/ci/partitions/partition0.txt'
 
           npm -g uninstall bun turbo
 
