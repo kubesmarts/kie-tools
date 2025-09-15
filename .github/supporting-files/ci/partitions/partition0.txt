@@ -1,3 +1,2 @@
 @kie-tools/kn-plugin-workflow
-@kie/kogito-jit-runner-image
 @osl/osl-operator-bundle-image
