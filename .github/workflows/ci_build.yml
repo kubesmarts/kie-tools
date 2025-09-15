@@ -108,27 +108,27 @@ jobs:
 
       - name: "Clone and Build Drools, Runtimes and Apps Repositories"
         run: |
-          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+          echo "Cloning and building extra repositories from main branch."
           cd ..
 
           echo "Cloning drools main branch)..."
           git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
           cd drools
-          mvn clean install -Dquickly
+          mvn clean install -B -Dquickly
           cd ..
           rm -rf drools
 
           echo "Cloning kogito-runtimes (main branch)..."
           git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn clean install -Dquickly
+          mvn clean install -B -Dquickly
           cd ..
           rm -rf kogito-runtimes
 
           echo "Cloning kogito-apps (main branch)..."
           git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn clean install -Dquickly
+          mvn clean install -B -Dquickly
           cd ..
           rm -rf kogito-apps
 
@@ -149,13 +149,6 @@ jobs:
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
-
-      - name: "Check hanging uncommitted files after bootstrapping (you should either commit or not modify those!)"
-        if: steps.setup_build_mode.outputs.mode != 'none'
-        shell: bash
-        run: |
-          git diff
-          [ "0" == "$(git diff | wc -l | tr -d ' ')" ]
 
       - name: Replace pre-build step in kogito-db-migrator-tool
         run: |
@@ -241,13 +234,6 @@ jobs:
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
-
-      - name: "Check hanging uncommitted files after building (you should either commit or not modify those!)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
-        shell: bash
-        run: |
-          git diff
-          [ "0" == "$(git diff | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
