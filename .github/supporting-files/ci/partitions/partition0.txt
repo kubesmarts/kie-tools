@@ -1,2 +1,4 @@
 @kie-tools/kn-plugin-workflow
+@kie-tools/sonataflow-management-console-image
+@kie/kogito-jit-runner-image
 @osl/osl-operator-bundle-image
