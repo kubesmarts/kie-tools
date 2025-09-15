@@ -10,5 +10,3 @@ chrome-extension-serverless-workflow-editor
 vscode-extension-dashbuilder-editor
 yard-vscode-extension
 swf-vscode-extension
-@kie/kogito-jit-runner-image
-@osl/osl-operator-bundle-image
