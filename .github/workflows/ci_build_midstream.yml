@@ -36,7 +36,7 @@ jobs:
         uses: apache/incubator-kie-tools/.github/actions/setup-env@main
 
       - name: Build KIE Tools
-        run: mvn clean install
+        run: mvn clean install -Dskip.ui.deps=false -Dskip.ui.build=false
 
       # This step works well but can consume midstream storage
       # - name: Upload JAR artifacts

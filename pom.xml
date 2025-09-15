@@ -63,6 +63,8 @@
 
     <version.quarkus>3.20.1</version.quarkus>
     <version.org.kie.kogito>999-SNAPSHOT</version.org.kie.kogito>
+    <skip.ui.build>true</skip.ui.build>
+    <skip.ui.deps>true</skip.ui.deps>
   </properties>
 
   <dependencyManagement>
