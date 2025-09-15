@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: "openshift-serverless-1/logic-swf-devmode-rhel9"
-from: "registry.access.redhat.com/ubi9/openjdk-17:latest"
+from: "registry.access.redhat.com/ubi9/openjdk-17:1.23"
 version: "main"
 description: "Red Hat build of Kogito Serverless Workflow development mode image with
   Quarkus extensions libraries preinstalled"
