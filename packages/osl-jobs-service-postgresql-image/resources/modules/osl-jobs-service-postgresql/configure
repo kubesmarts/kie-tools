@@ -28,3 +28,7 @@ unzip "${SOURCES_DIR}"/jobs-service-postgresql-image-build.zip -d "${KOGITO_HOME
 
 cp "${ADDED_DIR}"/kogito-app-launch.sh "${KOGITO_HOME}"
 chmod +x-w "${KOGITO_HOME}"/kogito-app-launch.sh
+
+# Unzip the app
+mkdir -p "${KOGITO_JOBS_SERVICE_COMMON_SCRIPT_PATH}/added"
+unzip -q "${SOURCES_DIR}/kogito-jobs-service-webapp-image-build.zip" -d "${KOGITO_JOBS_SERVICE_COMMON_SCRIPT_PATH}/added/kogito-jobs-service-webapp"
