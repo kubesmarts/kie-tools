@@ -35,7 +35,7 @@ def update_versioning_csv(new_version: str) -> None:
 
     data["metadata"]["name"] = f"logic-operator-rhel9.v{new_version}"
     data["spec"]["version"] = new_version
-    data["spec"]["replaces"] = f"logic-operator-rhel9.v{previous_version(new_version)}"
+    data["spec"]["replaces"] = f"logic-operator-rhel8.v{previous_version(new_version)}"
 
     with CSV_BASE_PATH.open("w") as f:
         yaml.dump(data, f)
