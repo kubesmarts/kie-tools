@@ -79,8 +79,8 @@ if [[ -f "$ENV_FILE" ]]; then
 fi
 
 if [[ -n "${GITHUB_ENV:-}" ]]; then
-  # GitHub Actions: append into $GITHUB_ENV
-  cat "$MERGED" >> "$GITHUB_ENV"
+  # GitHub Actions: append into $GITHUB_ENV removing empty lines
+  grep -v -E '^\s*$' "$MERGED" >> "$GITHUB_ENV"
 else
   # Local: print to stdout
   cat "$MERGED"

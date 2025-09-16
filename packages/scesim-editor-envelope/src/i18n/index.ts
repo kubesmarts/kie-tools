@@ -17,29 +17,5 @@
  * under the License.
  */
 
-
-package org.uberfire.ext.editor.commons.client.file.exports;
-
-import org.kie.j2cl.tools.processors.annotations.GWT3Resource;
-import org.kie.j2cl.tools.processors.common.resources.ClientBundle;
-import org.kie.j2cl.tools.processors.common.resources.TextResource;
-
-/**
- * Static resources related to the file export.
- */
-@GWT3Resource
-public interface FileExportResources extends ClientBundle {
-
-    FileExportResources INSTANCE = FileExportResourcesImpl.INSTANCE;
-
-    // The File Saver js.
-    @Source("js/FileSaver.min.js.back")
-    TextResource fileSaver();
-
-    // The jsPDF js.
-    @Source("js/jspdf.min.js.back")
-    TextResource jsPdf();
-
-    @Source("js/canvas2svg.js.back")
-    TextResource canvas2svg();
-}
+export * from "./ScesimEditorEnvelopeI18n";
+export * from "./setup";

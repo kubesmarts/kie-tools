@@ -199,6 +199,16 @@
               <goal>pnpm</goal>
             </goals>
             <configuration>
+              <environmentVariables>
+                <DROOLS_AND_KOGITO__skip>true</DROOLS_AND_KOGITO__skip>
+                <KOGITO_RUNTIME_version>999-SNAPSHOT</KOGITO_RUNTIME_version>
+                <DROOLS_AND_KOGITO__droolsRepoGitRef
+                >${env.DROOLS_AND_KOGITO__droolsRepoGitRef}</DROOLS_AND_KOGITO__droolsRepoGitRef>
+                <DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef
+                >${env.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}</DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef>
+                <DROOLS_AND_KOGITO__kogitoAppsRepoGitRef
+                >${env.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}</DROOLS_AND_KOGITO__kogitoAppsRepoGitRef>
+              </environmentVariables>
               <skip>${skip.ui.deps}</skip>
               <arguments
               >bootstrap -F @kie-tools/sonataflow-quarkus-devui... -F @kie-tools/sonataflow-management-console-webapp... -F @kie-tools/kogito-db-migrator-tool... -F @kie-tools/kogito-data-index-webapp...</arguments>

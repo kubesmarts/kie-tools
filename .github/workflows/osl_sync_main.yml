@@ -51,22 +51,6 @@ jobs:
       - name: Reset lock & graph to upstream
         run: git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
 
-      - name: Setup environment
-        uses: ./.github/actions/setup-env
-
-      - name: Bootstrap & Build
-        shell: bash
-        env:
-          KIE_TOOLS_BUILD__runTests: "false"
-          KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__ignoreTestFailures: "true"
-          KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: "true"
-          NODE_OPTIONS: "--max_old_space_size=4096"
-        run: |
-          pnpm bootstrap --no-frozen-lockfile
-          pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod
-
       - name: Capture Changes
         id: capture_changes
         run: |
