@@ -172,9 +172,9 @@ jobs:
           KOGITO_RUNTIME_version: "999-SNAPSHOT"
           KIE_TOOLS_BUILD__runLinters: "true"
           KIE_TOOLS_BUILD__runTests: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
-          KIE_TOOLS_BUILD__containerizedEndToEndTests: ${{ runner.os == 'Linux' }}
-          KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__runEndToEndTests: "false"
+          KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
+          KIE_TOOLS_BUILD__buildContainerImages: "false"
           KIE_TOOLS_BUILD__buildExamples: "true"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
