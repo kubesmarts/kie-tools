@@ -8221,6 +8221,379 @@ importers:
         specifier: ^5.5.3
         version: 5.5.3
 
+  packages/osl-data-index-ephemeral-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie/kogito-data-index-ephemeral-image':
+        specifier: workspace:*
+        version: link:../kogito-data-index-ephemeral-image
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-data-index-postgresql-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie/kogito-data-index-postgresql-image':
+        specifier: workspace:*
+        version: link:../kogito-data-index-postgresql-image
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-db-migrator-tool-image:
+    devDependencies:
+      '@kie-tools/kogito-db-migrator-tool-image':
+        specifier: workspace:*
+        version: link:../kogito-db-migrator-tool-image
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-images-modules:
+    devDependencies:
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-jobs-service-ephemeral-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie/kogito-jobs-service-ephemeral-image':
+        specifier: workspace:*
+        version: link:../kogito-jobs-service-ephemeral-image
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-jobs-service-postgresql-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie/kogito-jobs-service-postgresql-image':
+        specifier: workspace:*
+        version: link:../kogito-jobs-service-postgresql-image
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-management-console-image:
+    devDependencies:
+      '@kie-tools/image-env-to-json':
+        specifier: workspace:*
+        version: link:../image-env-to-json
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie-tools/sonataflow-management-console-image':
+        specifier: workspace:*
+        version: link:../sonataflow-management-console-image
+      '@kie-tools/sonataflow-management-console-webapp':
+        specifier: workspace:*
+        version: link:../sonataflow-management-console-webapp
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+      ts-json-schema-generator:
+        specifier: ^1.1.2
+        version: 1.1.2
+
+  packages/osl-operator-bundle-image:
+    dependencies:
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@kie-tools/sonataflow-operator':
+        specifier: workspace:*
+        version: link:../sonataflow-operator
+      '@osl/osl-data-index-ephemeral-image':
+        specifier: workspace:*
+        version: link:../osl-data-index-ephemeral-image
+      '@osl/osl-data-index-postgresql-image':
+        specifier: workspace:*
+        version: link:../osl-data-index-postgresql-image
+      '@osl/osl-db-migrator-tool-image':
+        specifier: workspace:*
+        version: link:../osl-db-migrator-tool-image
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/osl-jobs-service-ephemeral-image':
+        specifier: workspace:*
+        version: link:../osl-jobs-service-ephemeral-image
+      '@osl/osl-jobs-service-postgresql-image':
+        specifier: workspace:*
+        version: link:../osl-jobs-service-postgresql-image
+      '@osl/osl-management-console-image':
+        specifier: workspace:*
+        version: link:../osl-management-console-image
+      '@osl/osl-swf-builder-image':
+        specifier: workspace:*
+        version: link:../osl-swf-builder-image
+      '@osl/osl-swf-devmode-image':
+        specifier: workspace:*
+        version: link:../osl-swf-devmode-image
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+    devDependencies:
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-swf-builder-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
+  packages/osl-swf-devmode-image:
+    devDependencies:
+      '@kie-tools/maven-base':
+        specifier: workspace:*
+        version: link:../maven-base
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+      '@kie-tools/sonataflow-devmode-image':
+        specifier: workspace:*
+        version: link:../sonataflow-devmode-image
+      '@kie-tools/sonataflow-image-common':
+        specifier: workspace:*
+        version: link:../sonataflow-image-common
+      '@osl/osl-images-modules':
+        specifier: workspace:*
+        version: link:../osl-images-modules
+      '@osl/redhat-env':
+        specifier: workspace:*
+        version: link:../redhat-env
+      '@osl/redhat-python-venv':
+        specifier: workspace:*
+        version: link:../redhat-python-venv
+      cross-env:
+        specifier: ^7.0.3
+        version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
+      rimraf:
+        specifier: ^3.0.2
+        version: 3.0.2
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
+
   packages/patternfly-base:
     devDependencies:
       '@kie-tools/root-env':
@@ -8635,6 +9008,21 @@ importers:
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
+
+  packages/redhat-env:
+    devDependencies:
+      '@kie-tools/root-env':
+        specifier: workspace:*
+        version: link:../root-env
+
+  packages/redhat-python-venv:
+    devDependencies:
+      '@kie-tools/python-venv':
+        specifier: workspace:*
+        version: link:../python-venv
+      run-script-os:
+        specifier: ^1.1.6
+        version: 1.1.6
 
   packages/root-env: {}
 
