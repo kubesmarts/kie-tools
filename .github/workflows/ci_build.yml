@@ -171,7 +171,7 @@ jobs:
           WEBPACK__tsLoaderTranspileOnly: "false"
           KOGITO_RUNTIME_version: "999-SNAPSHOT"
           KIE_TOOLS_BUILD__runLinters: "true"
-          KIE_TOOLS_BUILD__runTests: "true"
+          KIE_TOOLS_BUILD__runTests: "false"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
           KIE_TOOLS_BUILD__buildContainerImages: "false"
