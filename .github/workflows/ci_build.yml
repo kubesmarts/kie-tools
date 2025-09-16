@@ -163,6 +163,7 @@ jobs:
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           KIE_TOOLS_BUILD__runLinters: "true"
           KIE_TOOLS_BUILD__runTests: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
