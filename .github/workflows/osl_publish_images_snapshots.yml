@@ -66,7 +66,7 @@ jobs:
 
       - name: "Build Images"
         env:
-          DROOLS_AND_KOGITO__skip: true
+          DROOLS_AND_KOGITO__skip: false
           KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"

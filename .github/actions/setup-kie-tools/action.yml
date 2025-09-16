@@ -112,7 +112,7 @@ runs:
         pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         echo "::endgroup::"
       env:
-        DROOLS_AND_KOGITO__skip: true
+        DROOLS_AND_KOGITO__skip: false
         KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
       shell: bash
 
@@ -139,7 +139,7 @@ runs:
         eval "pnpm bootstrap ${{ inputs.PNPM_FILTER }} --no-frozen-lockfile"
         echo "::endgroup::"
       env:
-        DROOLS_AND_KOGITO__skip: true
+        DROOLS_AND_KOGITO__skip: false
         KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
         DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
         DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
