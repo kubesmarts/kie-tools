@@ -150,9 +150,15 @@ jobs:
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
 
-      - name: Replace pre-build step in kogito-db-migrator-tool
+      - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
+        if: ${{ runner.os == 'Linux' }}
         run: |
           sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+
+      - name: Replace pre-build step in kogito-db-migrator-tool (MacOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
