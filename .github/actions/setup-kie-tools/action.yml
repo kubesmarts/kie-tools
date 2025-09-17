@@ -69,8 +69,7 @@ runs:
         restore-keys: ${{ runner.os }}-maven
 
     - name: Clone and Build Drools, Runtimes and Apps repositories
-      # TODO: uncomment this
-      # if: steps.m2.outputs.cache-hit != 'true'
+      if: steps.m2.outputs.cache-hit != 'true'
       shell: bash
       env:
         DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
