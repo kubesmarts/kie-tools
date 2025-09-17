@@ -8236,379 +8236,6 @@ importers:
         specifier: ^5.5.3
         version: 5.5.3
 
-  packages/osl-data-index-ephemeral-image:
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@kie/kogito-data-index-ephemeral-image':
-        specifier: workspace:*
-        version: link:../kogito-data-index-ephemeral-image
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-data-index-postgresql-image:
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@kie/kogito-data-index-postgresql-image':
-        specifier: workspace:*
-        version: link:../kogito-data-index-postgresql-image
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-db-migrator-tool-image:
-    devDependencies:
-      '@kie-tools/kogito-db-migrator-tool-image':
-        specifier: workspace:*
-        version: link:../kogito-db-migrator-tool-image
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-images-modules:
-    devDependencies:
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-jobs-service-ephemeral-image:
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@kie/kogito-jobs-service-ephemeral-image':
-        specifier: workspace:*
-        version: link:../kogito-jobs-service-ephemeral-image
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-jobs-service-postgresql-image:
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@kie/kogito-jobs-service-postgresql-image':
-        specifier: workspace:*
-        version: link:../kogito-jobs-service-postgresql-image
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-management-console-image:
-    devDependencies:
-      '@kie-tools/image-env-to-json':
-        specifier: workspace:*
-        version: link:../image-env-to-json
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@kie-tools/sonataflow-management-console-image':
-        specifier: workspace:*
-        version: link:../sonataflow-management-console-image
-      '@kie-tools/sonataflow-management-console-webapp':
-        specifier: workspace:*
-        version: link:../sonataflow-management-console-webapp
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-      ts-json-schema-generator:
-        specifier: ^1.1.2
-        version: 1.1.2
-
-  packages/osl-operator-bundle-image:
-    dependencies:
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@kie-tools/sonataflow-operator':
-        specifier: workspace:*
-        version: link:../sonataflow-operator
-      '@osl/osl-data-index-ephemeral-image':
-        specifier: workspace:*
-        version: link:../osl-data-index-ephemeral-image
-      '@osl/osl-data-index-postgresql-image':
-        specifier: workspace:*
-        version: link:../osl-data-index-postgresql-image
-      '@osl/osl-db-migrator-tool-image':
-        specifier: workspace:*
-        version: link:../osl-db-migrator-tool-image
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/osl-jobs-service-ephemeral-image':
-        specifier: workspace:*
-        version: link:../osl-jobs-service-ephemeral-image
-      '@osl/osl-jobs-service-postgresql-image':
-        specifier: workspace:*
-        version: link:../osl-jobs-service-postgresql-image
-      '@osl/osl-management-console-image':
-        specifier: workspace:*
-        version: link:../osl-management-console-image
-      '@osl/osl-swf-builder-image':
-        specifier: workspace:*
-        version: link:../osl-swf-builder-image
-      '@osl/osl-swf-devmode-image':
-        specifier: workspace:*
-        version: link:../osl-swf-devmode-image
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-    devDependencies:
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-swf-builder-image:
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
-  packages/osl-swf-devmode-image:
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      '@kie-tools/sonataflow-devmode-image':
-        specifier: workspace:*
-        version: link:../sonataflow-devmode-image
-      '@kie-tools/sonataflow-image-common':
-        specifier: workspace:*
-        version: link:../sonataflow-image-common
-      '@osl/osl-images-modules':
-        specifier: workspace:*
-        version: link:../osl-images-modules
-      '@osl/redhat-env':
-        specifier: workspace:*
-        version: link:../redhat-env
-      '@osl/redhat-python-venv':
-        specifier: workspace:*
-        version: link:../redhat-python-venv
-      cross-env:
-        specifier: ^7.0.3
-        version: 7.0.3
-      replace-in-file:
-        specifier: ^7.1.0
-        version: 7.1.0
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
-
   packages/patternfly-base:
     devDependencies:
       '@kie-tools/root-env':
@@ -9023,21 +8650,6 @@ importers:
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
-
-  packages/redhat-env:
-    devDependencies:
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-
-  packages/redhat-python-venv:
-    devDependencies:
-      '@kie-tools/python-venv':
-        specifier: workspace:*
-        version: link:../python-venv
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6
 
   packages/root-env: {}
 
@@ -19827,109 +19439,91 @@ packages:
     resolution: {integrity: sha512-C/zbRYRXFjWvz9Z4haRxcTdnkPt1BtCkz+7RtBSuNmKzMzp3ZxdM28Mpccn6pt28/UWUCTXa+b0Mx1k3g6NOMA==}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm-gnueabihf@4.19.2':
     resolution: {integrity: sha512-r+SI2t8srMPYZeoa1w0o/AfoVt9akI1ihgazGYPQGRilVAkuzMGiTtexNZkrPkQsyFrvqq/ni8f3zOnHw4hUbA==}
     cpu: [arm]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm-musleabihf@4.18.0':
     resolution: {integrity: sha512-l3m9ewPgjQSXrUMHg93vt0hYCGnrMOcUpTz6FLtbwljo2HluS4zTXFy2571YQbisTnfTKPZ01u/ukJdQTLGh9A==}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm-musleabihf@4.19.2':
     resolution: {integrity: sha512-+tYiL4QVjtI3KliKBGtUU7yhw0GMcJJuB9mLTCEauHEsqfk49gtUBXGtGP3h1LW8MbaTY6rSFIQV1XOBps1gBA==}
     cpu: [arm]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm64-gnu@4.18.0':
     resolution: {integrity: sha512-rJ5D47d8WD7J+7STKdCUAgmQk49xuFrRi9pZkWoRD1UeSMakbcepWXPF8ycChBoAqs1pb2wzvbY6Q33WmN2ftw==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-gnu@4.19.2':
     resolution: {integrity: sha512-OR5DcvZiYN75mXDNQQxlQPTv4D+uNCUsmSCSY2FolLf9W5I4DSoJyg7z9Ea3TjKfhPSGgMJiey1aWvlWuBzMtg==}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-arm64-musl@4.18.0':
     resolution: {integrity: sha512-be6Yx37b24ZwxQ+wOQXXLZqpq4jTckJhtGlWGZs68TgdKXJgw54lUUoFYrg6Zs/kjzAQwEwYbp8JxZVzZLRepQ==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-arm64-musl@4.19.2':
     resolution: {integrity: sha512-Hw3jSfWdUSauEYFBSFIte6I8m6jOj+3vifLg8EU3lreWulAUpch4JBjDMtlKosrBzkr0kwKgL9iCfjA8L3geoA==}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.18.0':
     resolution: {integrity: sha512-hNVMQK+qrA9Todu9+wqrXOHxFiD5YmdEi3paj6vP02Kx1hjd2LLYR2eaN7DsEshg09+9uzWi2W18MJDlG0cxJA==}
     cpu: [ppc64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-powerpc64le-gnu@4.19.2':
     resolution: {integrity: sha512-rhjvoPBhBwVnJRq/+hi2Q3EMiVF538/o9dBuj9TVLclo9DuONqt5xfWSaE6MYiFKpo/lFPJ/iSI72rYWw5Hc7w==}
     cpu: [ppc64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.18.0':
     resolution: {integrity: sha512-ROCM7i+m1NfdrsmvwSzoxp9HFtmKGHEqu5NNDiZWQtXLA8S5HBCkVvKAxJ8U+CVctHwV2Gb5VUaK7UAkzhDjlg==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-riscv64-gnu@4.19.2':
     resolution: {integrity: sha512-EAz6vjPwHHs2qOCnpQkw4xs14XJq84I81sDRGPEjKPFVPBw7fwvtwhVjcZR6SLydCv8zNK8YGFblKWd/vRmP8g==}
     cpu: [riscv64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.18.0':
     resolution: {integrity: sha512-0UyyRHyDN42QL+NbqevXIIUnKA47A+45WyasO+y2bGJ1mhQrfrtXUpTxCOrfxCR4esV3/RLYyucGVPiUsO8xjg==}
     cpu: [s390x]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-s390x-gnu@4.19.2':
     resolution: {integrity: sha512-IJSUX1xb8k/zN9j2I7B5Re6B0NNJDJ1+soezjNojhT8DEVeDNptq2jgycCOpRhyGj0+xBn7Cq+PK7Q+nd2hxLA==}
     cpu: [s390x]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.18.0':
     resolution: {integrity: sha512-xuglR2rBVHA5UsI8h8UbX4VJ470PtGCf5Vpswh7p2ukaqBGFTnsfzxUBetoWBWymHMxbIG0Cmx7Y9qDZzr648w==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-gnu@4.19.2':
     resolution: {integrity: sha512-OgaToJ8jSxTpgGkZSkwKE+JQGihdcaqnyHEFOSAU45utQ+yLruE1dkonB2SDI8t375wOKgNn8pQvaWY9kPzxDQ==}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@rollup/rollup-linux-x64-musl@4.18.0':
     resolution: {integrity: sha512-LKaqQL9osY/ir2geuLVvRRs+utWUNilzdE90TpyoX0eNqPzWjRm14oMEE+YLve4k/NAqCdPkGYDaDF5Sw+xBfg==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-linux-x64-musl@4.19.2':
     resolution: {integrity: sha512-5V3mPpWkB066XZZBgSd1lwozBk7tmOkKtquyCJ6T4LN3mzKENXyBwWNQn8d0Ci81hvlBw5RoFgleVpL6aScLYg==}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@rollup/rollup-win32-arm64-msvc@4.18.0':
     resolution: {integrity: sha512-7J6TkZQFGo9qBKH0pk2cEVSRhJbL6MtfWxth7Y5YmZs57Pi+4x6c2dStAUvaQkHQLnEQv1jzBUW43GvZW8OFqA==}
@@ -20533,28 +20127,24 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
-    libc: [glibc]
 
   '@swc/core-linux-arm64-musl@1.3.92':
     resolution: {integrity: sha512-rOZtRcLj57MSAbiecMsqjzBcZDuaCZ8F6l6JDwGkQ7u1NYR57cqF0QDyU7RKS1Jq27Z/Vg21z5cwqoH5fLN+Sg==}
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
-    libc: [musl]
 
   '@swc/core-linux-x64-gnu@1.3.92':
     resolution: {integrity: sha512-qptoMGnBL6v89x/Qpn+l1TH1Y0ed+v0qhNfAEVzZvCvzEMTFXphhlhYbDdpxbzRmCjH6GOGq7Y+xrWt9T1/ARg==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@swc/core-linux-x64-musl@1.3.92':
     resolution: {integrity: sha512-g2KrJ43bZkCZHH4zsIV5ErojuV1OIpUHaEyW1gf7JWKaFBpWYVyubzFPvPkjcxHGLbMsEzO7w/NVfxtGMlFH/Q==}
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
-    libc: [musl]
 
   '@swc/core-win32-arm64-msvc@1.3.92':
     resolution: {integrity: sha512-3MCRGPAYDoQ8Yyd3WsCMc8eFSyKXY5kQLyg/R5zEqA0uthomo0m0F5/fxAJMZGaSdYkU1DgF73ctOWOf+Z/EzQ==}
