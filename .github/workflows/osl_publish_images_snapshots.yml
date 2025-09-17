@@ -94,7 +94,7 @@ jobs:
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
           # SONATAFLOW_QUARKUS_DEVUI_VERSION: "${{ inputs.KOGITO_VERSION }}"
-          # SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
+          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
           DASHBUILDER__viewerImageRegistry: "quay.io"
           DASHBUILDER__viewerImageAccount: "kubesmarts"
           SONATAFLOW_OPERATOR__registry: "quay.io"
