@@ -69,7 +69,8 @@ runs:
         restore-keys: ${{ runner.os }}-maven
 
     - name: Clone and Build Drools, Runtimes and Apps repositories
-      if: steps.m2.outputs.cache-hit != 'true'
+      # TODO: uncomment this
+      # if: steps.m2.outputs.cache-hit != 'true'
       shell: bash
       env:
         DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
@@ -83,7 +84,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}
         cd drools
-        mvn -B clean install -Dquickly
+        mvn -B clean install -DskipTests -Dfull
         cd ..
         rm -rf drools
         echo "::endgroup::"
@@ -92,7 +93,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}
         cd kogito-runtimes
-        mvn -B clean install -Dquickly
+        mvn -B clean install -DskipTests -Dfull
         cd ..
         rm -rf kogito-runtimes
         echo "::endgroup::"
@@ -101,7 +102,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}
         cd kogito-apps
-        mvn -B clean install -Dquickly
+        mvn -B clean install -DskipTests -Dfull
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"
