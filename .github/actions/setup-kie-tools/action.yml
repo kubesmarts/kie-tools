@@ -106,6 +106,13 @@ runs:
         rm -rf kogito-apps
         echo "::endgroup::"
 
+    - name: Install org.apache.kie.sonataflow:kie-tools-packages locally
+      run: |
+        echo "::group::Install org.apache.kie.sonataflow:kie-tools-packages locally"
+        mvn clean install -N -f packages/pom.xml -DskipTests
+        echo "::endgroup::"
+      shell: bash
+
     - name: Run pnpm bootstrap - first time
       run: |
         echo "::group::Run pnpm bootstrap - first time"
