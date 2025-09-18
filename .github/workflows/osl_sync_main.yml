@@ -31,14 +31,14 @@ jobs:
         with:
           node-version: 22.13.1
 
-      - name: Setup environment
-        uses: ./.github/actions/setup-env
-
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.KIE1_TOKEN }}
           ref: main
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
 
       - name: Add Upstream Remote
         run: |
