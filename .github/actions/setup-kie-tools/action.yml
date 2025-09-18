@@ -108,7 +108,8 @@ runs:
 
     - name: Install org.apache.kie.sonataflow:kie-tools-packages locally
       run: |
-        echo "::group::Install org.apache.kie.sonataflow:kie-tools-packages locally"
+        echo "::group::Install Kubesmarts parent POMs locally"
+        mvn clean install -N -f pom.xml -DskipTests
         mvn clean install -N -f packages/pom.xml -DskipTests
         echo "::endgroup::"
       shell: bash
