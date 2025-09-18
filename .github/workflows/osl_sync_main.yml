@@ -21,6 +21,16 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: "Setup pnpm"
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.3.0
+
+      - name: "Setup Node"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.1
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
@@ -44,6 +54,10 @@ jobs:
           echo "SYNC_BRANCH=$SYNC_BRANCH" >> $GITHUB_ENV
           git checkout -b "$SYNC_BRANCH"
 
+      - name: Merge upstream/main (prefer theirs)
+        id: merge
+        run: git merge upstream/main -X theirs --no-edit || true
+
       - name: "Bootstrap"
         env:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
@@ -51,10 +65,6 @@ jobs:
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ""
-
-      - name: Merge upstream/main (prefer theirs)
-        id: merge
-        run: git merge upstream/main -X theirs --no-edit || true
 
       - name: Capture Changes
         id: capture_changes
