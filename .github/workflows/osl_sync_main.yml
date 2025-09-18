@@ -44,12 +44,17 @@ jobs:
           echo "SYNC_BRANCH=$SYNC_BRANCH" >> $GITHUB_ENV
           git checkout -b "$SYNC_BRANCH"
 
+      - name: "Bootstrap"
+        env:
+          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_OPTS: "-Xmx3g"
+        uses: ./.github/actions/bootstrap
+        with:
+          pnpm_filter_string: ""
+
       - name: Merge upstream/main (prefer theirs)
         id: merge
         run: git merge upstream/main -X theirs --no-edit || true
-
-      - name: Reset lock & graph to upstream
-        run: git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
 
       - name: Capture Changes
         id: capture_changes
