@@ -180,6 +180,7 @@ digraph G {
   "@osl/osl-operator-bundle-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-swf-builder-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@osl/osl-swf-devmode-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
+  "@kie-tools/sonataflow-builder-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/sonataflow-devmode-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "pmml-vscode-extension" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/python-venv" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
@@ -206,7 +207,6 @@ digraph G {
   "@kie-tools/sonataflow-dev-app" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/serverless-logic-web-tools-base-builder-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/serverless-logic-web-tools-swf-builder-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
-  "@kie-tools/sonataflow-builder-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "sonataflow-deployment-webapp" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/serverless-logic-web-tools-swf-deployment-quarkus-app" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/serverless-logic-web-tools-swf-dev-mode-image" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
@@ -558,7 +558,7 @@ digraph G {
   "@osl/osl-operator-bundle-image" -> "@osl/osl-management-console-image" [ style = "solid", color = "black" ];
   "@osl/osl-operator-bundle-image" -> "@osl/osl-swf-builder-image" [ style = "solid", color = "black" ];
   "@osl/osl-operator-bundle-image" -> "@osl/osl-swf-devmode-image" [ style = "solid", color = "black" ];
-  "@osl/osl-swf-builder-image" -> "@kie-tools/maven-base" [ style = "dashed", color = "black" ];
+  "@osl/osl-swf-builder-image" -> "@kie-tools/sonataflow-builder-image" [ style = "dashed", color = "black" ];
   "@osl/osl-swf-builder-image" -> "@osl/osl-images-modules" [ style = "dashed", color = "black" ];
   "@osl/osl-swf-builder-image" -> "@osl/redhat-env" [ style = "dashed", color = "black" ];
   "@osl/osl-swf-devmode-image" -> "@kie-tools/sonataflow-devmode-image" [ style = "dashed", color = "black" ];

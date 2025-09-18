@@ -23,7 +23,7 @@ export OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__artifactUrl=<artifact URL>
 # Image name/tag information. This information is optional, this package has these set by default.
 export OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__registry__registry=registry.access.redhat.com
 export OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__registry__account=openshift-serverless-1
-export OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__registry__name=logic-jobs-service-ephemeral-rhel8
+export OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__registry__name=logic-jobs-service-ephemeral-rhel9
 # This version is also optional since once branched, we can update the `root-env` package env `KIE_TOOLS_BUILD__streamName` to the OSL version.
 export OSL_JOBS_SERVICE_EPHEMERAL_IMAGE__registry__buildTag=1.34
 # Quarkus/Kogito version. This information will be set in the image labels and internal builds in `root-env`.

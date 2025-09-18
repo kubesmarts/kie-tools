@@ -21,7 +21,7 @@
     "image:cekit:build:linux:darwin": "run-script-if --bool \"$(build-env containerImages.build)\" --then \"pnpm build:dev\" \"pnpm setup:env make -C ./dist build\"",
     "image:cekit:build:win32": "echo \"Build skipped on Windows\"",
     "image:cekit:cache:artifacts": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && ./dist/scripts/process-cekit-artifact.sh \"$(build-env oslSwfBuilderImage.artifactUrl)\",\"$(build-env oslSwfBuilderImage.mavenRepositoryUrl)\" modules/osl-swf-builder-runtime/module.yaml",
-    "image:cekit:copy": "rsync -av --exclude='modules/kogito-data-index*' --exclude='modules/kogito-jobs-service*' --include='*'  node_modules/@kie-tools/sonataflow-image-common/resources/ dist/ && cp -R node_modules/@osl/osl-images-modules/resources/* ./dist/ && cp -R resources/* ./dist/",
+    "image:cekit:copy": "rsync -av --exclude='modules/kogito-data-index*' --exclude='modules/kogito-jobs-service*' --include='*'  node_modules/@kie-tools/sonataflow-image-common/resources/ dist/ && cp -R node_modules/@osl/osl-images-modules/resources/* ./dist/ && mkdir -p ./dist/modules/sonataflow/builder/runtime/ && cp -R node_modules/@kie-tools/sonataflow-builder-image/resources/modules/sonataflow/builder/runtime/* ./dist/modules/sonataflow/builder/runtime/ && cp -R resources/* ./dist/",
     "image:cekit:dist": "run-script-os",
     "image:cekit:dist:linux:darwin": "pnpm cleanup && pnpm image:cekit:copy && pnpm image:cekit:cache:artifacts && pnpm image:cekit:fixversions && pnpm format",
     "image:cekit:dist:win32": "echo \"Build skipped on Windows\"",
@@ -32,6 +32,7 @@
   "devDependencies": {
     "@kie-tools/maven-base": "workspace:*",
     "@kie-tools/root-env": "workspace:*",
+    "@kie-tools/sonataflow-builder-image": "workspace:*",
     "@kie-tools/sonataflow-image-common": "workspace:*",
     "@osl/osl-images-modules": "workspace:*",
     "@osl/redhat-env": "workspace:*",

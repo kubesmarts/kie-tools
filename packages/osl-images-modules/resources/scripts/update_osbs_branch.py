@@ -6,7 +6,7 @@ from ruamel.yaml import YAML
 import argparse
 
 def update_yaml_branch(version, file_path):
-    full_version = f"openshift-serverless-{version}-rhel-8"
+    full_version = f"openshift-serverless-{version}-rhel-9"
 
     yaml = YAML()
     yaml.preserve_quotes = True

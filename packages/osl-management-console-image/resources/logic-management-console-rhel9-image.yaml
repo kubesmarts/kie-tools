@@ -16,8 +16,8 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-name: "openshift-serverless-1/logic-management-console-rhel8"
-from: "registry.access.redhat.com/ubi8/httpd-24:latest"
+name: "openshift-serverless-1/logic-management-console-rhel9"
+from: "registry.access.redhat.com/ubi9/httpd-24:latest"
 version: "main"
 description: "OpenShift Serverless Logic Management Console Image"
 
@@ -37,7 +37,7 @@ labels:
   - name: "io.openshift.expose-services"
     value: "8080:http"
   - name: "com.redhat.component"
-    value: "openshift-serverless-1-logic-management-console-rhel8-container"
+    value: "openshift-serverless-1-logic-management-console-rhel9-container"
 
 modules:
   repositories:
@@ -74,7 +74,7 @@ osbs:
           - x86_64
       compose:
         pulp_repos: true
-  extra_dir: osbs-extra/logic-management-console-rhel8
+  extra_dir: osbs-extra/logic-management-console-rhel9
   repository:
     name: containers/openshift-serverless-1-logic-management-console
-    branch: openshift-serverless-main-rhel-8
+    branch: openshift-serverless-main-rhel-9

@@ -38,7 +38,7 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv, redHatEnv], {
       description: "The image registry account.",
     },
     OSL_JOBS_SERVICE_POSTGRESQL_IMAGE__name: {
-      default: "logic-jobs-service-postgresql-rhel8",
+      default: "logic-jobs-service-postgresql-rhel9",
       description: "The image name.",
     },
     OSL_JOBS_SERVICE_POSTGRESQL_IMAGE__buildTag: {

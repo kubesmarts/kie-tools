@@ -18,22 +18,24 @@
 #
 schema_version: 1
 
-name: "openshift-serverless-1/logic-db-migrator-tool-rhel8"
+name: "openshift-serverless-1/logic-data-index-postgresql-rhel9"
 version: "main"
-from: "registry.access.redhat.com/ubi8/openjdk-17-runtime:latest"
-description: "Red Hat build of Runtime image for Kogito DB Migrator Tool"
+from: "registry.access.redhat.com/ubi9/openjdk-17-runtime:1.23"
+description: "Red Hat build of Runtime image for Kogito Data Index Service for PostgreSQL
+  persistence provider"
 
 labels:
   - name: "com.redhat.component"
-    value: "openshift-serverless-1-logic-db-migrator-tool-rhel8-container"
+    value: "openshift-serverless-1-logic-data-index-postgresql-rhel9-container"
   - name: "maintainer"
     value: "serverless-logic <bsig-cloud@redhat.com>"
   - name: "io.k8s.description"
-    value: "Red Hat build of Runtime image for Kogito DB Migrator Tool"
+    value: "Red Hat build of Runtime image for Kogito Data Index Service for PostgreSQL
+      persistence provider"
   - name: "io.k8s.display-name"
-    value: "Red Hat build of Kogito DB Migrator Tool"
+    value: "Red Hat build of Kogito Data Index Service - PostgreSQL"
   - name: "io.openshift.tags"
-    value: "logic-db-migrator-tool,kogito,db-migrator-tool"
+    value: "logic-data-index,kogito,data-index,data-index-postgresql"
   - name: "io.openshift.expose-services"
     value: "8080:http"
   - name: "org.kie.kogito.version"
@@ -55,7 +57,8 @@ modules:
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.dynamic.resources
     - name: org.kie.kogito.launch.scripts
-    - name: com.redhat.osl.db-migrator-tool
+    - name: com.redhat.osl.dataindex-postgresql
+    - name: org.kie.kogito.dataindex.common
     - name: org.kie.kogito.security.custom.truststores
     - name: com.redhat.osl.pkg-update
 
@@ -73,10 +76,10 @@ osbs:
           - ppc64le
       compose:
         pulp_repos: true
-  extra_dir: osbs-extra/logic-db-migrator-tool-rhel8
+  extra_dir: osbs-extra/logic-data-index-postgresql-rhel9
   repository:
-    name: containers/openshift-serverless-1-logic-db-migrator-tool
-    branch: openshift-serverless-main-rhel-8
+    name: containers/openshift-serverless-1-logic-data-index-postgresql
+    branch: openshift-serverless-main-rhel-9
 
 ports:
   - value: 8080
