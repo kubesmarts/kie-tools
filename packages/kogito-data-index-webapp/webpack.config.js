@@ -31,7 +31,7 @@ module.exports = async (webpackEnv) =>
       new CopyPlugin({
         patterns: [
           { from: "./src/styles.css", to: "./styles.css" },
-          { from: "./static/favicon.svg", to: "./favicon.svg" },
+          { from: "./static/", to: "./" },
         ],
       }),
       new HtmlWebpackPlugin({

@@ -64,6 +64,11 @@
               <environmentVariables>
                 <KIE_TOOLS_BUILD__runTests>false</KIE_TOOLS_BUILD__runTests>
                 <KIE_TOOLS_BUILD__runIntegrationTests>false</KIE_TOOLS_BUILD__runIntegrationTests>
+                <KOGITO_DATA_INDEX_WEBAPP_title>OSL DATA INDEX</KOGITO_DATA_INDEX_WEBAPP_title>
+                <KOGITO_DATA_INDEX_WEBAPP_logo>osl-favicon.svg</KOGITO_DATA_INDEX_WEBAPP_logo>
+                <KOGITO_DATA_INDEX_WEBAPP_docLinkHref
+                >https://docs.redhat.com/es/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-data-index</KOGITO_DATA_INDEX_WEBAPP_docLinkHref>
+                <KOGITO_DATA_INDEX_WEBAPP_docLinkText>OSL Data Index docs</KOGITO_DATA_INDEX_WEBAPP_docLinkText>
               </environmentVariables>
             </configuration>
           </execution>
