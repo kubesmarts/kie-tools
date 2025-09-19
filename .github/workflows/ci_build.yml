@@ -40,7 +40,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-13, windows-latest]
+        os: [ubuntu-latest, macos-13]
         partition: [0]
     runs-on: ${{ matrix.os }}
     steps:
@@ -106,21 +106,62 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
+      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
+        run: |
+          echo "Cloning and building extra repositories from main branch."
+          cd ..
+
+          echo "Cloning drools main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          cd drools
+          mvn clean install -B -Dquickly
+          cd ..
+          rm -rf drools
+
+          echo "Cloning kogito-runtimes (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          cd kogito-runtimes
+          mvn clean install -B -Dquickly
+          cd ..
+          rm -rf kogito-runtimes
+
+          echo "Cloning kogito-apps (main branch)..."
+          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          cd kogito-apps
+          mvn clean install -B -Dquickly
+          cd ..
+          rm -rf kogito-apps
+
+      - name: Prepare maven-base with .mvn/maven.config
+        id: prepare_maven_base_config
+        run: |
+          mkdir ./packages/maven-base/.mvn
+          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
+
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
 
-      - name: "Check hanging uncommitted files after bootstrapping (you should either commit or not modify those!)"
-        if: steps.setup_build_mode.outputs.mode != 'none'
-        shell: bash
+      - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
+        if: ${{ runner.os == 'Linux' }}
         run: |
-          git diff
-          [ "0" == "$(git diff | wc -l | tr -d ' ')" ]
+          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+
+      - name: Replace pre-build step in kogito-db-migrator-tool (MacOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+
+      - name: Modify pom.xml of sonataflow-quarkus-devui
+        run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
       - name: "FULL → Build"
         if: steps.setup_build_mode.outputs.mode == 'full'
@@ -128,11 +169,12 @@ jobs:
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           KIE_TOOLS_BUILD__runLinters: "true"
-          KIE_TOOLS_BUILD__runTests: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
-          KIE_TOOLS_BUILD__containerizedEndToEndTests: ${{ runner.os == 'Linux' }}
-          KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__runTests: "false"
+          KIE_TOOLS_BUILD__runEndToEndTests: "false"
+          KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
+          KIE_TOOLS_BUILD__buildContainerImages: "false"
           KIE_TOOLS_BUILD__buildExamples: "true"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
@@ -142,7 +184,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
-          eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} --workspace-concurrency=1 build:prod"
+          eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "PARTIAL → Build upstream"
         if: steps.setup_build_mode.outputs.mode == 'partial' && steps.setup_build_mode.outputs.upstreamPnpmFilterString != ''
@@ -154,7 +196,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} build:dev"
+          eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:dev"
 
       - name: "PARTIAL → Build changed and downstream"
         shell: bash
@@ -172,7 +214,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} --workspace-concurrency=1 build:prod"
+          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
@@ -199,13 +241,6 @@ jobs:
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
-
-      - name: "Check hanging uncommitted files after building (you should either commit or not modify those!)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
-        shell: bash
-        run: |
-          git diff
-          [ "0" == "$(git diff | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'

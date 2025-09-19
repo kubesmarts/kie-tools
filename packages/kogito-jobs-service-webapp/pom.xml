@@ -32,14 +32,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.apache.kie.kogito</groupId>
-  <artifactId>kogito-data-index-webapp</artifactId>
+  <artifactId>kogito-jobs-service-webapp</artifactId>
 
-  <name>KIE Kogito :: Data Index Webapp</name>
+  <name>KIE Kogito :: Jobs Service Webapp</name>
 
   <packaging>pom</packaging>
 
   <properties>
-    <java.module.name>org.kie.kogito.data-index.webapp</java.module.name>
+    <java.module.name>org.kie.kogito.jobs-service.webapp</java.module.name>
   </properties>
 
   <build>
@@ -60,15 +60,20 @@
             <configuration>
               <skip>${skip.ui.build}</skip>
               <pnpmInheritsProxyConfigFromMaven>false</pnpmInheritsProxyConfigFromMaven>
-              <arguments>-F @kie-tools/kogito-data-index-webapp... build:prod</arguments>
+              <arguments>-F @kie-tools/kogito-jobs-service-webapp... build:prod</arguments>
               <environmentVariables>
                 <KIE_TOOLS_BUILD__runTests>false</KIE_TOOLS_BUILD__runTests>
                 <KIE_TOOLS_BUILD__runIntegrationTests>false</KIE_TOOLS_BUILD__runIntegrationTests>
-                <KOGITO_DATA_INDEX_WEBAPP_title>OSL DATA INDEX</KOGITO_DATA_INDEX_WEBAPP_title>
-                <KOGITO_DATA_INDEX_WEBAPP_logo>osl-favicon.svg</KOGITO_DATA_INDEX_WEBAPP_logo>
-                <KOGITO_DATA_INDEX_WEBAPP_docLinkHref
-                >https://docs.redhat.com/es/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-data-index</KOGITO_DATA_INDEX_WEBAPP_docLinkHref>
-                <KOGITO_DATA_INDEX_WEBAPP_docLinkText>OSL Data Index docs</KOGITO_DATA_INDEX_WEBAPP_docLinkText>
+                <KOGITO_JOBS_SERVICE_WEBAPP_title>OSL JOBS SERVICE</KOGITO_JOBS_SERVICE_WEBAPP_title>
+                <KOGITO_JOBS_SERVICE_WEBAPP_logo>osl-favicon.svg</KOGITO_JOBS_SERVICE_WEBAPP_logo>
+                <KOGITO_JOBS_SERVICE_WEBAPP_docLinkHref
+                >https://docs.redhat.com/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-managing-supporting-services</KOGITO_JOBS_SERVICE_WEBAPP_docLinkHref>
+                <KOGITO_JOBS_SERVICE_WEBAPP_docLinkText
+                >OSL Jobs Service configuration</KOGITO_JOBS_SERVICE_WEBAPP_docLinkText>
+                <SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref
+                >https://docs.redhat.com/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-job-service</SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref>
+                <SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkText
+                >OSL Jobs Service</SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkText>
               </environmentVariables>
             </configuration>
           </execution>

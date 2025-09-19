@@ -17,34 +17,30 @@
 # under the License.
 #
 schema_version: 1
-name: "openshift-serverless-1/logic-swf-builder-rhel8"
+name: "openshift-serverless-1/logic-swf-devmode-rhel9"
+from: "registry.access.redhat.com/ubi9/openjdk-17:1.23"
 version: "main"
-from: "registry.access.redhat.com/ubi8/openjdk-17:latest"
-description: "Red Hat build of Runtime image for Kogito Serverless Workflow builder
-  with Quarkus extensions libraries preinstalled"
+description: "Red Hat build of Kogito Serverless Workflow development mode image with
+  Quarkus extensions libraries preinstalled"
 
 labels:
-  - name: "io.openshift.s2i.scripts-url"
-    value: "image:///usr/local/s2i"
-  - name: "io.openshift.s2i.destination"
-    value: "/tmp"
   - name: "io.quarkus.platform.version"
-    value: "3.8.6"
+    value: "## UPDATED DURING BUILD ##"
   - name: "org.kie.kogito.version"
-    value: "999-SNAPSHOT"
+    value: "## UPDATED DURING BUILD ##"
+  - name: "io.k8s.description"
+    value: "Red Hat build of Kogito Serverless Workflow development mode image with
+      Quarkus extensions libraries preinstalled."
+  - name: "io.k8s.display-name"
+    value: "Red Hat OpenShift Serverless Logic SWF Devmode"
+  - name: "io.openshift.tags"
+    value: "logic,devmode,kogito,kogito,development,serverless,workflow"
+  - name: "io.openshift.expose-services"
+    value: "8080:http,5005:http"
   - name: "com.redhat.component"
-    value: "openshift-serverless-1-logic-swf-builder-rhel8-container"
+    value: "openshift-serverless-1-logic-swf-devmode-rhel9-container"
   - name: "maintainer"
     value: "serverless-logic <bsig-cloud@redhat.com>"
-  - name: "io.k8s.description"
-    value: "Red Hat build of Runtime image for Kogito Serverless Workflow builder with
-      Quarkus extensions libraries preinstalled"
-  - name: "io.k8s.display-name"
-    value: "Red Hat OpenShift Serverless Logic Builder image"
-  - name: "io.openshift.tags"
-    value: "logic-swf-builder,kogito,swf-builder"
-  - name: "io.openshift.expose-services"
-    value: "8080:http"
 
 modules:
   repositories:
@@ -59,16 +55,19 @@ modules:
     - name: com.redhat.osl.maven
     - name: org.kie.kogito.project.versions
     - name: org.kie.sonataflow.common.scripts
-    - name: com.redhat.osl.swf.builder.runtime
+    - name: org.kie.sonataflow.devmode.runtime.common
+    - name: com.redhat.osl.swf.devmode.runtime
     - name: com.redhat.osl.pkg-update
-
-run:
-  workdir: "/home/kogito/${PROJECT_ARTIFACT_ID}"
-  user: 1001
 
 ports:
   - value: 8080
   - value: 5005
+
+run:
+  workdir: "/home/kogito/${PROJECT_ARTIFACT_ID}"
+  user: 1001
+  cmd:
+    - "/home/kogito/launch/run-app-devmode.sh"
 
 packages:
   manager: microdnf
@@ -84,7 +83,7 @@ osbs:
           - aarch64
       compose:
         pulp_repos: true
-  extra_dir: osbs-extra/logic-swf-builder-rhel8
+  extra_dir: osbs-extra/logic-swf-devmode-rhel9
   repository:
-    name: containers/openshift-serverless-1-logic-swf-builder
-    branch: openshift-serverless-main-rhel-8
+    name: containers/openshift-serverless-1-logic-swf-devmode
+    branch: openshift-serverless-main-rhel-9

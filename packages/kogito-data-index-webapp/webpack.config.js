@@ -17,10 +17,12 @@
  * under the License.
  */
 
+const path = require("path");
 const CopyPlugin = require("copy-webpack-plugin");
 const { merge } = require("webpack-merge");
 const common = require("@kie-tools-core/webpack-base/webpack.common.config");
 const { env } = require("./env");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = async (webpackEnv) =>
   merge(common(webpackEnv), {
@@ -28,10 +30,20 @@ module.exports = async (webpackEnv) =>
     plugins: [
       new CopyPlugin({
         patterns: [
-          { from: "./src/index.html", to: "./index.html" },
           { from: "./src/styles.css", to: "./styles.css" },
-          { from: "./static/favicon.svg", to: "./favicon.svg" },
+          { from: "./static/", to: "./" },
         ],
+      }),
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, "src/index.html"),
+        filename: "index.html",
+        chunks: ["app"],
+        templateParameters: {
+          KOGITO_DATA_INDEX_WEBAPP_TITLE: env.kogitoDataIndexWebapp.title,
+          KOGITO_DATA_INDEX_WEBAPP_LOGO: env.kogitoDataIndexWebapp.logo,
+          KOGITO_DATA_INDEX_WEBAPP_DOCLINK_HREF: env.kogitoDataIndexWebapp.docLink.href,
+          KOGITO_DATA_INDEX_WEBAPP_DOCLINK_TEXT: env.kogitoDataIndexWebapp.docLink.text,
+        },
       }),
     ],
     ignoreWarnings: [/Failed to parse source map/],
@@ -39,6 +51,6 @@ module.exports = async (webpackEnv) =>
       static: {
         directory: "./dist",
       },
-      port: env.dataIndexWebapp.dev.port,
+      port: env.kogitoDataIndexWebapp.dev.port,
     },
   });

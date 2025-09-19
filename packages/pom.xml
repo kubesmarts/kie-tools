@@ -21,5 +21,6 @@
     <module>sonataflow-management-console-webapp</module>
     <module>kogito-db-migrator-tool</module>
     <module>kogito-data-index-webapp</module>
+    <module>kogito-jobs-service-webapp</module>
   </modules>
 </project>

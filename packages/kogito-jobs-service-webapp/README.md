@@ -15,41 +15,30 @@
    under the License.
 -->
 
-# Dev Deployment Base Image
+# Kogito Jobs Service Webapp
 
-Docker image with Java and Maven, as well as the dev-deployment-upload-service binary installed and ready to be used.
+This package contains the webapp for the Jobs Service endpoint
 
-## Build arguments
+## Build
 
-- `BUILDER_IMAGE_ARG`: The base image used for building this image (defaults to `registry.access.redhat.com/ubi9/openjdk-17:1.23`).
-  - Tested with:
-    - registry.access.redhat.com/ubi9/openjdk-17:1.23
-    - icr.io/appcafe/ibm-semeru-runtimes:open-17-jdk-ubi-minimal
+- The image name and tags can be customized by setting the following environment variables:
 
-## Environment variables
+  ```bash
+  export KOGITO_JOBS_SERVICE_WEBAPP_title=<title>
+  export KOGITO_JOBS_SERVICE_WEBAPP_logo=<logo>
+  export KOGITO_JOBS_SERVICE_WEBAPP_docLinkHref=<docLinkHref>
+  export KOGITO_JOBS_SERVICE_WEBAPP_docLinkText=<docLinkText>
+  export SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref=<docLinkHref>
+  export SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkText=<docLinkText>
+  ```
 
-### Pre defined (have a default value)
+  > Default values can be found [here](./env/index.js).
 
-- `DEV_DEPLOYMENT__UPLOAD_SERVICE_EXTRACT_TO_DIR`: The directory to extract the files uploaded via the Upload Service. Defaults to `/app` inside the container.
-- `DEV_DEPLOYMENT__UPLOAD_SERVICE_PORT`: The port where the Upload Service will listen on. Defaults to `8080`.
+- After optionally setting up the environment variables, run the following in the root folder of the repository to build the package:
 
-### Required
-
-- `DEV_DEPLOYMENT__UPLOAD_SERVICE_API_KEY`: A string that represents the API Key the Upload Service accepts. It should be passed as a Query Param when making requests to the service.
-
-### Optional
-
-- `DEV_DEPLOYMENT__UPLOAD_SERVICE_ROOT_PATH`: If the Upload Service is not running in the root path of the URL, this variable should be specified.
-
-## Test locally
-
-Run the image with:
-
-- `docker run -p 8080:8080 -e DEV_DEPLOYMENT__UPLOAD_SERVICE_API_KEY=123 docker.io/apache/incubator-kie-sandbox-dev-deployment-base:main 'dev-deployment-upload-service && ./mvnw quarkus:dev'`
-
-Then upload a zip file containing the resources (full Java project)
-
-- `curl -X POST -H "Content-Type: multipart/form-data" -F "myFile=@<ABSOLUTE_PATH_TO_YOUR_FILE>" 'http://localhost:8080/upload?apiKey=123'`
+  ```bash
+  pnpm -F @kie-tools/kogito-jobs-service-webapp... build:prod
+  ```
 
 ---
 

@@ -24,6 +24,14 @@ artifacts:
   - name: jobs-service-postgresql-image-build.zip
     description: "jobs-service-postgresql-9.102.0.redhat-00004-image-build"
     md5: "87ca8142a52adc4e9f4fa20c821e2c74"
+  - name: kogito-jobs-service-webapp-image-build.zip
+    description: "kogito-jobs-service-webapp-9.102.0.redhat-00004-image-build"
+    md5: "a2f71cc294c728f397567468b21013df"
+
+envs:
+  - name: "KOGITO_JOBS_SERVICE_COMMON_SCRIPT_PATH"
+    value: "/tmp/scripts/org.kie.kogito.jobs.service.common"
+    description: "Path to the Jobs Service Common files"
 
 packages:
   install:
