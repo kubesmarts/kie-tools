@@ -21,11 +21,24 @@ jobs:
       pull-requests: write
 
     steps:
+      - name: "Setup pnpm"
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.3.0
+
+      - name: "Setup Node"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.1
+
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.KIE1_TOKEN }}
           ref: main
+
+      - name: Setup environment
+        uses: ./.github/actions/setup-env
 
       - name: Add Upstream Remote
         run: |
@@ -48,8 +61,13 @@ jobs:
         id: merge
         run: git merge upstream/main -X theirs --no-edit || true
 
-      - name: Reset lock & graph to upstream
-        run: git checkout upstream/main -- pnpm-lock.yaml repo/graph.*
+      - name: "Bootstrap"
+        env:
+          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_OPTS: "-Xmx3g"
+        uses: ./.github/actions/bootstrap
+        with:
+          pnpm_filter_string: ""
 
       - name: Capture Changes
         id: capture_changes
