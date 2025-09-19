@@ -70,7 +70,7 @@
                 >https://docs.redhat.com/es/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-job-service</KOGITO_JOBS_SERVICE_WEBAPP_docLinkHref>
                 <KOGITO_JOBS_SERVICE_WEBAPP_docLinkText>OSL Jobs Service docs</KOGITO_JOBS_SERVICE_WEBAPP_docLinkText>
                 <SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref
-                >https://sonataflow.org/serverlessworkflow/latest/job-services/core-concepts.html</SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref>
+                >https://docs.redhat.com/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-job-service</SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref>
                 <SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkText
                 >SonataFlow Jobs Service docs</SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkText>
               </environmentVariables>
