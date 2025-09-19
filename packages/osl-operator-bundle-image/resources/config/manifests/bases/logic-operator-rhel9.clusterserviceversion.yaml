@@ -286,7 +286,7 @@ spec:
   maintainers:
     - email: serverless-logic-team@redhat.com
       name: Red Hat
-  maturity: alpha
+  maturity: stable
   minKubeVersion: 1.23.0
   provider:
     name: Red Hat
