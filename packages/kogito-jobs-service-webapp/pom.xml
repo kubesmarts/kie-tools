@@ -68,7 +68,8 @@
                 <KOGITO_JOBS_SERVICE_WEBAPP_logo>osl-favicon.svg</KOGITO_JOBS_SERVICE_WEBAPP_logo>
                 <KOGITO_JOBS_SERVICE_WEBAPP_docLinkHref
                 >https://docs.redhat.com/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-managing-supporting-services</KOGITO_JOBS_SERVICE_WEBAPP_docLinkHref>
-                <KOGITO_JOBS_SERVICE_WEBAPP_docLinkText>OSL Jobs Service configuration</KOGITO_JOBS_SERVICE_WEBAPP_docLinkText>
+                <KOGITO_JOBS_SERVICE_WEBAPP_docLinkText
+                >OSL Jobs Service configuration</KOGITO_JOBS_SERVICE_WEBAPP_docLinkText>
                 <SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref
                 >https://docs.redhat.com/documentation/red_hat_openshift_serverless/1.36/html/serverless_logic/supporting-services#serverless-logic-job-service</SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkHref>
                 <SONATAFLOW_JOBS_SERVICE_WEBAPP_docLinkText
