@@ -153,8 +153,6 @@ runs:
         DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
         DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
         DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
-        # SONATAFLOW_QUARKUS_DEVUI_VERSION: "${{ inputs.KOGITO_VERSION }}"
-        # SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
       shell: bash
 
     - name: Replace pre-build step in kogito-db-migrator-tool
@@ -163,13 +161,6 @@ runs:
         echo "::group::Replace pre-build step in kogito-db-migrator-tool"
         sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
         echo "::endgroup::"
-
-    # - name: Modify pom.xml of sonataflow-quarkus-devui
-    #   shell: bash
-    #   run: |
-    #     echo "::group::Modify pom.xml of sonataflow-quarkus-devui"
-    #     python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
-    #     echo "::endgroup::"
 
     - name: Verify maven-base version.org.kie.kogito
       shell: bash
