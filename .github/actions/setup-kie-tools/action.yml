@@ -106,11 +106,10 @@ runs:
         rm -rf kogito-apps
         echo "::endgroup::"
 
-    - name: Install org.apache.kie.sonataflow:kie-tools-packages locally
+    - name: Revert SonataFlow Quarkus DevUI POMs to upstream/main
       run: |
-        echo "::group::Install Kubesmarts parent POMs locally"
-        mvn clean install -N -f pom.xml -DskipTests
-        mvn clean install -N -f packages/pom.xml -DskipTests
+        echo "::group::Revert SonataFlow Quarkus DevUI POMs to upstream/main"
+        git checkout upstream/main -- packages/sonataflow-quarkus-devui/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-bom/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/pom.xml
         echo "::endgroup::"
       shell: bash
 
