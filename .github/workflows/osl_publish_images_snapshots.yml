@@ -3,14 +3,20 @@ name: "CI :: OSL :: Publish Images Snapshots"
 on:
   workflow_dispatch:
     inputs:
+      dry_run:
+        type: boolean
+        required: true
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
-        default: ""
+        default: "999-SNAPSHOT"
       IMAGE_TAG:
         description: "Specify the tag for the images"
         required: false
-        default: ""
+        default: "main"
+
+permissions:
+  contents: read
 
 jobs:
   publish_images_snapshots:
@@ -19,21 +25,23 @@ jobs:
     steps:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
-          if [ -n "${{ github.event.inputs.KOGITO_VERSION }}" ]; then
-            echo "KOGITO_RUNTIME_version=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+          if [ -n "${{ inputs.KOGITO_VERSION }}" ]; then
+            echo "KOGITO_RUNTIME_version=${{ inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
           else
             echo "No KOGITO_VERSION input provided. Keeping the default or existing behavior."
           fi
 
       - name: "Exporting OSL_IMAGE_TAG"
         run: |
-          if [ -n "${{ github.event.inputs.IMAGE_TAG }}" ]; then
-            echo "OSL_IMAGE_TAG=${{ github.event.inputs.IMAGE_TAG }}" >> $GITHUB_ENV
-          elif [ -n "${{ github.event.inputs.KOGITO_VERSION }}" ]; then
-            echo "OSL_IMAGE_TAG=${{ github.event.inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
+          if [ -n "${{ inputs.IMAGE_TAG }}" ]; then
+            echo "OSL_IMAGE_TAG=${{ inputs.IMAGE_TAG }}" >> $GITHUB_ENV
+          elif [ -n "${{ inputs.KOGITO_VERSION }}" ]; then
+            echo "OSL_IMAGE_TAG=${{ inputs.KOGITO_VERSION }}" >> $GITHUB_ENV
           else
             echo "OSL_IMAGE_TAG=main" >> $GITHUB_ENV
           fi
@@ -46,52 +54,22 @@ jobs:
       - name: "Setup environment"
         uses: ./.github/actions/setup-env
 
-      - name: "Cache Maven repository"
-        uses: actions/cache@v4
+      - name: "Setup kie-tools repository"
+        uses: ./.github/actions/setup-kie-tools
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
-      - name: "Clone and Build Additional Apache Repositories"
-        if: ${{ env.KOGITO_RUNTIME_version == '999-SNAPSHOT' }}
-        run: |
-          echo "KOGITO_RUNTIME_version is 999-SNAPSHOT: Cloning and building extra repositories."
-
-          echo "Cloning incubator-kie-drools (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-drools.git
-          cd incubator-kie-drools
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf incubator-kie-drools
-
-          echo "Cloning incubator-kie-kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-kogito-runtimes.git
-          cd incubator-kie-kogito-runtimes
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf incubator-kie-kogito-runtimes
-
-          echo "Cloning incubator-kie-kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/apache/incubator-kie-kogito-apps.git
-          cd incubator-kie-kogito-apps
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf incubator-kie-kogito-apps
-
-      - name: "Bootstrap"
-        env:
-          PLAYWRIGHT_BASE__installDeps: "true"
-        uses: ./.github/actions/bootstrap
-        with:
-          pnpm_filter_string: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
+          KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
+          DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}
+          PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
 
       - name: "Build Images"
         env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__runTests: "false"
-          # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
+          KIE_TOOLS_BUILD__runTests:
+            "false"
+            # TODO: on upstream implement a root-env named defaultRegistry and defaultAccount and change on every image package
           SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
           SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
           SONATAFLOW_DEVMODE_IMAGE__registry: "quay.io"
@@ -118,8 +96,8 @@ jobs:
           SONATAFLOW_OPERATOR__account: "kubesmarts"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
-
-        run: >-
+        shell: bash
+        run: |
           eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 
       - name: "Login to Quay"
@@ -130,6 +108,7 @@ jobs:
           password: ${{ secrets.QUAY_ROBOT_TOKEN }}
 
       - name: "Push Images to Quay"
+        if: ${{ !inputs.dry_run }}
         run: |
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
