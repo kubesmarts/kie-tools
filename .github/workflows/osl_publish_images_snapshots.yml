@@ -25,9 +25,8 @@ jobs:
     steps:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
-        # TODO: uncomment this
-        # with:
-        #   ref: ${{ github.event.inputs.IMAGE_TAG }}
+        with:
+          ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
@@ -56,9 +55,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools repository"
-        # TODO: use this
-        # uses: ./.github/actions/setup-kie-tools
-        uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-611-Web-tools-images-use-apache-snapshot-kogito-runtimes-artifacts
+        uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}
