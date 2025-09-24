@@ -81,14 +81,14 @@ jobs:
           ref: ${{ inputs.tag }}
 
       - name: "Setup environment"
-        # TODO: use this
-        # uses: ./kie-tools/.github/actions/setup-env
-        uses: ./kie-tools/.github/actions/setup-env@SRVLOGIC-649-Fix-kubesmartsdailydevpublish-CI-downloading-upstream-artifacts
+        uses: ./kie-tools/.github/actions/setup-env
         with:
           working_dir: kie-tools
 
       - name: "Setup kie-tools repository"
-        uses: ./kie-tools/.github/actions/setup-kie-tools
+        # TODO: use this
+        # uses: ./kie-tools/.github/actions/setup-kie-tools
+        uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-649-Fix-kubesmartsdailydevpublish-CI-downloading-upstream-artifacts
         with:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.tag }}
