@@ -25,6 +25,9 @@ concurrency:
   group: kubesmarts-custom-build-publish-${{ github.event.inputs.environment }}
   cancel-in-progress: true
 
+permissions:
+  contents: write
+
 jobs:
   build_and_publish:
     uses: ./.github/workflows/kubesmarts_build_and_publish.yml
