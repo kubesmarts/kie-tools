@@ -41,22 +41,22 @@ jobs:
           echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
           cd ..
 
-          echo "Cloning drools main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          echo "Cloning drools 9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/drools.git
           cd drools
           mvn -B clean install -Dquickly
           cd ..
           rm -rf drools
 
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          echo "Cloning kogito-runtimes (9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
           mvn -B clean install -Dquickly
           cd ..
           rm -rf kogito-runtimes
 
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          echo "Cloning kogito-apps (9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
           mvn -B clean install -Dquickly
           cd ..
@@ -66,7 +66,7 @@ jobs:
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
         shell: bash
 
       - name: Setup Environment Variables
@@ -77,28 +77,28 @@ jobs:
         id: get_kiegroup_git_refs
         run: |
           # Get Kiegroup Drools Git Ref
-          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/main | awk '{print $1}')
+          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
 
           # Get Kiegroup Runtimes Git Ref
-          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/main | awk '{print $1}')
+          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
 
           # Get Kiegroup Apps Git Ref
-          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/main | awk '{print $1}')
+          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "-Dversion.org.kie.kogito=9.104.0" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
       - name: Build KIE Tools
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
@@ -110,6 +110,6 @@ jobs:
       #   with:
       #     name: kie-tools-artifacts
       #     path: |
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-999-SNAPSHOT.jar
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-999-SNAPSHOT.jar
-      #       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-999-SNAPSHOT-image-build.zip
+      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-9.104.0.jar
+      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-9.104.0.jar
+      #       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-9.104.0-image-build.zip
