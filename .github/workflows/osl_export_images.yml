@@ -62,7 +62,7 @@ jobs:
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
         shell: bash
 
       - name: Setup Environment Variables
@@ -88,14 +88,14 @@ jobs:
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "-Dversion.org.kie.kogito=9.104.0" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
       - name: Run pnpm bootstrap - second time
         run: eval "pnpm bootstrap ${{ env.PNPM_FILTER }} --no-frozen-lockfile"
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
@@ -199,7 +199,7 @@ jobs:
             --repo kubesmarts/osl-images \
             --title "$PR_TITLE" \
             --body "This PR includes the latest dist output for packages: $OSL_PACKAGES" \
-            --base main \
+            --base 9.104.x-prod \
             --head "$EXPORT_BRANCH" $REVIEWERS_OPTION)
 
           echo "✅ Created PR: $PR_URL"
