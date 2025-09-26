@@ -23,7 +23,7 @@ const rootEnv = require("@kie-tools/root-env/env");
 module.exports = composeEnv([rootEnv], {
   vars: varsWithName({
     OSL__branchName: {
-      default: "main",
+      default: "1.37",
       description: "OpenShift Serverless Logic Branch Name for OSBS",
     },
   }),
