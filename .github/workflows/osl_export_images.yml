@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.KIE1_TOKEN }}
-          ref: main
+          ref: 9.104.x-prod
 
       - name: Setup Git Environment
         run: |
@@ -37,24 +37,24 @@ jobs:
           echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
           cd ..
 
-          echo "Cloning drools main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          echo "Cloning drools 9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/drools.git
           cd drools
-          mvn clean install -Dquickly
+          mvn clean install -Dquickly -Dproductized
           cd ..
           rm -rf drools
 
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          echo "Cloning kogito-runtimes (9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn clean install -Dquickly
+          mvn clean install -Dquickly -Dproductized
           cd ..
           rm -rf kogito-runtimes
 
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          echo "Cloning kogito-apps (9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn clean install -Dquickly
+          mvn clean install -Dquickly -Dproductized
           cd ..
           rm -rf kogito-apps
 
@@ -62,7 +62,7 @@ jobs:
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
         shell: bash
 
       - name: Setup Environment Variables
@@ -73,29 +73,29 @@ jobs:
         id: get_kiegroup_git_refs
         run: |
           # Get Kiegroup Drools Git Ref
-          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/main | awk '{print $1}')
+          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
 
           # Get Kiegroup Runtimes Git Ref
-          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/main | awk '{print $1}')
+          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
 
           # Get Kiegroup Apps Git Ref
-          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/main | awk '{print $1}')
+          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
           echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "-Dversion.org.kie.kogito=9.104.0" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
       - name: Run pnpm bootstrap - second time
         run: eval "pnpm bootstrap ${{ env.PNPM_FILTER }} --no-frozen-lockfile"
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
@@ -177,7 +177,7 @@ jobs:
           BRANCH="export-dist-$(date +'%Y%m%d-%H%M%S')"
           git checkout -b "$BRANCH"
           git add .
-          git commit -m "chore: export OSL dist from main"
+          git commit -m "chore: export OSL dist from 9.104.x-prod"
           git push -u origin "$BRANCH"
           echo "EXPORT_BRANCH=$BRANCH" >> $GITHUB_ENV
         shell: bash
@@ -189,7 +189,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          PR_TITLE="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Export OSL dist from main"
+          PR_TITLE="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Export OSL dist from 9.104.x-prod"
           REVIEWERS_OPTION=""
           if [[ -n "$SYNC_REVIEWERS" ]]; then
             REVIEWERS_OPTION="--reviewer $SYNC_REVIEWERS"
@@ -199,7 +199,7 @@ jobs:
             --repo kubesmarts/osl-images \
             --title "$PR_TITLE" \
             --body "This PR includes the latest dist output for packages: $OSL_PACKAGES" \
-            --base main \
+            --base 9.104.x-prod \
             --head "$EXPORT_BRANCH" $REVIEWERS_OPTION)
 
           echo "✅ Created PR: $PR_URL"

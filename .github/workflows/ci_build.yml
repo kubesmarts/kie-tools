@@ -21,7 +21,7 @@ name: "CI :: Build"
 
 on:
   push:
-    branches: [main]
+    branches: [9.104.x-prod]
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
@@ -108,27 +108,27 @@ jobs:
 
       - name: "Clone and Build Drools, Runtimes and Apps Repositories"
         run: |
-          echo "Cloning and building extra repositories from main branch."
+          echo "Cloning and building extra repositories from 9.104.x-prod branch."
           cd ..
 
-          echo "Cloning drools main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
+          echo "Cloning drools 9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/drools.git
           cd drools
-          mvn clean install -B -Dquickly
+          mvn clean install -B -Dquickly -Dproductized
           cd ..
           rm -rf drools
 
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
+          echo "Cloning kogito-runtimes (9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn clean install -B -Dquickly
+          mvn clean install -B -Dquickly -Dproductized
           cd ..
           rm -rf kogito-runtimes
 
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
+          echo "Cloning kogito-apps (9.104.x-prod branch)..."
+          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn clean install -B -Dquickly
+          mvn clean install -B -Dquickly -Dproductized
           cd ..
           rm -rf kogito-apps
 
@@ -136,14 +136,14 @@ jobs:
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
+          echo "-Dversion.org.kie.kogito=9.104.0" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
@@ -169,7 +169,7 @@ jobs:
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "9.104.0"
           KIE_TOOLS_BUILD__runLinters: "true"
           KIE_TOOLS_BUILD__runTests: "false"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
@@ -216,7 +216,7 @@ jobs:
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
-      - name: "Check tests result (`main` only)"
+      - name: "Check tests result (`9.104.x-prod` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
         uses: actions/github-script@v6
         env:
@@ -248,7 +248,7 @@ jobs:
         with:
           partition_index: ${{ matrix.partition }}
 
-      - name: "Upload end-to-end tests results to Buildkite (`main` only)"
+      - name: "Upload end-to-end tests results to Buildkite (`9.104.x-prod` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none' && !github.event.pull_request
         shell: bash
         env:
