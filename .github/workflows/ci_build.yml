@@ -114,21 +114,21 @@ jobs:
           echo "Cloning drools 9.104.x-prod branch)..."
           git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/drools.git
           cd drools
-          mvn clean install -B -Dquickly
+          mvn clean install -B -Dquickly -Dproductized
           cd ..
           rm -rf drools
 
           echo "Cloning kogito-runtimes (9.104.x-prod branch)..."
           git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-runtimes.git
           cd kogito-runtimes
-          mvn clean install -B -Dquickly
+          mvn clean install -B -Dquickly -Dproductized
           cd ..
           rm -rf kogito-runtimes
 
           echo "Cloning kogito-apps (9.104.x-prod branch)..."
           git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-apps.git
           cd kogito-apps
-          mvn clean install -B -Dquickly
+          mvn clean install -B -Dquickly -Dproductized
           cd ..
           rm -rf kogito-apps
 
