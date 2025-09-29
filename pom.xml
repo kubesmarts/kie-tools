@@ -199,7 +199,7 @@
             <configuration>
               <environmentVariables>
                 <DROOLS_AND_KOGITO__skip>true</DROOLS_AND_KOGITO__skip>
-                <KOGITO_RUNTIME_version>9.104.0</KOGITO_RUNTIME_version>
+                <KOGITO_RUNTIME_version>${version.org.kie.kogito}</KOGITO_RUNTIME_version>
                 <DROOLS_AND_KOGITO__droolsRepoGitRef
                 >${env.DROOLS_AND_KOGITO__droolsRepoGitRef}</DROOLS_AND_KOGITO__droolsRepoGitRef>
                 <DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef
