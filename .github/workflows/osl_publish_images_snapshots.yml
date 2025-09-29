@@ -55,7 +55,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools repository"
-        uses: ./.github/actions/setup-kie-tools@SRVLOGIC-678-Kubesmarts-CI-refactoring
+        uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}
