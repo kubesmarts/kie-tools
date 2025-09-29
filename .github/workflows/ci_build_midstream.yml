@@ -40,7 +40,7 @@ jobs:
 
       - name: Setup local maven cache
         id: setup_maven_cache
-        uses: ./.github/actions/setup-maven-cache@SRVLOGIC-678-Kubesmarts-CI-refactoring
+        uses: kubesmarts/kie-tools/.github/actions/setup-maven-cache@SRVLOGIC-678-Kubesmarts-CI-refactoring
         with:
           DEPS_BRANCHNAME: main
 
