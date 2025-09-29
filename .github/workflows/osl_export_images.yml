@@ -37,7 +37,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools repository"
-        uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-678-Kubesmarts-CI-refactoring
+        uses: ./kie-tools/.github/actions/setup-kie-tools@SRVLOGIC-678-Kubesmarts-CI-refactoring
         with:
           KOGITO_VERSION: "999-SNAPSHOT"
           PNPM_FILTER: ${{ env.PNPM_FILTER }}
