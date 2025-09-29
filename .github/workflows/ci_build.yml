@@ -106,31 +106,11 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
-      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
-        run: |
-          echo "Cloning and building extra repositories from main branch."
-          cd ..
-
-          echo "Cloning drools main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
-          cd drools
-          mvn clean install -B -Dquickly
-          cd ..
-          rm -rf drools
-
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
-          cd kogito-runtimes
-          mvn clean install -B -Dquickly
-          cd ..
-          rm -rf kogito-runtimes
-
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
-          cd kogito-apps
-          mvn clean install -B -Dquickly
-          cd ..
-          rm -rf kogito-apps
+      - name: Setup local maven cache
+        id: setup_maven_cache
+        uses: ./.github/actions/setup-maven-cache
+        with:
+          DEPS_BRANCHNAME: main
 
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
