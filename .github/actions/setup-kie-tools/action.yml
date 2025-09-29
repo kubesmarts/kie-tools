@@ -42,7 +42,7 @@ runs:
   steps:
     - name: Setup local maven cache
       id: setup_maven_cache
-      uses: ./.github/actions/setup-maven-cache
+      uses: ./.github/actions/setup-maven-cache@SRVLOGIC-678-Kubesmarts-CI-refactoring
       with:
         DEPS_BRANCHNAME: ${{ inputs.DEPS_BRANCHNAME }}
         WORKING_DIR: ${{ inputs.WORKING_DIR }}
