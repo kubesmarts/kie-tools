@@ -1,65 +1,37 @@
 name: "CI :: OSL :: Sync Main"
 
 on:
-  workflow_dispatch:
   schedule:
     - cron: "0 2 * * 1"
+  workflow_dispatch:
 
-env:
-  UPSTREAM_URL: ${{ vars.UPSTREAM_URL }}
-  GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
-  PNPM_FILTER: ${{ vars.SYNC_PNPM_FILTER }}
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+concurrency:
+  group: sync-main
+  cancel-in-progress: true
 
 jobs:
   sync_main_apache:
     if: ${{ vars.ENABLE_OSL_SYNC_MAIN == 'yes' }}
+    name: Sync main branch
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-      actions: write
-      pull-requests: write
-
     steps:
-      - name: "Setup pnpm"
-        uses: pnpm/action-setup@v3
+      - name: Merge local branch with upstream/main (no commit)
+        id: merge_upstream_main
+        # TODO: change this
+        uses: fantonangeli/kie-ci/.ci/actions/main-sync/merge@SRVLOGIC-633-Fix-token-issues-and-redesign-of-upstream-sync-CI
         with:
-          version: 9.3.0
-
-      - name: "Setup Node"
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22.13.1
-
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.KIE1_TOKEN }}
-          ref: main
+          main_sync_workflow_exclude_paths: ${{ vars.MAIN_SYNC_WORKFLOW_EXCLUDE_PATHS }}
+          upstream_remote: ${{ vars.UPSTREAM_URL }}
+          github_token: ${{ secrets.KIE1_TOKEN }}
 
       - name: Setup environment
         uses: ./.github/actions/setup-env
-
-      - name: Add Upstream Remote
-        run: |
-          git remote add upstream $UPSTREAM_URL
-          git fetch --unshallow upstream main
-
-      - name: Setup Git Environment & CLI
-        run: |
-          git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
-          git config --global user.email "${{ secrets.KIE1_EMAIL }}"
-          git config --global merge.ours.driver true
-
-      - name: Create Sync Branch
-        run: |
-          SYNC_BRANCH="main-sync-$(date +'%Y%m%d-%H%M%S')"
-          echo "SYNC_BRANCH=$SYNC_BRANCH" >> $GITHUB_ENV
-          git checkout -b "$SYNC_BRANCH"
-
-      - name: Merge upstream/main (prefer theirs)
-        id: merge
-        run: git merge upstream/main -X theirs --no-edit || true
 
       - name: "Bootstrap"
         env:
@@ -69,47 +41,12 @@ jobs:
         with:
           pnpm_filter_string: ""
 
-      - name: Capture Changes
-        id: capture_changes
-        run: |
-          git status --porcelain > /tmp/sync_changes.txt
-          if [ -s /tmp/sync_changes.txt ]; then
-            echo "HAS_CHANGES=true" >> $GITHUB_ENV
-          else
-            echo "HAS_CHANGES=false" >> $GITHUB_ENV
-          fi
-
-      - name: Commit & Push (if there are changes)
-        if: env.HAS_CHANGES == 'true'
-        run: |
-          git add .
-          git commit -m "🤖 Sync with upstream/main (auto-theirs)"
-          git push -u origin "${{ env.SYNC_BRANCH }}"
-
-      - name: Push Sync Branch (no changes)
-        if: env.HAS_CHANGES == 'false'
-        run: git push -u origin "${{ env.SYNC_BRANCH }}"
-
-      - name: Create Pull Request
-        env:
-          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-        run: |
-          # build a trimmed-change list for the PR body
-          SYNC_CHANGES=$(head -c 5000 /tmp/sync_changes.txt; echo "…")
-          ESCAPED=$(printf '%s' "$SYNC_CHANGES" \
-                    | sed -e ':a' -e 'N' -e '$!ba' -e 's|\n|\\n|g' -e 's|/|\\/|g')
-          sed \
-            -e "s|\\\$RUN_URL|${RUN_URL}|g" \
-            -e "s|\\\$TRUNCATED_SYNC_CHANGES|${ESCAPED}|g" \
-            .github/supporting-files/ci/templates/osl_sync_pr_template.md \
-            > pr_body.md
-
-          REVIEWERS_ARG=""
-          if [ -n "${{ vars.SYNC_REVIEWERS }}" ]; then
-            REVIEWERS_ARG="--reviewer ${{ vars.SYNC_REVIEWERS }}"
-          fi
-          gh pr create \
-            --title "[$(date +'%Y-%m-%d:%H%M%S')] 🤖 Sync main with upstream" \
-            --body-file pr_body.md \
-            --repo kubesmarts/kie-tools \
-            --base main $REVIEWERS_ARG
+      - name: Create a PR to sync main branch with upstream/main
+        # TODO: change this
+        uses: fantonangeli/kie-ci/.ci/actions/main-sync/create-pr@SRVLOGIC-633-Fix-token-issues-and-redesign-of-upstream-sync-CI
+        with:
+          main_sync_workflow_pr_reviewers: ${{ vars.MAIN_SYNC_WORKFLOW_PR_REVIEWERS }}
+          # TODO: change this
+          dry_run: true
+          sync_branch: ${{ steps.merge_upstream_main.outputs.sync_branch }}
+          github_token: ${{ secrets.KIE1_TOKEN }}
