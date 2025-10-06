@@ -32,6 +32,10 @@ inputs:
   PNPM_FILTER:
     description: "The filter to use for the bootstrap step"
     required: true
+  WORKING_DIR:
+    description: "kie-tools path"
+    required: false
+    default: "."
 
 runs:
   using: "composite"
@@ -109,6 +113,7 @@ runs:
     - name: Revert SonataFlow Quarkus DevUI POMs to upstream/main
       run: |
         echo "::group::Revert SonataFlow Quarkus DevUI POMs to upstream/main"
+        cd ${{ inputs.WORKING_DIR }}
         git remote add upstream https://github.com/apache/incubator-kie-tools.git
         git fetch upstream main
         git checkout upstream/main -- packages/sonataflow-quarkus-devui/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-bom/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/pom.xml
@@ -118,6 +123,7 @@ runs:
     - name: Run pnpm bootstrap - first time
       run: |
         echo "::group::Run pnpm bootstrap - first time"
+        cd ${{ inputs.WORKING_DIR }}
         pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         echo "::endgroup::"
       env:
@@ -128,6 +134,7 @@ runs:
     - name: Setup Environment Variables
       run: |
         echo "::group::Setup Environment Variables"
+        cd ${{ inputs.WORKING_DIR }}
         bash ./.github/supporting-files/ci/osl/export_vars.sh
         echo "::endgroup::"
       shell: bash
@@ -137,6 +144,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Prepare maven-base with .mvn/maven.config"
+        cd ${{ inputs.WORKING_DIR }}
         mkdir ./packages/maven-base/.mvn
         echo "-Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }}" > "./packages/maven-base/.mvn/maven.config"
         echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
@@ -145,6 +153,7 @@ runs:
     - name: Run pnpm bootstrap - second time
       run: |
         echo "::group::Run pnpm bootstrap - second time"
+        cd ${{ inputs.WORKING_DIR }}
         eval "pnpm bootstrap ${{ inputs.PNPM_FILTER }} --no-frozen-lockfile"
         echo "::endgroup::"
       env:
@@ -159,6 +168,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Replace pre-build step in kogito-db-migrator-tool"
+        cd ${{ inputs.WORKING_DIR }}
         sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
         echo "::endgroup::"
 
@@ -166,6 +176,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Verify maven-base version.org.kie.kogito"
+        cd ${{ inputs.WORKING_DIR }}
         MAVEN_BASE_KOGITO_VERSION=$(mvn help:evaluate \
           -Dexpression=version.org.kie.kogito \
           -q -DforceStdout \
@@ -184,6 +195,7 @@ runs:
       shell: bash
       run: |
         echo "::group::Verify root-env version.kogito"
+        cd ${{ inputs.WORKING_DIR }}
         ROOT_ENV_KOGITO_VERSION=$(node -p "require('./packages/root-env/env').env.versions.kogito")
 
         echo "Detected version.kogito: $ROOT_ENV_KOGITO_VERSION"

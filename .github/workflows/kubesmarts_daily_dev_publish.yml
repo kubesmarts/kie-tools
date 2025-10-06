@@ -9,6 +9,9 @@ on:
       - ".github/workflows/kubesmarts_daily_dev_publish.yml"
       - ".github/workflows/kubesmarts_build_and_publish.yml"
 
+permissions:
+  contents: write
+
 jobs:
   build_and_publish:
     uses: ./.github/workflows/kubesmarts_build_and_publish.yml
