@@ -223,7 +223,7 @@ func (m OperatorManager) InstallSonataflowOperator() error {
 				"namespace": m.namespace,
 			},
 			"spec": map[string]interface{}{
-				"channel":         "alpha",
+				"channel":         "stable",
 				"name":            "sonataflow-operator",
 				"source":          source,
 				"sourceNamespace": sourceNamespace,
