@@ -22,8 +22,8 @@ version: "main"
 
 artifacts:
   - name: db-migrator-tool-image-build.zip
-    description: "db-migrator-tool-9.102.0.redhat-00004-image-build"
-    md5: "ad090d1f9f12dde67f8022aaeb68d745"
+    description: "db-migrator-tool-9.104.0.redhat-00002-image-build"
+    md5: "2691760c680f702ebc54bf0465dae979"
 
 packages:
   install:

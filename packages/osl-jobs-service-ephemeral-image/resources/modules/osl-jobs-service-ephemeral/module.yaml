@@ -22,11 +22,11 @@ version: "main"
 
 artifacts:
   - name: jobs-service-inmemory-image-build.zip
-    description: "jobs-service-inmemory-9.102.0.redhat-00004-image-build"
-    md5: "ad090d1f9f12dde67f8022aaeb68d745"
+    description: "jobs-service-inmemory-9.104.0.redhat-00002-image-build"
+    md5: "826dfbd41282dcc4d0a734820fa778f2"
   - name: kogito-jobs-service-webapp-image-build.zip
-    description: "kogito-jobs-service-webapp-9.102.0.redhat-00004-image-build"
-    md5: "a2f71cc294c728f397567468b21013df"
+    description: "kogito-jobs-service-webapp-9.104.0.redhat-00002-image-build"
+    md5: "ecb571412562b7d716c9aefa400f6365"
 
 envs:
   - name: "KOGITO_JOBS_SERVICE_COMMON_SCRIPT_PATH"
