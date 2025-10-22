@@ -163,31 +163,30 @@ jobs:
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
-      - name: "FULL → Build"
-        if: steps.setup_build_mode.outputs.mode == 'full'
-        shell: bash
-        env:
-          WEBPACK__minimize: "false"
-          WEBPACK__tsLoaderTranspileOnly: "false"
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
-          KIE_TOOLS_BUILD__runLinters: "true"
-          KIE_TOOLS_BUILD__runTests: "false"
-          KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
-          KIE_TOOLS_BUILD__buildContainerImages: "false"
-          KIE_TOOLS_BUILD__buildExamples: "true"
-          KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
-          KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
-          DISPLAY: ":99.0"
-          START_SERVER_AND_TEST_INSECURE: "true"
-          NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
-          MAVEN_OPTS: "-Xmx2g"
-        run: >-
-          eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+      # - name: "FULL → Build"
+      #   if: steps.setup_build_mode.outputs.mode == 'full'
+      #   shell: bash
+      #   env:
+      #     WEBPACK__minimize: "false"
+      #     WEBPACK__tsLoaderTranspileOnly: "false"
+      #     KOGITO_RUNTIME_version: "999-SNAPSHOT"
+      #     KIE_TOOLS_BUILD__runLinters: "true"
+      #     KIE_TOOLS_BUILD__runTests: "false"
+      #     KIE_TOOLS_BUILD__runEndToEndTests: "false"
+      #     KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
+      #     KIE_TOOLS_BUILD__buildContainerImages: "false"
+      #     KIE_TOOLS_BUILD__buildExamples: "true"
+      #     KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
+      #     KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
+      #     DISPLAY: ":99.0"
+      #     START_SERVER_AND_TEST_INSECURE: "true"
+      #     NODE_OPTIONS: "--max_old_space_size=6144"
+      #     MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+      #     MAVEN_OPTS: "-Xmx2g"
+      #   run: >-
+      #     eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "PARTIAL → Build upstream"
-        if: steps.setup_build_mode.outputs.mode == 'partial' && steps.setup_build_mode.outputs.upstreamPnpmFilterString != ''
         shell: bash
         env:
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
@@ -200,7 +199,6 @@ jobs:
 
       - name: "PARTIAL → Build changed and downstream with:  -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester'"
         shell: bash
-        if: steps.setup_build_mode.outputs.mode == 'partial'
         env:
           WEBPACK__minimize: "false"
           KIE_TOOLS_BUILD__runLinters: "true"
@@ -218,7 +216,7 @@ jobs:
 
       - name: "PARTIAL → Build changed and downstream with: -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester'"
         shell: bash
-        if: steps.setup_build_mode.outputs.mode == 'partial' && always()
+        if: always()
         env:
           WEBPACK__minimize: "false"
           KIE_TOOLS_BUILD__runLinters: "true"
@@ -236,7 +234,7 @@ jobs:
 
       - name: "PARTIAL → Build changed and downstream no exclusions"
         shell: bash
-        if: steps.setup_build_mode.outputs.mode == 'partial' && always()
+        if: always()
         env:
           WEBPACK__minimize: "false"
           KIE_TOOLS_BUILD__runLinters: "true"
