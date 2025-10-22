@@ -33,6 +33,7 @@ concurrency:
 env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
+  PNPM_TEST_FILTER: "-F '@kie-tools-core/drools-and-kogito' -F '@kie-tools-core/editor' -F '@kie-tools-core/envelope' -F '@kie-tools-core/envelope-bus' -F '@kie-tools-core/i18n' -F '@kie-tools-core/keyboard-shortcuts' -F '@kie-tools-core/monaco-editor' -F '@kie-tools-core/notifications' -F '@kie-tools-core/operating-system' -F '@kie-tools-core/patternfly-base' -F '@kie-tools-core/react-hooks' -F '@kie-tools-core/switch-expression-ts' -F '@kie-tools-core/vscode-java-code-completion' -F '@kie-tools-core/webpack-base' -F '@kie-tools-core/workspace' -F '@kie-tools/dashbuilder' -F '@kie-tools/dashbuilder-client' -F '@kie-tools/dashbuilder-component-api' -F '@kie-tools/dashbuilder-component-assembler' -F '@kie-tools/dashbuilder-component-dev' -F '@kie-tools/dashbuilder-component-echarts' -F '@kie-tools/dashbuilder-component-echarts-base' -F '@kie-tools/dashbuilder-component-map' -F '@kie-tools/dashbuilder-component-svg-heatmap' -F '@kie-tools/dashbuilder-component-table' -F '@kie-tools/dashbuilder-component-timeseries' -F '@kie-tools/dashbuilder-component-uniforms' -F '@kie-tools/dashbuilder-component-victory-charts' -F '@kie-tools/dmn-feel-antlr4-parser' -F '@kie-tools/dmn-language-service' -F '@kie-tools/dmn-marshaller' -F '@kie-tools/dmn-marshaller-backend-compatibility-tester' -F '@kie-tools/dmn-testing-models' -F '@kie-tools/i18n-common-dictionary' -F '@kie-tools/image-env-to-json' -F '@kie-tools/jest-base' -F '@kie-tools/json-yaml-language-service' -F '@kie-tools/kie-bc-editors' -F '@kie-tools/kn-plugin-workflow' -F '@kie-tools/kogito-data-index-webapp' -F '@kie-tools/kogito-db-migrator-tool' -F '@kie-tools/kogito-db-migrator-tool-image' -F '@kie-tools/kogito-jobs-service-webapp' -F '@kie-tools/maven-base' -F '@kie-tools/maven-m2-repo-via-http-image' -F '@kie-tools/pmml-editor-marshaller' -F '@kie-tools/root-env' -F '@kie-tools/runtime-tools-components' -F '@kie-tools/runtime-tools-process-enveloped-components' -F '@kie-tools/runtime-tools-process-gateway-api' -F '@kie-tools/runtime-tools-process-webapp-components' -F '@kie-tools/runtime-tools-shared-enveloped-components' -F '@kie-tools/runtime-tools-shared-gateway-api' -F '@kie-tools/runtime-tools-shared-webapp-components' -F '@kie-tools/runtime-tools-swf-enveloped-components' -F '@kie-tools/runtime-tools-swf-gateway-api' -F '@kie-tools/runtime-tools-swf-webapp-components' -F '@kie-tools/serverless-workflow-combined-editor' -F '@kie-tools/serverless-workflow-dev-ui-monitoring-webapp' -F '@kie-tools/serverless-workflow-dev-ui-webapp' -F '@kie-tools/serverless-workflow-diagram-editor' -F '@kie-tools/serverless-workflow-diagram-editor-assets' -F '@kie-tools/serverless-workflow-diagram-editor-envelope' -F '@kie-tools/serverless-workflow-jq-expressions' -F '@kie-tools/serverless-workflow-language-service' -F '@kie-tools/serverless-workflow-service-catalog' -F '@kie-tools/serverless-workflow-text-editor' -F '@kie-tools/sonataflow-builder-image' -F '@kie-tools/sonataflow-dev-app' -F '@kie-tools/sonataflow-devmode-image' -F '@kie-tools/sonataflow-image-common' -F '@kie-tools/sonataflow-management-console-image' -F '@kie-tools/sonataflow-management-console-image-env' -F '@kie-tools/sonataflow-management-console-webapp' -F '@kie-tools/sonataflow-operator' -F '@kie-tools/sonataflow-quarkus-devui' -F '@kie-tools/sonataflow-uniforms' -F '@kie-tools/uniforms-patternfly' -F '@kie-tools/xml-parser-ts' -F '@kie-tools/xml-parser-ts-codegen' -F '@kie-tools/yaml-language-server' -F '@kie/kogito-data-index-ephemeral-image' -F '@kie/kogito-data-index-postgresql-image' -F '@kie/kogito-images-install-helper' -F '@kie/kogito-jobs-service-ephemeral-image' -F '@kie/kogito-jobs-service-postgresql-image' -F '@osl/osl-data-index-ephemeral-image' -F '@osl/osl-data-index-postgresql-image' -F '@osl/osl-db-migrator-tool-image' -F '@osl/osl-images-modules' -F '@osl/osl-jobs-service-ephemeral-image' -F '@osl/osl-jobs-service-postgresql-image' -F '@osl/osl-management-console-image' -F '@osl/osl-operator-bundle-image' -F '@osl/osl-swf-builder-image' -F '@osl/osl-swf-devmode-image' -F '@osl/redhat-env'"
 
 jobs:
   run:
@@ -185,17 +186,17 @@ jobs:
       #     MAVEN_OPTS: "-Xmx2g"
       #   run: >-
       #     eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
-
-      - name: "PARTIAL → Build upstream"
-        shell: bash
-        env:
-          KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
-          KIE_TOOLS_BUILD__buildExamples: "true"
-          NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
-          MAVEN_OPTS: "-Xmx2g"
-        run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:dev"
+      #
+      # - name: "PARTIAL → Build upstream"
+      #   shell: bash
+      #   env:
+      #     KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
+      #     KIE_TOOLS_BUILD__buildExamples: "true"
+      #     NODE_OPTIONS: "--max_old_space_size=6144"
+      #     MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+      #     MAVEN_OPTS: "-Xmx2g"
+      #   run: |
+      #     eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:dev"
 
       - name: "PARTIAL → Build changed and downstream with:  -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester'"
         shell: bash
@@ -212,7 +213,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+          eval "pnpm $PNPM_TEST_FILTER -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "PARTIAL → Build changed and downstream with: -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester'"
         shell: bash
@@ -230,7 +231,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+          eval "pnpm $PNPM_TEST_FILTER -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "PARTIAL → Build changed and downstream no exclusions"
         shell: bash
@@ -248,7 +249,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} --workspace-concurrency=1 build:prod"
+          eval "pnpm $PNPM_TEST_FILTER --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
