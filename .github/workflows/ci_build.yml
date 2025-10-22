@@ -214,7 +214,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
