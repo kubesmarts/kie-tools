@@ -198,7 +198,7 @@ jobs:
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:dev"
 
-      - name: "PARTIAL → Build changed and downstream"
+      - name: "PARTIAL → Build changed and downstream with:  -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester'"
         shell: bash
         if: steps.setup_build_mode.outputs.mode == 'partial'
         env:
@@ -215,6 +215,42 @@ jobs:
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+
+      - name: "PARTIAL → Build changed and downstream with: -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester'"
+        shell: bash
+        if: steps.setup_build_mode.outputs.mode == 'partial' && always()
+        env:
+          WEBPACK__minimize: "false"
+          KIE_TOOLS_BUILD__runLinters: "true"
+          KIE_TOOLS_BUILD__runTests: "true"
+          KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__buildExamples: "true"
+          DISPLAY: ":99.0"
+          START_SERVER_AND_TEST_INSECURE: "true"
+          NODE_OPTIONS: "--max_old_space_size=6144"
+          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_OPTS: "-Xmx2g"
+        run: |
+          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+
+      - name: "PARTIAL → Build changed and downstream no exclusions"
+        shell: bash
+        if: steps.setup_build_mode.outputs.mode == 'partial' && always()
+        env:
+          WEBPACK__minimize: "false"
+          KIE_TOOLS_BUILD__runLinters: "true"
+          KIE_TOOLS_BUILD__runTests: "true"
+          KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__buildExamples: "true"
+          DISPLAY: ":99.0"
+          START_SERVER_AND_TEST_INSECURE: "true"
+          NODE_OPTIONS: "--max_old_space_size=6144"
+          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_OPTS: "-Xmx2g"
+        run: |
+          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
