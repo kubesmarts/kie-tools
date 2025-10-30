@@ -2,6 +2,10 @@ name: "CI :: OSL :: Export Dist to osl-images"
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        default: true
 
 env:
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
@@ -32,81 +36,11 @@ jobs:
       - name: Setup Environment
         uses: ./.github/actions/setup-env
 
-      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
-        run: |
-          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
-          cd ..
-
-          echo "Cloning drools main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/drools.git
-          cd drools
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf drools
-
-          echo "Cloning kogito-runtimes (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-runtimes.git
-          cd kogito-runtimes
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf kogito-runtimes
-
-          echo "Cloning kogito-apps (main branch)..."
-          git clone --depth 1 --branch main https://github.com/kiegroup/kogito-apps.git
-          cd kogito-apps
-          mvn clean install -Dquickly
-          cd ..
-          rm -rf kogito-apps
-
-      - name: Run pnpm bootstrap - first time
-        run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
-        env:
-          DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
-        shell: bash
-
-      - name: Setup Environment Variables
-        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
-        shell: bash
-
-      - name: Get Kiegroup git ref urls
-        id: get_kiegroup_git_refs
-        run: |
-          # Get Kiegroup Drools Git Ref
-          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/main | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-          # Get Kiegroup Runtimes Git Ref
-          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/main | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
-
-          # Get Kiegroup Apps Git Ref
-          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/main | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-      - name: Prepare maven-base with .mvn/maven.config
-        id: prepare_maven_base_config
-        run: |
-          mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
-          echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
-
-      - name: Run pnpm bootstrap - second time
-        run: eval "pnpm bootstrap ${{ env.PNPM_FILTER }} --no-frozen-lockfile"
-        env:
-          DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
-          DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
-          DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
-          DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
-        shell: bash
-
-      - name: Replace pre-build step in kogito-db-migrator-tool
-        run: |
-          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
-
-      - name: Modify pom.xml of sonataflow-quarkus-devui
-        run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
+      - name: "Setup kie-tools repository"
+        uses: ./kie-tools/.github/actions/setup-kie-tools
+        with:
+          KOGITO_VERSION: "999-SNAPSHOT"
+          PNPM_FILTER: ${{ env.PNPM_FILTER }}
 
       - name: Build OSL Packages
         run: eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
@@ -170,6 +104,7 @@ jobs:
         shell: bash
 
       - name: Commit and Push to Target Repo
+        if: ${{ !inputs.dry_run }}
         run: |
           set -euo pipefail
           cd target-repo
@@ -183,6 +118,7 @@ jobs:
         shell: bash
 
       - name: Create Pull Request
+        if: ${{ !inputs.dry_run }}
         env:
           GH_TOKEN: ${{ secrets.KIE1_TOKEN }}
           SYNC_REVIEWERS: ${{ vars.SYNC_REVIEWERS }}

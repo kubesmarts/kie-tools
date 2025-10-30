@@ -40,75 +40,12 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Get Kiegroup git ref urls
-      env:
-        DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
-        DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl: https://github.com/kiegroup/kogito-runtimes
-        DROOLS_AND_KOGITO__kogitoAppsRepoUrl: https://github.com/kiegroup/kogito-apps
-      id: get_kiegroup_git_refs
-      shell: bash
-      run: |
-        echo "::group::Get Kiegroup git ref urls"
-
-        # Get Kiegroup Drools Git Ref
-        DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-        # Get Kiegroup Runtimes Git Ref
-        RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
-
-        # Get Kiegroup Apps Git Ref
-        APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-        echo "::endgroup::"
-
-    - name: "Cache Maven repository"
-      id: m2
-      uses: actions/cache@v4
+    - name: Setup local maven cache
+      id: setup_maven_cache
+      uses: ./.github/actions/setup-maven-cache
       with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
-        restore-keys: ${{ runner.os }}-maven
-
-    - name: Clone and Build Drools, Runtimes and Apps repositories
-      if: steps.m2.outputs.cache-hit != 'true'
-      shell: bash
-      env:
-        DROOLS_AND_KOGITO__droolsRepoUrl: https://github.com/kiegroup/drools
-        DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl: https://github.com/kiegroup/kogito-runtimes
-        DROOLS_AND_KOGITO__kogitoAppsRepoUrl: https://github.com/kiegroup/kogito-apps
-      run: |
-        echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
-        cd ..
-
-        echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
-        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}
-        cd drools
-        mvn -B clean install -DskipTests -Dfull
-        cd ..
-        rm -rf drools
-        echo "::endgroup::"
-
-        echo "::group::Cloning kogito-runtimes ${{ inputs.DEPS_BRANCHNAME }} branch..."
-        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}
-        cd kogito-runtimes
-        mvn -B clean install -DskipTests -Dfull
-        cd ..
-        rm -rf kogito-runtimes
-        echo "::endgroup::"
-
-        echo "::group::Cloning kogito-apps ${{ inputs.DEPS_BRANCHNAME }} branch..."
-        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}
-        cd kogito-apps
-        mvn -B clean install -DskipTests -Dfull
-        cd ..
-        rm -rf kogito-apps
-        echo "::endgroup::"
+        DEPS_BRANCHNAME: ${{ inputs.DEPS_BRANCHNAME }}
+        WORKING_DIR: ${{ inputs.WORKING_DIR }}
 
     - name: Revert SonataFlow Quarkus DevUI POMs to upstream/main
       run: |
@@ -159,9 +96,9 @@ runs:
       env:
         DROOLS_AND_KOGITO__skip: true
         KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
-        DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
-        DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
-        DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
+        DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.setup_maven_cache.outputs.droolsRepoGitRef }}"
+        DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
+        DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
       shell: bash
 
     - name: Replace pre-build step in kogito-db-migrator-tool
