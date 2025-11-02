@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: kie-tools
-          # ref: ${{ inputs.tag }}
+          ref: ${{ inputs.tag }}
 
       - name: "Setup environment"
         uses: ./kie-tools/.github/actions/setup-env
