@@ -22,6 +22,7 @@ set -e
 # Set up some environment variables for testing
 setup() {
     export QUARKUS_PLATFORM_VERSION="2.0.0"
+    export QUARKUS_VERSION="2.3.4"
     export KOGITO_VERSION="1.5.0"
     export KOGITO_HOME=$BATS_TMPDIR/maven
     mkdir -p ${KOGITO_HOME}/"launch"
@@ -47,7 +48,7 @@ teardown() {
     run process_extensions "io.quarkus:quarkus-resteasy-reactive"
     echo "Test Output:"
     echo "$output"
-    [ "$output" == "io.quarkus:quarkus-resteasy-reactive:2.0.0" ]
+    [ "$output" == "io.quarkus:quarkus-resteasy-reactive:2.3.4" ]
 }
 
 # Test that an extension without version for kogito gets the KOGITO version
@@ -71,7 +72,7 @@ teardown() {
     run process_extensions "io.quarkus:quarkus-resteasy-reactive,org.acme:acme-component,io.quarkus:quarkus-core"
     echo "Test Output:"
     echo "$output"
-    [ "$output" == "io.quarkus:quarkus-resteasy-reactive:2.0.0,org.acme:acme-component,io.quarkus:quarkus-core:2.0.0" ]
+    [ "$output" == "io.quarkus:quarkus-resteasy-reactive:2.3.4,org.acme:acme-component,io.quarkus:quarkus-core:2.3.4" ]
 }
 
 # Test that the script fails when no extensions are provided
