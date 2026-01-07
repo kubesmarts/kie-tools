@@ -97,6 +97,7 @@ import { useDmnEditorI18n } from "../i18n";
 
 export function BoxedExpressionScreen({ container }: { container: React.RefObject<HTMLElement> }) {
   const { externalModelsByNamespace } = useExternalModels();
+  const { i18n } = useDmnEditorI18n();
 
   const settings = useSettings();
   const dmnEditorStoreApi = useDmnEditorStoreApi();
