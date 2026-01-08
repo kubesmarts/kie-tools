@@ -92,19 +92,13 @@ runs:
       shell: bash
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
-
-        if [ "$RUNNER_OS" == "Windows" ]; then
-          mkdir -p /c/build-deps
-          cd /c/build-deps
-        else
-          cd ..
-        fi
+        cd ..
 
         echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
         cd drools
-        mvn clean install -B -Dquickly
+        mvn clean install -B -Dquickly -DskipTests -DskipITs -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true
         cd ..
         rm -rf drools
         echo "::endgroup::"
@@ -113,7 +107,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
         cd kogito-runtimes
-        mvn clean install -B -Dquickly
+        mvn clean install -B -Dquickly -DskipTests -DskipITs -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true
         cd ..
         rm -rf kogito-runtimes
         echo "::endgroup::"
@@ -122,7 +116,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
         cd kogito-apps
-        mvn clean install -B -Dquickly
+        mvn clean install -B -Dquickly -DskipTests -DskipITs -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"
