@@ -92,7 +92,12 @@ runs:
       shell: bash
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
-        cd ..
+
+        if [ "$RUNNER_OS" == "Windows" ]; then
+          cd /c
+        else
+          cd ..
+        fi
 
         echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
