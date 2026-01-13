@@ -112,6 +112,10 @@ jobs:
         with:
           DEPS_BRANCHNAME: 9.104.x-prod
 
+      - name: Setup Environment Variables
+        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
+        shell: bash
+
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
         run: |
