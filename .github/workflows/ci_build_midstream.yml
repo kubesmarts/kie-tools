@@ -25,10 +25,12 @@ on:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
@@ -36,31 +38,11 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
-      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
-        run: |
-          echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
-          cd ..
-
-          echo "Cloning drools 9.104.x-prod branch)..."
-          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/drools.git
-          cd drools
-          mvn -B clean install -Dquickly -Dproductized
-          cd ..
-          rm -rf drools
-
-          echo "Cloning kogito-runtimes (9.104.x-prod branch)..."
-          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-runtimes.git
-          cd kogito-runtimes
-          mvn -B clean install -Dquickly -Dproductized
-          cd ..
-          rm -rf kogito-runtimes
-
-          echo "Cloning kogito-apps (9.104.x-prod branch)..."
-          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-apps.git
-          cd kogito-apps
-          mvn -B clean install -Dquickly -Dproductized
-          cd ..
-          rm -rf kogito-apps
+      - name: Setup local maven cache
+        id: setup_maven_cache
+        uses: ./.github/actions/setup-maven-cache
+        with:
+          DEPS_BRANCHNAME: 9.104.x-prod
 
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
@@ -73,21 +55,6 @@ jobs:
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
 
-      - name: Get Kiegroup git ref urls
-        id: get_kiegroup_git_refs
-        run: |
-          # Get Kiegroup Drools Git Ref
-          DROOLS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__droolsRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
-
-          # Get Kiegroup Runtimes Git Ref
-          RUNTIMES_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
-
-          # Get Kiegroup Apps Git Ref
-          APPS_GIT_REF=$(git ls-remote "${{ env.DROOLS_AND_KOGITO__kogitoAppsRepoUrl}}" refs/heads/9.104.x-prod | awk '{print $1}')
-          echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
-
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
         run: |
@@ -99,9 +66,9 @@ jobs:
         env:
           DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "9.104.0"
-          DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}"
-          DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}}"
-          DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}}"
+          DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.setup_maven_cache.outputs.droolsRepoGitRef }}"
+          DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
+          DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
         run: mvn -B clean install
 
       # This step works well but can consume midstream storage
