@@ -97,7 +97,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
         cd drools
-        mvn clean install -B -Dquickly
+        mvn clean install -B -Dquickly -Dproductized
         cd ..
         rm -rf drools
         echo "::endgroup::"
@@ -106,7 +106,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
         cd kogito-runtimes
-        mvn clean install -B -Dquickly
+        mvn clean install -B -Dquickly -Dproductized
         cd ..
         rm -rf kogito-runtimes
         echo "::endgroup::"
@@ -115,7 +115,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
         cd kogito-apps
-        mvn clean install -B -Dquickly
+        mvn clean install -B -Dquickly -Dproductized
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"
