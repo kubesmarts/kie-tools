@@ -21,6 +21,11 @@ on:
         type: string
         required: false
         default: 0.0.0
+      KOGITO_VERSION:
+        type: string
+        description: "Specify the version for Kogito Runtime"
+        required: false
+        default: "999-SNAPSHOT"
     secrets:
       KIE1_TOKEN:
         required: true
@@ -29,7 +34,6 @@ on:
       KIE1_EMAIL:
         required: true
 env:
-  SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO || 'kubesmarts/sandbox-deployment' }}
   DASHBUILDER__viewerImageAccount: "kubesmarts"
   DASHBUILDER__viewerImageName: "incubator-kie-dashbuilder-viewer"
   DASHBUILDER__viewerImageRegistry: "quay.io"
@@ -38,6 +42,8 @@ env:
   KIE_TOOLS_BUILD__runEndToEndTests: "false"
   KIE_TOOLS_BUILD__runLinters: "false"
   KIE_TOOLS_BUILD__runTests: "false"
+  KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+  SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO || 'kubesmarts/sandbox-deployment' }}
   SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
   SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageName: "incubator-kie-serverless-logic-web-tools-base-builder"
   SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageRegistry: "quay.io"
@@ -47,7 +53,7 @@ env:
   SERVERLESS_LOGIC_WEB_TOOLS__dashbuilderViewerImageTag: "${{ inputs.tag }}"
   SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryName: "sandbox-catalog"
   SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryOrg: "kubesmarts"
-  SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryRef: "${{ inputs.version }}"
+  SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryRef: ${{ (inputs.environment == 'dev' && 'main') || inputs.version }}
   SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageAccount: "kubesmarts"
   SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageName: "incubator-kie-serverless-logic-web-tools-swf-builder"
   SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageRegistry: "quay.io"
@@ -60,6 +66,9 @@ env:
   WEBPACK__minimize: "true"
   WEBPACK__tsLoaderTranspileOnly: "false"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     if: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO != '' }}
@@ -71,24 +80,18 @@ jobs:
           path: kie-tools
           ref: ${{ inputs.tag }}
 
-      - name: "Cache Maven packages"
-        if: github.event_name != 'pull_request'
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-maven
-
       - name: "Setup environment"
         uses: ./kie-tools/.github/actions/setup-env
         with:
           working_dir: kie-tools
 
-      - name: "Bootstrap"
-        id: bootstrap
-        uses: ./kie-tools/.github/actions/bootstrap
+      - name: "Setup kie-tools repository"
+        uses: ./kie-tools/.github/actions/setup-kie-tools
         with:
-          working_dir: kie-tools
+          KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
+          DEPS_BRANCHNAME: ${{ inputs.tag }}
+          PNPM_FILTER: "-F @kie-tools/serverless-logic-web-tools..."
+          WORKING_DIR: kie-tools
 
       - name: "Parse `commit_sha`"
         id: commit_sha
@@ -106,12 +109,12 @@ jobs:
           fi
           echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
           cd kie-tools
-          pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
+          pnpm -F @kie-tools/serverless-logic-web-tools... -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:prod
 
       - name: "Checkout serverless-logic-sandbox-deployment"
         uses: actions/checkout@v3
         with:
-          token: ${{ github.event_name != 'pull_request' && secrets.KIE1_TOKEN || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.KIE1_TOKEN }}
           path: serverless-logic-sandbox-deployment
           repository: ${{ env.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO }}
           ref: gh-pages
@@ -139,7 +142,8 @@ jobs:
           git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
           git config --global user.email "${{ secrets.KIE1_EMAIL }}"
           echo "Commit changes"
-          git add . && git commit -m "Deploy ${{ inputs.version }} (${{ inputs.environment }}) using tag: ${{ inputs.tag }}" || echo "No changes."
+          git add . 
+          git commit -m "Deploy ${{ inputs.version }} (${{ inputs.environment }}) using tag: ${{ inputs.tag }}" || echo "No changes."
 
       - name: "Dry run: Git push"
         if: ${{ inputs.dry_run || github.event_name == 'pull_request' }}

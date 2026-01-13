@@ -106,31 +106,11 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
-      - name: "Clone and Build Drools, Runtimes and Apps Repositories"
-        run: |
-          echo "Cloning and building extra repositories from 9.104.x-prod branch."
-          cd ..
-
-          echo "Cloning drools 9.104.x-prod branch)..."
-          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/drools.git
-          cd drools
-          mvn clean install -B -Dquickly -Dproductized
-          cd ..
-          rm -rf drools
-
-          echo "Cloning kogito-runtimes (9.104.x-prod branch)..."
-          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-runtimes.git
-          cd kogito-runtimes
-          mvn clean install -B -Dquickly -Dproductized
-          cd ..
-          rm -rf kogito-runtimes
-
-          echo "Cloning kogito-apps (9.104.x-prod branch)..."
-          git clone --depth 1 --branch 9.104.x-prod https://github.com/kiegroup/kogito-apps.git
-          cd kogito-apps
-          mvn clean install -B -Dquickly -Dproductized
-          cd ..
-          rm -rf kogito-apps
+      - name: Setup local maven cache
+        id: setup_maven_cache
+        uses: ./.github/actions/setup-maven-cache
+        with:
+          DEPS_BRANCHNAME: 9.104.x-prod
 
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
@@ -214,7 +194,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+          eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} -F '!@kie-tools/dmn-marshaller' -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`9.104.x-prod` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'

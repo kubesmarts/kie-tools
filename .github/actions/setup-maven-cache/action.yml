@@ -1,0 +1,121 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+name: "Prepare local maven repository and build Drools, Runtimes, Apps"
+description: ""
+
+inputs:
+  DEPS_BRANCHNAME:
+    description: "Branch to use for kiegroup repositories"
+    required: false
+    default: "main"
+  WORKING_DIR:
+    description: "Working directory"
+    required: false
+    default: "."
+  DROOLS_REPO_URL:
+    description: "Drools repository URL"
+    required: false
+    default: "https://github.com/kiegroup/drools"
+  KOGITO_RUNTIMES_REPO_URL:
+    description: "Kogito Runtimes repository URL"
+    required: false
+    default: "https://github.com/kiegroup/kogito-runtimes"
+  KOGITO_APPS_REPO_URL:
+    description: "Kogito Apps repository URL"
+    required: false
+    default: "https://github.com/kiegroup/kogito-apps"
+
+outputs:
+  droolsRepoGitRef:
+    description: "Resolved drools commit SHA"
+    value: ${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef }}
+  kogitoRuntimesRepoGitRef:
+    description: "Resolved runtimes commit SHA"
+    value: ${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}
+  kogitoAppsRepoGitRef:
+    description: "Resolved apps commit SHA"
+    value: ${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
+  m2CacheHit:
+    description: "Whether the Maven cache was hit"
+    value: ${{ steps.m2_cache.outputs.cache-hit }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get Kiegroup git ref urls
+      id: get_kiegroup_git_refs
+      shell: bash
+      run: |
+        echo "::group::Get Kiegroup git ref urls"
+
+        # Get Kiegroup Drools Git Ref
+        DROOLS_GIT_REF=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        # Get Kiegroup Runtimes Git Ref
+        RUNTIMES_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        # Get Kiegroup Apps Git Ref
+        APPS_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
+
+        echo "::endgroup::"
+
+    - name: "Cache Maven repository"
+      id: m2_cache
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
+
+    - name: Clone and Build Drools, Runtimes and Apps repositories
+      if: steps.m2_cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+        cd ..
+
+        echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
+        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
+        cd drools
+        mvn clean install -B -Dquickly -Dproductized
+        cd ..
+        rm -rf drools
+        echo "::endgroup::"
+
+        echo "::group::Cloning kogito-runtimes ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
+        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
+        cd kogito-runtimes
+        mvn clean install -B -Dquickly -Dproductized
+        cd ..
+        rm -rf kogito-runtimes
+        echo "::endgroup::"
+
+        echo "::group::Cloning kogito-apps ${{ inputs.DEPS_BRANCHNAME }} branch..."
+        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
+        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
+        cd kogito-apps
+        mvn clean install -B -Dquickly -Dproductized
+        cd ..
+        rm -rf kogito-apps
+        echo "::endgroup::"
