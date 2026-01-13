@@ -102,6 +102,10 @@ jobs:
           echo "affectedPnpmFilterString=$(jq --raw-output '.[${{ matrix.partition }}].affectedPnpmFilterString' /tmp/partitions.json)" >> $GITHUB_OUTPUT
           echo "Done."
 
+      - name: Setup Environment Variables
+        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
+        shell: bash
+
       - name: "Setup environment"
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
