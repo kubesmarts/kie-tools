@@ -126,7 +126,7 @@ jobs:
           echo "::endgroup::"
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "9.104.0"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
         shell: bash
 
       - name: Setup Environment Variables
