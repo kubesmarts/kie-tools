@@ -119,6 +119,20 @@ jobs:
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
+      - name: Run pnpm bootstrap - first time
+        run: |
+          echo "::group::Run pnpm bootstrap - first time"
+          pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
+          echo "::endgroup::"
+        env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "9.104.0"
+        shell: bash
+
+      - name: Setup Environment Variables
+        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
+        shell: bash
+
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
