@@ -63,6 +63,10 @@ if [[ -z "${KIE_TOOLS_BUILD__streamName:-}" ]]; then
 fi
 
 if [[ -f "$ENV_FILE" ]]; then
+  set -o allexport
+  source "$ENV_FILE"
+  set +o allexport
+
   while IFS= read -r line || [[ -n "$line" ]]; do
     # skip empty or comment lines
     case "$line" in
