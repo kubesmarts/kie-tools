@@ -119,6 +119,12 @@ jobs:
           echo "-Dversion.org.kie.kogito=9.104.0" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
+      - name: "Install parent POMs"
+        shell: bash
+        run: |
+          mvn -f pom.xml install -N
+          mvn -f packages/pom.xml install -N
+
       - name: Run pnpm bootstrap - first time
         run: |
           echo "::group::Run pnpm bootstrap - first time"
