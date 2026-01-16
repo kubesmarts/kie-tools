@@ -196,7 +196,7 @@ jobs:
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
-          eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:dev"
+          eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:prod"
 
       - name: "PARTIAL → Build changed and downstream"
         shell: bash
