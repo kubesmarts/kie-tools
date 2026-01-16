@@ -40,8 +40,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-14]
-        partition: [0]
+        os: [ubuntu-latest, macos-14, windows-latest]
+        partition: [0, 1]
     runs-on: ${{ matrix.os }}
     steps:
       - name: "Support longpaths"
@@ -119,6 +119,12 @@ jobs:
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
+      - name: "Install parent POMs"
+        shell: bash
+        run: |
+          mvn -f pom.xml install -N
+          mvn -f packages/pom.xml install -N
+
       - name: Run pnpm bootstrap - first time
         run: |
           echo "::group::Run pnpm bootstrap - first time"
@@ -172,6 +178,13 @@ jobs:
           KIE_TOOLS_BUILD__buildExamples: "true"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
+          PLAYWRIGHT_BASE__enableChromiumProject: "true"
+          PLAYWRIGHT_BASE__enableGoogleChromeProject: "true"
+          PLAYWRIGHT_BASE__enableWebkitProject: "true"
+          PLAYWRIGHT_BASE__projectTimeout: "90000"
+          PLAYWRIGHT_BASE__expectTimeout: "30000"
+          PLAYWRIGHT_BASE__retries: "3"
+          PLAYWRIGHT_BASE__workers: "2"
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
@@ -202,6 +215,13 @@ jobs:
           KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildExamples: "true"
+          PLAYWRIGHT_BASE__enableChromiumProject: "true"
+          PLAYWRIGHT_BASE__enableGoogleChromeProject: "true"
+          PLAYWRIGHT_BASE__enableWebkitProject: "true"
+          PLAYWRIGHT_BASE__projectTimeout: "90000"
+          PLAYWRIGHT_BASE__expectTimeout: "30000"
+          PLAYWRIGHT_BASE__retries: "3"
+          PLAYWRIGHT_BASE__workers: "2"
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
