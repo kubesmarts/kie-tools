@@ -24,7 +24,7 @@
 set -e
 
 # Default version variables
-quarkus_version="${QUARKUS_PLATFORM_VERSION}"
+quarkus_version="${QUARKUS_VERSION}"
 kogito_version="${KOGITO_VERSION}"
 
 # shellcheck source=/dev/null
