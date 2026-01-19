@@ -85,7 +85,7 @@ runs:
     - name: "Set up Maven"
       uses: stCarolas/setup-maven@v5
       with:
-        maven-version: 3.9.6
+        maven-version: 3.9.11
 
     - uses: actions/setup-python@v5
       with:
@@ -195,14 +195,6 @@ runs:
         if [ "${{ runner.os }}" == "Linux" ]; then
             fluxbox -display :99 > /dev/null 2>&1 &
         fi
-
-    - name: "Configure Pagefile (Windows only)"
-      if: runner.os == 'Windows'
-      uses: al-cheb/configure-pagefile-action@86589fd789a4de3e62ba628dda2cb10027b66d67 #v1.3
-      with:
-        minimum-size: 16GB
-        maximum-size: 16GB
-        disk-root: "C:"
 
     - name: "Increase inotify watches (Ubuntu only)"
       shell: bash
