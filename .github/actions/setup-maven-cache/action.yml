@@ -90,6 +90,8 @@ runs:
     - name: Clone and Build Drools, Runtimes and Apps repositories
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
+      env:
+        MAVEN_OPTS: "-Dfile.encoding=UTF-8"
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
 
@@ -103,14 +105,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
         cd drools
-        echo "-----------------------------------------------------[mvn clean install -ntp -DskipTests -DskipITs -T 0.5C -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true]-------------------------"
-        mvn clean install -ntp -DskipTests -DskipITs -T 0.5C -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true || true
-
-        echo "-----------------------------------------------------[mvn clean install -B -Dquickly -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true]-------------------------"
-        mvn clean install -B -Dquickly -Dformatter.skip -Denforcer.skip=true -Dcheckstyle.skip=true || true
-
-        echo "-----------------------------------------------------[mvn clean install -B -Dquickly -ntp -DskipTests -DskipITs -T 0.5C]-------------------------"
-        mvn clean install -B -Dquickly -ntp -DskipTests -DskipITs -T 0.5C || true
+        mvn clean install -B -Dquickly
         cd ..
         rm -rf drools
         echo "::endgroup::"
