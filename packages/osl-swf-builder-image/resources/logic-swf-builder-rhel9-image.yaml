@@ -54,6 +54,7 @@ modules:
     - name: org.kie.kogito.system.user
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.launch.scripts
+    - name: org.kie.sonataflow.common.quarkus.registry
     - name: org.kie.kogito.dynamic.resources
     - name: org.kie.kogito.maven.common
     - name: com.redhat.osl.maven
