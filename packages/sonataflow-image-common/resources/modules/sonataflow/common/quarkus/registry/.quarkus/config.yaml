@@ -1,3 +1,5 @@
 registries:
+  - registry.quarkus.redhat.com:
+      update-policy: never
   - registry.quarkus.io:
       update-policy: never
