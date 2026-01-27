@@ -126,6 +126,14 @@ module.exports = {
         cp.execSync(`cp -al ${path.resolve(t)}/* ${resolvedTmpM2Dir}`, { stdio: "inherit" });
       }
     }
+
+    // Copy maven-metadata-local.xml to maven-metadata.xml for all SNAPSHOT versions
+    // This ensures Maven can resolve local builds without falling back to remote repositories
+    console.info("[maven-base] Creating maven-metadata.xml from maven-metadata-local.xml for SNAPSHOT versions...");
+    cp.execSync(
+      `find ${resolvedTmpM2Dir} -type d -name "*-SNAPSHOT" -exec sh -c 'if [ -f "$1/maven-metadata-local.xml" ] && [ ! -f "$1/maven-metadata.xml" ]; then cp "$1/maven-metadata-local.xml" "$1/maven-metadata.xml"; fi' _ {} \\;`,
+      { stdio: "inherit" }
+    );
   },
 
   /**
