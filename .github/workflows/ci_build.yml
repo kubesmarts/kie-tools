@@ -114,12 +114,6 @@ jobs:
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
-      - name: "Install parent POMs"
-        shell: bash
-        run: |
-          mvn -f pom.xml install -N
-          mvn -f packages/pom.xml install -N
-
       - name: Run pnpm bootstrap - first time
         run: |
           echo "::group::Run pnpm bootstrap - first time"
@@ -143,6 +137,12 @@ jobs:
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
+
+      - name: "Install parent POMs"
+        shell: bash
+        run: |
+          mvn -f pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
+          mvn -f packages/pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
 
       - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
         if: ${{ runner.os == 'Linux' }}
