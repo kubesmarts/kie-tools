@@ -38,12 +38,6 @@ jobs:
       - name: Setup environment
         uses: ./.github/actions/setup-env
 
-      - name: Setup local maven cache
-        id: setup_maven_cache
-        uses: ./.github/actions/setup-maven-cache
-        with:
-          DEPS_BRANCHNAME: main
-
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
@@ -64,8 +58,6 @@ jobs:
 
       - name: Build KIE Tools
         env:
-          DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.setup_maven_cache.outputs.droolsRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"

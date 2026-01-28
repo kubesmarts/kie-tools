@@ -107,24 +107,12 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
-      - name: Setup local maven cache
-        id: setup_maven_cache
-        uses: ./.github/actions/setup-maven-cache
-        with:
-          DEPS_BRANCHNAME: main
-
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
-
-      - name: "Install parent POMs"
-        shell: bash
-        run: |
-          mvn -f pom.xml install -N
-          mvn -f packages/pom.xml install -N
 
       - name: Run pnpm bootstrap - first time
         run: |
@@ -143,13 +131,18 @@ jobs:
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
-          DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "999-SNAPSHOT"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
+
+      - name: "Install parent POMs"
+        shell: bash
+        run: |
+          mvn -f pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
+          mvn -f packages/pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
 
       - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
         if: ${{ runner.os == 'Linux' }}
