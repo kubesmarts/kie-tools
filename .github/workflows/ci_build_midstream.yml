@@ -64,7 +64,6 @@ jobs:
 
       - name: Build KIE Tools
         env:
-          DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "999-SNAPSHOT"
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.setup_maven_cache.outputs.droolsRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
