@@ -198,12 +198,17 @@
             </goals>
             <configuration>
               <environmentVariables>
-                <DROOLS_AND_KOGITO__skip>true</DROOLS_AND_KOGITO__skip>
-                <KOGITO_RUNTIME_version>${version.org.kie.kogito}</KOGITO_RUNTIME_version>
+                <DROOLS_AND_KOGITO__skip>false</DROOLS_AND_KOGITO__skip>
+                <KOGITO_RUNTIME_version>${version.org.kie.kogito}-local</KOGITO_RUNTIME_version>
+                <DROOLS_AND_KOGITO__droolsRepoUrl>https://github.com/kiegroup/drools</DROOLS_AND_KOGITO__droolsRepoUrl>
                 <DROOLS_AND_KOGITO__droolsRepoGitRef
                 >${env.DROOLS_AND_KOGITO__droolsRepoGitRef}</DROOLS_AND_KOGITO__droolsRepoGitRef>
+                <DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl
+                >https://github.com/kiegroup/kogito-runtimes</DROOLS_AND_KOGITO__kogitoRuntimesRepoUrl>
                 <DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef
                 >${env.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef}</DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef>
+                <DROOLS_AND_KOGITO__kogitoAppsRepoUrl
+                >https://github.com/kiegroup/kogito-apps</DROOLS_AND_KOGITO__kogitoAppsRepoUrl>
                 <DROOLS_AND_KOGITO__kogitoAppsRepoGitRef
                 >${env.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef}</DROOLS_AND_KOGITO__kogitoAppsRepoGitRef>
               </environmentVariables>

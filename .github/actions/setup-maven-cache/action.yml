@@ -59,6 +59,11 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: Ensure setup_maven_cache is not executed
+      shell: bash
+      run: |
+        exit 1
+
     - name: Get Kiegroup git ref urls
       id: get_kiegroup_git_refs
       shell: bash
