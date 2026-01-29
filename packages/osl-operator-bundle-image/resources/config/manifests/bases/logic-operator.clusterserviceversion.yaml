@@ -299,5 +299,5 @@ spec:
       name: IMAGE_LOGIC_SWF_BUILDER
     - image: registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56
       name: IMAGE_KUBE_RBAC_PROXY
-  replaces: logic-operator-rhel9.v1.37.0
+  replaces: logic-operator.v1.37.0
   version: 0.0.0
