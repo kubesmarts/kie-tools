@@ -121,28 +121,31 @@ jobs:
           echo "::endgroup::"
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT-local"
         shell: bash
 
       - name: Setup Environment Variables
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
 
+      - name: "Install parent POMs"
+        shell: bash
+        env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "999-SNAPSHOT-local"
+        run: |
+          mvn -f pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
+          mvn -f packages/pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
+
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT-local"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
-
-      - name: "Install parent POMs"
-        shell: bash
-        run: |
-          mvn -f pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
-          mvn -f packages/pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
 
       - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
         if: ${{ runner.os == 'Linux' }}
@@ -163,7 +166,7 @@ jobs:
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT-local"
           KIE_TOOLS_BUILD__runLinters: "true"
           KIE_TOOLS_BUILD__runTests: "false"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
