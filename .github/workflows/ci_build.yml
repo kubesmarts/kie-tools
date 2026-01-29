@@ -117,10 +117,9 @@ jobs:
       - name: Run pnpm bootstrap - first time
         run: |
           echo "::group::Run pnpm bootstrap - first time"
-          pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
+          pnpm bootstrap -F '@osl/redhat-env...' -F '@kie-tools-core/drools-and-kogito...' --no-frozen-lockfile
           echo "::endgroup::"
         env:
-          DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "999-SNAPSHOT-local"
         shell: bash
 
@@ -134,8 +133,9 @@ jobs:
           DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "999-SNAPSHOT-local"
         run: |
-          mvn -f pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
-          mvn -f packages/pom.xml install -N -Dmaven.repo.local.tail=packages/drools-and-kogito/dist/1st-party-m2/repository
+          cp -r packages/drools-and-kogito/dist/1st-party-m2/repository/* ~/.m2/repository/ 
+          mvn -f pom.xml install -N -Dmaven.repo.local.tail=$PWD/packages/drools-and-kogito/dist/1st-party-m2/repository
+          mvn -f packages/pom.xml install -N -Dmaven.repo.local.tail=$PWD/packages/drools-and-kogito/dist/1st-party-m2/repository
 
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
