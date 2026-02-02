@@ -37,7 +37,6 @@ module.exports = async (webpackEnv) =>
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "src/index.html"),
         filename: "index.html",
-        chunks: ["app"],
         templateParameters: {
           KOGITO_JOBS_SERVICE_WEBAPP_TITLE: env.kogitoJobsServiceWebapp.title,
           KOGITO_JOBS_SERVICE_WEBAPP_LOGO: env.kogitoJobsServiceWebapp.logo,
@@ -45,6 +44,7 @@ module.exports = async (webpackEnv) =>
           KOGITO_JOBS_SERVICE_WEBAPP_DOCLINK_TEXT: env.kogitoJobsServiceWebapp.docLinkKogito.text,
           SONATAFLOW_JOBS_SERVICE_WEBAPP_DOCLINK_HREF: env.kogitoJobsServiceWebapp.docLinkSonataflow.href,
           SONATAFLOW_JOBS_SERVICE_WEBAPP_DOCLINK_TEXT: env.kogitoJobsServiceWebapp.docLinkSonataflow.text,
+          KOGITO_JOBS_SERVICE_WEBAPP_VERSION: env.kogitoJobsServiceWebapp.version,
         },
       }),
     ],
