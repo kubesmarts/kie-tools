@@ -67,15 +67,15 @@ runs:
 
         # Get Kiegroup Drools Git Ref
         DROOLS_GIT_REF=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
+        echo "DROOLS_AND_KOGITO__droolsRepoGitRef=5541f75ddfd05d3000e362a962ecd1eeabe73231" >> "$GITHUB_OUTPUT"
 
         # Get Kiegroup Runtimes Git Ref
         RUNTIMES_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
+        echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=6ad0e76e0625c6b87ed1f5f284dacef94959498b" >> "$GITHUB_OUTPUT"
 
         # Get Kiegroup Apps Git Ref
         APPS_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
-        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
+        echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=23536f3e5d446605d65f8dac38eb0e773ce788d7" >> "$GITHUB_OUTPUT"
 
         echo "::endgroup::"
 
