@@ -96,8 +96,9 @@ runs:
 
         echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
+        git clone --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
         cd drools
+        git checkout 5541f75ddfd05d3000e362a962ecd1eeabe73231
         mvn clean install -B -Dquickly
         cd ..
         rm -rf drools
@@ -105,8 +106,9 @@ runs:
 
         echo "::group::Cloning kogito-runtimes ${{ inputs.DEPS_BRANCHNAME }} branch..."
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
+        git clone --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
         cd kogito-runtimes
+        git checkout 6ad0e76e0625c6b87ed1f5f284dacef94959498b
         mvn clean install -B -Dquickly
         cd ..
         rm -rf kogito-runtimes
@@ -114,8 +116,9 @@ runs:
 
         echo "::group::Cloning kogito-apps ${{ inputs.DEPS_BRANCHNAME }} branch..."
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
+        git clone --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
         cd kogito-apps
+        git checkout 23536f3e5d446605d65f8dac38eb0e773ce788d7
         mvn clean install -B -Dquickly
         cd ..
         rm -rf kogito-apps
