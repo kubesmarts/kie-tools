@@ -120,6 +120,11 @@ jobs:
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
+      - name: Set Drools and Kogito version in pom files
+        id: set_drools_and_kogito_version_in_pom_files
+        run: |
+          find . -name 'pom.xml' -exec sed -i "s|<version.org.kie.kogito>999-.*</version.org.kie.kogito>|<version.org.kie.kogito>999-SNAPSHOT</version.org.kie.kogito>|g" {} \;
+
       - name: Fix jbang Maven repositories settings to point to Apache Nexus
         id: fix_maven_repositories_in_jbang_files
         run: |
