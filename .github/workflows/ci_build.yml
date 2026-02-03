@@ -216,6 +216,7 @@ jobs:
           KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildExamples: "true"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           PLAYWRIGHT_BASE__enableChromiumProject: "true"
           PLAYWRIGHT_BASE__enableGoogleChromeProject: "true"
           PLAYWRIGHT_BASE__enableWebkitProject: "true"
