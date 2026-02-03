@@ -120,6 +120,11 @@ jobs:
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
+      - name: Fix jbang Maven repositories settings to point to Apache Nexus
+        id: fix_maven_repositories_in_jbang_files
+        run: |
+          sed -i 's#//REPOS.*#//REPOS mavencentral,internal-repository=https://repository.apache.org/content/groups/public/#g' packages/dmn-marshaller-backend-compatibility-tester/src/DmnMarshallerBackendCompatibilityTesterScript.java
+
       - name: "Install parent POMs"
         shell: bash
         run: |
