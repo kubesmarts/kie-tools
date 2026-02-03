@@ -175,7 +175,7 @@ jobs:
           KIE_TOOLS_BUILD__runTests: "false"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
-          KIE_TOOLS_BUILD__buildContainerImages: "false"
+          KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__buildExamples: "true"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
@@ -200,6 +200,7 @@ jobs:
         env:
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildExamples: "true"
+          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           NODE_OPTIONS: "--max_old_space_size=6144"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
