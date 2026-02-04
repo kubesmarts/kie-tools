@@ -23,6 +23,7 @@ const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("
 setupMavenConfigFile(
   `
     --batch-mode
+    --no-snapshot-updates
     -Dstyle.color=always
     -Drevision=${env.swfDeploymentQuarkusApp.version}
     -Dversion.quarkus=${env.versions.quarkus}

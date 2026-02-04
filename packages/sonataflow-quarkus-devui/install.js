@@ -23,4 +23,5 @@ const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("
 setupMavenConfigFile(`
     -Drevision=${env.sonataflowQuarkusDevuiExtension.version}
     -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
+    --no-snapshot-updates
 `);
