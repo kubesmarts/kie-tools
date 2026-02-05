@@ -136,7 +136,7 @@ metadata:
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v4
     repository: https://github.com/kubesmarts/kie-tools
     support: Red Hat
-  name: logic-operator-rhel8.v1.36.1
+  name: logic-operator-rhel8.v1.36.2
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -826,5 +826,5 @@ spec:
       name: kube-rbac-proxy
   replaces: logic-operator-rhel8.v1.35.0
   skips:
-    - logic-operator-rhel8.v1.36.0
-  version: 1.36.1
+    - logic-operator-rhel8.v1.36.1
+  version: 1.36.2
