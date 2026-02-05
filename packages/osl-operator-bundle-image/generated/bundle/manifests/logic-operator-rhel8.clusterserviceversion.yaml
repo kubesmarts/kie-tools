@@ -826,5 +826,6 @@ spec:
       name: kube-rbac-proxy
   replaces: logic-operator-rhel8.v1.35.0
   skips:
+    - logic-operator-rhel8.v1.36.0 
     - logic-operator-rhel8.v1.36.1
   version: 1.36.2
