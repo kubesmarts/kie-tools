@@ -79,17 +79,19 @@ runs:
 
         echo "::endgroup::"
 
-    - name: "Cache Maven repository"
-      id: m2_cache
-      uses: actions/cache@v4
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
-        restore-keys: ${{ runner.os }}-maven
+    # - name: "Cache Maven repository"
+    #   id: m2_cache
+    #   uses: actions/cache@v4
+    #   with:
+    #     path: ~/.m2/repository
+    #     key: ${{ runner.os }}-maven-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
+    #     restore-keys: ${{ runner.os }}-maven
 
     - name: Clone and Build Drools, Runtimes and Apps repositories
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
+      env:
+        MAVEN_OPTS: "-Dfile.encoding=UTF-8"
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
         cd ..
