@@ -24,6 +24,9 @@
   <profiles>
     <profile>
       <id>redhat-ga-public-repository</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
       <repositories>
         <repository>
           <id>redhat-ga-public-repository</id>
