@@ -66,6 +66,9 @@
           <name>RedHat GA Public Repository</name>
           <url>https://maven.repository.redhat.com/ga/</url>
           <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
           <snapshots>
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
