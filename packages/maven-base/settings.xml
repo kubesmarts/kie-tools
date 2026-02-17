@@ -62,6 +62,17 @@
       </activation>
       <repositories>
         <repository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+        </repository>
+        <repository>
           <id>apache.snapshots</id>
           <name>Apache Snapshot Repository</name>
           <url>https://repository.apache.org/snapshots</url>
@@ -111,6 +122,18 @@
         </repository>
       </repositories>
       <pluginRepositories>
+        <pluginRepository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
         <pluginRepository>
           <id>apache-public-repository-group</id>
           <name>Apache Public Repository Group</name>
