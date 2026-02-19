@@ -23,6 +23,39 @@
 
   <profiles>
     <profile>
+      <id>redhat-ga-public-repository</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+    <profile>
       <id>kie-tools--default-repos</id>
       <activation>
         <property>
@@ -31,6 +64,20 @@
         </property>
       </activation>
       <repositories>
+        <repository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+        </repository>
         <repository>
           <id>apache.snapshots</id>
           <name>Apache Snapshot Repository</name>
@@ -81,6 +128,18 @@
         </repository>
       </repositories>
       <pluginRepositories>
+        <pluginRepository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
         <pluginRepository>
           <id>apache-public-repository-group</id>
           <name>Apache Public Repository Group</name>
