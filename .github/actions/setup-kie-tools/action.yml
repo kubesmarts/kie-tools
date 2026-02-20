@@ -64,6 +64,12 @@ runs:
         echo "::endgroup::"
       shell: bash
 
+    - name: "Install parent POMs"
+      shell: bash
+      run: |
+        mvn -f pom.xml install -N
+        mvn -f packages/pom.xml install -N
+
     - name: Run pnpm bootstrap - first time
       run: |
         echo "::group::Run pnpm bootstrap - first time"
