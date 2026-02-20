@@ -54,16 +54,6 @@ runs:
         cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
         cp -f .github/supporting-files/ci/midstream-mvn-config/sonataflow-image-common/maven-m2-repo-via-http-settings.xml.envsubst packages/sonataflow-image-common/resources/modules/kogito-maven/common/maven/maven-m2-repo-via-http-settings.xml.envsubst
 
-    - name: Revert SonataFlow Quarkus DevUI POMs to upstream/main
-      run: |
-        echo "::group::Revert SonataFlow Quarkus DevUI POMs to upstream/main"
-        cd ${{ inputs.WORKING_DIR }}
-        git remote add upstream https://github.com/apache/incubator-kie-tools.git
-        git fetch upstream main
-        git checkout upstream/main -- packages/sonataflow-quarkus-devui/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-bom/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/pom.xml packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/pom.xml
-        echo "::endgroup::"
-      shell: bash
-
     - name: "Install parent POMs"
       shell: bash
       run: |
