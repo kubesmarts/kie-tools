@@ -58,8 +58,8 @@ runs:
     - name: "Install parent POMs"
       shell: bash
       run: |
-        mvn -f pom.xml install -N
-        mvn -f packages/pom.xml install -N
+        mvn -f pom.xml -s settings.xml install -N
+        mvn -f packages/pom.xml -s settings.xml install -N
 
     - name: Run pnpm bootstrap - first time
       run: |
