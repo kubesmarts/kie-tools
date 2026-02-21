@@ -62,7 +62,7 @@
     <version.pnpm>9.3.0</version.pnpm>
 
     <version.quarkus>3.20.3</version.quarkus>
-    <version.org.kie.kogito>${env.KOGITO_RUNTIME_version}</version.org.kie.kogito>
+    <version.org.kie.kogito>9.104.0.redhat-00005</version.org.kie.kogito>
   </properties>
 
   <dependencyManagement>
