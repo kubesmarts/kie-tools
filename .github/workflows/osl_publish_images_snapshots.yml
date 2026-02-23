@@ -26,7 +26,7 @@ jobs:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
         with:
-          ref: NO-ISSUE-use-remote-artifacts-in-prod-branches
+          ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
@@ -55,7 +55,7 @@ jobs:
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools repository"
-        uses: kubesmarts/kie-tools/.github/actions/setup-kie-tools@NO-ISSUE-use-remote-artifacts-in-prod-branches
+        uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}

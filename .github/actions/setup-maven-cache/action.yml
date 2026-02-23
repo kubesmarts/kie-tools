@@ -63,8 +63,7 @@ runs:
       id: check_prod_branch
       shell: bash
       run: |
-        # if [[ "${{ github.ref_name }}" =~ ^9\.1[0-9][0-9]\.x-prod$ ]]; then
-        if [[ "${{ github.ref_name }}" =~ ^NO-ISSUE-use-remote-artifacts-in-prod-branches$ ]]; then
+        if [[ "${{ github.ref_name }}" =~ ^9\.1[0-9][0-9]\.x-prod$ ]]; then
           echo "is_prod_branch=true" >> "$GITHUB_OUTPUT"
         else
           echo "is_prod_branch=false" >> "$GITHUB_OUTPUT"
