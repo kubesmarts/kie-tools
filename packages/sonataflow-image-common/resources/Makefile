@@ -21,7 +21,7 @@
 CEKIT_BUILD_OPTIONS 		?=
 CEKIT_CMD 					:= cekit
 BUILD_ENGINE 				?= docker
-BUILD_ENGINE_OPTIONS 	 	?= --no-squash
+BUILD_ENGINE_OPTIONS 	 	?=
 
 # SWF Image creation envs
 KOGITO_IMAGE_NAME				?= # Image name
