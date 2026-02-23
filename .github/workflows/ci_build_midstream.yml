@@ -44,6 +44,14 @@ jobs:
         with:
           DEPS_BRANCHNAME: 9.104.x-prod
 
+      - name: Apply midstream settings.xml files
+        shell: bash
+        run: |
+          cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml 
+          cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
+          cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
+          cp -f .github/supporting-files/ci/midstream-mvn-config/sonataflow-image-common/maven-m2-repo-via-http-settings.xml.envsubst packages/sonataflow-image-common/resources/modules/kogito-maven/common/maven/maven-m2-repo-via-http-settings.xml.envsubst
+
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
