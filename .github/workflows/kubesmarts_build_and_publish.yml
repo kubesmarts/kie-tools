@@ -109,7 +109,7 @@ jobs:
           fi
           echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
           cd kie-tools
-          pnpm -F @kie-tools/serverless-logic-web-tools... -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' build:prod
+          pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
 
       - name: "Checkout serverless-logic-sandbox-deployment"
         uses: actions/checkout@v3
