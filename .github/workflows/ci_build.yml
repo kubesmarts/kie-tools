@@ -120,11 +120,19 @@ jobs:
           echo "-Dversion.org.kie.kogito=999-SNAPSHOT" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
+      - name: Apply midstream settings.xml files
+        shell: bash
+        run: |
+          cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml 
+          cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
+          cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
+          cp -f .github/supporting-files/ci/midstream-mvn-config/sonataflow-image-common/maven-m2-repo-via-http-settings.xml.envsubst packages/sonataflow-image-common/resources/modules/kogito-maven/common/maven/maven-m2-repo-via-http-settings.xml.envsubst
+
       - name: "Install parent POMs"
         shell: bash
         run: |
-          mvn -f pom.xml install -N
-          mvn -f packages/pom.xml install -N
+          mvn -f pom.xml -s settings.xml install -N
+          mvn -f packages/pom.xml -s settings.xml install -N
 
       - name: Run pnpm bootstrap - first time
         run: |
