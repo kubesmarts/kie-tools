@@ -122,10 +122,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.KIE1_TOKEN }}
           SYNC_REVIEWERS: ${{ vars.SYNC_REVIEWERS }}
+          BRANCH: main
         run: |
           set -euo pipefail
 
-          PR_TITLE="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Export OSL dist from main"
+          PR_TITLE="[$(date +'%Y-%m-%d:%H%M%S')] - :robot: Export OSL dist from $BRANCH"
           REVIEWERS_OPTION=""
           if [[ -n "$SYNC_REVIEWERS" ]]; then
             REVIEWERS_OPTION="--reviewer $SYNC_REVIEWERS"
@@ -135,7 +136,7 @@ jobs:
             --repo kubesmarts/osl-images \
             --title "$PR_TITLE" \
             --body "This PR includes the latest dist output for packages: $OSL_PACKAGES" \
-            --base main \
+            --base $BRANCH \
             --head "$EXPORT_BRANCH" $REVIEWERS_OPTION)
 
           echo "✅ Created PR: $PR_URL"
