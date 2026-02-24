@@ -64,10 +64,10 @@ jobs:
 
           for pkg in ${{ env.OSL_PACKAGES }}; do
             SRC="packages/${pkg}/dist"
-            echo "🖨 Processing dist for $pkg"
+            echo "Processing dist for $pkg"
 
             if [ ! -d "$SRC" ]; then
-              echo "⚠️  $SRC not found, skipping."
+              echo "$SRC not found, skipping."
               continue
             fi
 
@@ -139,5 +139,5 @@ jobs:
             --base $BRANCH \
             --head "$EXPORT_BRANCH" $REVIEWERS_OPTION)
 
-          echo "✅ Created PR: $PR_URL"
+          echo "Created PR: $PR_URL"
         shell: bash
