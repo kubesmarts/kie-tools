@@ -90,6 +90,8 @@ runs:
     - name: Clone and Build Drools, Runtimes and Apps repositories
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
+      env:
+        MAVEN_OPTIONS: -B -Dquickly
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
         cd ..
@@ -98,7 +100,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
         cd drools
-        mvn clean install -B -Dquickly
+        mvn clean install $MAVEN_OPTIONS
         cd ..
         rm -rf drools
         echo "::endgroup::"
@@ -107,7 +109,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
         cd kogito-runtimes
-        mvn clean install -B -Dquickly
+        mvn clean install $MAVEN_OPTIONS
         cd ..
         rm -rf kogito-runtimes
         echo "::endgroup::"
@@ -116,7 +118,7 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
         cd kogito-apps
-        mvn clean install -B -Dquickly
+        mvn clean install $MAVEN_OPTIONS
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"
