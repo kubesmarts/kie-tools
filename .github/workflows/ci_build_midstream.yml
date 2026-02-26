@@ -69,7 +69,7 @@ jobs:
           DROOLS_AND_KOGITO__droolsRepoGitRef: "${{ steps.setup_maven_cache.outputs.droolsRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
-        run: mvn -B clean install -s settings.xml
+        run: mvn -B clean install
 
       # This step works well but can consume midstream storage
       # - name: Upload JAR artifacts
