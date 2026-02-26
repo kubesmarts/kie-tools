@@ -86,7 +86,7 @@ runs:
       run: |
         echo "::group::Prepare maven-base with .mvn/maven.config"
         cd ${{ inputs.WORKING_DIR }}
-        mkdir ./packages/maven-base/.mvn || true
+        mkdir -p ./packages/maven-base/.mvn
         echo "-Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }}" > "./packages/maven-base/.mvn/maven.config"
         echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
         echo "::endgroup::"
