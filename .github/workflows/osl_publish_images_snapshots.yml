@@ -8,8 +8,8 @@ on:
         required: true
       USE_REMOTE_ARTIFACTS:
         description: "True to use productized artifacts from Red Hat Maven repository"
+        type: boolean
         required: false
-        default: "false"
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
