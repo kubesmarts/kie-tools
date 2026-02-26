@@ -6,6 +6,10 @@ on:
       dry_run:
         type: boolean
         required: true
+      USE_REMOTE_ARTIFACTS:
+        description: "True to use productized artifacts from Red Hat Maven repository"
+        required: false
+        default: "false"
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
@@ -60,6 +64,7 @@ jobs:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}
           PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
+          USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}
 
       - name: "Build Images"
         env:

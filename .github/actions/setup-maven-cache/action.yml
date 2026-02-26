@@ -59,16 +59,6 @@ outputs:
 runs:
   using: "composite"
   steps:
-    - name: Check if branch is a production branch
-      id: check_prod_branch
-      shell: bash
-      run: |
-        if [[ "${{ github.ref_name }}" =~ \.x-prod$ ]]; then
-          echo "is_prod_branch=true" >> "$GITHUB_OUTPUT"
-        else
-          echo "is_prod_branch=false" >> "$GITHUB_OUTPUT"
-        fi
-
     - name: Get Kiegroup git ref urls
       if: steps.check_prod_branch.outputs.is_prod_branch != 'true'
       id: get_kiegroup_git_refs
