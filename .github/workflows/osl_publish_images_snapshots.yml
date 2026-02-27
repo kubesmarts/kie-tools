@@ -10,6 +10,7 @@ on:
         description: "True to use productized artifacts from Red Hat Maven repository"
         type: boolean
         required: false
+        default: false
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
@@ -27,6 +28,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: "Print workflow inputs"
+        run: |
+          echo "dry_run: ${{ inputs.dry_run }}"
+          echo "USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}"
+          echo "KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}"
+          echo "IMAGE_TAG: ${{ inputs.IMAGE_TAG }}"
+
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
         with:

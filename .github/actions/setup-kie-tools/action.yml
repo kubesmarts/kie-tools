@@ -22,7 +22,7 @@ description: ""
 
 inputs:
   USE_REMOTE_ARTIFACTS:
-    description: "True to use productized artifacts from Red Hat Maven repository"
+    description: "Use productized artifacts from Red Hat Maven repository"
     required: false
     default: "false"
   KOGITO_VERSION:
@@ -45,7 +45,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup local maven cache
-      if: ${{ inputs.USE_REMOTE_ARTIFACTS == "false" }}
+      if: inputs.USE_REMOTE_ARTIFACTS == 'false'
       id: setup_maven_cache
       uses: kubesmarts/kie-tools/.github/actions/setup-maven-cache@main
       with:
