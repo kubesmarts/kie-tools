@@ -88,6 +88,7 @@ runs:
         restore-keys: ${{ runner.os }}-maven
 
     - name: Clone and Build Drools, Runtimes and Apps repositories
+      if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
