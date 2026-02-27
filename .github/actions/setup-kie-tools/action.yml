@@ -69,8 +69,8 @@ runs:
         else
           SETTINGS_ARG=""
         fi
-        mvn -f pom.xml $SETTINGS_ARG install -N
-        mvn -f packages/pom.xml $SETTINGS_ARG install -N
+        mvn -f pom.xml $SETTINGS_ARG -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
+        mvn -f packages/pom.xml $SETTINGS_ARG -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
 
     - name: Run pnpm bootstrap - first time
       run: |
