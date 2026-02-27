@@ -1,0 +1,86 @@
+<settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <mirrors>
+    <mirror>
+      <id>kie-tools--maven-m2-repo-via-http-allowed</id>
+      <mirrorOf>kie-tools--maven-m2-repo-via-http</mirrorOf>
+      <name>Mirror to override default blocking mirror that blocks http.</name>
+      <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL</url>
+    </mirror>
+  </mirrors>
+
+  <profiles>
+    <profile>
+      <id>kie-tools--maven-m2-repo-via-http-allowed-profile</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <repositories>
+        <repository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>kie-tools--maven-m2-repo-via-http</id>
+          <name>KIE Tools :: Maven M2 Repo via HTTP</name>
+          <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>ignore</checksumPolicy> <!-- was already checked when downloaded on host machine -->
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>ignore</checksumPolicy> <!-- was already checked when downloaded on host machine -->
+          </snapshots>
+        </repository>
+      </repositories>
+
+      <pluginRepositories>
+        <pluginRepository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>kie-tools--maven-m2-repo-via-http</id>
+          <name>KIE Tools :: Maven M2 Repo via HTTP</name>
+          <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>ignore</checksumPolicy> <!-- was already checked when downloaded on host machine -->
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>ignore</checksumPolicy> <!-- was already checked when downloaded on host machine -->
+          </snapshots>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+
+
+</settings>

@@ -6,6 +6,11 @@ on:
       dry_run:
         type: boolean
         required: true
+      USE_REMOTE_ARTIFACTS:
+        description: "True to use productized artifacts from Red Hat Maven repository"
+        type: boolean
+        required: false
+        default: false
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
         required: false
@@ -23,10 +28,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: "Print workflow inputs"
+        run: |
+          echo "dry_run: ${{ inputs.dry_run }}"
+          echo "USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}"
+          echo "KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}"
+          echo "IMAGE_TAG: ${{ inputs.IMAGE_TAG }}"
+
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.IMAGE_TAG }}
+          ref: 9.104.x-prod-SRVLOGIC-824-use-remote-artifacts-from-RH-maven-repo-in-prod-branches
+          # ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
@@ -60,11 +73,13 @@ jobs:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.IMAGE_TAG }}
           PNPM_FILTER: ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }}
+          USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}
 
       - name: "Build Images"
         env:
           DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__runTests:
