@@ -53,9 +53,10 @@ runs:
         WORKING_DIR: ${{ inputs.WORKING_DIR }}
 
     - name: Apply midstream settings.xml files
+      if: inputs.USE_REMOTE_ARTIFACTS == 'true'
       shell: bash
       run: |
-        cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml 
+        cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
         cp -f .github/supporting-files/ci/midstream-mvn-config/sonataflow-image-common/maven-m2-repo-via-http-settings.xml.envsubst packages/sonataflow-image-common/resources/modules/kogito-maven/common/maven/maven-m2-repo-via-http-settings.xml.envsubst
@@ -63,8 +64,13 @@ runs:
     - name: "Install parent POMs"
       shell: bash
       run: |
-        mvn -f pom.xml -s settings.xml install -N
-        mvn -f packages/pom.xml -s settings.xml install -N
+        if [ "${{ inputs.USE_REMOTE_ARTIFACTS }}" == "true" ]; then
+          SETTINGS_ARG="-s settings.xml"
+        else
+          SETTINGS_ARG=""
+        fi
+        mvn -f pom.xml $SETTINGS_ARG install -N
+        mvn -f packages/pom.xml $SETTINGS_ARG install -N
 
     - name: Run pnpm bootstrap - first time
       run: |
