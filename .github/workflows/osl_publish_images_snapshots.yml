@@ -113,7 +113,7 @@ jobs:
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
         shell: bash
         run: |
-          eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester --workspace-concurrency=1 build:prod"
+          eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "Login to Quay"
         uses: docker/login-action@v3
