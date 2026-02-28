@@ -40,7 +40,6 @@ RUN chown kogito /home/kogito/.m2 && \
   -s /home/kogito/.m2/settings.xml \
   -Dmaven.test.skip \
   -Dmaven.repo.local=/home/kogito/.m2/repository \
-  -Dversion.org.kie.kogito=${KOGITO_RUNTIME_version} \
   -Dquarkus-profiles=build,dev && \
   chmod -R 775 /home/kogito && \
   mkdir -p -m 777 /tmp/app
