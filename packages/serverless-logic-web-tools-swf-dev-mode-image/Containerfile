@@ -16,6 +16,7 @@
 # under the License.
 
 ARG BASE_IMAGE_TAG
+ARG KOGITO_RUNTIME_version
 
 FROM --platform=linux/amd64 $BASE_IMAGE_TAG
 
@@ -28,6 +29,8 @@ COPY --chown=kogito:root dist-dev/settings.xml /home/kogito/.m2/settings.xml
 COPY --chown=kogito:root entrypoint.sh /home/kogito/entrypoint.sh
 
 WORKDIR /home/kogito/serverless-logic-web-tools-swf-deployment-quarkus-app/
+
+ENV KOGITO_RUNTIME_version=${KOGITO_RUNTIME_version}
 
 RUN chown kogito /home/kogito/.m2 && \
   rm -rf src/test/ && \
