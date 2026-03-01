@@ -79,7 +79,6 @@ jobs:
         env:
           DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
-          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__runTests:
