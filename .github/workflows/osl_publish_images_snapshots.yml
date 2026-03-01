@@ -112,7 +112,7 @@ jobs:
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
         shell: bash
         run: |
-          eval "pnpm -F @kie-tools/sonataflow-devmode-image -F @kie-tools/serverless-logic-web-tools-swf-dev-mode-image '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+          eval "pnpm -F @kie-tools/sonataflow-devmode-image -F @kie-tools/serverless-logic-web-tools-swf-dev-mode-image -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
 
       - name: "Build Images"
         env:
