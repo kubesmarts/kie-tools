@@ -62,7 +62,7 @@
     <version.pnpm>10.28.2</version.pnpm>
 
     <version.quarkus>3.20.1</version.quarkus>
-    <version.org.kie.kogito>${env.KOGITO_RUNTIME_version}</version.org.kie.kogito>
+    <version.org.kie.kogito>999-SNAPSHOT</version.org.kie.kogito>
   </properties>
 
   <dependencyManagement>
