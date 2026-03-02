@@ -79,6 +79,7 @@ jobs:
         env:
           DROOLS_AND_KOGITO__skip: true
           KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__runTests:
@@ -112,7 +113,7 @@ jobs:
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
         shell: bash
         run: |
-          eval "pnpm -F @kie-tools/sonataflow-devmode-image... -F @kie-tools/serverless-logic-web-tools-swf-dev-mode-image... -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
+          eval "pnpm -F @kie-tools/sonataflow-devmode-image... -F @kie-tools/serverless-logic-web-tools-swf-dev-mode-image... -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:dev"
 
       - name: "Build Images"
         env:
