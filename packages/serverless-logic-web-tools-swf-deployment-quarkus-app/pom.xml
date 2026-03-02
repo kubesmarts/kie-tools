@@ -48,7 +48,6 @@
     <org.apache.commons.commons-compress.version>1.26.0</org.apache.commons.commons-compress.version>
     <com.github.erosb.everit-json-schema.version>1.14.2</com.github.erosb.everit-json-schema.version>
     <surefire-plugin.version>3.5.0</surefire-plugin.version>
-    <version.org.kie.kogito>${env.KOGITO_RUNTIME_version}</version.org.kie.kogito>
   </properties>
 
   <dependencyManagement>
@@ -155,7 +154,7 @@
           <dependency>
             <groupId>org.apache.kie.sonataflow</groupId>
             <artifactId>sonataflow-quarkus-devui-bom</artifactId>
-            <version>${version.org.kie.kogito}</version>
+            <version>${env.KOGITO_RUNTIME_version}</version>
             <type>pom</type>
             <scope>import</scope>
           </dependency>
