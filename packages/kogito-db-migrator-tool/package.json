@@ -13,10 +13,10 @@
     "url": "https://github.com/apache/incubator-kie-tools/issues"
   },
   "scripts": {
-    "build:dev": "pnpm pre-build && mvn clean install -DskipTests",
+    "build:dev": "pnpm pre-build && mvn clean install -DskipTests -Dversion.org.kie.kogito=$(build-env versions.kogito)",
     "build:prod": "pnpm pre-build && run-script-os",
-    "build:prod:darwin:linux": "mvn clean install -DskipTests=$(build-env tests.run --not) -Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures)",
-    "build:prod:win32": "pnpm powershell \"mvn clean install `-DskipTests=$(build-env tests.run --not) `-Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures)\"",
+    "build:prod:darwin:linux": "mvn clean install -DskipTests=$(build-env tests.run --not) -Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures) -Dversion.org.kie.kogito=$(build-env versions.kogito)",
+    "build:prod:win32": "pnpm powershell \"mvn clean install `-DskipTests=$(build-env tests.run --not) `-Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures) `-Dversion.org.kie.kogito=$(build-env versions.kogito)\"",
     "install": "node install.js",
     "pre-build": "mvn dependency:unpack"
   },
