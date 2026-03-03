@@ -16,9 +16,10 @@
 # under the License.
 
 ARG BASE_IMAGE_TAG
-ARG KOGITO_RUNTIME_version
 
 FROM --platform=linux/amd64 $BASE_IMAGE_TAG
+
+ARG KOGITO_RUNTIME_version
 
 ENV PATH="${PATH}:/usr/share/maven/bin"
 
