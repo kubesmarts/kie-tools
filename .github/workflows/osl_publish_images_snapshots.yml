@@ -38,8 +38,7 @@ jobs:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
         with:
-          ref: SRVLOGIC-824-use-remote-artifacts-from-RH-maven-repo-in-prod-branches
-          # ref: ${{ github.event.inputs.IMAGE_TAG }}
+          ref: ${{ github.event.inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
