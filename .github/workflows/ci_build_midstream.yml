@@ -18,52 +18,42 @@
 #
 
 name: Build Midstream KIE Tools
-
 on:
   workflow_dispatch:
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
-
 permissions:
   contents: read
-
 env:
-  KOGITO_RUNTIME_version: "999-SNAPSHOT"
-
+  KOGITO_RUNTIME_version: "9.105.0"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v4
-
       - name: Setup environment
         uses: ./.github/actions/setup-env
-
       - name: Setup local maven cache
         id: setup_maven_cache
         uses: ./.github/actions/setup-maven-cache
         with:
-          DEPS_BRANCHNAME: main
-
+          DEPS_BRANCHNAME: 9.105.x-prod
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
           DROOLS_AND_KOGITO__skip: true
         shell: bash
-
       - name: Setup Environment Variables
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
-
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
           echo "-Dversion.org.kie.kogito=${KOGITO_RUNTIME_version}" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
-
       - name: Build KIE Tools
         env:
           DROOLS_AND_KOGITO__skip: true
@@ -71,13 +61,12 @@ jobs:
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
         run: mvn -B clean install
-
-      # This step works well but can consume midstream storage
-      # - name: Upload JAR artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: kie-tools-artifacts
-      #     path: |
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-999-SNAPSHOT.jar
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-999-SNAPSHOT.jar
-      #       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-999-SNAPSHOT-image-build.zip
+# This step works well but can consume midstream storage
+# - name: Upload JAR artifacts
+#   uses: actions/upload-artifact@v4
+#   with:
+#     name: kie-tools-artifacts
+#     path: |
+#       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-999-SNAPSHOT.jar
+#       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-999-SNAPSHOT.jar
+#       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-999-SNAPSHOT-image-build.zip

@@ -1,60 +1,49 @@
 name: "CI :: OSL :: Export Dist to osl-images"
-
 on:
   workflow_dispatch:
     inputs:
       dry_run:
         type: boolean
         default: true
-
 env:
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
   PNPM_FILTER: ${{ vars.OSL_IMAGES_PNPM_FILTER }}
   OSL_PACKAGES: ${{ vars.OSL_IMAGES_PACKAGES }}
-
 jobs:
   export_dist:
     runs-on: ubuntu-latest
     if: ${{ vars.ENABLE_OSL_DIST_EXPORT == 'yes' }}
-
     permissions:
       contents: write
       pull-requests: write
-
     steps:
       - name: Checkout Source Repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.KIE1_TOKEN }}
-          ref: main
-
+          ref: 9.105.x-prod
       - name: Setup Git Environment
         run: |
           git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
           git config --global user.email "${{ secrets.KIE1_EMAIL }}"
-
       - name: Setup Environment
         uses: ./.github/actions/setup-env
-
       - name: "Setup kie-tools repository"
         uses: ./.github/actions/setup-kie-tools
         with:
-          KOGITO_VERSION: "999-SNAPSHOT"
+          KOGITO_VERSION: "9.105.0"
           PNPM_FILTER: ${{ env.PNPM_FILTER }}
-
       - name: Build OSL Packages
         run: eval "pnpm ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
         env:
           NODE_OPTIONS: "--max_old_space_size=4096"
         shell: bash
-
       - name: Checkout Target Repo (osl-images)
         uses: actions/checkout@v4
         with:
           repository: kubesmarts/osl-images
           token: ${{ secrets.KIE1_TOKEN }}
           path: target-repo
-
       - name: Consolidate Dist Outputs to Target Repo
         run: |
           set -euo pipefail
@@ -102,7 +91,6 @@ jobs:
             # (We never copied them, so nothing to remove.)
           done
         shell: bash
-
       - name: Commit and Push to Target Repo
         if: ${{ !inputs.dry_run }}
         run: |
@@ -116,13 +104,12 @@ jobs:
           git push -u origin "$BRANCH"
           echo "EXPORT_BRANCH=$BRANCH" >> $GITHUB_ENV
         shell: bash
-
       - name: Create Pull Request
         if: ${{ !inputs.dry_run }}
         env:
           GH_TOKEN: ${{ secrets.KIE1_TOKEN }}
           SYNC_REVIEWERS: ${{ vars.SYNC_REVIEWERS }}
-          BRANCH: main
+          BRANCH: 9.105.x-prod
         run: |
           set -euo pipefail
 

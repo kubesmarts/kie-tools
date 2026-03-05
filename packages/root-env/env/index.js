@@ -64,17 +64,17 @@ module.exports = composeEnv([], {
     },
     /* (begin) This part of the file is referenced in `scripts/update-stream-name` */
     KIE_TOOLS_BUILD__streamName: {
-      default: "main",
+      default: "1.38.0",
       description: `Name of the release/development stream. E.g, 'main', or '10.0.x' etc. Useful for publishing "nightly" or "snapshot" artifacts. Created to reflect the Git branch name without coupling with Git itself.`,
     },
     /* (end) */
     QUARKUS_PLATFORM_version: {
-      default: "3.20.3",
+      default: "1.38",
       description: "Quarkus version to be used on dependency declaration.",
     },
     /* (begin) This part of the file is referenced in `scripts/update-kogito-version` */
     KOGITO_RUNTIME_version: {
-      default: "999-20260206-local",
+      default: "9.105.0",
       description: "Kogito version to be used on dependency declaration.",
     },
     /* (end) */
