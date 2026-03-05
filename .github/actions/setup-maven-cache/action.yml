@@ -117,4 +117,3 @@ runs:
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"
-      env.MAVEN_OPTIONS: -B -Dquickly
