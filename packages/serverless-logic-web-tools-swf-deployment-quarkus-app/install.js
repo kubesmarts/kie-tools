@@ -28,6 +28,5 @@ setupMavenConfigFile(
     -Dversion.quarkus=${env.versions.quarkus}
     -Dversion.org.kie.kogito=${env.versions.kogito}
     -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
-`,
-  { ignoreDefault: true } // Can't have special <repositories> configuration that only works inside this repo.
+`
 );
