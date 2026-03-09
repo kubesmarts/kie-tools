@@ -20,34 +20,29 @@
 const { varsWithName, getOrDefault, composeEnv, str2bool } = require("@kie-tools-scripts/build-env");
 
 const rootEnv = require("@kie-tools/root-env/env");
-const extendedServicesEnv = require("@kie-tools/extended-services/env");
 const extendedServicesJavaEnv = require("@kie-tools/extended-services-java/env");
+const extendedServicesImageEnv = require("@kie-tools/kie-sandbox-extended-services-image-env/env");
 const corsProxyEnv = require("@kie-tools/cors-proxy/env");
 const kieSandboxAcceleratorQuarkusEnv = require("@kie-tools/kie-sandbox-accelerator-quarkus/env");
 const playwrightBaseEnv = require("@kie-tools/playwright-base/env");
 
 module.exports = composeEnv(
-  [rootEnv, extendedServicesJavaEnv, corsProxyEnv, kieSandboxAcceleratorQuarkusEnv, playwrightBaseEnv],
+  [
+    rootEnv,
+    extendedServicesJavaEnv,
+    extendedServicesImageEnv,
+    corsProxyEnv,
+    kieSandboxAcceleratorQuarkusEnv,
+    playwrightBaseEnv,
+  ],
   {
     vars: varsWithName({
       ONLINE_EDITOR__buildInfo: {
         default: `dev (${process.env.USER}) @ ${new Date().toISOString()}`,
         description: "Build information to be shown at the bottom of Home page.",
       },
-      ONLINE_EDITOR__extendedServicesDownloadUrlLinux: {
-        default: `https://github.com/apache/incubator-kie-tools/releases/download/${rootEnv.env.root.version}/kie_sandbox_extended_services_linux_${extendedServicesEnv.env.extendedServices.version}.tar.gz`,
-        description: "Download URL for Extended Services for Linux.",
-      },
-      ONLINE_EDITOR__extendedServicesDownloadUrlMacOs: {
-        default: `https://github.com/apache/incubator-kie-tools/releases/download/${rootEnv.env.root.version}/kie_sandbox_extended_services_macos_${extendedServicesEnv.env.extendedServices.version}.dmg`,
-        description: "Download URL for Extended Services for macOS.",
-      },
-      ONLINE_EDITOR__extendedServicesDownloadUrlWindows: {
-        default: `https://github.com/apache/incubator-kie-tools/releases/download/${rootEnv.env.root.version}/kie_sandbox_extended_services_windows_${extendedServicesEnv.env.extendedServices.version}.exe`,
-        description: "Download URL for Extended Services for Windows.",
-      },
       ONLINE_EDITOR__extendedServicesCompatibleVersion: {
-        default: extendedServicesEnv.env.extendedServices.version,
+        default: extendedServicesJavaEnv.env.extendedServicesJava.version,
         description:
           "Version Extended Services compatile with KIE Sandbox. Exact match only. No version ranges are supported.",
       },
@@ -58,6 +53,10 @@ module.exports = composeEnv(
       ONLINE_EDITOR__extendedServicesUrl: {
         default: `http://${extendedServicesJavaEnv.env.extendedServicesJava.host}:${extendedServicesJavaEnv.env.extendedServicesJava.port}`,
         description: "Extended Services URL.",
+      },
+      ONLINE_EDITOR__extendedServicesImageUrl: {
+        default: `${extendedServicesImageEnv.env.extendedServicesImageEnv.registry}/${extendedServicesImageEnv.env.extendedServicesImageEnv.account}/${extendedServicesImageEnv.env.extendedServicesImageEnv.name}:${extendedServicesImageEnv.env.extendedServicesImageEnv.buildTag}`,
+        description: "Extended Services Image URL.",
       },
       ONLINE_EDITOR__disableExtendedServicesWizard: {
         default: `${false}`,
@@ -154,11 +153,7 @@ module.exports = composeEnv(
           buildInfo: getOrDefault(this.vars.ONLINE_EDITOR__buildInfo),
           extendedServices: {
             compatibleVersion: getOrDefault(this.vars.ONLINE_EDITOR__extendedServicesCompatibleVersion),
-            downloadUrl: {
-              linux: getOrDefault(this.vars.ONLINE_EDITOR__extendedServicesDownloadUrlLinux),
-              macOs: getOrDefault(this.vars.ONLINE_EDITOR__extendedServicesDownloadUrlMacOs),
-              windows: getOrDefault(this.vars.ONLINE_EDITOR__extendedServicesDownloadUrlWindows),
-            },
+            imageUrl: getOrDefault(this.vars.ONLINE_EDITOR__extendedServicesImageUrl),
           },
           accelerators: {
             quarkus: {
