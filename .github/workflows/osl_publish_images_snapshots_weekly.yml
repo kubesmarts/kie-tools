@@ -1,7 +1,7 @@
 name: "CI :: OSL :: Publish Images Snapshots Weekly"
 on:
   schedule:
-    - cron: '0 10 * * 5'
+    - cron: "0 10 * * 5"
 
 permissions:
   contents: read
