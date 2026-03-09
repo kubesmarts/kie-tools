@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/osl_publish_images_snapshots.yml
     with:
       dry_run: false
-      USE_REMOTE_ARTIFACTS: true
-      KOGITO_VERSION: "9.104.0.redhat-00005"
-      IMAGE_TAG: "9.104.x-prod"
+      USE_REMOTE_ARTIFACTS: false
+      KOGITO_VERSION: "999-SNAPSHOT"
+      IMAGE_TAG: "main"
     secrets: inherit
