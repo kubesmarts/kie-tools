@@ -12,10 +12,12 @@ on:
         default: false
       KOGITO_VERSION:
         description: "Specify the version for Kogito Runtime"
+        type: string
         required: false
         default: "999-SNAPSHOT"
       IMAGE_TAG:
         description: "Specify the tag for the images"
+        type: string
         required: false
         default: "main"
 
