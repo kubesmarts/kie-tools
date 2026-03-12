@@ -86,7 +86,7 @@ runs:
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
       env:
-        MAVEN_OPTIONS: -B -Dquickly
+        MAVEN_OPTIONS: -B -Dquickly -Dproductized
         REMOVE_MODULES: ./productized/remove_modules.sh ./productized/modules
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
