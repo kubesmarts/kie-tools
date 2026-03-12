@@ -19,12 +19,11 @@
 
 name: "Prepare local maven repository and build Drools, Runtimes, Apps"
 description: ""
-
 inputs:
   DEPS_BRANCHNAME:
     description: "Branch to use for kiegroup repositories"
     required: false
-    default: "main"
+    default: "9.105.x-prod"
   WORKING_DIR:
     description: "Working directory"
     required: false
@@ -41,7 +40,6 @@ inputs:
     description: "Kogito Apps repository URL"
     required: false
     default: "https://github.com/kiegroup/kogito-apps"
-
 outputs:
   droolsRepoGitRef:
     description: "Resolved drools commit SHA"
@@ -55,7 +53,6 @@ outputs:
   m2CacheHit:
     description: "Whether the Maven cache was hit"
     value: ${{ steps.m2_cache.outputs.cache-hit }}
-
 runs:
   using: "composite"
   steps:
@@ -78,7 +75,6 @@ runs:
         echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
         echo "::endgroup::"
-
     - name: "Cache Maven repository"
       id: m2_cache
       uses: actions/cache@v4
@@ -86,7 +82,6 @@ runs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
         restore-keys: ${{ runner.os }}-maven
-
     - name: Clone and Build Drools, Runtimes and Apps repositories
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
