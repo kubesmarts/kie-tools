@@ -69,6 +69,7 @@ runs:
         else
           SETTINGS_ARG=""
         fi
+        cd ${{ inputs.WORKING_DIR }}
         mvn -f pom.xml $SETTINGS_ARG -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
         mvn -f packages/pom.xml $SETTINGS_ARG -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
 
