@@ -1,7 +1,6 @@
 name: "CI :: OSL :: Publish Images Snapshots"
-
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       dry_run:
         type: boolean

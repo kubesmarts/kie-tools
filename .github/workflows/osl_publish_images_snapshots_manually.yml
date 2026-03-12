@@ -1,0 +1,34 @@
+name: "CI :: OSL :: Publish Images Snapshots Manually"
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        required: true
+      USE_REMOTE_ARTIFACTS:
+        description: "True to use productized artifacts from Red Hat Maven repository"
+        type: boolean
+        required: false
+        default: false
+      KOGITO_VERSION:
+        description: "Specify the version for Kogito Runtime"
+        required: false
+        default: "999-SNAPSHOT"
+      IMAGE_TAG:
+        description: "Specify the tag for the images"
+        required: false
+        default: "main"
+
+permissions:
+  contents: read
+
+jobs:
+  call-images-publishing-workflow:
+    uses: ./.github/workflows/osl_publish_images_snapshots.yml
+    with:
+      dry_run: ${{ inputs.dry_run }}
+      USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}
+      KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
+      IMAGE_TAG: ${{ inputs.IMAGE_TAG }}
+    secrets: inherit
