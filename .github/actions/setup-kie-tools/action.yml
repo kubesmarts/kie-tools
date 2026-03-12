@@ -56,6 +56,7 @@ runs:
       if: inputs.USE_REMOTE_ARTIFACTS == 'true'
       shell: bash
       run: |
+        cd ${{ inputs.WORKING_DIR }}
         cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
