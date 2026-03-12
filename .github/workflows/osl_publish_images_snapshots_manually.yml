@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       dry_run:
+        description: "Set to true for test runs that does not push the images. "
         type: boolean
         required: true
       USE_REMOTE_ARTIFACTS:
