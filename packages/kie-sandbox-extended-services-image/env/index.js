@@ -25,7 +25,7 @@ const extendedServicesImageEnv = require("@kie-tools/kie-sandbox-extended-servic
 module.exports = composeEnv([rootEnv, extendedServicesImageEnv], {
   vars: varsWithName({
     KIE_SANDBOX_EXTENDED_SERVICES__builderImage: {
-      default: "registry.access.redhat.com/ubi9/openjdk-17:1.23",
+      default: "registry.access.redhat.com/ubi9/openjdk-17:1.24",
       description: "The image used in the FROM import.",
     },
   }),
