@@ -111,7 +111,6 @@ jobs:
           SONATAFLOW_OPERATOR__account: "kubesmarts"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
-          KIE_TOOLS_BUILD__streamName: "1.37.2"
         shell: bash
         run: |
           eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} -F '!@kie-tools/dmn-marshaller-backend-compatibility-tester' --workspace-concurrency=1 build:prod"
