@@ -25,6 +25,11 @@ on:
         description: "Specify the version for Kogito Runtime"
         required: false
         default: "9.104.0.redhat-00006"
+      USE_REMOTE_ARTIFACTS:
+        type: string
+        description: "Use productized artifacts from Red Hat Maven repository"
+        required: false
+        default: "true"
 
 concurrency:
   group: kubesmarts-custom-build-publish-${{ github.event.inputs.environment }}
@@ -42,6 +47,7 @@ jobs:
       tag: ${{ github.event.inputs.tag }}
       version: ${{ github.event.inputs.version }}
       KOGITO_VERSION: ${{ github.event.inputs.KOGITO_VERSION }}
+      USE_REMOTE_ARTIFACTS: ${{ github.event.inputs.USE_REMOTE_ARTIFACTS }}
     secrets:
       KIE1_TOKEN: ${{ secrets.KIE1_TOKEN }}
       KIE1_EMAIL: ${{ secrets.KIE1_EMAIL }}
