@@ -33,6 +33,7 @@ concurrency:
 env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
+  KOGITO_RUNTIME_version: "9.105.0"
 
 jobs:
   run:
@@ -111,7 +112,7 @@ jobs:
         id: setup_maven_cache
         uses: ./.github/actions/setup-maven-cache
         with:
-          DEPS_BRANCHNAME: main
+          DEPS_BRANCHNAME: "9.105.x-prod"
 
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
@@ -119,8 +120,6 @@ jobs:
           mkdir ./packages/maven-base/.mvn
           echo "-Dversion.org.kie.kogito=${KOGITO_RUNTIME_version}" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
-        env:
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
 
       - name: "Install parent POMs"
         shell: bash
@@ -135,7 +134,6 @@ jobs:
           echo "::endgroup::"
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
         shell: bash
 
       - name: Setup Environment Variables
@@ -146,7 +144,6 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
           DROOLS_AND_KOGITO__skip: true
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
@@ -172,7 +169,6 @@ jobs:
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
-          KOGITO_RUNTIME_version: "999-SNAPSHOT"
           KIE_TOOLS_BUILD__runLinters: "true"
           KIE_TOOLS_BUILD__runTests: "false"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
