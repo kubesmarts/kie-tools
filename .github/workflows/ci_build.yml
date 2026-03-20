@@ -112,7 +112,7 @@ jobs:
         id: setup_maven_cache
         uses: ./.github/actions/setup-maven-cache
         with:
-          DEPS_BRANCHNAME: main
+          DEPS_BRANCHNAME: "9.105.x-prod"
 
       - name: Prepare maven-base with .mvn/maven.config
         id: prepare_maven_base_config
