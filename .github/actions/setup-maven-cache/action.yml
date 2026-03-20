@@ -96,7 +96,6 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
         cd drools
-        $REMOVE_MODULES
         mvn clean install $MAVEN_OPTIONS
         cd ..
         rm -rf drools
@@ -106,7 +105,6 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
         cd kogito-runtimes
-        $REMOVE_MODULES
         mvn clean install $MAVEN_OPTIONS
         cd ..
         rm -rf kogito-runtimes
@@ -116,7 +114,6 @@ runs:
         echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
         git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
         cd kogito-apps
-        $REMOVE_MODULES
         mvn clean install $MAVEN_OPTIONS
         cd ..
         rm -rf kogito-apps
