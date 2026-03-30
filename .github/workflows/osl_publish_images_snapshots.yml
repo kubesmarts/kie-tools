@@ -155,11 +155,11 @@ jobs:
 
           if [ "${{ env.OSL_IMAGE_TAG }}" = "main" ]; then
             echo "OSL_IMAGE_TAG is 'main'. Pushing main tag."
-            docker push quay.io/kubesmarts/incubator-kie-sonataflow-operator-bundle:main || { echo "Failed to push incubator-kie-sonataflow-operator-bundle:main"; exit 1; }
+            docker push quay.io/kubesmarts/logic-rhel9-operator-bundle:main || { echo "Failed to push logic-rhel9-operator-bundle:main"; exit 1; }
           else
             echo "OSL_IMAGE_TAG is not 'main'. Tagging and pushing snapshot."
-            docker tag quay.io/kubesmarts/incubator-kie-sonataflow-operator-bundle:main quay.io/kubesmarts/incubator-kie-sonataflow-operator-bundle:${{ env.OSL_IMAGE_TAG }}
-            docker push quay.io/kubesmarts/incubator-kie-sonataflow-operator-bundle:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push incubator-kie-sonataflow-operator-bundle with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
+            docker tag quay.io/kubesmarts/logic-rhel9-operator-bundle:main quay.io/kubesmarts/logic-rhel9-operator-bundle:${{ env.OSL_IMAGE_TAG }}
+            docker push quay.io/kubesmarts/logic-rhel9-operator-bundle:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push logic-rhel9-operator-bundle with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
           fi
 
       - name: "Build operator catalog"
