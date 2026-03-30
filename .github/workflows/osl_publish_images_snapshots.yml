@@ -162,6 +162,44 @@ jobs:
             docker push quay.io/kubesmarts/incubator-kie-sonataflow-operator-bundle:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push incubator-kie-sonataflow-operator-bundle with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
           fi
 
+      - name: "Build operator catalog"
+        shell: bash
+        env:
+          DROOLS_AND_KOGITO__skip: true
+          KOGITO_RUNTIME_version: "${{ inputs.KOGITO_VERSION }}"
+          SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "${{ inputs.KOGITO_VERSION }}"
+          KIE_TOOLS_BUILD__buildContainerImages: "true"
+          KIE_TOOLS_BUILD__runEndToEndTests: "false"
+          KIE_TOOLS_BUILD__runTests: "false"
+          SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
+          SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
+          SONATAFLOW_DEVMODE_IMAGE__registry: "quay.io"
+          SONATAFLOW_DEVMODE_IMAGE__account: "kubesmarts"
+          SONATAFLOW_MANAGEMENT_CONSOLE__registry: "quay.io"
+          SONATAFLOW_MANAGEMENT_CONSOLE__account: "kubesmarts"
+          KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__registry: "quay.io"
+          KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__account: "kubesmarts"
+          KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__registry: "quay.io"
+          KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__account: "kubesmarts"
+          KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__registry: "quay.io"
+          KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__account: "kubesmarts"
+          KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__registry: "quay.io"
+          KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__account: "kubesmarts"
+          SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageRegistry: "quay.io"
+          SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageAccount: "kubesmarts"
+          SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageRegistry: "quay.io"
+          SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
+          SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
+          SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
+          DASHBUILDER__viewerImageRegistry: "quay.io"
+          DASHBUILDER__viewerImageAccount: "kubesmarts"
+          SONATAFLOW_OPERATOR__registry: "quay.io"
+          SONATAFLOW_OPERATOR__account: "kubesmarts"
+          KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
+          KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
+        run: |
+          eval "pnpm -F @kie-tools/sonataflow-operator... --workspace-concurrency=1 image:catalog:build"
+
       - name: "Push operator catalog to Quay"
         if: ${{ !inputs.dry_run }}
         run: |
