@@ -37,12 +37,14 @@ module.exports = async (webpackEnv) =>
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "src/index.html"),
         filename: "index.html",
-        chunks: ["app"],
         templateParameters: {
           KOGITO_DATA_INDEX_WEBAPP_TITLE: env.kogitoDataIndexWebapp.title,
           KOGITO_DATA_INDEX_WEBAPP_LOGO: env.kogitoDataIndexWebapp.logo,
           KOGITO_DATA_INDEX_WEBAPP_DOCLINK_HREF: env.kogitoDataIndexWebapp.docLink.href,
           KOGITO_DATA_INDEX_WEBAPP_DOCLINK_TEXT: env.kogitoDataIndexWebapp.docLink.text,
+          KOGITO_DATA_INDEX_WEBAPP_VERSION: env.kogitoDataIndexWebapp.version,
+          KOGITO_DATA_INDEX_WEBAPP_GRAPHQLUI_HREF: env.kogitoDataIndexWebapp.graphqlUi.href,
+          KOGITO_DATA_INDEX_WEBAPP_GRAPHQLUI_LINK_TEXT: env.kogitoDataIndexWebapp.graphqlUi.text,
         },
       }),
     ],
