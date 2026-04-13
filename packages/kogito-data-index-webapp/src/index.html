@@ -29,9 +29,13 @@
   <body>
     <div class="maindiv">
       <div class="container">
-        <div class="logo" style="display: flex; justify-content: center">
+        <div class="logo" style="display: flex; justify-content: center; align-items: center">
           <img src="<%= KOGITO_DATA_INDEX_WEBAPP_LOGO %>" alt="KIE Logo" />
-          <h1><%= KOGITO_DATA_INDEX_WEBAPP_TITLE %></h1>
+
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <h1 style="margin: 0"><%= KOGITO_DATA_INDEX_WEBAPP_TITLE %></h1>
+            <h6 style="margin: 0; font-weight: normal" class="versionInfo"><%= KOGITO_DATA_INDEX_WEBAPP_VERSION %></h6>
+          </div>
         </div>
         <div>
           <h4>Your Data Index service is up and working!</h4>
@@ -44,6 +48,9 @@
         <div>
           <a href="<%= KOGITO_DATA_INDEX_WEBAPP_DOCLINK_HREF %>" class="btn" target="_blank"
             ><%= KOGITO_DATA_INDEX_WEBAPP_DOCLINK_TEXT %></a
+          >
+          <a href="<%= KOGITO_DATA_INDEX_WEBAPP_GRAPHQLUI_HREF %>" class="btn" target="_blank"
+            ><%= KOGITO_DATA_INDEX_WEBAPP_GRAPHQLUI_LINK_TEXT %></a
           >
         </div>
       </div>
