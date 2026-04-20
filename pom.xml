@@ -61,7 +61,7 @@
     <version.npm>11.6.2</version.npm>
     <version.pnpm>10.28.2</version.pnpm>
 
-    <version.quarkus>3.20.1</version.quarkus>
+    <version.quarkus>3.27.2</version.quarkus>
     <version.org.kie.kogito>999-SNAPSHOT</version.org.kie.kogito>
   </properties>
 

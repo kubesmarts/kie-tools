@@ -47,6 +47,11 @@ jobs:
         with:
           DEPS_BRANCHNAME: main
 
+      - name: Update version.org.kie.kogito in maven-base/pom.xml
+        id: prepare_maven_base_pom
+        run: |
+          sed -i "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${KOGITO_RUNTIME_version}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
+
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
@@ -61,7 +66,6 @@ jobs:
         id: prepare_maven_base_config
         run: |
           mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=${KOGITO_RUNTIME_version}" > "./packages/maven-base/.mvn/maven.config"
           echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
 
       - name: Build KIE Tools
