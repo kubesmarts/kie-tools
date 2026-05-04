@@ -57,6 +57,44 @@
     <url>https://github.com/apache/incubator-kie-issues/issues</url>
   </issueManagement>
 
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/kubesmarts/sonataflow-maven-repository</url>
+    </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/kubesmarts/sonataflow-maven-repository</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Central</name>
+      <url>https://repo.maven.apache.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>github</id>
+      <name>GitHub Repository</name>
+      <url>https://maven.pkg.github.com/kubesmarts/sonataflow-maven-repository</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>central</id>
+      <name>Central</name>
+      <url>https://repo.maven.apache.org/maven2/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>github</id>
+      <name>GitHub Repository</name>
+      <url>https://maven.pkg.github.com/kubesmarts/sonataflow-maven-repository</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <properties>
     <sonar.skip>true</sonar.skip>
     <j2cl.tools.version>0.4</j2cl.tools.version>
