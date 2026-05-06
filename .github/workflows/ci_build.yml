@@ -33,7 +33,7 @@ concurrency:
 env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
-  KOGITO_RUNTIME_version: "999-SNAPSHOT"
+  KOGITO_RUNTIME_version: "111-SNAPSHOT"
 
 jobs:
   run:

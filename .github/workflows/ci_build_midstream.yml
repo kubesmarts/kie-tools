@@ -29,7 +29,7 @@ permissions:
   contents: read
 
 env:
-  KOGITO_RUNTIME_version: "999-SNAPSHOT"
+  KOGITO_RUNTIME_version: "111-SNAPSHOT"
 
 jobs:
   build:
@@ -83,6 +83,6 @@ jobs:
       #   with:
       #     name: kie-tools-artifacts
       #     path: |
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-999-SNAPSHOT.jar
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-999-SNAPSHOT.jar
-      #       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-999-SNAPSHOT-image-build.zip
+      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-111-SNAPSHOT.jar
+      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-111-SNAPSHOT.jar
+      #       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-111-SNAPSHOT-image-build.zip
