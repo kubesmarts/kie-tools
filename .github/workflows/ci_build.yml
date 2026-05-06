@@ -153,7 +153,7 @@ jobs:
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
           DROOLS_AND_KOGITO__skip: true
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
         with:
@@ -196,7 +196,7 @@ jobs:
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
           eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} --workspace-concurrency=1 build:prod"
@@ -208,7 +208,7 @@ jobs:
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildExamples: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} --if-present build:dev"
@@ -233,7 +233,7 @@ jobs:
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
+          MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} --if-present --workspace-concurrency=1 build:prod"
