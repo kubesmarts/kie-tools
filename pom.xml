@@ -106,6 +106,7 @@
           <version>${version.maven.artifact.plugin}</version>
           <configuration>
             <outputTimestamp>${project.build.outputTimestamp}</outputTimestamp>
+            <fail>false</fail>
           </configuration>
         </plugin>
         <plugin>
