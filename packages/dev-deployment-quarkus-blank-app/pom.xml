@@ -249,15 +249,6 @@
 
   <profiles>
     <profile>
-      <id>include-1st-party-dependencies</id>
-      <activation>
-        <property>
-          <name>kieTools.do-not-use-this-property.ignore1stPartyDependencies</name>
-          <value>!true</value>
-        </property>
-      </activation>
-    </profile>
-    <profile>
       <!--  -->
       <!-- See `@kie-tools/maven-base` pom.xml for full details on this profile. -->
       <!--  -->
