@@ -13,6 +13,6 @@ jobs:
     with:
       dry_run: false
       USE_REMOTE_ARTIFACTS: false
-      KOGITO_VERSION: "9.105.0"
-      IMAGE_TAG: "9.105.x-prod"
+      KOGITO_VERSION: "111-SNAPSHOT"
+      IMAGE_TAG: "main"
     secrets: inherit

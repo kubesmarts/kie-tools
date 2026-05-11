@@ -21,11 +21,13 @@ const path = require("path");
 const { runKogitoImageInstall } = require("@kie/kogito-images-install-helper");
 const { env } = require("./env");
 
-const { buildTag, registry, account, name: imageName } = env.sonataflowManagementConsoleImageEnv;
-
-runKogitoImageInstall({
-  finalImageName: "sonataflow-management-console",
-  imageTag: { buildTag, registry, account, name: imageName },
-  resourceDir: path.resolve(__dirname, "./resources"),
-  requiresMvn: false,
+module.exports = composeEnv([require("@kie-tools/root-env/env"), require("@kie-tools/maven-base/env")], {
+  vars: varsWithName({}),
+  get env() {
+    return {
+      devDeploymentQuarkusApp: {
+        version: require("../package.json").version,
+      },
+    };
+  },
 });

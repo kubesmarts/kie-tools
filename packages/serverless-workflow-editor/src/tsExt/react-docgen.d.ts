@@ -22,21 +22,13 @@
  * This adds the __docgenInfo property that Storybook uses for component documentation
  */
 
-import "react";
-
-declare module "react" {
-  interface FunctionComponent<P = {}> {
-    __docgenInfo?: any;
-  }
-  interface VFC<P = {}> {
-    __docgenInfo?: any;
-  }
-  interface ForwardRefExoticComponent<P> {
-    __docgenInfo?: any;
-  }
-  interface MemoExoticComponent<T extends ComponentType<any>> {
-    __docgenInfo?: any;
-  }
-}
-
-// Made with Bob
+module.exports = composeEnv([require("@kie-tools/root-env/env"), require("@kie-tools/maven-base/env")], {
+  vars: varsWithName({}),
+  get env() {
+    return {
+      dashbuilder: {
+        version: require("../package.json").version,
+      },
+    };
+  },
+});
