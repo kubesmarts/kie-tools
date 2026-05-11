@@ -104,16 +104,6 @@
       <name>GitHub Repository</name>
       <url>https://maven.pkg.github.com/kubesmarts/sonataflow-maven-repository</url>
     </pluginRepository>
-    <pluginRepository>
-      <id>jboss</id>
-      <name>JBoss Public Repo</name>
-      <url>https://repository.jboss.org/nexus/content/groups/public</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>sonatype-public</id>
-      <name>Sonatype Public Snapshots Repo</name>
-      <url>https://oss.sonatype.org/content/repositories/public</url>
-    </pluginRepository>
   </pluginRepositories>
 
   <properties>
