@@ -212,7 +212,7 @@ To comply with the repository's conventions and concepts, like Packages, Maven u
 
 Foundational package for other Maven-based packages to base themselves on.
 
-Used for writing `.mvn/maven.config` with `-Drevision`, `-Dmaven.repo.local.tail` and other necessary properties.
+Used for writing `.mvn/maven.config` with `-Dmaven.repo.local.tail` and other necessary properties.
 And for centralized `<dependencyManagement>` and other necessary standard configurations
 
 All Maven-based packages should declare it as a `dependency` on their `package.json` files and its `pom.xml` as parent.
@@ -221,7 +221,7 @@ All Maven-based packages should declare it as a `dependency` on their `package.j
 <parent>
   <groupId>org.kie</groupId>
   <artifactId>kie-tools-maven-base</artifactId>
-  <version>${revision}</version>
+  <version>0.0.0</version>
   <relativePath>./node_modules/@kie-tools/maven-base/pom.xml</relativePath>
 </parent>
 ```
@@ -233,7 +233,7 @@ https://www.mojohaus.org/flatten-maven-plugin/
 
 #### package.json → scripts → install:
 
-Has to be at least `node install.js`, using `@kie-tools/maven-base` to set up properties like `-Drevision`, `-Dmaven.repo.local.tail`.
+Has to be at least `node install.js`, using `@kie-tools/maven-base` to set up properties like `-Dmaven.repo.local.tail`.
 
 #### package.json → scripts → build:dev:
 

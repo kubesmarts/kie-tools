@@ -41,15 +41,9 @@ function runKogitoImageInstall({
     throw new Error("'imageTag' parameter is required");
   }
 
-  // 1) Maven revision and tail
+  // 1) Maven configuration
   if (requiresMvn) {
-    const consumerVersion = require(path.join(imagePkgDir, "package.json")).version;
-    setupMavenConfigFile(
-      `
-  -Drevision=${consumerVersion}
-
-  `
-    );
+    setupMavenConfigFile(``);
   }
 
   // 2) Activate Python venv and bump via versions_manager.py

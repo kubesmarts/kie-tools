@@ -21,6 +21,5 @@ const { env } = require("./env");
 const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
 
 setupMavenConfigFile(`
-    -Drevision=${env.processSecurityExample.version}
     -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
 `);

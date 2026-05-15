@@ -26,7 +26,6 @@ const {
 } = require("@kie-tools/maven-base");
 
 setupMavenConfigFile(`
-    -Drevision=${env.yardValidator.version}
 `); // For some reason, j2cl-maven-plugin needs the DEFAULT_LOCAL_REPO here as the last tail too.
 
 installMvnw();

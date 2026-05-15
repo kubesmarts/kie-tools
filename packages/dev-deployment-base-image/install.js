@@ -21,7 +21,6 @@ const { env } = require("./env");
 const { setupMavenConfigFile, installMvnw, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
 
 setupMavenConfigFile(`
-    -Drevision=${env.devDeploymentBaseImage.version}
 `);
 
 installMvnw();

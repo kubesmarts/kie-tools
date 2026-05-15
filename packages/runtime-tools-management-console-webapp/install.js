@@ -17,11 +17,7 @@
  * under the License.
  */
 
-const { env } = require("./env");
 const { setupMavenConfigFile, buildTailFromPackageJsonDevDependencies } = require("@kie-tools/maven-base");
 
 // Used for development webapp Maven projects
-setupMavenConfigFile(`
-    -Drevision=${env.runtimeToolsManagementConsoleWebapp.version}
-
-`);
+setupMavenConfigFile(``);

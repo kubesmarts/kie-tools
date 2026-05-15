@@ -33,7 +33,4 @@ runKogitoImageInstall({
 /// Maven app
 
 const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
-setupMavenConfigFile(`
-    -Drevision=${env.kogitoDataIndexEphemeralImage.version}
-
-`);
+setupMavenConfigFile(``);

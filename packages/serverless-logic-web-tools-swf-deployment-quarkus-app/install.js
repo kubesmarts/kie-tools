@@ -24,7 +24,6 @@ setupMavenConfigFile(
   `
     --batch-mode
     -Dstyle.color=always
-    -Drevision=${env.swfDeploymentQuarkusApp.version}
     -Dversion.quarkus=${env.versions.quarkus}
     -Dversion.org.kie.kogito=${env.versions.kogito}
 `

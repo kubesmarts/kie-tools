@@ -21,5 +21,4 @@ const { env } = require("./env");
 const { setupMavenConfigFile } = require("@kie-tools/maven-base");
 
 setupMavenConfigFile(`
-    -Drevision=${env.slwtDevModeImage.version}
 `);

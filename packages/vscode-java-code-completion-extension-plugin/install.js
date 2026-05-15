@@ -23,7 +23,6 @@ const { setupMavenConfigFile, installMvnw, buildTailFromPackageJsonDependencies 
 const version = env.vscodeJavaCodeCompletionExtensionPlugin.version;
 
 setupMavenConfigFile(`
-  -Drevision=${version}
 
 `);
 

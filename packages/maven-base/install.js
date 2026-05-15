@@ -20,11 +20,7 @@
 const { env } = require("./env");
 const { setupMavenConfigFile, setPomProperty, buildTailFromPackageJsonDependencies } = require(".");
 
-setupMavenConfigFile(
-  `
-    -Drevision=${env.mavenBase.version}
-`
-);
+setupMavenConfigFile(``);
 
 if (!env.properties.setKogitoVersion.skip) {
   setPomProperty({

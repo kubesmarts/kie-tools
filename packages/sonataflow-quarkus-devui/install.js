@@ -21,5 +21,4 @@ const { env } = require("./env");
 const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
 
 setupMavenConfigFile(`
-    -Drevision=${env.sonataflowQuarkusDevuiExtension.version}
 `);
