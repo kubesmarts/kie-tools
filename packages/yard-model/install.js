@@ -22,7 +22,6 @@ const { setupMavenConfigFile, installMvnw, buildTailFromPackageJsonDependencies 
 
 setupMavenConfigFile(`
     -Drevision=${env.yardModel.version}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
 `);
 
 installMvnw();

@@ -22,5 +22,4 @@ const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("
 
 setupMavenConfigFile(`
     -Drevision=${env.jbpmQuarkusDevuiExtension.version}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
 `);

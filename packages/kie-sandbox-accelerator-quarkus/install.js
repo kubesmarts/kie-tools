@@ -20,5 +20,4 @@
 const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
 
 setupMavenConfigFile(`
-  -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
 `);

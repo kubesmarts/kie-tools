@@ -22,5 +22,4 @@ const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("
 
 setupMavenConfigFile(`
     -Drevision=${env.dmnTestingModels.version}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
 `);

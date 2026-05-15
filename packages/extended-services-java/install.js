@@ -24,5 +24,5 @@ setupMavenConfigFile(`
     -Drevision=${env.extendedServicesJava.version}
     -Dquarkus.http.port=${env.extendedServicesJava.port}
     -Dquarkus.http.host=${env.extendedServicesJava.host}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
+
 `);

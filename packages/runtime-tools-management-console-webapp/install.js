@@ -23,5 +23,5 @@ const { setupMavenConfigFile, buildTailFromPackageJsonDevDependencies } = requir
 // Used for development webapp Maven projects
 setupMavenConfigFile(`
     -Drevision=${env.runtimeToolsManagementConsoleWebapp.version}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDevDependencies()}
+
 `);

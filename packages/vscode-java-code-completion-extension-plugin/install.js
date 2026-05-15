@@ -24,7 +24,7 @@ const version = env.vscodeJavaCodeCompletionExtensionPlugin.version;
 
 setupMavenConfigFile(`
   -Drevision=${version}
-  -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
+
 `);
 
 installMvnw();

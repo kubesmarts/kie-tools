@@ -47,7 +47,7 @@ function runKogitoImageInstall({
     setupMavenConfigFile(
       `
   -Drevision=${consumerVersion}
-  -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies(path.resolve(imagePkgDir))}
+
   `
     );
   }

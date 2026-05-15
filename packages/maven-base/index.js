@@ -96,55 +96,6 @@ module.exports = {
   },
 
   /**
-   * Helps setting up an array of absolute paths that will be used to configure `-Dmaven.repo.local.tail`.
-   *
-   * @param dirname Where to locate the first package.json.
-   *
-   * @returns A comma-separated string containing a flat list of absolute paths of local Maven repositories.
-   */
-  buildTailFromPackageJsonDependencies: (dirname) => {
-    return deepResolveMavenLocalRepoTail(path.resolve(dirname ?? "."), "dependencies").join(",");
-  },
-
-  /**
-   * Helps setting up an array of absolute paths that will be used to configure `-Dmaven.repo.local.tail`.
-   *
-   * @param dirname Where to locate the first package.json.
-   *
-   * @returns A comma-separated string containing a flat list of absolute paths of local Maven repositories.
-   */
-  buildTailFromPackageJsonDevDependencies: (dirname) => {
-    return deepResolveMavenLocalRepoTail(path.resolve(dirname ?? "."), "devDependencies").join(",");
-  },
-
-  /**
-   * Builds a single Maven repository directory out of multiple local Maven repositories using hard links.
-   *
-   * @param tmpM2Dir Relative path of this new Maven repository directory. It will be deleted and recreated for each invocation.
-   * @param relativePackagePath A list of paths representing additional Maven repository directories, to be concatenated the default one (I.e, `maven.repo.local`)
-   *  */
-  prepareHardLinkedM2ForPackage: (tmpM2Dir, relativePackagePath) => {
-    const resolvedTmpM2Dir = path.resolve(tmpM2Dir);
-    if (fs.existsSync(resolvedTmpM2Dir)) {
-      fs.rmSync(resolvedTmpM2Dir, { recursive: true, force: true });
-    }
-    fs.mkdirSync(resolvedTmpM2Dir, { recursive: true });
-
-    // head
-    cp.execSync(`cp -nal ${DEFAULT_LOCAL_REPO}/* ${resolvedTmpM2Dir}`, { stdio: "inherit" });
-
-    const cwd = path.resolve(".", relativePackagePath);
-    const tail = deepResolveMavenLocalRepoTail(cwd, "dependencies");
-
-    // tail
-    for (const t of tail) {
-      if (fs.existsSync(path.resolve(t))) {
-        cp.execSync(`cp -al ${path.resolve(t)}/* ${resolvedTmpM2Dir}`, { stdio: "inherit" });
-      }
-    }
-  },
-
-  /**
    * Sets a property on a POM.
    *
    * @param entry An object with `key` and `value` properties
@@ -220,19 +171,3 @@ module.exports = {
     console.timeEnd(`[maven-base] Configuring Maven through .mvn/maven.config...`);
   },
 };
-
-// private functions
-
-function deepResolveMavenLocalRepoTail(cwd, dependenciesProp) {
-  const packageJsonDependencies = require(path.resolve(cwd, "package.json"))[dependenciesProp] ?? {};
-  return [
-    ...new Set([
-      path.resolve(fs.realpathSync(cwd), "dist/1st-party-m2/repository"),
-      ...Object.entries(packageJsonDependencies).flatMap(([depName, depVersion]) =>
-        depVersion === "workspace:*" // It's an internal package.
-          ? deepResolveMavenLocalRepoTail(cwd + "/node_modules/" + depName, dependenciesProp)
-          : []
-      ),
-    ]),
-  ];
-}

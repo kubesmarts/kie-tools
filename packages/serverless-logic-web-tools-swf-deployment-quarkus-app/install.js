@@ -27,6 +27,5 @@ setupMavenConfigFile(
     -Drevision=${env.swfDeploymentQuarkusApp.version}
     -Dversion.quarkus=${env.versions.quarkus}
     -Dversion.org.kie.kogito=${env.versions.kogito}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
 `
 );
