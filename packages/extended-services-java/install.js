@@ -16,12 +16,3 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-const { env } = require("./env");
-const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
-
-setupMavenConfigFile(`
-    -Dquarkus.http.port=${env.extendedServicesJava.port}
-    -Dquarkus.http.host=${env.extendedServicesJava.host}
-
-`);

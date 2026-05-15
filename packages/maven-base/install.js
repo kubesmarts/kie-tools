@@ -18,9 +18,7 @@
  */
 
 const { env } = require("./env");
-const { setupMavenConfigFile, setPomProperty, buildTailFromPackageJsonDependencies } = require(".");
-
-setupMavenConfigFile(``);
+const { setPomProperty } = require(".");
 
 if (!env.properties.setKogitoVersion.skip) {
   setPomProperty({

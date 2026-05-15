@@ -18,14 +18,6 @@
  */
 
 const { env } = require("./env");
-const {
-  setupMavenConfigFile,
-  installMvnw,
-  buildTailFromPackageJsonDependencies,
-  DEFAULT_LOCAL_REPO,
-} = require("@kie-tools/maven-base");
-
-setupMavenConfigFile(`
-`); // For some reason, j2cl-maven-plugin needs the DEFAULT_LOCAL_REPO here as the last tail too.
+const { installMvnw } = require("@kie-tools/maven-base");
 
 installMvnw();

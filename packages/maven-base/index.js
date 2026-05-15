@@ -22,21 +22,8 @@ const fs = require("fs");
 const path = require("path");
 const { env } = require("./env");
 
-// Constants relative to consumer packages.
-const MVN_CONFIG_ORIGINAL_FILE_PATH = path.join(".mvn", "maven.config.original");
-const MVN_CONFIG_FILE_PATH = path.join(".mvn", "maven.config");
-
 // This package's constants.
 const EMPTY_POM_XML_PATH = path.join(__dirname, "empty-pom.xml");
-
-// The `version.org.kie.kogito` and `version.quarkus` properties are set with
-// the respective env var values here to allow for local and/or downstream overrides.
-const DEFAULT_MAVEN_CONFIG = `
--Dstyle.color=always
--Dversion.org.kie.kogito=${env.versions.kogito}
--Dversion.quarkus=${env.versions.quarkus}
---batch-mode
-`.trim();
 
 const DEFAULT_LOCAL_REPO = String(
   cp.execSync(`mvn help:evaluate -Dexpression=settings.localRepository -q -DforceStdout -f ${EMPTY_POM_XML_PATH}`, {
@@ -123,51 +110,5 @@ module.exports = {
     }
 
     console.timeEnd(`[maven-base] Setting property '${key}' with value '${value}'...`);
-  },
-
-  /**
-   * Writes to `.mvn/maven.config` idempotently, preserving what was there before this function was called.
-   *
-   * @param pkgSpecificMvnConfigString New-line-separated string containing arguments to the `mvn` command.
-   * @param args An object with a `ignoreDefault: boolean` property.
-   */
-  setupMavenConfigFile: (pkgSpecificMvnConfigString, args) => {
-    console.info(`[maven-base] Configuring Maven through .mvn/maven.config...`);
-    console.time(`[maven-base] Configuring Maven through .mvn/maven.config...`);
-
-    let originalMvnConfigString;
-    if (fs.existsSync(MVN_CONFIG_ORIGINAL_FILE_PATH)) {
-      console.info(`[maven-base] Found '${MVN_CONFIG_ORIGINAL_FILE_PATH}'.`);
-      originalMvnConfigString = fs.readFileSync(MVN_CONFIG_ORIGINAL_FILE_PATH, "utf-8");
-    } else if (fs.existsSync(MVN_CONFIG_FILE_PATH)) {
-      console.info(`[maven-base] Found '${MVN_CONFIG_FILE_PATH}'.`);
-      originalMvnConfigString = fs.readFileSync(MVN_CONFIG_FILE_PATH, "utf-8");
-    } else {
-      console.info(`[maven-base] No previous config found.`);
-      originalMvnConfigString = "";
-    }
-
-    fs.mkdirSync(".mvn", { recursive: true });
-
-    console.info(`[maven-base] Writing '${MVN_CONFIG_ORIGINAL_FILE_PATH}'...`);
-    console.info(`${originalMvnConfigString}` || "<empty>");
-    fs.writeFileSync(MVN_CONFIG_ORIGINAL_FILE_PATH, originalMvnConfigString);
-
-    const sanitizedPkgSpecificMvnConfigString = pkgSpecificMvnConfigString
-      .trim()
-      .split("\n")
-      .map((line) => line.trim())
-      .join("\n");
-
-    const newMvnConfigString =
-      (args?.ignoreDefault ? "" : `${DEFAULT_MAVEN_CONFIG}\n`) +
-      (sanitizedPkgSpecificMvnConfigString ? `${sanitizedPkgSpecificMvnConfigString}\n` : "") +
-      (originalMvnConfigString ? `${originalMvnConfigString}\n` : "");
-
-    console.info(`[maven-base] Writing '${MVN_CONFIG_FILE_PATH}'...`);
-    console.info(newMvnConfigString);
-
-    fs.writeFileSync(MVN_CONFIG_FILE_PATH, newMvnConfigString);
-    console.timeEnd(`[maven-base] Configuring Maven through .mvn/maven.config...`);
   },
 };

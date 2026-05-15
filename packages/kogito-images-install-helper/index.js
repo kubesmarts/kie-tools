@@ -21,7 +21,6 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 const replaceInFile = require("replace-in-file");
-const { setupMavenConfigFile, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
 
 /**
  * Install routine for Kogito images. Helps with bumping versions, configuring Maven, and updating YAMLs/features.
@@ -39,11 +38,6 @@ function runKogitoImageInstall({
   }
   if (!imageTag) {
     throw new Error("'imageTag' parameter is required");
-  }
-
-  // 1) Maven configuration
-  if (requiresMvn) {
-    setupMavenConfigFile(``);
   }
 
   // 2) Activate Python venv and bump via versions_manager.py

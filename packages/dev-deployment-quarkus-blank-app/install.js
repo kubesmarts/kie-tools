@@ -17,17 +17,6 @@
  * under the License.
  */
 
-const { env } = require("./env");
-const { setupMavenConfigFile, installMvnw, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
-
-setupMavenConfigFile(
-  `
-    --batch-mode
-    -Dstyle.color=always
-    -Dversion.quarkus=${env.versions.quarkus}
-    -Dversion.org.kie.kogito=${env.versions.kogito}
-`,
-  { ignoreDefault: true } // Can't have special <repositories> configuration that only works inside this repo.
-);
+const { installMvnw } = require("@kie-tools/maven-base");
 
 installMvnw();

@@ -18,9 +18,6 @@
  */
 
 const { env } = require("./env");
-const { setupMavenConfigFile, installMvnw, buildTailFromPackageJsonDependencies } = require("@kie-tools/maven-base");
-
-setupMavenConfigFile(`
-`);
+const { installMvnw } = require("@kie-tools/maven-base");
 
 installMvnw();
