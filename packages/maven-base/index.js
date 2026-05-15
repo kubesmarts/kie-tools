@@ -28,12 +28,10 @@ const MVN_CONFIG_FILE_PATH = path.join(".mvn", "maven.config");
 
 // This package's constants.
 const EMPTY_POM_XML_PATH = path.join(__dirname, "empty-pom.xml");
-const SETTINGS_XML_PATH = path.join(__dirname, "settings.xml");
 
 const DEFAULT_MAVEN_CONFIG = `
 -Dstyle.color=always
 --batch-mode
---settings=${SETTINGS_XML_PATH}
 `.trim();
 
 const DEFAULT_LOCAL_REPO = String(
@@ -43,7 +41,7 @@ const DEFAULT_LOCAL_REPO = String(
   })
 ).trim();
 
-const BOOTSTRAP_CLI_ARGS = `-P-include-1st-party-dependencies --settings=${SETTINGS_XML_PATH}`;
+const BOOTSTRAP_CLI_ARGS = `-P-include-1st-party-dependencies`;
 
 function getSedFlavor() {
   try {
