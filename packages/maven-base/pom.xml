@@ -493,11 +493,6 @@
           <artifactId>maven-remote-resources-plugin</artifactId>
           <version>${version.maven.remote.resources.plugin}</version>
         </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>flatten-maven-plugin</artifactId>
-          <version>${version.codehaus.flatten.plugin}</version>
-        </plugin>
 
         <!-- Quarkus -->
         <plugin>
@@ -526,33 +521,6 @@
     </pluginManagement>
 
     <plugins>
-      <plugin>
-        <!-- Necessary for CI friendly versions -->
-        <!-- See https://maven.apache.org/maven-ci-friendly.html -->
-        <!-- Won't be necessary on Maven 4. -->
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>flatten-maven-plugin</artifactId>
-        <configuration>
-          <updatePomFile>true</updatePomFile>
-          <flattenMode>resolveCiFriendliesOnly</flattenMode>
-        </configuration>
-        <executions>
-          <execution>
-            <id>flatten-revision</id>
-            <phase>process-resources</phase>
-            <goals>
-              <goal>flatten</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>flatten-revision-clean</id>
-            <phase>clean</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <!--  -->
         <!-- Good practice to always include sources on releases -->
