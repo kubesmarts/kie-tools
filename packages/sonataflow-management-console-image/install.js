@@ -17,17 +17,4 @@
  * under the License.
  */
 
-const path = require("path");
-const { runKogitoImageInstall } = require("@kie/kogito-images-install-helper");
-const { env } = require("./env");
-
-module.exports = composeEnv([require("@kie-tools/root-env/env"), require("@kie-tools/maven-base/env")], {
-  vars: varsWithName({}),
-  get env() {
-    return {
-      devDeploymentQuarkusApp: {
-        version: require("../package.json").version,
-      },
-    };
-  },
-});
+// No installation steps required

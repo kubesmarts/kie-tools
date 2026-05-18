@@ -18,14 +18,7 @@
  */
 
 const { env } = require("./env");
-const { setupMavenConfigFile, setPomProperty, buildTailFromPackageJsonDependencies } = require(".");
-
-setupMavenConfigFile(
-  `
-    -Drevision=${env.mavenBase.version}
-    -Dmaven.repo.local.tail=${buildTailFromPackageJsonDependencies()}
-`
-);
+const { setPomProperty } = require(".");
 
 setPomProperty({
   key: "version.org.kie.kogito",

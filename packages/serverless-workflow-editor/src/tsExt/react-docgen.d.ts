@@ -17,18 +17,4 @@
  * under the License.
  */
 
-/**
- * Type declarations for react-docgen-typescript
- * This adds the __docgenInfo property that Storybook uses for component documentation
- */
-
-module.exports = composeEnv([require("@kie-tools/root-env/env"), require("@kie-tools/maven-base/env")], {
-  vars: varsWithName({}),
-  get env() {
-    return {
-      dashbuilder: {
-        version: require("../package.json").version,
-      },
-    };
-  },
-});
+// No installation steps required
