@@ -30,7 +30,6 @@ updates:
     target-branch: "main"
     commit-message:
       prefix: "[bot][main]"
-    versioning-strategy: increase
 
   - package-ecosystem: npm
     directory: "/"
@@ -41,7 +40,6 @@ updates:
     target-branch: "9.105.x-prod"
     commit-message:
       prefix: "[bot][9.105.x-prod]"
-    versioning-strategy: increase
 
   - package-ecosystem: "github-actions"
     directory: "/"
