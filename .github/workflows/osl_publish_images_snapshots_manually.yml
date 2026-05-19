@@ -19,7 +19,7 @@ on:
       IMAGE_TAG:
         description: "Specify the tag for the images"
         required: false
-        default: "9.105.x"
+        default: "9.105.x-prod"
 
 permissions:
   contents: read
