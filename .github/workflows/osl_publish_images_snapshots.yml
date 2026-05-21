@@ -48,7 +48,7 @@ jobs:
       - name: "Checkout @ GitHub default"
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.IMAGE_TAG }}
+          ref: ${{ inputs.IMAGE_TAG }}
 
       - name: "Exporting KOGITO_RUNTIME_version"
         run: |
@@ -196,6 +196,7 @@ jobs:
           SONATAFLOW_OPERATOR__account: "kubesmarts"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
+          IMAGE_TAG: ${{ env.OSL_IMAGE_TAG }}
         run: |
           eval "pnpm -F @kie-tools/sonataflow-operator... --workspace-concurrency=1 image:catalog:build"
 
@@ -206,9 +207,9 @@ jobs:
 
           if [ "${{ env.OSL_IMAGE_TAG }}" = "main" ]; then
             echo "OSL_IMAGE_TAG is 'main'. Pushing main tag."
-            docker push quay.io/kubesmarts/incubator-kie-sonataflow-operator-catalog:main || { echo "Failed to push incubator-kie-sonataflow-operator-catalog:main"; exit 1; }
+            docker push quay.io/kubesmarts/logic-rhel9-operator-catalog:main || { echo "Failed to push logic-rhel9-operator-catalog:main"; exit 1; }
           else
             echo "OSL_IMAGE_TAG is not 'main'. Tagging and pushing snapshot."
-            docker tag quay.io/kubesmarts/incubator-kie-sonataflow-operator-catalog:main quay.io/kubesmarts/incubator-kie-sonataflow-operator-bundle:${{ env.OSL_IMAGE_TAG }}
-            docker push quay.io/kubesmarts/incubator-kie-sonataflow-operator-catalog:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push incubator-kie-sonataflow-operator-catalog with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
+            docker tag quay.io/kubesmarts/logic-rhel9-operator-catalog:main quay.io/kubesmarts/logic-rhel9-operator-catalog:${{ env.OSL_IMAGE_TAG }}
+            docker push quay.io/kubesmarts/logic-rhel9-operator-catalog:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push logic-rhel9-operator-catalog with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
           fi
