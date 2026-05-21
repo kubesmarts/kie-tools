@@ -83,6 +83,33 @@ module.exports = {
   },
 
   /**
+   * Builds a single Maven repository directory out of multiple local Maven repositories using hard links.
+   *
+   * @param tmpM2Dir Relative path of this new Maven repository directory. It will be deleted and recreated for each invocation.
+   * @param relativePackagePath A list of paths representing additional Maven repository directories, to be concatenated the default one (I.e, `maven.repo.local`)
+   */
+  prepareHardLinkedM2ForPackage: (tmpM2Dir, relativePackagePath) => {
+    const resolvedTmpM2Dir = path.resolve(tmpM2Dir);
+    if (fs.existsSync(resolvedTmpM2Dir)) {
+      fs.rmSync(resolvedTmpM2Dir, { recursive: true, force: true });
+    }
+    fs.mkdirSync(resolvedTmpM2Dir, { recursive: true });
+
+    // head
+    cp.execSync(`cp -nal ${DEFAULT_LOCAL_REPO}/* ${resolvedTmpM2Dir}`, { stdio: "inherit" });
+
+    const cwd = path.resolve(".", relativePackagePath);
+    const tail = deepResolveMavenLocalRepoTail(cwd);
+
+    // tail
+    for (const t of tail) {
+      if (fs.existsSync(path.resolve(t))) {
+        cp.execSync(`cp -al ${path.resolve(t)}/* ${resolvedTmpM2Dir}`, { stdio: "inherit" });
+      }
+    }
+  },
+
+  /**
    * Sets a property on a POM.
    *
    * @param entry An object with `key` and `value` properties
@@ -112,3 +139,17 @@ module.exports = {
     console.timeEnd(`[maven-base] Setting property '${key}' with value '${value}'...`);
   },
 };
+
+function deepResolveMavenLocalRepoTail(cwd) {
+  const packageJsonDependencies = require(path.resolve(cwd, "package.json")).dependencies ?? {};
+  return [
+    ...new Set([
+      path.resolve(fs.realpathSync(cwd), "dist/1st-party-m2/repository"),
+      ...Object.entries(packageJsonDependencies).flatMap(([depName, depVersion]) =>
+        depVersion === "workspace:*" // It's an internal package.
+          ? deepResolveMavenLocalRepoTail(cwd + "/node_modules/" + depName)
+          : []
+      ),
+    ]),
+  ];
+}
