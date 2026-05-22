@@ -14,17 +14,17 @@
   },
   "scripts": {
     "build:dev": "run-script-os",
-    "build:dev:darwin:linux": "mvn clean install -DskipTests -Dversion.com.graphql-java=22.2.0-redhat-00001",
-    "build:dev:win32": "pnpm powershell \"mvn clean install `-DskipTests `-Dversion.com.graphql-java=22.2.0-redhat-00001\"",
+    "build:dev:darwin:linux": "mvn clean install -DskipTests -Dversion.com.graphql-java=22.2.0.redhat-00001",
+    "build:dev:win32": "pnpm powershell \"mvn clean install `-DskipTests `-Dversion.com.graphql-java=22.2.0.redhat-00001\"",
     "build:prod": "pnpm lint && run-script-os",
-    "build:prod:darwin:linux": "mvn clean install -DskipTests=$(build-env tests.run --not) -Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures) -Dversion.com.graphql-java=22.2.0-redhat-00001",
-    "build:prod:win32": "pnpm powershell \"mvn clean install `-DskipTests=$(build-env tests.run --not) `-Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures) `-Dversion.com.graphql-java=22.2.0-redhat-00001\"",
+    "build:prod:darwin:linux": "mvn clean install -DskipTests=$(build-env tests.run --not) -Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures) -Dversion.com.graphql-java=22.2.0.redhat-00001",
+    "build:prod:win32": "pnpm powershell \"mvn clean install `-DskipTests=$(build-env tests.run --not) `-Dmaven.test.failure.ignore=$(build-env tests.ignoreFailures) `-Dversion.com.graphql-java=22.2.0.redhat-00001\"",
     "install": "node install.js",
     "lint": "echo 'Linting'",
     "powershell": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command",
     "quarkus:dev": "run-script-os",
-    "quarkus:dev:darwin:linux": "mvn clean package quarkus:dev -DskipTests -Dversion.com.graphql-java=22.2.0-redhat-00001",
-    "quarkus:dev:win32": "mvn clean package quarkus:dev `-DskipTests `-Dversion.com.graphql-java=22.2.0-redhat-00001"
+    "quarkus:dev:darwin:linux": "mvn clean package quarkus:dev -DskipTests -Dversion.com.graphql-java=22.2.0.redhat-00001",
+    "quarkus:dev:win32": "mvn clean package quarkus:dev `-DskipTests `-Dversion.com.graphql-java=22.2.0.redhat-00001"
   },
   "dependencies": {
     "@kie-tools/maven-base": "workspace:*",
