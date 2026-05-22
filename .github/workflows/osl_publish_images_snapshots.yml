@@ -127,13 +127,6 @@ jobs:
         run: |
           for image in ${{ vars.PUBLISH_IMAGES_LIST }}; do
             echo "Pushing $image to Quay"
-
-            if [ "${{ env.OSL_IMAGE_TAG }}" = "main" ]; then
-              echo "OSL_IMAGE_TAG is 'main'. Pushing main tag."
-              docker push quay.io/kubesmarts/$image:main || { echo "Failed to push $image:main"; exit 1; }
-            else
-              echo "OSL_IMAGE_TAG is not 'main'. Tagging and pushing snapshot."
-              docker tag quay.io/kubesmarts/$image:main quay.io/kubesmarts/$image:${{ env.OSL_IMAGE_TAG }}
-              docker push quay.io/kubesmarts/$image:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push $image with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
-            fi
+            docker tag quay.io/kubesmarts/$image:${{ env.KIE_TOOLS_BUILD__streamName }} quay.io/kubesmarts/$image:${{ env.OSL_IMAGE_TAG }}
+            docker push quay.io/kubesmarts/$image:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push $image with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
           done
