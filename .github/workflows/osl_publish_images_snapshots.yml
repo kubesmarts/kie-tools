@@ -205,11 +205,5 @@ jobs:
         run: |
           echo "Pushing operator catalog to Quay"
 
-          if [ "${{ env.OSL_IMAGE_TAG }}" = "main" ]; then
-            echo "OSL_IMAGE_TAG is 'main'. Pushing main tag."
-            docker push quay.io/kubesmarts/logic-rhel9-operator-catalog:main || { echo "Failed to push logic-rhel9-operator-catalog:main"; exit 1; }
-          else
-            echo "OSL_IMAGE_TAG is not 'main'. Tagging and pushing snapshot."
-            docker tag quay.io/kubesmarts/logic-rhel9-operator-catalog:main quay.io/kubesmarts/logic-rhel9-operator-catalog:${{ env.OSL_IMAGE_TAG }}
-            docker push quay.io/kubesmarts/logic-rhel9-operator-catalog:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push logic-rhel9-operator-catalog with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
-          fi
+          echo "Pushing logic-rhel9-operator-catalog:${{ env.OSL_IMAGE_TAG }}"
+          docker push quay.io/kubesmarts/logic-rhel9-operator-catalog:${{ env.OSL_IMAGE_TAG }} || { echo "Failed to push logic-rhel9-operator-catalog with tag $OSL_IMAGE_TAG to Quay"; exit 1; }
