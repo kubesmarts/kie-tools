@@ -12,9 +12,7 @@
   "bugs": {
     "url": "https://github.com/apache/incubator-kie-tools/issues"
   },
-  "dependencies": {
-    "@kie-tools/extended-services-java": "workspace:*"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@kie-tools/image-builder": "workspace:*",
     "@kie-tools/root-env": "workspace:*",

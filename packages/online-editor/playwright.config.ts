@@ -45,12 +45,6 @@ const customConfig = defineConfig({
       stdout: "pipe",
     },
     {
-      command: "pnpm start:kie-sandbox-accelerator-quarkus",
-      url: `http://localhost:${buildEnv.kieSandboxAcceleratorQuarkus.dev.port}/git-repo-bare.git`,
-      reuseExistingServer: true,
-      stdout: "pipe",
-    },
-    {
       command: "pnpm start:kie-sandbox",
       url: `http://localhost:${buildEnv.onlineEditor.dev.port}`,
       reuseExistingServer: true,

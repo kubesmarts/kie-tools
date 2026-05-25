@@ -107,8 +107,6 @@
       { "id": "@kie-tools/uniforms-patternfly-form-wrapper" },
       { "id": "@kie-tools/dev-deployment-dmn-form-webapp-image" },
       { "id": "@kie-tools/image-env-to-json" },
-      { "id": "@kie-tools/dev-deployment-quarkus-blank-app" },
-      { "id": "@kie-tools/dev-deployment-quarkus-blank-app-image" },
       { "id": "@kie-tools/maven-m2-repo-via-http-image" },
       { "id": "@kie-tools/import-java-classes-component" },
       { "id": "@kie-tools/pmml-editor-marshaller" },
@@ -123,7 +121,6 @@
       { "id": "@kie-tools/extended-services-api" },
       { "id": "dmn-vscode-extension" },
       { "id": "@kie-tools/vscode-java-code-completion-extension-plugin" },
-      { "id": "@kie-tools/extended-services-java" },
       { "id": "extended-services-vscode-extension" },
       { "id": "@kie-tools/form-code-generator" },
       { "id": "@kie-tools/form-code-generator-bootstrap4-theme" },
@@ -137,7 +134,6 @@
       { "id": "kie-editors-dev-vscode-extension" },
       { "id": "@kie-tools/pmml-editor" },
       { "id": "@kie-tools/vscode-extension-common-test-helpers" },
-      { "id": "@kie-tools/kie-sandbox-accelerator-quarkus" },
       { "id": "@kie-tools/kie-sandbox-distribution" },
       { "id": "@kie-tools/kie-sandbox-extended-services-image" },
       { "id": "@kie-tools/kie-sandbox-webapp-image" },
@@ -839,26 +835,6 @@
         "weight": 1
       },
       { "source": "@kie-tools/image-env-to-json", "target": "@kie-tools/root-env", "weight": 1 },
-      {
-        "source": "@kie-tools/dev-deployment-quarkus-blank-app",
-        "target": "@kie-tools/jbpm-quarkus-devui",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/dev-deployment-quarkus-blank-app-image",
-        "target": "@kie-tools/dev-deployment-base-image",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/dev-deployment-quarkus-blank-app-image",
-        "target": "@kie-tools/dev-deployment-quarkus-blank-app",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/dev-deployment-quarkus-blank-app-image",
-        "target": "@kie-tools/maven-m2-repo-via-http-image",
-        "weight": 1
-      },
       { "source": "@kie-tools/maven-m2-repo-via-http-image", "target": "@kie-tools/image-builder", "weight": 1 },
       { "source": "@kie-tools/maven-m2-repo-via-http-image", "target": "@kie-tools/root-env", "weight": 1 },
       {
@@ -924,10 +900,8 @@
         "target": "@kie-tools/maven-base",
         "weight": 1
       },
-      { "source": "@kie-tools/extended-services-java", "target": "@kie-tools/maven-base", "weight": 1 },
       { "source": "extended-services-vscode-extension", "target": "@kie-tools-core/vscode-extension", "weight": 1 },
       { "source": "extended-services-vscode-extension", "target": "@kie-tools-core/webpack-base", "weight": 1 },
-      { "source": "extended-services-vscode-extension", "target": "@kie-tools/extended-services-java", "weight": 1 },
       { "source": "@kie-tools/form-code-generator", "target": "@kie-tools/eslint", "weight": 1 },
       { "source": "@kie-tools/form-code-generator", "target": "@kie-tools/jest-base", "weight": 1 },
       { "source": "@kie-tools/form-code-generator", "target": "@kie-tools/tsconfig", "weight": 1 },
@@ -1017,16 +991,6 @@
       { "source": "@kie-tools/pmml-editor", "target": "@kie-tools/pmml-editor-marshaller", "weight": 1 },
       { "source": "@kie-tools/pmml-editor", "target": "@kie-tools-core/webpack-base", "weight": 1 },
       { "source": "@kie-tools/vscode-extension-common-test-helpers", "target": "@kie-tools/tsconfig", "weight": 1 },
-      {
-        "source": "@kie-tools/kie-sandbox-accelerator-quarkus",
-        "target": "@kie-tools/accelerator-git-http-server",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/kie-sandbox-accelerator-quarkus",
-        "target": "@kie-tools/jbpm-quarkus-devui",
-        "weight": 1
-      },
       { "source": "@kie-tools/kie-sandbox-distribution", "target": "@kie-tools/cors-proxy-image", "weight": 1 },
       {
         "source": "@kie-tools/kie-sandbox-distribution",
@@ -1043,14 +1007,10 @@
       { "source": "@kie-tools/kie-sandbox-webapp-image", "target": "@kie-tools/online-editor", "weight": 1 },
       {
         "source": "@kie-tools/kie-sandbox-extended-services-image-env",
-        "target": "@kie-tools/extended-services-java",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/kie-sandbox-extended-services-image-env",
         "target": "@kie-tools/image-builder",
         "weight": 1
       },
+      { "source": "@kie-tools/kie-sandbox-extended-services-image-env", "target": "@kie-tools/root-env", "weight": 1 },
       { "source": "@kie-tools/online-editor", "target": "@kie-tools-core/k8s-yaml-to-apiserver-requests", "weight": 1 },
       { "source": "@kie-tools/online-editor", "target": "@kie-tools-core/kubernetes-bridge", "weight": 1 },
       { "source": "@kie-tools/online-editor", "target": "@kie-tools-core/workspaces-git-fs", "weight": 1 },
@@ -1068,7 +1028,6 @@
       { "source": "@kie-tools/online-editor", "target": "@kie-tools/pmml-editor", "weight": 1 },
       { "source": "@kie-tools/online-editor", "target": "@kie-tools/unitables-dmn", "weight": 1 },
       { "source": "@kie-tools/online-editor", "target": "@kie-tools/cors-proxy", "weight": 1 },
-      { "source": "@kie-tools/online-editor", "target": "@kie-tools/kie-sandbox-accelerator-quarkus", "weight": 1 },
       { "source": "@kie-tools/kie-sandbox-helm-chart", "target": "@kie-tools/cors-proxy-image", "weight": 1 },
       {
         "source": "@kie-tools/kie-sandbox-helm-chart",
@@ -1715,8 +1674,6 @@
     ["@kie-tools/dev-deployment-base-image", "packages/dev-deployment-base-image"],
     ["@kie-tools/dev-deployment-dmn-form-webapp", "packages/dev-deployment-dmn-form-webapp"],
     ["@kie-tools/dev-deployment-dmn-form-webapp-image", "packages/dev-deployment-dmn-form-webapp-image"],
-    ["@kie-tools/dev-deployment-quarkus-blank-app", "packages/dev-deployment-quarkus-blank-app"],
-    ["@kie-tools/dev-deployment-quarkus-blank-app-image", "packages/dev-deployment-quarkus-blank-app-image"],
     ["@kie-tools/dev-deployment-upload-service", "packages/dev-deployment-upload-service"],
     ["@kie-tools/dmn-editor", "packages/dmn-editor"],
     ["@kie-tools/dmn-editor-envelope", "packages/dmn-editor-envelope"],
@@ -1734,7 +1691,6 @@
     ["@kie-tools-core/envelope-bus", "packages/envelope-bus"],
     ["@kie-tools/eslint", "packages/eslint"],
     ["@kie-tools/extended-services-api", "packages/extended-services-api"],
-    ["@kie-tools/extended-services-java", "packages/extended-services-java"],
     ["extended-services-vscode-extension", "packages/extended-services-vscode-extension"],
     ["@kie-tools/feel-input-component", "packages/feel-input-component"],
     ["@kie-tools/form-code-generator", "packages/form-code-generator"],
@@ -1754,7 +1710,6 @@
     ["@kie-tools-core/keyboard-shortcuts", "packages/keyboard-shortcuts"],
     ["@kie-tools/kie-bc-editors-common", "packages/kie-bc-editors-common"],
     ["kie-editors-dev-vscode-extension", "packages/kie-editors-dev-vscode-extension"],
-    ["@kie-tools/kie-sandbox-accelerator-quarkus", "packages/kie-sandbox-accelerator-quarkus"],
     ["@kie-tools/kie-sandbox-distribution", "packages/kie-sandbox-distribution"],
     ["@kie-tools/kie-sandbox-extended-services-image", "packages/kie-sandbox-extended-services-image"],
     ["@kie-tools/kie-sandbox-extended-services-image-env", "packages/kie-sandbox-extended-services-image-env"],

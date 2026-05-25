@@ -358,7 +358,6 @@ KIE Sandbox allows for the images used on DMN Dev Deployments to be customized. 
 
 ```docker
 ENV KIE_SANDBOX_DEV_DEPLOYMENT_BASE_IMAGE_URL="docker.io/apache/incubator-kie-sandbox0dev-deployment-base:latest"
-ENV KIE_SANDBOX_DEV_DEPLOYMENT_QUARKUS_BLANK_APP_IMAGE_URL="docker.io/apache/incubator-kie-sandbox0dev-deployment-quarkus-blank-app:latest"
 ENV KIE_SANDBOX_DEV_DEPLOYMENT_DMN_FORM_WEBAPP_IMAGE_URL="docker.io/apache/incubator-kie-sandbox0dev-deployment-dmn-form-webapp:latest"
 ```
 

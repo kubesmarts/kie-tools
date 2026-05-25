@@ -21,10 +21,6 @@ const { varsWithName, getOrDefault, composeEnv } = require("@kie-tools-scripts/b
 
 const rootEnv = require("@kie-tools/root-env/env");
 
-const {
-  env: { extendedServicesJava: extendedServicesJavaEnv },
-} = require("@kie-tools/extended-services-java/env");
-
 module.exports = composeEnv([rootEnv], {
   vars: varsWithName({
     KIE_SANDBOX_EXTENDED_SERVICES__imageRegistry: {
@@ -44,7 +40,7 @@ module.exports = composeEnv([rootEnv], {
       description: "Tag version of this image. E.g., `main` or `10.0.x` or `10.0.0",
     },
     KIE_SANDBOX_EXTENDED_SERVICES__imagePort: {
-      default: extendedServicesJavaEnv.port,
+      default: "21345",
       description: "Internal HTTP port of the Extended Services app.",
     },
   }),

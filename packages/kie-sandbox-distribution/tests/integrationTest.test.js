@@ -43,7 +43,7 @@ describe("Test built images individually", () => {
   it("extended-services homepage", async () => {
     expect(await (await fetch(extendedServicesUrl)).text()).toMatchSnapshot();
   });
-  it("extended-services-java ping", async () => {
+  it("extended-services ping", async () => {
     const response = await (await fetch(`${extendedServicesUrl}/ping`)).json();
     expect(response).toHaveProperty("version");
     expect(response).toHaveProperty("started");

@@ -38,7 +38,6 @@ There is a set of playwright tests in `tests-e2e` directory. To run them, please
 These dependencies are required for full functionality. `pnpm start` will automatically start all of them, but everything can be started individually with:
 
 - `pnpm start:kie-sandbox`
-- `pnpm start:kie-sandbox-accelerator-quarkus`
 - `pnpm start:cors-proxy`
 - `pnpm start:extended-services`
 

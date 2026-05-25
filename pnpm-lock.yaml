@@ -5364,9 +5364,6 @@ importers:
       '@kie-tools/eslint':
         specifier: workspace:*
         version: link:../eslint
-      '@kie-tools/extended-services-java':
-        specifier: workspace:*
-        version: link:../extended-services-java
       '@kie-tools/root-env':
         specifier: workspace:*
         version: link:../root-env
@@ -6658,37 +6655,6 @@ importers:
         specifier: ^5.9.0
         version: 5.10.0
 
-  packages/kie-sandbox-accelerator-quarkus:
-    dependencies:
-      '@kie-tools/accelerator-git-http-server':
-        specifier: workspace:*
-        version: link:../accelerator-git-http-server
-      '@kie-tools/jbpm-quarkus-devui':
-        specifier: workspace:*
-        version: link:../jbpm-quarkus-devui
-    devDependencies:
-      '@kie-tools/maven-base':
-        specifier: workspace:*
-        version: link:../maven-base
-      '@kie-tools/root-env':
-        specifier: workspace:*
-        version: link:../root-env
-      cpy-cli:
-        specifier: ^5.0.0
-        version: 5.0.0
-      http-server:
-        specifier: ^14.1.1
-        version: 14.1.1
-      mkdirp:
-        specifier: ^3.0.1
-        version: 3.0.1
-      rimraf:
-        specifier: ^3.0.2
-        version: 3.0.2
-      run-script-os:
-        specifier: ^1.1.6
-        version: 1.1.6(patch_hash=82e28a047ef68998aa768f2d01885d4c96b061f05645c133026c22738f9a8753)
-
   packages/kie-sandbox-distribution:
     dependencies:
       '@kie-tools/cors-proxy-image':
@@ -6737,9 +6703,6 @@ importers:
 
   packages/kie-sandbox-extended-services-image:
     dependencies:
-      '@kie-tools/extended-services-java':
-        specifier: workspace:*
-        version: link:../extended-services-java
       '@kie-tools/kie-sandbox-extended-services-image-env':
         specifier: workspace:*
         version: link:../kie-sandbox-extended-services-image-env
@@ -6758,10 +6721,6 @@ importers:
         version: 1.1.6(patch_hash=82e28a047ef68998aa768f2d01885d4c96b061f05645c133026c22738f9a8753)
 
   packages/kie-sandbox-extended-services-image-env:
-    dependencies:
-      '@kie-tools/extended-services-java':
-        specifier: workspace:*
-        version: link:../extended-services-java
     devDependencies:
       '@kie-tools/image-builder':
         specifier: workspace:*
@@ -7603,15 +7562,9 @@ importers:
       '@kie-tools/eslint':
         specifier: workspace:*
         version: link:../eslint
-      '@kie-tools/extended-services-java':
-        specifier: workspace:*
-        version: link:../extended-services-java
       '@kie-tools/jest-base':
         specifier: workspace:*
         version: link:../jest-base
-      '@kie-tools/kie-sandbox-accelerator-quarkus':
-        specifier: workspace:*
-        version: link:../kie-sandbox-accelerator-quarkus
       '@kie-tools/playwright-base':
         specifier: workspace:*
         version: link:../playwright-base

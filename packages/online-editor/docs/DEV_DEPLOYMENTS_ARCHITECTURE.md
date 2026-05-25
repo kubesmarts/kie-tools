@@ -189,8 +189,6 @@ ENTRYPOINT ["/bin/bash", "-c"]
 # The CMD directive is not necessary since KIE Sandbox will overwrite it.
 ```
 
-As an example of a template Quarkus app, checkout [dev-deployment-quarkus-blank-app](../../dev-deployment-quarkus-blank-app).
-
 Now all you have to do is build and publish your image.
 
 ### Example 2:

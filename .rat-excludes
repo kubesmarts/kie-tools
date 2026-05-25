@@ -165,7 +165,6 @@ packages/dashbuilder/kie-soup-dataset/kie-soup-dataset-core/src/test/resources/d
 packages/dashbuilder/kie-soup-dataset/kie-soup-dataset-core/src/test/resources/salesPerYear.dset
 packages/dashbuilder/kie-soup-dataset/kie-soup-dataset-core/src/test/resources/salesPerYearAdjusted.dset
 packages/dashbuilder/kie-soup-dataset/kie-soup-dataset-core/src/test/resources/salesYear2014.dset
-packages/dev-deployment-quarkus-blank-app/dev-deployment-quarkus-blank-app.iml
 packages/dev-deployment-upload-service/go.mod
 packages/dev-deployment-upload-service/go.sum
 packages/dev-deployment-upload-service/tests/__snapshots__/integrationTest.test.js.snap
@@ -211,7 +210,6 @@ packages/editor/tests/embedded/embedded/__snapshots__/EmbeddedViewer.test.tsx.sn
 packages/editor/tests/envelope/KeyBindingHelpOverlay/__snapshots__/KeyBindingsHelpOverlay.test.tsx.snap
 packages/editor/tests/envelope/LoadingScreen/__snapshots__/LoadingScreen.test.tsx.snap
 packages/editor/tests/envelope/__snapshots__/EditorEnvelopeView.test.tsx.snap
-packages/extended-services-java/extended-services-java.iml
 packages/extended-services/go.mod
 packages/extended-services/go.sum
 packages/extended-services/scripts/macos/src/Info.plist
