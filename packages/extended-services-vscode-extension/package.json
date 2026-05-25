@@ -116,22 +116,6 @@
     "languages": [
       {
         "aliases": [
-          "bpmn",
-          "bpmn2",
-          "BPMN",
-          "BPMN2",
-          "Business Process Model and Notation"
-        ],
-        "extensions": [
-          ".bpmn",
-          ".bpmn2",
-          ".BPMN",
-          ".BPMN2"
-        ],
-        "id": "bpmn"
-      },
-      {
-        "aliases": [
           "dmn",
           "DMN",
           "Decision Model and Notation"
@@ -157,7 +141,6 @@
     }
   },
   "activationEvents": [
-    "onLanguage:bpmn",
     "onLanguage:dmn",
     "onCustomEditor:kieKogitoWebviewEditorsBpmn",
     "onCustomEditor:kieKogitoWebviewEditorsDmn",

@@ -27,7 +27,6 @@
     "@kie-tools-core/editor": "workspace:*",
     "@kie-tools-core/envelope": "workspace:*",
     "@kie-tools-core/patternfly-base": "workspace:*",
-    "@kie-tools/bpmn-editor-envelope": "workspace:*",
     "@kie-tools/dmn-editor-envelope": "workspace:*",
     "@kie-tools/scesim-editor-envelope": "workspace:*"
   },

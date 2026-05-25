@@ -113,23 +113,11 @@ export const defaultEnvJson: EnvJson = {
       gitRepositoryUrl: buildEnv.onlineEditor.accelerators.quarkus.gitRepoUrl,
       gitRepositoryGitRef: buildEnv.onlineEditor.accelerators.quarkus.gitRef,
       dmnDestinationFolder: "src/main/resources/dmn",
-      bpmnDestinationFolder: "src/main/resources/bpmn",
+      bpmnDestinationFolder: "",
       otherFilesDestinationFolder: "src/main/resources/others",
     },
   ],
   KIE_SANDBOX_EDITORS: [
-    {
-      extension: FileTypes.BPMN,
-      filePathGlob: GLOB_PATTERN.bpmn,
-      editor: {
-        resourcesPathPrefix: "",
-        path: "bpmn-editor-envelope.html",
-      },
-      card: {
-        title: "Workflow",
-        description: "BPMN files are used to generate business workflows.",
-      },
-    },
     {
       extension: FileTypes.DMN,
       filePathGlob: GLOB_PATTERN.dmn,

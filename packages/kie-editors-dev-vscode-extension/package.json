@@ -38,7 +38,6 @@
     "@kie-tools-core/patternfly-base": "workspace:*",
     "@kie-tools-core/vscode-extension": "workspace:*",
     "@kie-tools-core/workspace": "workspace:*",
-    "@kie-tools/bpmn-editor-envelope": "workspace:*",
     "@kie-tools/dmn-editor-envelope": "workspace:*",
     "@kie-tools/form-code-generator-vscode-command": "workspace:*",
     "@kie-tools/pmml-editor": "workspace:*",
@@ -114,21 +113,6 @@
     ],
     "configuration": {
       "properties": {
-        "kogito.bpmn.runOnSave": {
-          "default": "extension.kogito.silentlyGenerateSvg",
-          "markdownDescription": "Execute a command on each save operation of the BPMN file.",
-          "type": "string"
-        },
-        "kogito.bpmn.svgFilePath": {
-          "default": "",
-          "markdownDescription": "Where to save generated SVG files for BPMN models. (defaults to `${fileDirname}` or `src/main/resources/META-INF/processSVG` if BPMN model is inside `src/main/resources`).",
-          "type": "string"
-        },
-        "kogito.bpmn.svgFilenameTemplate": {
-          "default": "",
-          "markdownDescription": "Filename template to be used when generating SVG files for BPMN models. (defaults to `${fileBasenameNoExtension}.svg`).",
-          "type": "string"
-        },
         "kogito.dmn.runOnSave": {
           "default": "extension.kogito.silentlyGenerateSvg",
           "markdownDescription": "Execute a command on each save operation of the DMN file",
