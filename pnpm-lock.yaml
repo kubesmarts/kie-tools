@@ -2109,9 +2109,6 @@ importers:
       '@kie-tools-core/patternfly-base':
         specifier: workspace:*
         version: link:../patternfly-base
-      '@kie-tools/bpmn-editor-envelope':
-        specifier: workspace:*
-        version: link:../bpmn-editor-envelope
       '@kie-tools/dmn-editor-envelope':
         specifier: workspace:*
         version: link:../dmn-editor-envelope
@@ -6539,9 +6536,6 @@ importers:
       '@kie-tools-core/workspace':
         specifier: workspace:*
         version: link:../workspace
-      '@kie-tools/bpmn-editor-envelope':
-        specifier: workspace:*
-        version: link:../bpmn-editor-envelope
       '@kie-tools/dmn-editor-envelope':
         specifier: workspace:*
         version: link:../dmn-editor-envelope
@@ -7482,9 +7476,6 @@ importers:
       '@kie-tools/boxed-expression-component':
         specifier: workspace:*
         version: link:../boxed-expression-component
-      '@kie-tools/bpmn-editor-envelope':
-        specifier: workspace:*
-        version: link:../bpmn-editor-envelope
       '@kie-tools/cors-proxy-api':
         specifier: workspace:*
         version: link:../cors-proxy-api
