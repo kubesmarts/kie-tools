@@ -19,7 +19,7 @@ on:
         description: "Specify the tag for the images"
         type: string
         required: false
-        default: "9.105.x-prod"
+        default: "main"
       build_operator_bundle:
         description: "Flag to build operator bundle."
         type: boolean
@@ -31,17 +31,13 @@ on:
         required: false
         default: true
 
-env:
-  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
-  MAVEN_REPO_TOKEN: ${{ github.token }}
-
 permissions:
   contents: read
   packages: read
 
 jobs:
   publish_images_snapshots:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: "Print workflow inputs"
         run: |
@@ -134,7 +130,6 @@ jobs:
           SONATAFLOW_OPERATOR__name: "logic-rhel9-operator"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
-          KOGITO_DB_MIGRATOR_TOOL_IMAGE__name: "kie-kogito-db-migrator-tool"
         run: |
           eval "pnpm ${{ vars.IMAGES_UPSTREAM_PNPM_FILTER }} --workspace-concurrency=1 build:prod"
           eval "pnpm -F @kie-tools/sonataflow-operator... --workspace-concurrency=1 image:bundle:build"
@@ -187,40 +182,30 @@ jobs:
           KIE_TOOLS_BUILD__runTests: "false"
           SONATAFLOW_BUILDER_IMAGE__registry: "quay.io"
           SONATAFLOW_BUILDER_IMAGE__account: "kubesmarts"
-          SONATAFLOW_BUILDER_IMAGE__name: "incubator-kie-sonataflow-builder"
           SONATAFLOW_DEVMODE_IMAGE__registry: "quay.io"
           SONATAFLOW_DEVMODE_IMAGE__account: "kubesmarts"
-          SONATAFLOW_DEVMODE_IMAGE__name: "incubator-kie-sonataflow-devmode"
           SONATAFLOW_MANAGEMENT_CONSOLE__registry: "quay.io"
           SONATAFLOW_MANAGEMENT_CONSOLE__account: "kubesmarts"
-          SONATAFLOW_MANAGEMENT_CONSOLE__name: "incubator-kie-sonataflow-management-console"
           KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__registry: "quay.io"
           KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__account: "kubesmarts"
-          KOGITO_DATA_INDEX_EPHEMERAL_IMAGE__name: "incubator-kie-kogito-data-index-ephemeral"
           KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__registry: "quay.io"
           KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__account: "kubesmarts"
-          KOGITO_DATA_INDEX_POSTGRESQL_IMAGE__name: "incubator-kie-kogito-data-index-postgresql"
           KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__registry: "quay.io"
           KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__account: "kubesmarts"
-          KOGITO_JOBS_SERVICE_EPHEMERAL_IMAGE__name: "incubator-kie-kogito-jobs-service-ephemeral"
           KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__registry: "quay.io"
           KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__account: "kubesmarts"
-          KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE__name: "incubator-kie-kogito-jobs-service-postgresql"
           SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageAccount: "kubesmarts"
-          SERVERLESS_LOGIC_WEB_TOOLS__swfBuilderImageName: "incubator-kie-serverless-logic-web-tools-swf-builder"
           SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageAccount: "kubesmarts"
-          SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageName: "incubator-kie-serverless-logic-web-tools-base-builder"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: "quay.io"
           SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: "kubesmarts"
-          SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageName: "incubator-kie-serverless-logic-web-tools-swf-dev-mode"
+          DASHBUILDER__viewerImageRegistry: "quay.io"
+          DASHBUILDER__viewerImageAccount: "kubesmarts"
           SONATAFLOW_OPERATOR__registry: "quay.io"
           SONATAFLOW_OPERATOR__account: "kubesmarts"
-          SONATAFLOW_OPERATOR__name: "logic-rhel9-operator"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__registry: "quay.io"
           KOGITO_DB_MIGRATOR_TOOL_IMAGE__account: "kubesmarts"
-          KOGITO_DB_MIGRATOR_TOOL_IMAGE__name: "kie-kogito-db-migrator-tool"
           IMAGE_TAG: ${{ env.OSL_IMAGE_TAG }}
         run: |
           eval "pnpm -F @kie-tools/sonataflow-operator... --workspace-concurrency=1 image:catalog:build"
