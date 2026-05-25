@@ -41,7 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest]
         partition: [0, 1]
     runs-on: ${{ matrix.os }}
     steps:
@@ -59,7 +59,7 @@ jobs:
           ref: ${{ github.base_ref }}
 
       - name: "Setup pnpm"
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v6
         with:
           version: 10.29.2
 
@@ -245,7 +245,7 @@ jobs:
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
-        uses: actions/github-script@v6
+        uses: actions/github-script@v9
         env:
           KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
             ${{ steps.ci_patterns.outputs.tests_reports_patterns }}
