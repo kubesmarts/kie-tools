@@ -42,7 +42,11 @@ pipeline {
         KIE_TOOLS_BUILD__buildContainerImages = 'true'
 
         RELEASE_ARTIFACTS_DIR = "${WORKSPACE}/release-artifacts"
+<<<<<<< HEAD
         PNPM_FILTER_STRING = '-F bpmn-vscode-extension... -F dmn-vscode-extension... -F vscode-extension-kogito-bundle... -F swf-vscode-extension... -F vscode-extension-kie-ba-bundle... -F vscode-extension-dashbuilder-editor... -F yard-vscode-extension... -F extended-services-vscode-extension...'
+=======
+        PNPM_FILTER_STRING = '-F bpmn-vscode-extension... -F pmml-vscode-extension... -F vscode-extension-kogito-bundle... -F swf-vscode-extension... -F vscode-extension-kie-ba-bundle... -F vscode-extension-dashbuilder-editor... -F yard-vscode-extension... -F extended-services-vscode-extension...'
+>>>>>>> c29ccc922f (Remove DMN packages.)
         
         MAVEN_ARGS = "-B -s ${WORKSPACE}/kie-settings.xml -Dmaven.repo.local=${WORKSPACE}/.maven"
     }
@@ -148,7 +152,11 @@ pipeline {
             }
         }
 
+<<<<<<< HEAD
         stage('Upload VS Code Extension - DMN Editor (prod)') {
+=======
+        stage('Upload VS Code Extension - PMML Editor (prod)') {
+>>>>>>> c29ccc922f (Remove DMN packages.)
             when {
                 expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
             }
@@ -157,8 +165,13 @@ pipeline {
                     script {
                         githubUtils.uploadReleaseAsset(
                             "${params.UPLOAD_ASSET_URL}",
+<<<<<<< HEAD
                             "packages/dmn-vscode-extension/dist/dmn_vscode_extension_${params.RELEASE_VERSION}.vsix",
                             "dmn_vscode_extension_${params.RELEASE_VERSION}.vsix",
+=======
+                            "packages/pmml-vscode-extension/dist/pmml_vscode_extension_${params.RELEASE_VERSION}.vsix",
+                            "pmml_vscode_extension_${params.RELEASE_VERSION}.vsix",
+>>>>>>> c29ccc922f (Remove DMN packages.)
                             'application/zip',
                             "${pipelineVars.kieToolsBotGithubTokenCredentialsId}"
                         )
@@ -288,7 +301,11 @@ pipeline {
             steps {
                 script {
                     env.BPMN_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-bpmn-vscode-extension.vsix"
+<<<<<<< HEAD
                     env.DMN_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-dmn-vscode-extension.vsix"
+=======
+                    env.PMML_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-pmml-vscode-extension.vsix"
+>>>>>>> c29ccc922f (Remove DMN packages.)
                     env.DASHBUILDER_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-dashbuilder-vscode-extension.vsix"
                     env.SONATAFLOW_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-sonataflow-vscode-extension.vsix"
                     env.YARD_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-yard-vscode-extension.vsix"
@@ -299,7 +316,11 @@ pipeline {
                     sh """#!/bin/bash -el
                     mkdir ${env.RELEASE_ARTIFACTS_DIR}
                     cp "kie-tools/packages/bpmn-vscode-extension/dist/bpmn_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.BPMN_VSCODE_EXTENSION_RELEASE_FILE}"
+<<<<<<< HEAD
                     cp "kie-tools/packages/dmn-vscode-extension/dist/dmn_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.DMN_VSCODE_EXTENSION_RELEASE_FILE}"
+=======
+                    cp "kie-tools/packages/pmml-vscode-extension/dist/pmml_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.PMML_VSCODE_EXTENSION_RELEASE_FILE}"
+>>>>>>> c29ccc922f (Remove DMN packages.)
                     cp "kie-tools/packages/vscode-extension-dashbuilder-editor/dist/vscode_extension_dashbuilder_editor_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.DASHBUILDER_VSCODE_EXTENSION_RELEASE_FILE}"
                     cp "kie-tools/packages/serverless-workflow-vscode-extension/dist/serverless_workflow_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.SONATAFLOW_VSCODE_EXTENSION_RELEASE_FILE}"
                     cp "kie-tools/packages/yard-vscode-extension/dist/yard_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.YARD_VSCODE_EXTENSION_RELEASE_FILE}"
