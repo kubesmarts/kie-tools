@@ -334,35 +334,6 @@ pipeline {
                 }
             }
         }
-
-        stage('Push kie-sandbox-extended-services-image to Docker Hub') {
-            steps {
-                script {
-                    dockerUtils.pushImageToRegistry(
-                        "${env.KIE_SANDBOX_EXTENDED_SERVICES__imageRegistry}",
-                        "${env.KIE_SANDBOX_EXTENDED_SERVICES__imageAccount}",
-                        "${env.KIE_SANDBOX_EXTENDED_SERVICES__imageName}",
-                        "${env.KIE_SANDBOX_EXTENDED_SERVICES__imageBuildTag}",
-                        "${pipelineVars.dockerHubUserCredentialsId}",
-                        "${pipelineVars.dockerHubTokenCredentialsId}"
-                    )
-                }
-            }
-        }
-
-        stage('Deploy kie-sandbox-extended-services-image to OpenShift') {
-            steps {
-                script {
-                    appName = 'daily-dev-kie-sandbox-extended-services'
-                    openShiftUtils.createOrUpdateApp(
-                        "${env.OPENSHIFT_NAMESPACE}",
-                        "${appName}",
-                        "${env.DEPLOY_TAG}",
-                        "${env.KIE_SANDBOX_EXTENDED_SERVICES__imageRegistry}/${env.KIE_SANDBOX_EXTENDED_SERVICES__imageAccount}/${env.KIE_SANDBOX_EXTENDED_SERVICES__imageName}:${env.DEPLOY_TAG}",
-                        "${env.OPENSHIFT_PART_OF}",
-                        'golang',
-                        "${pipelineVars.openshiftCredentialsId}"
-                    )
                     env.KIE_SANDBOX_EXTENDED_SERVICES_URL = openShiftUtils.getAppRoute("${env.OPENSHIFT_NAMESPACE}", "${appName}", "${pipelineVars.openshiftCredentialsId}")
                 }
             }
@@ -607,7 +578,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: "kie-tools/packages/serverless-workflow-vscode-extension/dist/serverless_workflow_vscode_extension_${env.VERSION}.vsix, kie-tools/packages/vscode-extension-dashbuilder-editor/dist/vscode_extension_dashbuilder_editor_${env.VERSION}.vsix, kie-tools/packages/kie-editors-dev-vscode-extension/dist/kie_editors_dev_vscode_extension_${env.VERSION}.vsix, kie-tools/packages/chrome-extension-pack-kogito-kie-editors/dist/chrome_extension_kogito_kie_editors_${env.VERSION}.zip, kie-tools/packages/chrome-extension-serverless-workflow-editor/dist/chrome_extension_serverless_workflow_editor_${env.VERSION}.zip"
+            archiveArtifacts artifacts: "kie-tools/packages/serverless-workflow-vscode-extension/dist/serverless_workflow_vscode_extension_${env.VERSION}.vsix, kie-tools/packages/vscode-extension-dashbuilder-editor/dist/vscode_extension_dashbuilder_editor_${env.VERSION}.vsix, kie-tools/packages/chrome-extension-serverless-workflow-editor/dist/chrome_extension_serverless_workflow_editor_${env.VERSION}.zip"
             cleanWs(deleteDirs: true, disableDeferredWipeout: true)
         }
     }

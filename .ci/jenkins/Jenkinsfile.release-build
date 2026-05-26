@@ -154,17 +154,6 @@ pipeline {
                     }
                 }
 
-                stage('KIE Kogito Jit Runner Image') {
-                    when {
-                        expression { env.KOGITO_JIT_RUNNER_IMAGE == 'true' }
-                    }
-                    steps {
-                        script {
-                            kogitoJitRunnerImageBuildJob()
-                        }
-                    }
-                }
-
                 stage('KIE Sandbox Accelerator Quarkus') {
                     when {
                         expression { env.KIE_SANDBOX_ACCELERATOR_QUARKUS == 'true' }
@@ -669,19 +658,6 @@ def kogitoJobsServiceEphemeralImageBuildJob() {
 def kogitoJobsServicePostgresqlImageBuildJob() {
     env.KOGITO_JOBS_SERVICE_POSTGRESQL_IMAGE_JOB_RESULT = build(
         job: "KIE/kie-tools/${params.PIPELINE_PATH}/individual-release-artifacts-jobs/kogito-jobs-service-postgresql-image",
-        parameters: [
-            booleanParam(name: 'DRY_RUN', value: "${params.DRY_RUN}"),
-            string(name: 'BASE_REF', value: "${params.BASE_REF}"),
-            string(name: 'RELEASE_VERSION', value: "${params.RELEASE_VERSION}"),
-            string(name: 'RELEASE_CANDIDATE_VERSION', value: "${params.RELEASE_CANDIDATE_VERSION}"),
-            string(name: 'PIPELINE_PATH', value: "${params.PIPELINE_PATH}")
-        ]
-    ).result
-}
-
-def kogitoJitRunnerImageBuildJob() {
-    env.KOGITO_JIT_RUNNER_IMAGE_JOB_RESULT = build(
-        job: "KIE/kie-tools/${params.PIPELINE_PATH}/individual-release-artifacts-jobs/kogito-jit-runner-image",
         parameters: [
             booleanParam(name: 'DRY_RUN', value: "${params.DRY_RUN}"),
             string(name: 'BASE_REF', value: "${params.BASE_REF}"),
