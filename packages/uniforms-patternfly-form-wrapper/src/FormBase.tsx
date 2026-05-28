@@ -18,7 +18,7 @@
  */
 
 import { AutoGenerationErrorFormStatus, EmptyFormStatus, FormStatus, ValidatorErrorFormStatus } from "./FormStatus";
-import { ErrorBoundary } from "@kie-tools/dmn-runner/dist/ErrorBoundary";
+import { ErrorBoundary } from "./ErrorBoundary";
 import AutoForm from "@kie-tools/uniforms-patternfly/dist/esm/AutoForm";
 import * as React from "react";
 import { FormI18n } from "./i18n";

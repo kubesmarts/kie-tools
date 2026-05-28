@@ -19,7 +19,7 @@
 
 import * as React from "react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ErrorBoundary } from "@kie-tools/dmn-runner/dist/ErrorBoundary";
+import { ErrorBoundary } from "./ErrorBoundary";
 import { dataPathToFormFieldPath } from "./uniforms/utils";
 import { diff } from "deep-object-diff";
 import cloneDeep from "lodash/cloneDeep";
