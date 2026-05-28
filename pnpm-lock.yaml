@@ -4399,12 +4399,6 @@ importers:
       '@kie-tools-core/patternfly-base':
         specifier: workspace:*
         version: link:../patternfly-base
-      '@kie-tools/dmn-feel-antlr4-parser':
-        specifier: workspace:*
-        version: link:../dmn-feel-antlr4-parser
-      '@kie-tools/dmn-language-service':
-        specifier: workspace:*
-        version: link:../dmn-language-service
       '@kie-tools/i18n-common-dictionary':
         specifier: workspace:*
         version: link:../i18n-common-dictionary
@@ -4427,9 +4421,6 @@ importers:
       '@kie-tools-core/webpack-base':
         specifier: workspace:*
         version: link:../webpack-base
-      '@kie-tools/dmn-marshaller':
-        specifier: workspace:*
-        version: link:../dmn-marshaller
       '@kie-tools/eslint':
         specifier: workspace:*
         version: link:../eslint
@@ -11625,9 +11616,6 @@ importers:
       '@kie-tools-core/notifications':
         specifier: workspace:*
         version: link:../notifications
-      '@kie-tools/dmn-runner':
-        specifier: workspace:*
-        version: link:../dmn-runner
       '@kie-tools/i18n-common-dictionary':
         specifier: workspace:*
         version: link:../i18n-common-dictionary
@@ -39638,7 +39626,7 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cosmiconfig-typescript-loader@4.4.0(@types/node@24.12.4)(cosmiconfig@7.0.1)(ts-node@10.9.2(@swc/core@1.3.92)(@types/node@24.12.4)(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@4.4.0(@types/node@24.12.2)(cosmiconfig@7.0.1)(ts-node@10.9.2(@swc/core@1.3.92)(@types/node@24.12.2)(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
       '@types/node': 24.12.4
       cosmiconfig: 7.0.1
