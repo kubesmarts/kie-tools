@@ -551,7 +551,7 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: "kie-tools/packages/serverless-workflow-vscode-extension/dist/serverless_workflow_vscode_extension_${env.VERSION}.vsix, kie-tools/packages/vscode-extension-dashbuilder-editor/dist/vscode_extension_dashbuilder_editor_${env.VERSION}.vsix, kie-tools/packages/chrome-extension-serverless-workflow-editor/dist/chrome_extension_serverless_workflow_editor_${env.VERSION}.zip"
+            archiveArtifacts artifacts: "kie-tools/packages/serverless-workflow-vscode-extension/dist/serverless_workflow_vscode_extension_${env.VERSION}.vsix, kie-tools/packages/chrome-extension-serverless-workflow-editor/dist/chrome_extension_serverless_workflow_editor_${env.VERSION}.zip"
             cleanWs(deleteDirs: true, disableDeferredWipeout: true)
         }
     }

@@ -509,10 +509,6 @@ packages/sonataflow-operator/workflowproj/go.mod
 packages/sonataflow-operator/workflowproj/go.sum
 packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-parent.iml
 packages/uniforms-patternfly/.eslintignore
-packages/vscode-extension-dashbuilder-editor/e2e-tests/resources/autocompletion/autocompletion.dash.yaml
-packages/vscode-extension-dashbuilder-editor/e2e-tests/resources/autocompletion/empty_file_autocompletion.dash.yaml
-packages/vscode-extension-dashbuilder-editor/e2e-tests/resources/autocompletion/empty_file_autocompletion.dash.yaml.result
-packages/vscode-extension-dashbuilder-editor/e2e-tests/resources/smoke-test/empty-dashbuilder-example.dash.yaml
 packages/vscode-extension/tests/test-workspace/resource1.txt
 packages/vscode-extension/tests/test-workspace/resource2.txt
 packages/vscode-java-code-completion-extension-plugin/vscode-java-code-completion-extension-plugin-core/META-INF/MANIFEST.MF

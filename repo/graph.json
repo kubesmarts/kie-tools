@@ -147,9 +147,6 @@
       { "id": "@kie-tools/runtime-tools-swf-gateway-api" },
       { "id": "@kie-tools/sonataflow-uniforms" },
       { "id": "@kie-tools/runtime-tools-swf-webapp-components" },
-      { "id": "@kie-tools/scesim-marshaller" },
-      { "id": "@kie-tools/xml-parser-ts-codegen" },
-      { "id": "@kie-tools/xml-parser-ts" },
       { "id": "@kie-tools/serverless-logic-web-tools" },
       { "id": "@kie-tools/text-editor" },
       { "id": "@kie-tools/yard-editor" },
@@ -170,14 +167,15 @@
       { "id": "@kie-tools/serverless-workflow-dev-ui-monitoring-webapp" },
       { "id": "@kie-tools/serverless-workflow-editor" },
       { "id": "@kie-tools-core/switch-expression-ts" },
+      { "id": "@kie-tools/xml-parser-ts" },
       { "id": "@kie-tools/storybook-base" },
       { "id": "@kie-tools/serverless-workflow-jq-expressions" },
       { "id": "@kie-tools/serverless-workflow-service-catalog" },
       { "id": "swf-vscode-extension" },
       { "id": "@kie-tools/vscode-extension-common-test-helpers" },
       { "id": "@kie-tools/uniforms-patternfly-form-wrapper" },
-      { "id": "vscode-extension-dashbuilder-editor" },
       { "id": "@kie-tools/vscode-java-code-completion-extension-plugin" },
+      { "id": "@kie-tools/xml-parser-ts-codegen" },
       { "id": "@kie-tools/xyflow-react-kie-diagram" },
       { "id": "@kie-tools/yard-validator-worker" },
       { "id": "@kie-tools/yard-model" },
@@ -1109,11 +1107,6 @@
         "target": "@kie-tools/runtime-tools-swf-enveloped-components",
         "weight": 1
       },
-      { "source": "@kie-tools/scesim-marshaller", "target": "@kie-tools/xml-parser-ts-codegen", "weight": 1 },
-      { "source": "@kie-tools/xml-parser-ts-codegen", "target": "@kie-tools/xml-parser-ts", "weight": 1 },
-      { "source": "@kie-tools/xml-parser-ts", "target": "@kie-tools/eslint", "weight": 1 },
-      { "source": "@kie-tools/xml-parser-ts", "target": "@kie-tools/jest-base", "weight": 1 },
-      { "source": "@kie-tools/xml-parser-ts", "target": "@kie-tools/tsconfig", "weight": 1 },
       { "source": "@kie-tools/serverless-logic-web-tools", "target": "@kie-tools-core/kubernetes-bridge", "weight": 1 },
       { "source": "@kie-tools/serverless-logic-web-tools", "target": "@kie-tools-core/workspaces-git-fs", "weight": 1 },
       { "source": "@kie-tools/serverless-logic-web-tools", "target": "@kie-tools/cors-proxy", "weight": 1 },
@@ -1291,6 +1284,9 @@
       { "source": "@kie-tools-core/switch-expression-ts", "target": "@kie-tools/eslint", "weight": 1 },
       { "source": "@kie-tools-core/switch-expression-ts", "target": "@kie-tools/jest-base", "weight": 1 },
       { "source": "@kie-tools-core/switch-expression-ts", "target": "@kie-tools/tsconfig", "weight": 1 },
+      { "source": "@kie-tools/xml-parser-ts", "target": "@kie-tools/eslint", "weight": 1 },
+      { "source": "@kie-tools/xml-parser-ts", "target": "@kie-tools/jest-base", "weight": 1 },
+      { "source": "@kie-tools/xml-parser-ts", "target": "@kie-tools/tsconfig", "weight": 1 },
       { "source": "@kie-tools/storybook-base", "target": "@kie-tools-core/webpack-base", "weight": 1 },
       { "source": "@kie-tools/storybook-base", "target": "@kie-tools/eslint", "weight": 1 },
       { "source": "@kie-tools/storybook-base", "target": "@kie-tools/tsconfig", "weight": 1 },
@@ -1334,23 +1330,12 @@
         "target": "@kie-tools-core/webpack-base",
         "weight": 1
       },
-      { "source": "vscode-extension-dashbuilder-editor", "target": "@kie-tools-core/vscode-extension", "weight": 1 },
-      {
-        "source": "vscode-extension-dashbuilder-editor",
-        "target": "@kie-tools/dashbuilder-language-service",
-        "weight": 1
-      },
-      { "source": "vscode-extension-dashbuilder-editor", "target": "@kie-tools/dashbuilder-viewer", "weight": 1 },
-      {
-        "source": "vscode-extension-dashbuilder-editor",
-        "target": "@kie-tools/vscode-extension-common-test-helpers",
-        "weight": 1
-      },
       {
         "source": "@kie-tools/vscode-java-code-completion-extension-plugin",
         "target": "@kie-tools/maven-base",
         "weight": 1
       },
+      { "source": "@kie-tools/xml-parser-ts-codegen", "target": "@kie-tools/xml-parser-ts", "weight": 1 },
       { "source": "@kie-tools/xyflow-react-kie-diagram", "target": "@kie-tools-core/operating-system", "weight": 1 },
       {
         "source": "@kie-tools/xyflow-react-kie-diagram",
@@ -1522,7 +1507,6 @@
     ["@kie-tools/runtime-tools-swf-enveloped-components", "packages/runtime-tools-swf-enveloped-components"],
     ["@kie-tools/runtime-tools-swf-gateway-api", "packages/runtime-tools-swf-gateway-api"],
     ["@kie-tools/runtime-tools-swf-webapp-components", "packages/runtime-tools-swf-webapp-components"],
-    ["@kie-tools/scesim-marshaller", "packages/scesim-marshaller"],
     ["@kie-tools/serverless-logic-web-tools", "packages/serverless-logic-web-tools"],
     [
       "@kie-tools/serverless-logic-web-tools-base-builder-image",
@@ -1587,7 +1571,6 @@
     ["@kie-tools/uniforms-patternfly-form-wrapper", "packages/uniforms-patternfly-form-wrapper"],
     ["@kie-tools-core/vscode-extension", "packages/vscode-extension"],
     ["@kie-tools/vscode-extension-common-test-helpers", "packages/vscode-extension-common-test-helpers"],
-    ["vscode-extension-dashbuilder-editor", "packages/vscode-extension-dashbuilder-editor"],
     ["@kie-tools-core/vscode-java-code-completion", "packages/vscode-java-code-completion"],
     [
       "@kie-tools/vscode-java-code-completion-extension-plugin",
