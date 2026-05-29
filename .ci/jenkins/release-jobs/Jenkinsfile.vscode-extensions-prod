@@ -42,11 +42,7 @@ pipeline {
         KIE_TOOLS_BUILD__buildContainerImages = 'true'
 
         RELEASE_ARTIFACTS_DIR = "${WORKSPACE}/release-artifacts"
-<<<<<<< HEAD
-        PNPM_FILTER_STRING = '-F bpmn-vscode-extension... -F dmn-vscode-extension... -F vscode-extension-kogito-bundle... -F swf-vscode-extension... -F vscode-extension-kie-ba-bundle... -F vscode-extension-dashbuilder-editor... -F yard-vscode-extension... -F extended-services-vscode-extension...'
-=======
-        PNPM_FILTER_STRING = '-F bpmn-vscode-extension... -F pmml-vscode-extension... -F vscode-extension-kogito-bundle... -F swf-vscode-extension... -F vscode-extension-kie-ba-bundle... -F vscode-extension-dashbuilder-editor... -F yard-vscode-extension... -F extended-services-vscode-extension...'
->>>>>>> c29ccc922f (Remove DMN packages.)
+        PNPM_FILTER_STRING = '-F bpmn-vscode-extension... -F vscode-extension-kogito-bundle... -F swf-vscode-extension... -F vscode-extension-kie-ba-bundle... -F vscode-extension-dashbuilder-editor... -F yard-vscode-extension... -F extended-services-vscode-extension...'
         
         MAVEN_ARGS = "-B -s ${WORKSPACE}/kie-settings.xml -Dmaven.repo.local=${WORKSPACE}/.maven"
     }
