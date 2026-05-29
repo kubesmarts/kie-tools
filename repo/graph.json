@@ -173,7 +173,6 @@
       { "id": "@kie-tools/serverless-workflow-service-catalog" },
       { "id": "swf-vscode-extension" },
       { "id": "@kie-tools/vscode-extension-common-test-helpers" },
-      { "id": "@kie-tools/uniforms-patternfly-form-wrapper" },
       { "id": "@kie-tools/vscode-java-code-completion-extension-plugin" },
       { "id": "@kie-tools/xml-parser-ts-codegen" },
       { "id": "@kie-tools/xyflow-react-kie-diagram" },
@@ -1311,26 +1310,6 @@
       { "source": "swf-vscode-extension", "target": "@kie-tools/vscode-extension-common-test-helpers", "weight": 1 },
       { "source": "@kie-tools/vscode-extension-common-test-helpers", "target": "@kie-tools/tsconfig", "weight": 1 },
       {
-        "source": "@kie-tools/uniforms-patternfly-form-wrapper",
-        "target": "@kie-tools-core/notifications",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/uniforms-patternfly-form-wrapper",
-        "target": "@kie-tools/i18n-common-dictionary",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/uniforms-patternfly-form-wrapper",
-        "target": "@kie-tools/uniforms-patternfly",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/uniforms-patternfly-form-wrapper",
-        "target": "@kie-tools-core/webpack-base",
-        "weight": 1
-      },
-      {
         "source": "@kie-tools/vscode-java-code-completion-extension-plugin",
         "target": "@kie-tools/maven-base",
         "weight": 1
@@ -1568,7 +1547,6 @@
     ["@kie-tools/text-editor", "packages/text-editor"],
     ["@kie-tools/tsconfig", "packages/tsconfig"],
     ["@kie-tools/uniforms-patternfly", "packages/uniforms-patternfly"],
-    ["@kie-tools/uniforms-patternfly-form-wrapper", "packages/uniforms-patternfly-form-wrapper"],
     ["@kie-tools-core/vscode-extension", "packages/vscode-extension"],
     ["@kie-tools/vscode-extension-common-test-helpers", "packages/vscode-extension-common-test-helpers"],
     ["@kie-tools-core/vscode-java-code-completion", "packages/vscode-java-code-completion"],

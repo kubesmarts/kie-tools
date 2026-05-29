@@ -171,7 +171,6 @@ digraph G {
   "@kie-tools/vscode-extension-common-test-helpers" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/sonataflow-management-console-image-env" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/sonataflow-management-console-webapp" [ color = "blue", fontcolor = "blue", style = "rounded" ];
-  "@kie-tools/uniforms-patternfly-form-wrapper" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/vscode-java-code-completion-extension-plugin" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/xml-parser-ts-codegen" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/xyflow-react-kie-diagram" [ color = "blue", fontcolor = "blue", style = "rounded" ];
@@ -551,10 +550,6 @@ digraph G {
   "@kie-tools/uniforms-patternfly" -> "@kie-tools/eslint" [ style = "dashed", color = "blue" ];
   "@kie-tools/uniforms-patternfly" -> "@kie-tools/jest-base" [ style = "dashed", color = "blue" ];
   "@kie-tools/uniforms-patternfly" -> "@kie-tools/tsconfig" [ style = "dashed", color = "blue" ];
-  "@kie-tools/uniforms-patternfly-form-wrapper" -> "@kie-tools-core/notifications" [ style = "solid", color = "blue" ];
-  "@kie-tools/uniforms-patternfly-form-wrapper" -> "@kie-tools/i18n-common-dictionary" [ style = "solid", color = "blue" ];
-  "@kie-tools/uniforms-patternfly-form-wrapper" -> "@kie-tools/uniforms-patternfly" [ style = "solid", color = "blue" ];
-  "@kie-tools/uniforms-patternfly-form-wrapper" -> "@kie-tools-core/webpack-base" [ style = "dashed", color = "blue" ];
   "@kie-tools-core/vscode-extension" -> "@kie-tools-core/editor" [ style = "solid", color = "purple" ];
   "@kie-tools-core/vscode-extension" -> "@kie-tools-core/vscode-java-code-completion" [ style = "solid", color = "purple" ];
   "@kie-tools/vscode-extension-common-test-helpers" -> "@kie-tools/tsconfig" [ style = "dashed", color = "blue" ];
