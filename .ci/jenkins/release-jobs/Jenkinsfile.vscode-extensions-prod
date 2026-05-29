@@ -129,91 +129,6 @@ pipeline {
             }
         }
 
-        stage('Upload VS Code Extension - BPMN Editor (prod)') {
-            when {
-                expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
-            }
-            steps {
-                dir('kie-tools') {
-                    script {
-                        githubUtils.uploadReleaseAsset(
-                            "${params.UPLOAD_ASSET_URL}",
-                            "packages/bpmn-vscode-extension/dist/bpmn_vscode_extension_${params.RELEASE_VERSION}.vsix",
-                            "bpmn_vscode_extension_${params.RELEASE_VERSION}.vsix",
-                            'application/zip',
-                            "${pipelineVars.kieToolsBotGithubTokenCredentialsId}"
-                        )
-                    }
-                }
-            }
-        }
-
-<<<<<<< HEAD
-        stage('Upload VS Code Extension - DMN Editor (prod)') {
-=======
-        stage('Upload VS Code Extension - PMML Editor (prod)') {
->>>>>>> c29ccc922f (Remove DMN packages.)
-            when {
-                expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
-            }
-            steps {
-                dir('kie-tools') {
-                    script {
-                        githubUtils.uploadReleaseAsset(
-                            "${params.UPLOAD_ASSET_URL}",
-<<<<<<< HEAD
-                            "packages/dmn-vscode-extension/dist/dmn_vscode_extension_${params.RELEASE_VERSION}.vsix",
-                            "dmn_vscode_extension_${params.RELEASE_VERSION}.vsix",
-=======
-                            "packages/pmml-vscode-extension/dist/pmml_vscode_extension_${params.RELEASE_VERSION}.vsix",
-                            "pmml_vscode_extension_${params.RELEASE_VERSION}.vsix",
->>>>>>> c29ccc922f (Remove DMN packages.)
-                            'application/zip',
-                            "${pipelineVars.kieToolsBotGithubTokenCredentialsId}"
-                        )
-                    }
-                }
-            }
-        }
-
-        stage('Upload VS Code Extension - Kogito Bundle (prod)') {
-            when {
-                expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
-            }
-            steps {
-                dir('kie-tools') {
-                    script {
-                        githubUtils.uploadReleaseAsset(
-                            "${params.UPLOAD_ASSET_URL}",
-                            "packages/vscode-extension-kogito-bundle/dist/vscode_extension_kogito_bundle_${params.RELEASE_VERSION}.vsix",
-                            "vscode_extension_kogito_bundle_${params.RELEASE_VERSION}.vsix",
-                            'application/zip',
-                            "${pipelineVars.kieToolsBotGithubTokenCredentialsId}"
-                        )
-                    }
-                }
-            }
-        }
-
-        stage('Upload VS Code Extension - KIE Business Automation Bundle (prod)') {
-            when {
-                expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
-            }
-            steps {
-                dir('kie-tools') {
-                    script {
-                        githubUtils.uploadReleaseAsset(
-                            "${params.UPLOAD_ASSET_URL}",
-                            "packages/vscode-extension-kie-ba-bundle/dist/vscode_extension_kie_ba_bundle_${params.RELEASE_VERSION}.vsix",
-                            "vscode_extension_kie_ba_bundle_${params.RELEASE_VERSION}.vsix",
-                            'application/zip',
-                            "${pipelineVars.kieToolsBotGithubTokenCredentialsId}"
-                        )
-                    }
-                }
-            }
-        }
-
         stage('Upload VS Code Extension - Serverless Workflow Editor - KIE (prod)') {
             when {
                 expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
@@ -229,14 +144,6 @@ pipeline {
                             "${pipelineVars.kieToolsBotGithubTokenCredentialsId}"
                         )
                     }
-                }
-            }
-        }
-
-        stage('Upload VS Code Extension - Dashbuilder Editor (prod)') {
-            when {
-                expression { !params.DRY_RUN && params.RELEASE_CANDIDATE_VERSION == '' }
-            }
                 }
             }
         }
@@ -285,30 +192,14 @@ pipeline {
             }
             steps {
                 script {
-                    env.BPMN_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-bpmn-vscode-extension.vsix"
-<<<<<<< HEAD
-                    env.DMN_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-dmn-vscode-extension.vsix"
-=======
-                    env.PMML_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-pmml-vscode-extension.vsix"
->>>>>>> c29ccc922f (Remove DMN packages.)
                     env.SONATAFLOW_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-sonataflow-vscode-extension.vsix"
                     env.YARD_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-yard-vscode-extension.vsix"
-                    env.KOGITO_BUNDLE_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-kogito-bundle-vscode-extension.vsix"
-                    env.BUSINESS_AUTOMATION_BUNDLE_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-business-automation-bundle-vscode-extension.vsix"
                     env.EXTENDED_SERVICES_VSCODE_EXTENSION_RELEASE_FILE = "apache-kie-${params.RELEASE_VERSION}-incubating-extended-services-vscode-extension.vsix"
 
                     sh """#!/bin/bash -el
                     mkdir ${env.RELEASE_ARTIFACTS_DIR}
-                    cp "kie-tools/packages/bpmn-vscode-extension/dist/bpmn_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.BPMN_VSCODE_EXTENSION_RELEASE_FILE}"
-<<<<<<< HEAD
-                    cp "kie-tools/packages/dmn-vscode-extension/dist/dmn_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.DMN_VSCODE_EXTENSION_RELEASE_FILE}"
-=======
-                    cp "kie-tools/packages/pmml-vscode-extension/dist/pmml_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.PMML_VSCODE_EXTENSION_RELEASE_FILE}"
->>>>>>> c29ccc922f (Remove DMN packages.)
                     cp "kie-tools/packages/serverless-workflow-vscode-extension/dist/serverless_workflow_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.SONATAFLOW_VSCODE_EXTENSION_RELEASE_FILE}"
                     cp "kie-tools/packages/yard-vscode-extension/dist/yard_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.YARD_VSCODE_EXTENSION_RELEASE_FILE}"
-                    cp "kie-tools/packages/vscode-extension-kogito-bundle/dist/vscode_extension_kogito_bundle_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.KOGITO_BUNDLE_VSCODE_EXTENSION_RELEASE_FILE}"
-                    cp "kie-tools/packages/vscode-extension-kie-ba-bundle/dist/vscode_extension_kie_ba_bundle_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.BUSINESS_AUTOMATION_BUNDLE_VSCODE_EXTENSION_RELEASE_FILE}"
                     cp "kie-tools/packages/extended-services-vscode-extension/dist/extended_services_vscode_extension_${params.RELEASE_VERSION}.vsix" "${env.RELEASE_ARTIFACTS_DIR}/${env.EXTENDED_SERVICES_VSCODE_EXTENSION_RELEASE_FILE}"
                     """.trim()
                 }
