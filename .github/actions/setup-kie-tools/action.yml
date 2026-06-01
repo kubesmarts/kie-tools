@@ -47,7 +47,7 @@ runs:
     - name: Setup local maven cache
       if: inputs.USE_REMOTE_ARTIFACTS == 'false'
       id: setup_maven_cache
-      uses: kubesmarts/kie-tools/.github/actions/setup-maven-cache@main
+      uses: kubesmarts/kie-tools/.github/actions/setup-maven-cache@9.105.x-prod
       with:
         DEPS_BRANCHNAME: ${{ inputs.DEPS_BRANCHNAME }}
         WORKING_DIR: ${{ inputs.WORKING_DIR }}
@@ -56,6 +56,7 @@ runs:
       if: inputs.USE_REMOTE_ARTIFACTS == 'true'
       shell: bash
       run: |
+        cd ${{ inputs.WORKING_DIR }}
         cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
