@@ -26,6 +26,11 @@ on:
         description: "Specify the version for Kogito Runtime"
         required: false
         default: "9.105.0.redhat-00003"
+      USE_REMOTE_ARTIFACTS:
+        type: string
+        description: "Use productized artifacts from Red Hat Maven repository"
+        required: false
+        default: "true"
     secrets:
       KIE1_TOKEN:
         required: true
