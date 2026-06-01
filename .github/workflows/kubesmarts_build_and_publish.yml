@@ -97,6 +97,7 @@ jobs:
           DEPS_BRANCHNAME: ${{ inputs.tag }}
           PNPM_FILTER: "-F @kie-tools/serverless-logic-web-tools..."
           WORKING_DIR: kie-tools
+          USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}
 
       - name: "Parse `commit_sha`"
         id: commit_sha
