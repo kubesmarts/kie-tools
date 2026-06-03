@@ -29,7 +29,6 @@ module.exports = composeEnv(
     require("@kie-tools/serverless-logic-web-tools-swf-builder-image-env/env"),
     require("@kie-tools/serverless-logic-web-tools-swf-dev-mode-image-env/env"),
     require("@kie-tools/serverless-logic-web-tools-base-builder-image-env/env"),
-    require("@kie-tools/dashbuilder-viewer-image-env/env"),
   ],
   {
     vars: varsWithName({
