@@ -38,7 +38,7 @@ export function CreateOrImportModelGrid(props: { isNavOpen: boolean }) {
 
   return (
     <Grid hasGutter>
-      <GridItem xl={12} xl2={force12Cols ? 12 : 6}>
+      <GridItem xl={12} xl2={force12Cols ? 12 : 5}>
         <Card className="Dev-ui__card-size" style={{ height: "100%" }}>
           <CardHeader>
             <CardTitle>
@@ -62,7 +62,7 @@ export function CreateOrImportModelGrid(props: { isNavOpen: boolean }) {
           </CardBody>
         </Card>
       </GridItem>
-      <GridItem xl={12} xl2={force12Cols ? 12 : 6}>
+      <GridItem xl={12} xl2={force12Cols ? 12 : 7}>
         <Card className="Dev-ui__card-size" style={{ height: "100%" }}>
           <CardHeader>
             <CardTitle>
