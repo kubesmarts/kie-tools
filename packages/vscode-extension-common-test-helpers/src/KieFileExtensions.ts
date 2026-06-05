@@ -27,7 +27,6 @@ const PMML_EXTENSIONS = ".pmml";
 
 const SERVERLESS_WORKFLOW_JSON_EXTENSION = `.sw(${JSON_EXTENSIONS})`;
 const SERVERLESS_WORKFLOW_EXTENSIONS = `.sw(${JSON_EXTENSIONS}|${YAML_EXTENSIONS})`;
-const DASHBUILDER_EXTENSIONS = `.dash(${JSON_EXTENSIONS}|${YAML_EXTENSIONS})`;
 const YARD_EXTENSIONS = `.yard(${JSON_EXTENSIONS}|${YAML_EXTENSIONS})`;
 
 /**
@@ -45,16 +44,17 @@ export function getSingleViewExtensionsRegExp(): RegExp {
  * @returns regular expression with supported extensions.
  */
 export function getDualViewExtensionsRegExp(): RegExp {
-  return new RegExp(`${SERVERLESS_WORKFLOW_EXTENSIONS}|${DASHBUILDER_EXTENSIONS}|${YARD_EXTENSIONS}$`);
+  return new RegExp(`${SERVERLESS_WORKFLOW_EXTENSIONS}|${YARD_EXTENSIONS}$`);
 }
 
 /**
  * Gets dashbuilder file extensions.
  *
- * @returns regular expression for dashbuilder extensions.
+ * @deprecated Dashbuilder support has been removed
+ * @returns always returns a regex that never matches
  */
 export function getDashbuilderExtensionsRegExp(): RegExp {
-  return new RegExp(`${DASHBUILDER_EXTENSIONS}$`);
+  return /(?!)/; // Never matches anything
 }
 
 /**
@@ -80,11 +80,12 @@ export function isKieEditorWithDualView(fileName: string): boolean {
 /**
  * Checks if the file is dashbuilder editor.
  *
+ * @deprecated Dashbuilder support has been removed
  * @param fileName a name of the file to be checked.
- * @returns true or false.
+ * @returns always returns false
  */
 export function isDashbuilderEditor(fileName: string): boolean {
-  return getDashbuilderExtensionsRegExp().test(fileName);
+  return false;
 }
 
 /**

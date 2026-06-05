@@ -58,11 +58,6 @@ export function CreateOrImportModelGrid(props: { isNavOpen: boolean }) {
                 yamlExtension={FileTypes.YARD_YAML}
                 description={"Define decision logic for services."}
               />
-              <NewModelCard
-                title={"Dashboard"}
-                yamlExtension={FileTypes.DASH_YAML}
-                description={"Define data visualization from data extracted from applications."}
-              />
             </Grid>
           </CardBody>
         </Card>

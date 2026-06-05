@@ -42,11 +42,6 @@ const ManagementConsoleNav: React.FC<IOwnProps> = ({ pathname }) => {
             Workflow Instances
           </Link>
         </NavItem>
-        <NavItem key={"monitoring-nav"} isActive={pathname === routes.monitoring.path({})} ouiaId="monitoring">
-          <Link to={routes.monitoring.path({})} {...ouiaAttribute("data-ouia-navigation-name", "monitoring")}>
-            Monitoring
-          </Link>
-        </NavItem>
       </NavList>
     </Nav>
   );

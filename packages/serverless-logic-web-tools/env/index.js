@@ -61,10 +61,6 @@ module.exports = composeEnv(
         default: rootEnv.env.root.streamName,
         description: "Tag for the Base Builder Image that is able to build Java projects with Maven",
       },
-      SERVERLESS_LOGIC_WEB_TOOLS__dashbuilderViewerImageTag: {
-        default: rootEnv.env.root.streamName,
-        description: "Tag for the Dashbuilder Viewer Image that has a pre-configured project to load Dashbuilder files",
-      },
       SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageTag: {
         default: rootEnv.env.root.streamName,
         description:
@@ -93,9 +89,6 @@ module.exports = composeEnv(
           },
           slwtBaseBuilderImage: {
             tag: getOrDefault(this.vars.SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageTag),
-          },
-          dashbuilderViewerImage: {
-            tag: getOrDefault(this.vars.SERVERLESS_LOGIC_WEB_TOOLS__dashbuilderViewerImageTag),
           },
           slwtDevModeImage: {
             tag: getOrDefault(this.vars.SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageTag),
