@@ -48,16 +48,6 @@ export function getDualViewExtensionsRegExp(): RegExp {
 }
 
 /**
- * Gets dashbuilder file extensions.
- *
- * @deprecated Dashbuilder support has been removed
- * @returns always returns a regex that never matches
- */
-export function getDashbuilderExtensionsRegExp(): RegExp {
-  return /(?!)/; // Never matches anything
-}
-
-/**
  * Checks if the file is kie editor with single view.
  *
  * @param fileName a name of the file to be checked.
@@ -75,17 +65,6 @@ export function isKieEditorWithSingleView(fileName: string): boolean {
  */
 export function isKieEditorWithDualView(fileName: string): boolean {
   return getDualViewExtensionsRegExp().test(fileName);
-}
-
-/**
- * Checks if the file is dashbuilder editor.
- *
- * @deprecated Dashbuilder support has been removed
- * @param fileName a name of the file to be checked.
- * @returns always returns false
- */
-export function isDashbuilderEditor(fileName: string): boolean {
-  return false;
 }
 
 /**

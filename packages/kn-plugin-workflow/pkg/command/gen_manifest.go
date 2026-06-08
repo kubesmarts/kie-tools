@@ -175,12 +175,6 @@ func runGenManifestCmdConfig(cmd *cobra.Command) (cfg DeployUndeployCmdConfig, e
 		}
 	}
 
-	dir, err := os.Getwd()
-	cfg.DefaultDashboardsFolder = dir + "/" + metadata.DashboardsDefaultDirName
-	if err != nil {
-		return cfg, fmt.Errorf("❌ ERROR: failed to get default dashboards files folder: %w", err)
-	}
-
 	//setup manifest path
 	manifestDir, err := resolveManifestDir(cfg.CustomGeneratedManifestDir)
 	if err != nil {
