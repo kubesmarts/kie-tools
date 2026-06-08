@@ -19,6 +19,7 @@
 import * as React from "react";
 import { Nav, NavItem, NavList } from "@patternfly/react-core/dist/js/components/Nav";
 import { Link } from "react-router-dom";
+import "../../../components/styles.css";
 import { ouiaAttribute } from "@kie-tools/runtime-tools-components/dist/ouiaTools";
 import { routes } from "../../../navigation/Routes";
 
