@@ -26,10 +26,6 @@ on:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
 
-concurrency:
-  group: ${{ github.event.pull_request && format('ci-build-full-pr-{0}', github.event.pull_request.number) || format('ci-build-full-push-main-{0}', github.sha) }}
-  cancel-in-progress: true
-
 env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
