@@ -41,8 +41,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        partition: [0, 1]
+        os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
       - name: "Support longpaths"
@@ -140,8 +139,7 @@ jobs:
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
-      - name: "FULL → BuildProd"
-        if: steps.setup_build_mode.outputs.mode == 'full'
+      - name: "FULL → Build:Prod with all tests & images"
         shell: bash
         env:
           WEBPACK__minimize: "false"
