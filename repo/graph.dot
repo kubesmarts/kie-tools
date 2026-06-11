@@ -29,8 +29,6 @@ digraph G {
   "@kie-tools-examples/micro-frontends-multiplying-architecture-todo-list-view" [ color = "orange", fontcolor = "orange", style = "dashed, rounded" ];
   "@kie-tools-examples/micro-frontends-multiplying-architecture-todo-list-view-on-webapp" [ color = "orange", fontcolor = "orange", style = "dashed, rounded" ];
   "kie-tools-examples-micro-frontends-multiplying-architecture-todo-list-view-vscode-extension" [ color = "orange", fontcolor = "orange", style = "dashed, rounded" ];
-  "@kie-tools-examples/process-business-calendar" [ color = "orange", fontcolor = "orange", style = "dashed, rounded" ];
-  "@kie-tools/jbpm-quarkus-devui" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools-examples/serverless-workflow-editor-standalone-on-webapp" [ color = "orange", fontcolor = "orange", style = "dashed, rounded" ];
   "@kie-tools/serverless-workflow-standalone-editor" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools-examples/sonataflow-greeting" [ color = "orange", fontcolor = "orange", style = "dashed, rounded" ];
@@ -67,6 +65,7 @@ digraph G {
   "@kie-tools/import-java-classes-component" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools-core/vscode-java-code-completion" [ color = "purple", fontcolor = "purple", style = "rounded" ];
   "@kie-tools-core/monaco-editor" [ color = "purple", fontcolor = "purple", style = "rounded" ];
+  "@kie-tools/jbpm-quarkus-devui" [ color = "black", fontcolor = "black", style = "dashed, rounded" ];
   "@kie-tools/runtime-tools-process-dev-ui-webapp" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/json-yaml-language-service" [ color = "blue", fontcolor = "blue", style = "rounded" ];
   "@kie-tools/yaml-language-server" [ color = "blue", fontcolor = "blue", style = "rounded" ];
@@ -193,7 +192,6 @@ digraph G {
   "kie-tools-examples-micro-frontends-multiplying-architecture-todo-list-view-vscode-extension" -> "@kie-tools-core/vscode-extension" [ style = "dashed", color = "orange" ];
   "kie-tools-examples-micro-frontends-multiplying-architecture-todo-list-view-vscode-extension" -> "@kie-tools-core/webpack-base" [ style = "dashed", color = "orange" ];
   "kie-tools-examples-micro-frontends-multiplying-architecture-todo-list-view-vscode-extension" -> "@kie-tools-examples/micro-frontends-multiplying-architecture-todo-list-view" [ style = "dashed", color = "orange" ];
-  "@kie-tools-examples/process-business-calendar" -> "@kie-tools/jbpm-quarkus-devui" [ style = "solid", color = "orange" ];
   "@kie-tools-examples/serverless-workflow-editor-standalone-on-webapp" -> "@kie-tools-core/react-hooks" [ style = "dashed", color = "orange" ];
   "@kie-tools-examples/serverless-workflow-editor-standalone-on-webapp" -> "@kie-tools/serverless-workflow-standalone-editor" [ style = "dashed", color = "orange" ];
   "@kie-tools-examples/sonataflow-greeting" -> "@kie-tools/sonataflow-quarkus-devui" [ style = "solid", color = "orange" ];
