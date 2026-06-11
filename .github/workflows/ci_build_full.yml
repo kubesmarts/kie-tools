@@ -31,6 +31,9 @@ env:
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
 
+permissions:
+  packages: read
+
 jobs:
   run:
     if: github.event.pull_request.draft == false
