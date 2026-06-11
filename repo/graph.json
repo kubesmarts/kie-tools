@@ -36,10 +36,6 @@
       { "id": "@kie-tools-examples/micro-frontends-multiplying-architecture-todo-list-view" },
       { "id": "@kie-tools-examples/micro-frontends-multiplying-architecture-todo-list-view-on-webapp" },
       { "id": "kie-tools-examples-micro-frontends-multiplying-architecture-todo-list-view-vscode-extension" },
-      { "id": "@kie-tools-examples/process-business-calendar" },
-      { "id": "@kie-tools/jbpm-quarkus-devui" },
-      { "id": "@kie-tools/maven-base" },
-      { "id": "@kie-tools/runtime-tools-process-dev-ui-webapp" },
       { "id": "@kie-tools-examples/serverless-workflow-editor-standalone-on-webapp" },
       { "id": "@kie-tools/serverless-workflow-standalone-editor" },
       { "id": "@kie-tools/serverless-workflow-combined-editor" },
@@ -59,6 +55,7 @@
       { "id": "@kie-tools/cors-proxy-image" },
       { "id": "@kie-tools/image-builder" },
       { "id": "@kie-tools/dev-deployment-base-image" },
+      { "id": "@kie-tools/maven-base" },
       { "id": "@kie-tools/dev-deployment-upload-service" },
       { "id": "@kie-tools-core/operating-system" },
       { "id": "@kie-tools-core/i18n" },
@@ -73,6 +70,8 @@
       { "id": "@kie-tools/image-env-to-json" },
       { "id": "@kie-tools/import-java-classes-component" },
       { "id": "@kie-tools-core/monaco-editor" },
+      { "id": "@kie-tools/jbpm-quarkus-devui" },
+      { "id": "@kie-tools/runtime-tools-process-dev-ui-webapp" },
       { "id": "@kie-tools/runtime-tools-process-webapp-components" },
       { "id": "@kie-tools/runtime-tools-shared-webapp-components" },
       { "id": "@kie-tools/json-yaml-language-service" },
@@ -333,28 +332,6 @@
         "weight": 1
       },
       {
-        "source": "@kie-tools-examples/process-business-calendar",
-        "target": "@kie-tools/jbpm-quarkus-devui",
-        "weight": 1
-      },
-      { "source": "@kie-tools/jbpm-quarkus-devui", "target": "@kie-tools/maven-base", "weight": 1 },
-      {
-        "source": "@kie-tools/jbpm-quarkus-devui",
-        "target": "@kie-tools/runtime-tools-process-dev-ui-webapp",
-        "weight": 1
-      },
-      { "source": "@kie-tools/maven-base", "target": "@kie-tools/root-env", "weight": 1 },
-      {
-        "source": "@kie-tools/runtime-tools-process-dev-ui-webapp",
-        "target": "@kie-tools/runtime-tools-process-webapp-components",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/runtime-tools-process-dev-ui-webapp",
-        "target": "@kie-tools/runtime-tools-shared-webapp-components",
-        "weight": 1
-      },
-      {
         "source": "@kie-tools-examples/serverless-workflow-editor-standalone-on-webapp",
         "target": "@kie-tools-core/react-hooks",
         "weight": 1
@@ -468,6 +445,7 @@
         "weight": 1
       },
       { "source": "@kie-tools/dev-deployment-base-image", "target": "@kie-tools/image-builder", "weight": 1 },
+      { "source": "@kie-tools/maven-base", "target": "@kie-tools/root-env", "weight": 1 },
       { "source": "@kie-tools/dev-deployment-upload-service", "target": "@kie-tools/jest-base", "weight": 1 },
       { "source": "@kie-tools-core/operating-system", "target": "@kie-tools/eslint", "weight": 1 },
       { "source": "@kie-tools-core/operating-system", "target": "@kie-tools/root-env", "weight": 1 },
@@ -542,6 +520,22 @@
       { "source": "@kie-tools-core/monaco-editor", "target": "@kie-tools/eslint", "weight": 1 },
       { "source": "@kie-tools-core/monaco-editor", "target": "@kie-tools/root-env", "weight": 1 },
       { "source": "@kie-tools-core/monaco-editor", "target": "@kie-tools/tsconfig", "weight": 1 },
+      { "source": "@kie-tools/jbpm-quarkus-devui", "target": "@kie-tools/maven-base", "weight": 1 },
+      {
+        "source": "@kie-tools/jbpm-quarkus-devui",
+        "target": "@kie-tools/runtime-tools-process-dev-ui-webapp",
+        "weight": 1
+      },
+      {
+        "source": "@kie-tools/runtime-tools-process-dev-ui-webapp",
+        "target": "@kie-tools/runtime-tools-process-webapp-components",
+        "weight": 1
+      },
+      {
+        "source": "@kie-tools/runtime-tools-process-dev-ui-webapp",
+        "target": "@kie-tools/runtime-tools-shared-webapp-components",
+        "weight": 1
+      },
       {
         "source": "@kie-tools/runtime-tools-process-webapp-components",
         "target": "@kie-tools/runtime-tools-process-enveloped-components",
@@ -1152,7 +1146,6 @@
       "kie-tools-examples-micro-frontends-multiplying-architecture-todo-list-view-vscode-extension",
       "examples/micro-frontends-multiplying-architecture-todo-list-view-vscode-extension"
     ],
-    ["@kie-tools-examples/process-business-calendar", "examples/process-business-calendar"],
     [
       "@kie-tools-examples/serverless-workflow-editor-standalone-on-webapp",
       "examples/serverless-workflow-editor-standalone-on-webapp"
