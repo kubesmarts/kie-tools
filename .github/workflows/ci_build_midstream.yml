@@ -18,61 +18,50 @@
 #
 
 name: Build Midstream KIE Tools
-
 on:
   workflow_dispatch:
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
-
 permissions:
   contents: read
-
 env:
-  KOGITO_RUNTIME_version: "111-SNAPSHOT"
-
+  KOGITO_RUNTIME_version: "9.106.0"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout PR branch
         uses: actions/checkout@v6
-
       - name: Setup environment
         uses: ./.github/actions/setup-env
-
       - name: Setup local maven cache for PR
         id: setup_maven_cache_pr
         if: "github.event_name == 'pull_request'"
         uses: ./.github/actions/setup-maven-cache
         with:
-          DEPS_BRANCHNAME: ${{ github.head_ref }}
+          DEPS_BRANCHNAME: 9.106.x-prod
           DROOLS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/drools"
           KOGITO_RUNTIMES_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-runtimes"
           KOGITO_APPS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-apps"
-
       - name: Setup local maven cache for non-pull request runs
         id: setup_maven_cache_non_pr
         if: "github.event_name != 'pull_request'"
         uses: ./.github/actions/setup-maven-cache
         with:
           DEPS_BRANCHNAME: main
-
       - name: Update version.org.kie.kogito in maven-base/pom.xml
         id: prepare_maven_base_pom
         run: |
           sed -i "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${KOGITO_RUNTIME_version}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
-
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:
           DROOLS_AND_KOGITO__skip: true
         shell: bash
-
       - name: Setup Environment Variables
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
-
       - name: Build KIE Tools
         env:
           DROOLS_AND_KOGITO__skip: true
@@ -81,13 +70,12 @@ jobs:
           DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoRuntimesRepoGitRef }}"
           DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
         run: mvn -B clean install
-
-      # This step works well but can consume midstream storage
-      # - name: Upload JAR artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: kie-tools-artifacts
-      #     path: |
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-111-SNAPSHOT.jar
-      #       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-111-SNAPSHOT.jar
-      #       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-111-SNAPSHOT-image-build.zip
+# This step works well but can consume midstream storage
+# - name: Upload JAR artifacts
+#   uses: actions/upload-artifact@v4
+#   with:
+#     name: kie-tools-artifacts
+#     path: |
+#       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui/target/sonataflow-quarkus-devui-111-SNAPSHOT.jar
+#       packages/sonataflow-quarkus-devui/sonataflow-quarkus-devui-deployment/target/sonataflow-quarkus-devui-deployment-111-SNAPSHOT.jar
+#       packages/sonataflow-management-console-webapp/target/sonataflow-management-console-webapp-111-SNAPSHOT-image-build.zip

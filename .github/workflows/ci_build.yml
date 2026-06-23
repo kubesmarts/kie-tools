@@ -18,23 +18,19 @@
 #
 
 name: "CI :: Build"
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
-
 concurrency:
   group: ${{ github.event.pull_request && format('ci-build-full-pr-{0}', github.event.pull_request.number) || format('ci-build-full-push-main-{0}', github.sha) }}
   cancel-in-progress: true
-
 env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
-  KOGITO_RUNTIME_version: "111-SNAPSHOT"
-
+  KOGITO_RUNTIME_version: "9.106.0"
 jobs:
   run:
     if: github.event.pull_request.draft == false
@@ -48,26 +44,21 @@ jobs:
       - name: "Support longpaths"
         if: runner.os == 'Windows'
         run: git config --system core.longpaths true
-
       - name: "Checkout"
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
-
       - name: "Setup pnpm"
         uses: pnpm/action-setup@v6
         with:
           version: 10.29.2
-
       - name: "Setup Node"
         uses: actions/setup-node@v6
         with:
           node-version: 24.13.0
-
       - name: "Setup CI patterns"
         id: ci_patterns
         uses: ./.github/actions/setup-ci-patterns
-
       - name: "Setup build mode {none,full,partial}"
         id: setup_build_mode
         shell: bash
@@ -99,44 +90,37 @@ jobs:
           echo "upstreamPnpmFilterString=$(jq --raw-output '.[${{ matrix.partition }}].upstreamPnpmFilterString' /tmp/partitions.json)" >> $GITHUB_OUTPUT
           echo "affectedPnpmFilterString=$(jq --raw-output '.[${{ matrix.partition }}].affectedPnpmFilterString' /tmp/partitions.json)" >> $GITHUB_OUTPUT
           echo "Done."
-
       - name: "Setup environment"
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
-
       - name: Setup local maven cache for PR
         id: setup_maven_cache_pr
         if: "github.event_name == 'pull_request'"
         uses: ./.github/actions/setup-maven-cache
         with:
-          DEPS_BRANCHNAME: ${{ github.head_ref }}
+          DEPS_BRANCHNAME: 9.106.x-prod
           DROOLS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/drools"
           KOGITO_RUNTIMES_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-runtimes"
           KOGITO_APPS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-apps"
-
       - name: Setup local maven cache for non-pull request runs
         id: setup_maven_cache_non_pr
         if: "github.event_name != 'pull_request'"
         uses: ./.github/actions/setup-maven-cache
         with:
           DEPS_BRANCHNAME: main
-
       - name: Update version.org.kie.kogito in maven-base/pom.xml (Linux)
         if: ${{ runner.os == 'Linux' }}
         run: |
           sed -i "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${KOGITO_RUNTIME_version}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
-
       - name: Update version.org.kie.kogito in maven-base/pom.xml (MacOS)
         if: ${{ runner.os == 'macOS' }}
         run: |
           sed -i '' "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${KOGITO_RUNTIME_version}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
-
       - name: "Install parent POMs"
         shell: bash
         run: |
           mvn -f pom.xml install -N
           mvn -f packages/pom.xml install -N
-
       - name: Run pnpm bootstrap - first time
         run: |
           echo "::group::Run pnpm bootstrap - first time"
@@ -145,11 +129,9 @@ jobs:
         env:
           DROOLS_AND_KOGITO__skip: true
         shell: bash
-
       - name: Setup Environment Variables
         run: bash ./.github/supporting-files/ci/osl/export_vars.sh
         shell: bash
-
       - name: "Bootstrap"
         if: steps.setup_build_mode.outputs.mode != 'none'
         env:
@@ -159,20 +141,16 @@ jobs:
         uses: ./.github/actions/bootstrap
         with:
           pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
-
       - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
         if: ${{ runner.os == 'Linux' }}
         run: |
           sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
-
       - name: Replace pre-build step in kogito-db-migrator-tool (MacOS)
         if: ${{ runner.os == 'macOS' }}
         run: |
           sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
-
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
-
       - name: "FULL → Build"
         if: steps.setup_build_mode.outputs.mode == 'full'
         shell: bash
@@ -201,7 +179,6 @@ jobs:
           MAVEN_OPTS: "-Xmx2g"
         run: >-
           eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} --workspace-concurrency=1 build:prod"
-
       - name: "PARTIAL → Build upstream"
         if: steps.setup_build_mode.outputs.mode == 'partial' && steps.setup_build_mode.outputs.upstreamPnpmFilterString != ''
         shell: bash
@@ -213,7 +190,6 @@ jobs:
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} --if-present build:dev"
-
       - name: "PARTIAL → Build changed and downstream"
         shell: bash
         if: steps.setup_build_mode.outputs.mode == 'partial'
@@ -238,7 +214,6 @@ jobs:
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} --if-present --workspace-concurrency=1 build:prod"
-
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
         uses: actions/github-script@v9
@@ -256,7 +231,6 @@ jobs:
 
             const script = require("./scripts/check-junit-report-results/src/index.js");
             await script({ core, glob, patterns });
-
       - name: "Check build-env access errors log"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
         shell: bash
@@ -264,13 +238,11 @@ jobs:
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
-
       - name: "Upload reports and artifacts"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/upload-ci-reports-and-artifacts
         with:
           partition_index: ${{ matrix.partition }}
-
       - name: "Upload end-to-end tests results to Buildkite (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none' && !github.event.pull_request
         shell: bash
@@ -293,7 +265,6 @@ jobs:
             -F "run_env[message]=$BUILDKITE_MESSAGE" \
             -F "run_env[url]=https://github.com/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
             https://analytics-api.buildkite.com/v1/uploads
-
       - name: "Print storage usage (after build)"
         if: always() && !cancelled()
         shell: bash
