@@ -20,5 +20,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <groupId>org.kie.test.project</groupId>
   <artifactId>test</artifactId>
-  <version>111-SNAPSHOT</version>
+  <version>9.106.0</version>
 </project>

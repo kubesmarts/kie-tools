@@ -31,7 +31,7 @@
 
   <groupId>org.kie</groupId>
   <artifactId>kie-tools-maven-base</artifactId>
-  <version>111-SNAPSHOT</version>
+  <version>9.106.0</version>
 
   <modelVersion>4.0.0</modelVersion>
   <name>KIE Tools :: Maven Base</name>
@@ -134,7 +134,7 @@
     <version.build.helper.maven.plugin>3.6.1</version.build.helper.maven.plugin>
 
     <!-- Apache KIE -->
-    <version.org.kie.kogito>111-SNAPSHOT</version.org.kie.kogito>
+    <version.org.kie.kogito>9.106.0</version.org.kie.kogito>
 
     <!-- Quarkus -->
     <version.quarkus>3.27.4</version.quarkus>

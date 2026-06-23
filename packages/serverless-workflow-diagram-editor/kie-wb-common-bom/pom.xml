@@ -25,7 +25,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kie.kogito.stunner.serverless.editor</groupId>
   <artifactId>kie-wb-common-bom</artifactId>
-  <version>111-SNAPSHOT</version>
+  <version>9.106.0</version>
   <packaging>pom</packaging>
 
   <name>Kie-wb-common BOM</name>

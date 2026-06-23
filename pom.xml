@@ -13,7 +13,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.kie.sonataflow</groupId>
   <artifactId>kie-tools</artifactId>
-  <version>111-SNAPSHOT</version>
+  <version>9.106.0</version>
   <packaging>pom</packaging>
 
   <name>KIE Tools</name>
