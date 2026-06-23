@@ -70,7 +70,6 @@
       "minimatch@^5": "5.1.9",
       "minimatch@^5>brace-expansion": "^2.0.2",
       "minimatch@^9": "9.0.8",
-      "openapi-types": "7.2.3",
       "path-to-regexp@^0": "0.1.13",
       "react-dropzone": "^11.4.2",
       "superagent": "10.2.2",
