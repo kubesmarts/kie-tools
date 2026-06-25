@@ -30,7 +30,7 @@
 
   <profiles>
     <profile>
-      <id>full-build</id>
+      <id>build-all-maven-artifacts</id>
       <properties>
         <!-- This should make sure that if this profile is used in a mvn deploy execution,
              the Maven builds triggered by pnpm automation will not do any deployment.
