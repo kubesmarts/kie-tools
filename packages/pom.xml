@@ -41,7 +41,6 @@
       <modules>
         <module>maven-base</module>
         <module>serverless-workflow-diagram-editor</module>
-        <module>sonataflow-deployment-webapp</module>
         <module>dev-deployment-base-image</module>
         <module>jbpm-quarkus-devui</module>
         <module>vscode-java-code-completion-extension-plugin</module>
