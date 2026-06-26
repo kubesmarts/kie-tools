@@ -31,8 +31,12 @@ on:
         required: false
         default: true
 
+env:
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+
 permissions:
   contents: read
+  packages: read
 
 jobs:
   publish_images_snapshots:
