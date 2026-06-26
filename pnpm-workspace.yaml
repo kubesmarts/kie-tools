@@ -28,6 +28,23 @@ packageExtensions:
   "monaco-editor-webpack-plugin":
     peerDependencies:
       "monaco-yaml": "*"
+onlyBuiltDependencies:
+  - "@apollo/protobufjs"
+  - "@jbangdev/jbang"
+  - "@parcel/watcher"
+  - "@playwright/browser-chromium"
+  - "@scarf/scarf"
+  - "@swc/core"
+  - "@vscode/vsce-sign"
+  - "core-js"
+  - "core-js-pure"
+  - "cypress"
+  - "esbuild"
+  - "keytar"
+  - "lmdb"
+  - "msgpackr-extract"
+  - "nice-napi"
+  - "puppeteer"
 patchedDependencies:
   "immer@10.0.3": "patches/immer@10.0.3.patch"
   "karma-firefox-launcher@2.1.2": "patches/karma-firefox-launcher@2.1.2.patch"
