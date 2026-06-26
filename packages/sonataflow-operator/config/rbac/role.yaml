@@ -21,90 +21,90 @@ kind: ClusterRole
 metadata:
   name: manager-role
 rules:
-  - apiGroups:
-      - autoscaling
-    resources:
-      - horizontalpodautoscalers
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - batch
-    resources:
-      - jobs
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - monitoring.coreos.com
-    resources:
-      - servicemonitors
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - update
-      - watch
-  - apiGroups:
-      - policy
-    resources:
-      - poddisruptionbudgets
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - serving.knative.dev
-    resources:
-      - revisions
-    verbs:
-      - delete
-      - list
-      - watch
-  - apiGroups:
-      - sonataflow.org
-    resources:
-      - sonataflowbuilds
-      - sonataflowclusterplatforms
-      - sonataflowplatforms
-      - sonataflows
-    verbs:
-      - create
-      - delete
-      - get
-      - list
-      - patch
-      - update
-      - watch
-  - apiGroups:
-      - sonataflow.org
-    resources:
-      - sonataflowbuilds/finalizers
-      - sonataflowclusterplatforms/finalizers
-      - sonataflowplatforms/finalizers
-      - sonataflows/finalizers
-    verbs:
-      - update
-  - apiGroups:
-      - sonataflow.org
-    resources:
-      - sonataflowbuilds/status
-      - sonataflowclusterplatforms/status
-      - sonataflowplatforms/status
-      - sonataflows/scale
-      - sonataflows/status
-    verbs:
-      - get
-      - patch
-      - update
+- apiGroups:
+  - autoscaling
+  resources:
+  - horizontalpodautoscalers
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - batch
+  resources:
+  - jobs
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - monitoring.coreos.com
+  resources:
+  - servicemonitors
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - update
+  - watch
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - serving.knative.dev
+  resources:
+  - revisions
+  verbs:
+  - delete
+  - list
+  - watch
+- apiGroups:
+  - sonataflow.org
+  resources:
+  - sonataflowbuilds
+  - sonataflowclusterplatforms
+  - sonataflowplatforms
+  - sonataflows
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sonataflow.org
+  resources:
+  - sonataflowbuilds/finalizers
+  - sonataflowclusterplatforms/finalizers
+  - sonataflowplatforms/finalizers
+  - sonataflows/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sonataflow.org
+  resources:
+  - sonataflowbuilds/status
+  - sonataflowclusterplatforms/status
+  - sonataflowplatforms/status
+  - sonataflows/scale
+  - sonataflows/status
+  verbs:
+  - get
+  - patch
+  - update
