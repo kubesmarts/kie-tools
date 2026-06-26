@@ -82,12 +82,8 @@
           <id>github</id>
           <name>GitHub Repository</name>
           <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
           <snapshots>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
+            <enabled>true</enabled>
           </snapshots>
         </repository>
         <repository>
@@ -131,13 +127,8 @@
           <name>GitHub Repository</name>
           <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
           <layout>default</layout>
-          <releases>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
           <snapshots>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
+            <enabled>true</enabled>
           </snapshots>
         </pluginRepository>
       </pluginRepositories>
