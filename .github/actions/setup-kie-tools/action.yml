@@ -117,12 +117,22 @@ runs:
         DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
       shell: bash
 
-    - name: Replace pre-build step in kogito-db-migrator-tool
+    - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
+      if: runner.os == 'Linux'
       shell: bash
       run: |
-        echo "::group::Replace pre-build step in kogito-db-migrator-tool"
+        echo "::group::Replace pre-build step in kogito-db-migrator-tool (Linux)"
         cd ${{ inputs.WORKING_DIR }}
         sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+        echo "::endgroup::"
+
+    - name: Replace pre-build step in kogito-db-migrator-tool (macOS)
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        echo "::group::Replace pre-build step in kogito-db-migrator-tool (macOS)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
         echo "::endgroup::"
 
     - name: Verify maven-base version.org.kie.kogito
