@@ -33,6 +33,7 @@ on:
 
 env:
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
 
 permissions:
   contents: read

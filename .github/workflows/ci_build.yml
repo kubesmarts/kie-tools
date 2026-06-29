@@ -35,6 +35,7 @@ env:
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
 
 permissions:
   contents: read
