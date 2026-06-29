@@ -27,12 +27,11 @@ on:
 
 permissions:
   contents: read
-  packages: read
 
 env:
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
-  GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
+  MAVEN_REPO_TOKEN: ${{ secrets.KIE1_TOKEN }}
 
 jobs:
   build:
