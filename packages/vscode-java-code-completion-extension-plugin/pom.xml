@@ -43,7 +43,7 @@
 
   <properties>
     <project.build.outputTimestamp>2024-01-12T00:00:00Z</project.build.outputTimestamp>
-    <version.jdt.ls>1.43.0.20241219145916</version.jdt.ls>
+    <version.jdt.ls>1.60.0.202606262232</version.jdt.ls>
     <version.tycho>4.0.12</version.tycho>
     <version.tycho.extras>${version.tycho}</version.tycho.extras>
 
@@ -68,7 +68,7 @@
     <repository>
       <id>jdt.ls.p2</id>
       <layout>p2</layout>
-      <url>https://download.eclipse.org/jdtls/milestones/1.43.0/repository</url>
+      <url>https://download.eclipse.org/jdtls/milestones/1.60.0/repository</url>
     </repository>
   </repositories>
 
