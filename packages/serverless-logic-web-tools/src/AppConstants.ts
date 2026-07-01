@@ -17,9 +17,13 @@
  * under the License.
  */
 
+const DOCS_VERSION =
+  process.env.WEBPACK_REPLACE__version === "0.0.0"
+    ? "latest"
+    : process.env.WEBPACK_REPLACE__version?.replace(/^(\d+\.\d+).*$/, "$1");
+
 export const APP_NAME = "Serverless Logic Web Tools";
-export const SERVERLESS_LOGIC_WEBTOOLS_DOCUMENTATION_URL =
-  "https://apache.github.io/incubator-kie-kogito-docs/serverlessworkflow/latest/tooling/serverless-logic-web-tools/serverless-logic-web-tools-overview.html";
+export const SERVERLESS_LOGIC_WEBTOOLS_DOCUMENTATION_URL = `https://docs.redhat.com/en/documentation/red_hat_openshift_serverless/${DOCS_VERSION}/html-single/serverless_logic/index`;
 export const APP_GIT_USER = {
   name: APP_NAME,
   email: "",
