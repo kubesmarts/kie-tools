@@ -20,11 +20,11 @@
 name: "CI :: Operator - E2E Test Suite"
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
+  issue_comment:
+    types: [created]
 
 env:
   TMPDIR: "/tmp"
@@ -36,7 +36,9 @@ permissions:
 
 jobs:
   run:
-    if: github.event.pull_request.draft == false
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false && contains(toLower(github.event.pull_request.body), 'run operator e2e')) ||
+      (github.event_name == 'issue_comment' && github.event.issue.pull_request && contains(toLower(github.event.comment.body), 'run operator e2e'))
     strategy:
       fail-fast: false
       matrix:
