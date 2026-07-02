@@ -17,14 +17,10 @@
  * under the License.
  */
 
-const DOCS_VERSION =
-  process.env.WEBPACK_REPLACE__version === "0.0.0"
-    ? "latest"
-    : process.env.WEBPACK_REPLACE__version?.replace(/^(\d+\.\d+).*$/, "$1");
-
 export const APP_NAME = "Serverless Logic Web Tools";
-export const SERVERLESS_LOGIC_WEBTOOLS_DOCUMENTATION_URL = `https://docs.redhat.com/en/documentation/red_hat_openshift_serverless/${DOCS_VERSION}/html-single/serverless_logic/index`;
+export const SERVERLESS_LOGIC_WEBTOOLS_DOCUMENTATION_URL = `https://docs.redhat.com/en/documentation/red_hat_openshift_serverless/latest/html-single/serverless_logic/index`;
 export const APP_GIT_USER = {
   name: APP_NAME,
   email: "",
 };
+export const KIE_APACHE_DOCS_VERSION = "10.2.x";
