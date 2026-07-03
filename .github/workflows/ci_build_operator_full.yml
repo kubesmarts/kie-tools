@@ -52,7 +52,7 @@ jobs:
         run: git config --system core.longpaths true
 
       - name: "Checkout"
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event_name == 'issue_comment' && format('refs/pull/{0}/merge', github.event.issue.number) || github.ref }}
           fetch-depth: 0
