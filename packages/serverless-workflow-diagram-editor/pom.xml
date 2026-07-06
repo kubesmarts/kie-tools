@@ -253,7 +253,7 @@
 
     <!-- J2CL -->
     <version.j2cl>v20241110-1</version.j2cl>
-    <version.j2cl.maven.plugin>0.23.2</version.j2cl.maven.plugin>
+    <version.j2cl.maven.plugin>0.23.7</version.j2cl.maven.plugin>
 
     <!-- Test Libraries -->
     <version.io.github.bonigarcia>6.1.0</version.io.github.bonigarcia>
