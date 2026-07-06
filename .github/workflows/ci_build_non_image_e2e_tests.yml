@@ -34,7 +34,13 @@ env:
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
   MAVEN_REPO_TOKEN: ${{ github.token }}
-  PNPM_FILTER: "-F chrome-extension-serverless-workflow-editor... -F @kie-tools/kie-sandbox-fs... -F @kie-tools/kn-plugin-workflow... -F @kie-tools/serverless-logic-web-tools... -F @kie-tools/serverless-workflow-editor... -F swf-vscode-extension... -F yard-vscode-extension..."
+  PNPM_FILTER: >-
+    -F chrome-extension-serverless-workflow-editor...
+    -F @kie-tools/kie-sandbox-fs...
+    -F @kie-tools/serverless-logic-web-tools...
+    -F @kie-tools/serverless-workflow-editor...
+    -F swf-vscode-extension...
+    -F yard-vscode-extension...
 
 permissions:
   contents: read
@@ -86,7 +92,7 @@ jobs:
           KIE_TOOLS_BUILD__runTests: "false"
           KIE_TOOLS_BUILD__runEndToEndTests: "true"
           KIE_TOOLS_BUILD__containerizedEndToEndTests: "true"
-          KIE_TOOLS_BUILD__buildContainerImages: "false"
+          KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__buildExamples: "false"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}

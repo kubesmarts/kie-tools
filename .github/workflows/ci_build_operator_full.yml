@@ -17,7 +17,7 @@
 # under the License.
 #
 
-name: "CI :: Operator - E2E Test Suite"
+name: "CI :: Operator and kn-plugin-workflow - E2E Test Suite"
 
 on:
   pull_request:
@@ -142,7 +142,7 @@ jobs:
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
-      - name: "FULL → Build:Prod on Sonataflow Operator with all tests & images"
+      - name: "FULL → Build:Prod on Sonataflow Operator and kn-workflow-plugin with all tests & images, runs also Operator e2e tests."
         shell: bash
         env:
           WEBPACK__minimize: "false"
@@ -169,7 +169,15 @@ jobs:
           MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
-          eval "pnpm -r -F 'sonataflow-operator...' --workspace-concurrency=1 build:prod"
+          eval "pnpm -r -F '@kie-tools/kn-plugin-workflow...' --workspace-concurrency=1 build:prod"
+
+      - name: "Run kn-plugin-workflow e2e tests"
+        shell: bash
+        env:
+          KIE_TOOLS_BUILD__runEndToEndTests: "true"
+          KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
+        run: >-
+          eval "pnpm --filter '@kie-tools/kn-plugin-workflow' test-e2e"
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
