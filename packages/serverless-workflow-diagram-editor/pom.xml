@@ -252,8 +252,9 @@
     <version.org.uberfire.patternfly>7.74.1.Final</version.org.uberfire.patternfly>
 
     <!-- J2CL -->
-    <version.j2cl>v20241110-1</version.j2cl>
-    <version.j2cl.maven.plugin>0.23.7</version.j2cl.maven.plugin>
+    <version.j2cl>v20260527-1</version.j2cl>
+    <version.j2cl.maven.plugin>0.23.8</version.j2cl.maven.plugin>
+    <version.j2cl.tools.jakarta>0.5</version.j2cl.tools.jakarta>
 
     <!-- Test Libraries -->
     <version.io.github.bonigarcia>6.1.0</version.io.github.bonigarcia>
@@ -335,6 +336,12 @@
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-core</artifactId>
         <version>${version.ch.qos.logback}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.kie.j2cl.tools.jakarta</groupId>
+        <artifactId>utils</artifactId>
+        <version>${version.j2cl.tools.jakarta}</version>
       </dependency>
 
       <dependency>
