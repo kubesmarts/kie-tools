@@ -17,14 +17,16 @@
 # under the License.
 #
 
-name: "CI :: Build - Full"
+name: "CI :: Image E2E Tests"
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
+
+concurrency:
+  group: ci-build-image-e2e-tests-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 env:
   TMPDIR: "/tmp"
@@ -43,13 +45,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+        package:
+          - name: kogito-data-index-ephemeral-image
+            pnpmName: "@kie/kogito-data-index-ephemeral-image"
+          - name: kogito-data-index-postgresql-image
+            pnpmName: "@kie/kogito-data-index-postgresql-image"
+          - name: kogito-base-builder-image
+            pnpmName: "@kie/kogito-base-builder-image"
+          - name: kogito-jobs-service-ephemeral-image
+            pnpmName: "@kie/kogito-jobs-service-ephemeral-image"
+          - name: kogito-jobs-service-postgresql-image
+            pnpmName: "@kie/kogito-jobs-service-postgresql-image"
+          - name: sonataflow-builder-image
+            pnpmName: "@kie-tools/sonataflow-builder-image"
+          - name: sonataflow-devmode-image
+            pnpmName: "@kie-tools/sonataflow-devmode-image"
+          - name: sonataflow-management-console-image
+            pnpmName: "@kie-tools/sonataflow-management-console-image"
+    runs-on: ubuntu-latest
+    name: "run (${{ matrix.package.name }})"
     steps:
-      - name: "Support longpaths"
-        if: runner.os == 'Windows'
-        run: git config --system core.longpaths true
-
       - name: "Checkout"
         uses: actions/checkout@v7
         with:
@@ -70,7 +85,6 @@ jobs:
         uses: ./.github/actions/setup-ci-patterns
 
       - name: "Setup environment"
-        if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools"
@@ -78,39 +92,30 @@ jobs:
         with:
           KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
           DEPS_BRANCHNAME: ${{ github.head_ref || 'main' }}
-          PNPM_FILTER: ""
+          PNPM_FILTER: "-F ${{ matrix.package.pnpmName }}..."
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
-      - name: "FULL → Build:Prod with all tests & images"
+      - name: "Build:Prod with image e2e tests"
         shell: bash
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
-          KIE_TOOLS_BUILD__runLinters: "true"
-          KIE_TOOLS_BUILD__runTests: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: "false"
+          KIE_TOOLS_BUILD__runLinters: "false"
+          KIE_TOOLS_BUILD__runTests: "false"
+          KIE_TOOLS_BUILD__runEndToEndTests: "true"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__buildExamples: "true"
+          KIE_TOOLS_BUILD__buildExamples: "false"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
-          PLAYWRIGHT_BASE__enableChromiumProject: "true"
-          PLAYWRIGHT_BASE__enableGoogleChromeProject: "true"
-          PLAYWRIGHT_BASE__enableWebkitProject: "true"
-          PLAYWRIGHT_BASE__projectTimeout: "90000"
-          PLAYWRIGHT_BASE__expectTimeout: "30000"
-          PLAYWRIGHT_BASE__retries: "3"
-          PLAYWRIGHT_BASE__workers: "2"
-          DISPLAY: ":99.0"
-          START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
-          eval "pnpm -r --workspace-concurrency=1 build:prod"
+          eval "pnpm -r -F ${{ matrix.package.pnpmName }}... --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled()
         uses: actions/github-script@v9
         env:
           KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
@@ -128,7 +133,7 @@ jobs:
             await script({ core, glob, patterns });
 
       - name: "Check build-env access errors log"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled()
         shell: bash
         run: |
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
@@ -136,10 +141,10 @@ jobs:
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled()
         uses: ./.github/actions/upload-ci-reports-and-artifacts
         with:
-          partition_index: ${{ matrix.partition }}
+          partition_index: ${{ matrix.package.name }}
 
       - name: "Print storage usage (after build)"
         if: always() && !cancelled()

@@ -17,14 +17,16 @@
 # under the License.
 #
 
-name: "CI :: Build - Full"
+name: "CI :: Non-Image E2E Tests"
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
+
+concurrency:
+  group: ci-build-non-image-e2e-tests-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 env:
   TMPDIR: "/tmp"
@@ -32,6 +34,7 @@ env:
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
   MAVEN_REPO_TOKEN: ${{ github.token }}
+  PNPM_FILTER: "-F chrome-extension-serverless-workflow-editor... -F @kie-tools/kie-sandbox-fs... -F @kie-tools/kn-plugin-workflow... -F @kie-tools/serverless-logic-web-tools... -F @kie-tools/serverless-workflow-editor... -F swf-vscode-extension... -F yard-vscode-extension..."
 
 permissions:
   contents: read
@@ -40,16 +43,8 @@ permissions:
 jobs:
   run:
     if: github.event.pull_request.draft == false
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
-      - name: "Support longpaths"
-        if: runner.os == 'Windows'
-        run: git config --system core.longpaths true
-
       - name: "Checkout"
         uses: actions/checkout@v7
         with:
@@ -70,7 +65,6 @@ jobs:
         uses: ./.github/actions/setup-ci-patterns
 
       - name: "Setup environment"
-        if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools"
@@ -78,21 +72,22 @@ jobs:
         with:
           KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
           DEPS_BRANCHNAME: ${{ github.head_ref || 'main' }}
-          PNPM_FILTER: ""
+          PNPM_FILTER: ${{ env.PNPM_FILTER }}
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
-      - name: "FULL → Build:Prod with all tests & images"
+      - name: "Build:Prod with non-image e2e tests"
         shell: bash
         env:
           WEBPACK__minimize: "false"
           WEBPACK__tsLoaderTranspileOnly: "false"
-          KIE_TOOLS_BUILD__runLinters: "true"
-          KIE_TOOLS_BUILD__runTests: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: "false"
-          KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__buildExamples: "true"
+          KIE_TOOLS_BUILD__runLinters: "false"
+          KIE_TOOLS_BUILD__runTests: "false"
+          KIE_TOOLS_BUILD__runEndToEndTests: "true"
+          KIE_TOOLS_BUILD__containerizedEndToEndTests: "true"
+          KIE_TOOLS_BUILD__buildContainerImages: "false"
+          KIE_TOOLS_BUILD__buildExamples: "false"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
           PLAYWRIGHT_BASE__enableChromiumProject: "true"
@@ -107,10 +102,10 @@ jobs:
           NODE_OPTIONS: "--max_old_space_size=6144"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
-          eval "pnpm -r --workspace-concurrency=1 build:prod"
+          eval "pnpm -r ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled()
         uses: actions/github-script@v9
         env:
           KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
@@ -128,7 +123,7 @@ jobs:
             await script({ core, glob, patterns });
 
       - name: "Check build-env access errors log"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled()
         shell: bash
         run: |
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
@@ -136,10 +131,10 @@ jobs:
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled()
         uses: ./.github/actions/upload-ci-reports-and-artifacts
         with:
-          partition_index: ${{ matrix.partition }}
+          partition_index: "non-image"
 
       - name: "Print storage usage (after build)"
         if: always() && !cancelled()
