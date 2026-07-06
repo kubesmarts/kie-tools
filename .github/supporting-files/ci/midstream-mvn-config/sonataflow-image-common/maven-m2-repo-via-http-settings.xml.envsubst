@@ -11,6 +11,12 @@
       <name>Mirror to override default blocking mirror that blocks http.</name>
       <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL</url>
     </mirror>
+    <mirror>
+      <id>kie-tools--github-maven-repo-to-local-http</id>
+      <mirrorOf>github</mirrorOf>
+      <name>Redirect GitHub Packages Maven repo to local HTTP proxy to avoid unauthenticated 401s inside Docker builds.</name>
+      <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL</url>
+    </mirror>
   </mirrors>
 
   <proxies>
