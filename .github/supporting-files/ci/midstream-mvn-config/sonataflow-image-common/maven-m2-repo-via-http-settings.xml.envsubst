@@ -63,6 +63,21 @@
           </snapshots>
         </repository>
         <repository>
+          <id>github</id>
+          <name>GitHub Packages (mirrored to local HTTP)</name>
+          <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>ignore</checksumPolicy> <!-- mirrored to local HTTP which has no checksums for maven-metadata.xml -->
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>ignore</checksumPolicy> <!-- mirrored to local HTTP which has no checksums for maven-metadata.xml -->
+          </snapshots>
+        </repository>
+        <repository>
           <id>central</id>
           <name>Central Repository</name>
           <url>https://repo.maven.apache.org/maven2</url>
