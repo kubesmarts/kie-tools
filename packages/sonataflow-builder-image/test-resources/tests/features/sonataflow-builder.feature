@@ -20,10 +20,10 @@ Feature: SonataFlow Builder Image Sanity Checks
 
   Scenario: Verify that the application is built and started correctly
     When container is started with command bash -c '/home/kogito/launch/build-app.sh && java -jar target/quarkus-app/quarkus-run.jar'
-      | variable            | value                                          |
-      | SCRIPT_DEBUG        | false                                          |
-      | KOGITO_SERVICE_URL  | http://localhost:8080                          |
-      | MAVEN_SETTINGS_PATH | /home/kogito/.m2/maven-m2-repo-via-http-settings.xml |
+      | variable           | value                 |
+      | SCRIPT_DEBUG       | false                 |
+      | KOGITO_SERVICE_URL | http://localhost:8080 |
+      | MAVEN_OFFLINE_MODE | true                  |
     Then container log should match regex kogito-serverless-workflow
     And container log should match regex kie-addons-quarkus-knative-eventing
     And container log should match regex smallrye-health
@@ -32,10 +32,9 @@ Feature: SonataFlow Builder Image Sanity Checks
 
   Scenario: Verify that the application is built and started correctly when QUARKUS_EXTENSIONS env is used
     When container is started with command bash -c '/home/kogito/launch/build-app.sh && java -jar target/quarkus-app/quarkus-run.jar'
-      | variable            | value                                          |
-      | SCRIPT_DEBUG        | false                                          |
-      | KOGITO_SERVICE_URL  | http://localhost:8080                          |
-      | QUARKUS_EXTENSIONS  | io.quarkus:quarkus-elytron-security-jdbc       |
-      | MAVEN_SETTINGS_PATH | /home/kogito/.m2/maven-m2-repo-via-http-settings.xml |
+      | variable           | value                                    |
+      | SCRIPT_DEBUG       | false                                    |
+      | KOGITO_SERVICE_URL | http://localhost:8080                    |
+      | QUARKUS_EXTENSIONS | io.quarkus:quarkus-elytron-security-jdbc |
     Then container log should match regex Extension io\.quarkus:quarkus-elytron-security-jdbc.* has been installed
     And container log should contain security-jdbc
