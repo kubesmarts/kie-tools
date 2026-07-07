@@ -5,7 +5,6 @@ Feature: Serverless Workflow devmode images
     When container is started with env
       | variable            | value |
       | SCRIPT_DEBUG        | false |
-      | MAVEN_OFFLINE_MODE  | true  |
     Then container log should match regex Installed features:.*kogito-serverless-workflow
     And container log should match regex Installed features:.*kie-addon-knative-eventing-extension
     And container log should match regex Installed features:.*smallrye-health
@@ -21,7 +20,6 @@ Feature: Serverless Workflow devmode images
       | variable                   | value   |
       | SCRIPT_DEBUG               | false   |
       | QUARKUS_CONTINUOUS_TESTING | enabled |
-      | MAVEN_OFFLINE_MODE         | true    |
     Then container log should contain -Dquarkus.test.continuous-testing=enabled
     And container log should match regex Listening on: http://0\.0\.0\.0:8080
     And run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/health/ready in container and immediately check its output contains 200
@@ -47,7 +45,6 @@ Feature: Serverless Workflow devmode images
     When container is started with env
       | variable                    | value |
       | QUARKUS_DEVSERVICES_ENABLED | false |
-      | MAVEN_OFFLINE_MODE          | true  |
     Then container log should contain Embedded Postgres started at port
     And container log should contain SET Leader
     And container log should match regex Listening on: http://0\.0\.0\.0:8080
@@ -58,7 +55,6 @@ Feature: Serverless Workflow devmode images
     When container is started with env
       | variable                    | value |
       | QUARKUS_DEVSERVICES_ENABLED | false |
-      | MAVEN_OFFLINE_MODE          | true  |
     Then container log should contain Embedded Postgres started at port
     And container log should match regex Listening on: http://0\.0\.0\.0:8080
     And run curl -fsS http://127.0.0.1:8080/graphql?query=%7BProcessInstances%7Bid%7D%7D in container and check its output contains {"data":{"ProcessInstances":[]}}
@@ -68,7 +64,6 @@ Feature: Serverless Workflow devmode images
     When container is started with env
       | variable                    | value |
       | QUARKUS_DEVSERVICES_ENABLED | false |
-      | MAVEN_OFFLINE_MODE          | true  |
     Then container log should match regex Listening on: http://0\.0\.0\.0:8080
     And run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/dev-ui/org.kie.kogito-addons-quarkus-data-index-inmemory/dataindex in container and immediately check its output contains 200
     And run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/dev-ui/org.apache.kie.sonataflow.sonataflow-quarkus-devui/workflows in container and immediately check its output contains 200
@@ -77,7 +72,6 @@ Feature: Serverless Workflow devmode images
     When container is started with env
       | variable                    | value |
       | QUARKUS_DEVSERVICES_ENABLED | false |
-      | MAVEN_OFFLINE_MODE          | true  |
     Then container log should match regex Listening on: http://0\.0\.0\.0:8080
     And container log should contain kogito-addon-microprofile-config-service-catalog-extension
     And run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/health/ready in container and immediately check its output contains 200
