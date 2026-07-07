@@ -156,6 +156,7 @@
             <checksumPolicy>ignore</checksumPolicy> <!-- was already checked when downloaded on host machine -->
           </snapshots>
         </pluginRepository>
+        <!-- This is to block any interaction with Apache repo. -->
         <pluginRepository>
           <id>apache-public-repository-group</id>
           <name>Apache Public Repository Group</name>
