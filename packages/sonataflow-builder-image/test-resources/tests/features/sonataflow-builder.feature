@@ -23,7 +23,6 @@ Feature: SonataFlow Builder Image Sanity Checks
       | variable           | value                 |
       | SCRIPT_DEBUG       | false                 |
       | KOGITO_SERVICE_URL | http://localhost:8080 |
-      | MAVEN_OFFLINE_MODE | true                  |
     Then container log should match regex kogito-serverless-workflow
     And container log should match regex kie-addons-quarkus-knative-eventing
     And container log should match regex smallrye-health
