@@ -33,20 +33,6 @@
       </activation>
       <repositories>
         <repository>
-          <id>redhat-ga-public-repository</id>
-          <name>RedHat GA Public Repository</name>
-          <url>https://maven.repository.redhat.com/ga/</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-            <checksumPolicy>fail</checksumPolicy>
-          </snapshots>
-        </repository>
-        <repository>
           <id>kie-tools--maven-m2-repo-via-http</id>
           <name>KIE Tools :: Maven M2 Repo via HTTP</name>
           <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL/</url>
@@ -63,6 +49,28 @@
           </snapshots>
         </repository>
         <repository>
+          <id>central</id>
+          <name>Central Repository</name>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+        </repository>
+        <repository>
           <id>github</id>
           <name>GitHub Packages (mirrored to local HTTP)</name>
           <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
@@ -75,14 +83,6 @@
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
             <checksumPolicy>ignore</checksumPolicy> <!-- mirrored to local HTTP which has no checksums for maven-metadata.xml -->
-          </snapshots>
-        </repository>
-        <repository>
-          <id>central</id>
-          <name>Central Repository</name>
-          <url>https://repo.maven.apache.org/maven2</url>
-          <snapshots>
-            <enabled>false</enabled>
           </snapshots>
         </repository>
         <repository>
@@ -129,18 +129,6 @@
 
       <pluginRepositories>
         <pluginRepository>
-          <id>redhat-ga-public-repository</id>
-          <name>RedHat GA Public Repository</name>
-          <url>https://maven.repository.redhat.com/ga/</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </pluginRepository>
-        <pluginRepository>
           <id>kie-tools--maven-m2-repo-via-http</id>
           <name>KIE Tools :: Maven M2 Repo via HTTP</name>
           <url>http://$M2_REPO_VIA_HTTP_URL_WITHOUT_PROTOCOL/</url>
@@ -154,6 +142,18 @@
             <enabled>true</enabled>
             <updatePolicy>never</updatePolicy>
             <checksumPolicy>ignore</checksumPolicy> <!-- was already checked when downloaded on host machine -->
+          </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+          <id>redhat-ga-public-repository</id>
+          <name>RedHat GA Public Repository</name>
+          <url>https://maven.repository.redhat.com/ga/</url>
+          <layout>default</layout>
+          <releases>
+            <enabled>true</enabled>
+          </releases>
+          <snapshots>
+            <enabled>true</enabled>
           </snapshots>
         </pluginRepository>
         <!-- This is to block any interaction with Apache repo. -->
