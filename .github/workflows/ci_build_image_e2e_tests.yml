@@ -41,7 +41,7 @@ permissions:
 
 jobs:
   run:
-    if: if: (github.event_name == 'pull_request' && github.event.pull_request.draft == false && contains(github.event.pull_request.body, 'run common e2e'))
+    if: github.event.pull_request.draft == false
     strategy:
       fail-fast: false
       matrix:
