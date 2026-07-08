@@ -159,6 +159,7 @@ jobs:
           SONATAFLOW_OPERATOR__runE2ETests: "true"
           SONATAFLOW_OPERATOR__sonataflowBuilderImage: "quay.io/kubesmarts/incubator-kie-sonataflow-builder:${{ env.KIE_TOOLS_BUILD__streamName }}"
           SONATAFLOW_OPERATOR__sonataflowDevModeImage: "quay.io/kubesmarts/incubator-kie-sonataflow-devmode:${{ env.KIE_TOOLS_BUILD__streamName }}"
+          RELATED_IMAGE_BASE_BUILDER: "quay.io/kubesmarts/incubator-kie-sonataflow-builder:${{ env.KIE_TOOLS_BUILD__streamName }}"
           KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__buildExamples: "false"
