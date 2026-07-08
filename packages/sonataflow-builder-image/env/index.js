@@ -29,15 +29,15 @@ const sonataflowImageCommonEnv = require("@kie-tools/sonataflow-image-common/env
 module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv], {
   vars: varsWithName({
     SONATAFLOW_BUILDER_IMAGE__registry: {
-      default: "registry.redhat.io",
+      default: "quay.io",
       description: "The image registry.",
     },
     SONATAFLOW_BUILDER_IMAGE__account: {
-      default: "openshift-serverless-1",
+      default: "kubesmarts",
       description: "The image registry account.",
     },
     SONATAFLOW_BUILDER_IMAGE__name: {
-      default: "logic-swf-builder-rhel9",
+      default: "incubator-kie-sonataflow-builder",
       description: "The image name.",
     },
     SONATAFLOW_BUILDER_IMAGE__buildTag: {

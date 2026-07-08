@@ -30,15 +30,15 @@ const rootEnv = require("@kie-tools/root-env/env");
 module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv], {
   vars: varsWithName({
     SONATAFLOW_DEVMODE_IMAGE__registry: {
-      default: "registry.redhat.io",
+      default: "quay.io",
       description: "E.g., `docker.io` or `quay.io`.",
     },
     SONATAFLOW_DEVMODE_IMAGE__account: {
-      default: "openshift-serverless-1",
+      default: "kubesmarts",
       description: "E.g,. `apache` or `kie-tools-bot`",
     },
     SONATAFLOW_DEVMODE_IMAGE__name: {
-      default: "logic-swf-devmode-rhel9",
+      default: "incubator-kie-sonataflow-devmode",
       description: "Name of the image itself.",
     },
     SONATAFLOW_DEVMODE_IMAGE__buildTag: {
