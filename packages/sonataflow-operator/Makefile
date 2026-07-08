@@ -281,7 +281,7 @@ GOLANGCI_LINT_VERSION ?= v1.57.2
 
 KIND_VERSION ?= v0.20.0
 KNATIVE_VERSION ?= v1.13.2
-TIMEOUT_SECS ?= 300s
+TIMEOUT_SECS ?= 180s
 PROMETHEUS_VERSION ?= v0.70.0
 GRAFANA_VERSION ?= v5.13.0
 
@@ -472,7 +472,7 @@ endif
 .PHONY: full-test-e2e
 full-test-e2e: create-cluster load-docker-image deploy deploy-knative deploy-prometheus
 	sleep 30
-	kubectl wait pod -A -l app.kubernetes.io/name=sonataflow-operator --for condition=Ready --timeout $(TIMEOUT_SECS)
+	kubectl wait pod -A -l app.kubernetes.io/name=sonataflow-operator --for condition=Ready --timeout 120s
 	@$(MAKE) test-e2e label=platform
 	@$(MAKE) test-e2e label=cluster
 	@$(MAKE) test-e2e label=flows-monitoring
