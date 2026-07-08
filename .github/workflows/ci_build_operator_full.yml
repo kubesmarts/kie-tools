@@ -142,6 +142,12 @@ jobs:
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
+      - name: "Use public kube-rbac-proxy image for operator e2e tests"
+        shell: bash
+        run: |
+          sed -i "s|registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:[a-f0-9]*|quay.io/openshift/origin-kube-rbac-proxy:4.22|g" \
+            packages/sonataflow-operator/config/default/manager_auth_proxy_patch.yaml
+
       - name: "FULL → Build:Prod on Sonataflow Operator and kn-workflow-plugin with all tests & images, runs also Operator e2e tests."
         shell: bash
         env:
@@ -151,7 +157,6 @@ jobs:
           KIE_TOOLS_BUILD__runTests: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           SONATAFLOW_OPERATOR__runE2ETests: "true"
-          OSL_OPERATOR_BUNDLE__proxyImage: "quay.io/openshift/origin-kube-rbac-proxy:4.18"
           KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
           KIE_TOOLS_BUILD__buildExamples: "false"
