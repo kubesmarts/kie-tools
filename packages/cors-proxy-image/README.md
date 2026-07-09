@@ -63,13 +63,13 @@ docker images
 Start up a new container with:
 
 ```bash
-docker run -p 8080:8080 -i --rm -e CORS_PROXY_ALLOWED_ORIGINS="http://localhost:9001" docker.io/apache/incubator-kie-cors-proxy:main
+docker run -p 8080:8080 -i --rm -e CORS_PROXY_ALLOWED_ORIGINS="http://localhost:9001" quay.io/kubesmarts/incubator-kie-cors-proxy:main
 ```
 
 Or in production:
 
 ```bash
-docker run -p 8080:8080 -i --rm -e CORS_PROXY_ALLOWED_ORIGINS="https://example.com,https://other.example.com" -e CORS_PROXY_ALLOW_HOSTS="*.example.com,*.github.com,localhost" docker.io/apache/incubator-kie-cors-proxy:main
+docker run -p 8080:8080 -i --rm -e CORS_PROXY_ALLOWED_ORIGINS="https://example.com,https://other.example.com" -e CORS_PROXY_ALLOW_HOSTS="*.example.com,*.github.com,localhost" quay.io/kubesmarts/incubator-kie-cors-proxy:main
 ```
 
 The service will be up at http://localhost:8080
@@ -79,7 +79,7 @@ The service will be up at http://localhost:8080
 When starting the container, pass the `HTTP_PROXY`/`HTTPS_PROXY` environment variable pointing to the URL of your proxy service:
 
 ```bash
-docker run -p 8080:8080 -i --rm -e HTTPS_PROXY=<YOUR_PROXY_URL> docker.io/apache/incubator-kie-cors-proxy:main
+docker run -p 8080:8080 -i --rm -e HTTPS_PROXY=<YOUR_PROXY_URL> quay.io/kubesmarts/incubator-kie-cors-proxy:main
 ```
 
 While testing you might want to use a local proxy server with a local certificate, like [mitmproxy](https://mitmproxy.org/).
@@ -95,7 +95,7 @@ mitmweb --set listen_port=<PORT> --showhost
 Run the cors-proxy container:
 
 ```bash
-docker run --rm -it --network host -e HTTPS_PROXY=http://localhost:<PORT> -e NODE_EXTRA_CA_CERTS=/tmp/certificates/mitmproxy-ca-cert.pem -v ~/.mitmproxy:/tmp/certificates -d -p 8080:8080 docker.io/apache/incubator-kie-cors-proxy:main
+docker run --rm -it --network host -e HTTPS_PROXY=http://localhost:<PORT> -e NODE_EXTRA_CA_CERTS=/tmp/certificates/mitmproxy-ca-cert.pem -v ~/.mitmproxy:/tmp/certificates -d -p 8080:8080 quay.io/kubesmarts/incubator-kie-cors-proxy:main
 ```
 
 > Note that we are using `--network host` in this case because the proxy service is running locally and we want the cors-proxy service to reach it.

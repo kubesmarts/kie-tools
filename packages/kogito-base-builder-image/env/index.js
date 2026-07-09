@@ -25,11 +25,11 @@ const sonataflowImageCommonEnv = require("@kie-tools/sonataflow-image-common/env
 module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv], {
   vars: varsWithName({
     KOGITO_BASE_BUILDER_IMAGE__registry: {
-      default: "docker.io",
+      default: "quay.io",
       description: "The image registry.",
     },
     KOGITO_BASE_BUILDER_IMAGE__account: {
-      default: "apache",
+      default: "kubesmarts",
       description: "The image registry account.",
     },
     KOGITO_BASE_BUILDER_IMAGE__name: {

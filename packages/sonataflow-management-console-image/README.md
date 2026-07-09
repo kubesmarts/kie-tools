@@ -59,7 +59,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
 - Start up a clean container with:
 
   ```bash
-  docker run -t -p 8080:8080 -i --rm docker.io/apache/incubator-kie-sonataflow-management-console:main
+  docker run -t -p 8080:8080 -i --rm quay.io/kubesmarts/incubator-kie-sonataflow-management-console:main
   ```
 
   Management Console will be up at http://localhost:8080
@@ -88,7 +88,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
    1. Using a different Data Index Service.
 
       ```bash
-      docker run -p 8080:8080 -e SONATAFLOW_MANAGEMENT_CONSOLE_DATA_INDEX_ENDPOINT=<my_value> -i --rm docker.io/apache/incubator-kie-sonataflow-management-console:main
+      docker run -p 8080:8080 -e SONATAFLOW_MANAGEMENT_CONSOLE_DATA_INDEX_ENDPOINT=<my_value> -i --rm quay.io/kubesmarts/incubator-kie-sonataflow-management-console:main
       ```
 
       _NOTE: Replace `docker` with `podman` if necessary._
@@ -96,7 +96,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
 2. Write a custom `Containerfile/Dockerfile` from the image:
 
    ```docker
-   FROM docker.io/apache/incubator-kie-sonataflow-management-console:main
+   FROM quay.io/kubesmarts/incubator-kie-sonataflow-management-console:main
 
    ENV SONATAFLOW_MANAGEMENT_CONSOLE_DATA_INDEX_ENDPOINT=<my_value>
    ```
@@ -119,7 +119,7 @@ When building, set the `SONATAFLOW_MANAGEMENT_CONSOLE__port` environment variabl
      -e SONATAFLOW_MANAGEMENT_CONSOLE_KOGITO_ENV_MODE='DEV' \
      -e SONATAFLOW_MANAGEMENT_CONSOLE_DATA_INDEX_ENDPOINT='http://<HOST_IP_ADDRESS>:4000/graphql' \
      --network host \
-     docker.io/apache/incubator-kie-sonataflow-management-console:main
+     quay.io/kubesmarts/incubator-kie-sonataflow-management-console:main
    ```
 
 2. In a separate terminal, start Sonataflow Dev App for the Data Index service.

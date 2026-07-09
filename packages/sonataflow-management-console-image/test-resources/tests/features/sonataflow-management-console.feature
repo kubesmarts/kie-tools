@@ -1,4 +1,4 @@
-@docker.io/apache/incubator-kie-sonataflow-management-console
+@quay.io/kubesmarts/incubator-kie-sonataflow-management-console
 Feature: Serverless Workflow Management Console images
 
   Scenario: verify that the home page is served

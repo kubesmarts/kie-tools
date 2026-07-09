@@ -28295,7 +28295,7 @@ data:
     under the License is distributed on an\n# \"AS IS\" BASIS, WITHOUT WARRANTIES
     OR CONDITIONS OF ANY\n# KIND, either express or implied.  See the License for
     the\n# specific language governing permissions and limitations\n# under the License.\n\nFROM
-    docker.io/apache/incubator-kie-sonataflow-builder:main AS builder\n\n# variables
+    quay.io/kubesmarts/incubator-kie-sonataflow-builder:main AS builder\n\n# variables
     that can be overridden by the builder\n# To add a Quarkus extension to your application\nARG
     QUARKUS_EXTENSIONS\n# Args to pass to the Quarkus CLI add extension command\nARG
     QUARKUS_ADD_EXTENSION_ARGS\n# Additional java/mvn arguments to pass to the builder\nARG
@@ -28445,20 +28445,20 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: RELATED_IMAGE_JOBS_SERVICE_POSTGRESQL
-              value: docker.io/apache/incubator-kie-kogito-jobs-service-postgresql:main
+              value: quay.io/kubesmarts/incubator-kie-kogito-jobs-service-postgresql:main
             - name: RELATED_IMAGE_JOBS_SERVICE_EPHEMERAL
-              value: docker.io/apache/incubator-kie-kogito-jobs-service-ephemeral:main
+              value: quay.io/kubesmarts/incubator-kie-kogito-jobs-service-ephemeral:main
             - name: RELATED_IMAGE_DATA_INDEX_POSTGRESQL
-              value: docker.io/apache/incubator-kie-kogito-data-index-postgresql:main
+              value: quay.io/kubesmarts/incubator-kie-kogito-data-index-postgresql:main
             - name: RELATED_IMAGE_DATA_INDEX_EPHEMERAL
-              value: docker.io/apache/incubator-kie-kogito-data-index-ephemeral:main
+              value: quay.io/kubesmarts/incubator-kie-kogito-data-index-ephemeral:main
             - name: RELATED_IMAGE_DB_MIGRATOR_TOOL
-              value: docker.io/apache/kie-kogito-db-migrator-tool:main
+              value: quay.io/kubesmarts/kie-kogito-db-migrator-tool:main
             - name: RELATED_IMAGE_BASE_BUILDER
-              value: docker.io/apache/incubator-kie-sonataflow-builder:main
+              value: quay.io/kubesmarts/incubator-kie-sonataflow-builder:main
             - name: RELATED_IMAGE_DEVMODE
-              value: docker.io/apache/incubator-kie-sonataflow-devmode:main
-          image: docker.io/apache/incubator-kie-sonataflow-operator:main
+              value: quay.io/kubesmarts/incubator-kie-sonataflow-devmode:main
+          image: quay.io/kubesmarts/incubator-kie-sonataflow-operator:main
           livenessProbe:
             httpGet:
               path: /healthz

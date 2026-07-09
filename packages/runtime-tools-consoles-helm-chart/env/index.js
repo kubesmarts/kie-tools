@@ -24,12 +24,12 @@ const rootEnv = require("@kie-tools/root-env/env");
 module.exports = composeEnv([rootEnv], {
   vars: varsWithName({
     RUNTIME_TOOLS_CONSOLES_HELM_CHART__registry: {
-      default: "docker.io",
-      description: "E.g., `docker.io` or `quay.io`.",
+      default: "quay.io",
+      description: "E.g., `quay.io`.",
     },
     RUNTIME_TOOLS_CONSOLES_HELM_CHART__account: {
-      default: "apache",
-      description: "E.g,. `apache` or `kie-tools-bot`",
+      default: "kubesmarts",
+      description: "E.g,. `kie-tools-bot`",
     },
     RUNTIME_TOOLS_CONSOLES_HELM_CHART__name: {
       default: "incubator-kie-runtime-tools-consoles-helm-chart",

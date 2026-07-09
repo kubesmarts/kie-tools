@@ -74,7 +74,7 @@ const (
 
 	DataIndexServiceName = "data-index-service"
 	JobServiceName       = "jobs-service"
-	ImageNamePrefix      = "docker.io/apache/incubator-kie-kogito"
+	ImageNamePrefix      = "quay.io/kubesmarts/incubator-kie-kogito"
 	DataIndexName        = "data-index"
 	KogitoDBMigratorTool = "db-migrator-tool"
 

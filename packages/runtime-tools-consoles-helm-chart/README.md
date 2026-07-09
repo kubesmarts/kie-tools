@@ -133,32 +133,32 @@ NOTES:
 
 ## Installing a released version from the OCI registry:
 
-Very similar to the way you install the chart from source code, you can also install a released version available on docker.io registry:
+Very similar to the way you install the chart from source code, you can also install a released version available on quay.io registry:
 
 ### Default install
 
 ```console
-$ helm install runtime-tools-consoles oci://docker.io/apache/incubator-kie-runtime-tools-consoles-helm-chart --version=0.0.0-main
+$ helm install runtime-tools-consoles oci://quay.io/kubesmarts/incubator-kie-runtime-tools-consoles-helm-chart --version=0.0.0-main
 ```
 
 ### Minikube install
 
 ```console
-$ helm pull oci://docker.io/apache/incubator-kie-runtime-tools-consoles-helm-chart --version=0.0.0-main --untar
+$ helm pull oci://quay.io/kubesmarts/incubator-kie-runtime-tools-consoles-helm-chart --version=0.0.0-main --untar
 $ helm install runtime-tools-consoles ./incubator-kie-runtime-tools-consoles-helm-chart --values ./incubator-kie-runtime-tools-consoles-helm-chart/values-minikube-nginx.yaml
 ```
 
 ### Kubernetes install
 
 ```console
-$ helm pull oci://docker.io/apache/incubator-kie-runtime-tools-consoles-helm-chart --version=0.0.0-main --untar
+$ helm pull oci://quay.io/kubesmarts/incubator-kie-runtime-tools-consoles-helm-chart --version=0.0.0-main --untar
 $ helm install runtime-tools-consoles ./incubator-kie-runtime-tools-consoles-helm-chart --values ./incubator-kie-runtime-tools-consoles-helm-chart/values-kubernetes.yaml --set global.kubernetesClusterDomain="<YOUR_KUBERNETES_CLUSTER_DOMAIN>" --set global.kubernetesIngressClass="<YOUR_KUBERNETES_INGRESS_CLASS>"
 ```
 
 ### OpenShift install
 
 ```console
-$ helm pull oci://docker.io/apache/incubator-kie--tools-consoles-helm-chart --version=0.0.0-main --untar
+$ helm pull oci://quay.io/kubesmarts/incubator-kie--tools-consoles-helm-chart --version=0.0.0-main --untar
 $ helm install runtime-tools-consoles ./incubator-kie-runtime-tools-consoles-helm-chart --values ./incubator-kie-runtime-tools-consoles-helm-chart/values-openshift.yaml --set global.openshiftRouteDomain="<YOUR_OCP_ROUTE_DOMAIN>"
 ```
 
@@ -175,7 +175,7 @@ $ helm uninstall runtime-tools-consoles
 This chart uses default environmental variables from `values.yaml` file. We can override those by passing it from command line.
 
 ```console
-$ helm install runtime-tools-consoles ./src --set image.repository=docker.io
+$ helm install runtime-tools-consoles ./src --set image.repository=quay.io
 ```
 
 ## Configuration
@@ -196,7 +196,7 @@ The following table lists the configurable parameters of the Runtime Tools Conso
 | management-console.autoscaling          | object | `{"enabled":false,"maxReplicas":100,"minReplicas":1,"targetCPUUtilizationPercentage":80}`                                                                                                                                                               | Management Console HorizontalPodAutoscaler configuration (https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)            |
 | management-console.enabled              | bool   | `true`                                                                                                                                                                                                                                                  | Enable or disable Management Console installation                                                                                                |
 | management-console.fullnameOverride     | string | `""`                                                                                                                                                                                                                                                    | Overrides charts full name                                                                                                                       |
-| management-console.image                | object | `{"account":"apache","name":"incubator-kie-kogito-management-console","pullPolicy":"IfNotPresent","registry":"docker.io","tag":"main"}`                                                                                                                 | Image source configuration for the Management Console image                                                                                      |
+| management-console.image                | object | `{"account":"apache","name":"incubator-kie-kogito-management-console","pullPolicy":"IfNotPresent","registry":"quay.io","tag":"main"}`                                                                                                                   | Image source configuration for the Management Console image                                                                                      |
 | management-console.imagePullSecrets     | list   | `[]`                                                                                                                                                                                                                                                    | Pull secrets used when pulling Management Console image                                                                                          |
 | management-console.ingress              | object | `{"annotations":{},"className":"{{ .Values.global.kubernetesIngressClass }}","enabled":false,"hosts":[{"host":"management-console.{{ .Values.global.kubernetesClusterDomain }}","paths":[{"path":"/","pathType":"ImplementationSpecific"}]}],"tls":[]}` | Management Console Ingress configuration (https://kubernetes.io/docs/concepts/services-networking/ingress/)                                      |
 | management-console.name                 | string | `"management-console"`                                                                                                                                                                                                                                  | Component name                                                                                                                                   |

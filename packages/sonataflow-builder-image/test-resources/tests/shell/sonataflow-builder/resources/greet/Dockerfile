@@ -1,4 +1,4 @@
-ARG BUILDER_IMAGE_TAG="docker.io/apache/incubator-kie-sonataflow-builder:main"
+ARG BUILDER_IMAGE_TAG="quay.io/kubesmarts/incubator-kie-sonataflow-builder:main"
 # This argument is overriden by run.sh script based on the image tag set on the Makefile
 
 FROM ${BUILDER_IMAGE_TAG} AS builder

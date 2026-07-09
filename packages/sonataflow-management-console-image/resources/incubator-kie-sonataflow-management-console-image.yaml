@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-- name: "docker.io/apache/incubator-kie-sonataflow-management-console"
+- name: "quay.io/kubesmarts/incubator-kie-sonataflow-management-console"
   from: "registry.access.redhat.com/ubi9/httpd-24:9.5"
   version: "main"
   description: "SonataFlow Management Console Image"

@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-FROM docker.io/apache/incubator-kie-sonataflow-builder:main AS builder
+FROM quay.io/kubesmarts/incubator-kie-sonataflow-builder:main AS builder
 
 # Kogito User
 USER 1001

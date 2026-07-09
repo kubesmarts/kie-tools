@@ -30,8 +30,8 @@ import (
 )
 
 const (
-	defaultWorkflowDevModeImage = "docker.io/apache/incubator-kie-sonataflow-devmode"
-	defaultWorkflowBuilderImage = "docker.io/apache/incubator-kie-sonataflow-builder"
+	defaultWorkflowDevModeImage = "quay.io/kubesmarts/incubator-kie-sonataflow-devmode"
+	defaultWorkflowBuilderImage = "quay.io/kubesmarts/incubator-kie-sonataflow-builder"
 )
 
 // GetWorkflowAppImageNameTag returns the image name with tag to use for the image to be produced for a given workflow.
