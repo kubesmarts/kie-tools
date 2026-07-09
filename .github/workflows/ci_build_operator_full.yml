@@ -80,6 +80,7 @@ jobs:
           KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
           DEPS_BRANCHNAME: ${{ github.head_ref || 'main' }}
           PNPM_FILTER: ""
+          USE_OSL_ENV_CONFIG: false
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
