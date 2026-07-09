@@ -30,6 +30,10 @@ env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
+  SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
+  SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
+  QUARKUS_PLATFORM_version: "3.27.4"
+  QUARKUS_VERSION: "3.27.4"
 
 permissions:
   packages: read
