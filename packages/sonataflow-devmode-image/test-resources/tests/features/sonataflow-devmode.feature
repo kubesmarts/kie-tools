@@ -1,4 +1,4 @@
-@docker.io/apache/incubator-kie-sonataflow-devmode
+@quay.io/kubesmarts/incubator-kie-sonataflow-devmode
 Feature: Serverless Workflow devmode images
 
   Scenario: Verify if container starts in devmode by default

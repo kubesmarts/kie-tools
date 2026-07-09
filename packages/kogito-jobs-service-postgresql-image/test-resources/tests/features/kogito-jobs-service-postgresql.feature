@@ -17,7 +17,7 @@
 # under the License.
 #
 
-@docker.io/apache/incubator-kie-kogito-jobs-service-postgresql
+@quay.io/kubesmarts/incubator-kie-kogito-jobs-service-postgresql
 Feature: Kogito-jobs-service-postgresql feature.
 
   Scenario: verify if all labels are correctly set kogito-jobs-service image image

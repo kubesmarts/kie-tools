@@ -1,4 +1,4 @@
-@docker.io/apache/incubator-kie-sonataflow-devmode
+@quay.io/kubesmarts/incubator-kie-sonataflow-devmode
 Feature: Serverless Workflow images common
 
   Scenario: Verify if the swf and quarkus files are under /home/kogito/.m2/repository

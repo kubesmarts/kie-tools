@@ -16,7 +16,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-@docker.io/apache/incubator-kie-kogito-data-index-ephemeral
+@quay.io/kubesmarts/incubator-kie-kogito-data-index-ephemeral
 Feature: Kogito-data-index ephemeral feature.
 
   Scenario: verify if all labels are correctly set on kogito-data-index-ephemeral image

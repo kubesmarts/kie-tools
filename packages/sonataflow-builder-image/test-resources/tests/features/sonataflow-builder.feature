@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-@docker.io/apache/incubator-kie-sonataflow-builder
+@quay.io/kubesmarts/incubator-kie-sonataflow-builder
 Feature: SonataFlow Builder Image Sanity Checks
 
   Scenario: Verify that the application is built and started correctly

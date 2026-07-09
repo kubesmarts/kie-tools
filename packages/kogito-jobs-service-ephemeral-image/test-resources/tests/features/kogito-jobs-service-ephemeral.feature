@@ -17,7 +17,7 @@
 # under the License.
 #
 
-@docker.io/apache/incubator-kie-kogito-jobs-service-ephemeral
+@quay.io/kubesmarts/incubator-kie-kogito-jobs-service-ephemeral
 Feature: Kogito-jobs-service-ephemeral feature.
 
   Scenario: verify if all labels are correctly set kogito-jobs-service image image
