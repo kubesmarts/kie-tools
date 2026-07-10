@@ -104,7 +104,7 @@ func (d DockerLocalRegistry) StartRegistry() string {
 	}
 
 	createOpts := client.ContainerCreateOptions{
-		Name:  RegistryImg,
+		Name: RegistryImg,
 		Config: &container.Config{
 			Image:        registryImgFullTag,
 			ExposedPorts: exposedPorts,
