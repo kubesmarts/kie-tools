@@ -145,25 +145,23 @@ func fetchImageTagsBuiltWorkflows(workflows map[string]*DeployedWorkflow) error 
 
 			for {
 				select {
-					case <-ctx.Done():
-						statusChan <- fmt.Errorf("timeout reached: workflow %s in namespace %s did not reach running state", wfName, resourcesNamespace)
-						return
-					case <-ticker.C:
-						if len(wf.ImageTag) == 0 {
-							cmd := exec.Command("kubectl", "get", "sonataflowbuild", wfName, "-n", resourcesNamespace, "-o", "jsonpath={.status.imageTag}")
-							response, err := utils.Run(cmd)
-							if err != nil {
-								GinkgoWriter.Println(fmt.Errorf("failed to check the workflow image tag: %v", err))
-								statusChan <- err
-								return
-							}
-							if len(response) > 0 {
-								GinkgoWriter.Printf("Got response: %s \n", response)
-								wf.ImageTag = string(response)
-								statusChan <- nil
-								return
-							}
+				case <-ctx.Done():
+					statusChan <- fmt.Errorf("timeout reached: workflow %s in namespace %s did not reach running state", wfName, resourcesNamespace)
+					return
+				case <-ticker.C:
+					if len(wf.ImageTag) == 0 {
+						cmd := exec.Command("kubectl", "get", "sonataflowbuild", wfName, "-n", resourcesNamespace, "-o", "jsonpath={.status.imageTag}")
+						response, err := utils.Run(cmd)
+						if err != nil {
+							GinkgoWriter.Println(fmt.Errorf("failed to check the workflow image tag: %v", err))
+							statusChan <- err
 						}
+						if len(response) > 0 {
+							GinkgoWriter.Printf("Got response: %s \n", response)
+							wf.ImageTag = string(response)
+							statusChan <- nil
+						}
+					}
 				}
 			}
 		}(name, workflow)
