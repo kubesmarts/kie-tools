@@ -119,7 +119,7 @@ jobs:
           MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
-          eval "pnpm -r -F '@kie-tools/kn-plugin-workflow...' --workspace-concurrency=1 build:prod"
+          eval "pnpm -r -F '@kie-tools/sonataflow-operator...' --workspace-concurrency=1 build:prod"
 
       - name: "Run kn-plugin-workflow e2e tests"
         shell: bash
