@@ -463,7 +463,7 @@ func getKogitoDBMigratorToolImageName() string {
 	imgTag := cfg.GetCfg().DbMigratorToolImageTag
 
 	if imgTag == "" {
-		// returns "docker.io/apache/incubator-kie-kogito-db-migrator-tool:<tag>"
+		// returns "quay.io/kubesmarts/kie-kogito-db-migrator-tool:<tag>"
 		imgTag = fmt.Sprintf("%s-%s:%s", constants.ImageNamePrefix, constants.KogitoDBMigratorTool, version.GetImageTagVersion())
 	}
 	return imgTag

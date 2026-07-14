@@ -39,7 +39,7 @@ echo "Updating settings file ${maven_settings_path}"
 
 # setup maven env
 # Do not remove below, this can be updated by the python scripts
-export DEFAULT_MAVEN_REPO_URL="https://repository.apache.org/content/groups/public/"
+export DEFAULT_MAVEN_REPO_URL="https://maven.repository.redhat.com/ga/"
 # export MAVEN_REPO_URL=
 cp "${MVN_MODULE}"/maven/settings.xml "${maven_settings_path}"
 export MAVEN_SETTINGS_PATH="${maven_settings_path}"

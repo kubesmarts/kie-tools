@@ -23,13 +23,15 @@ on:
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
-  issue_comment:
-    types: [created]
 
 env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
   KOGITO_RUNTIME_version: "111-SNAPSHOT"
+  SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
+  SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
+  QUARKUS_PLATFORM_version: "3.27.4"
+  QUARKUS_VERSION: "3.27.4"
 
 permissions:
   packages: read
@@ -39,8 +41,7 @@ permissions:
 jobs:
   run:
     if: |
-      (github.event_name == 'pull_request' && github.event.pull_request.draft == false && contains(github.event.pull_request.body, 'run operator e2e')) ||
-      (github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.issue.state == 'open' && contains(github.event.comment.body, 'run operator e2e'))
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false && contains(github.event.pull_request.body, 'run operator e2e'))
     strategy:
       fail-fast: false
       matrix:
@@ -54,7 +55,7 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.event_name == 'issue_comment' && format('refs/pull/{0}/merge', github.event.issue.number) || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 0
 
       - name: "Setup pnpm"
@@ -74,75 +75,24 @@ jobs:
       - name: "Setup environment"
         uses: ./.github/actions/setup-env
 
-      - name: Setup local maven cache for PR
-        id: setup_maven_cache_pr
-        if: "github.event_name == 'pull_request'"
-        uses: ./.github/actions/setup-maven-cache
+      - name: "Setup kie-tools"
+        uses: ./.github/actions/setup-kie-tools
         with:
-          DEPS_BRANCHNAME: ${{ github.head_ref }}
-          DROOLS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/drools"
-          KOGITO_RUNTIMES_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-runtimes"
-          KOGITO_APPS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-apps"
-
-      - name: Setup local maven cache for non-pull request runs
-        id: setup_maven_cache_non_pr
-        if: "github.event_name != 'pull_request'"
-        uses: ./.github/actions/setup-maven-cache
-        with:
-          DEPS_BRANCHNAME: main
-
-      - name: Update version.org.kie.kogito in maven-base/pom.xml (Linux)
-        if: ${{ runner.os == 'Linux' }}
-        run: |
-          sed -i "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${KOGITO_RUNTIME_version}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
-
-      - name: Update version.org.kie.kogito in maven-base/pom.xml (MacOS)
-        if: ${{ runner.os == 'macOS' }}
-        run: |
-          sed -i '' "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${KOGITO_RUNTIME_version}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
-
-      - name: "Install parent POMs"
-        shell: bash
-        run: |
-          mvn -f pom.xml install -N
-          mvn -f packages/pom.xml install -N
-
-      - name: Run pnpm bootstrap - first time
-        run: |
-          echo "::group::Run pnpm bootstrap - first time"
-          pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
-          echo "::endgroup::"
-        env:
-          DROOLS_AND_KOGITO__skip: true
-        shell: bash
-
-      - name: Setup Environment Variables
-        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
-        shell: bash
-
-      - name: "Bootstrap"
-        env:
-          DROOLS_AND_KOGITO__skip: true
-          MAVEN_ARGS: "-B"
-          MAVEN_OPTS: "-Xmx3g"
-        uses: ./.github/actions/bootstrap
-        with:
-          pnpm_filter_string: ""
-
-      - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
-        if: ${{ runner.os == 'Linux' }}
-        run: |
-          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
-
-      - name: Replace pre-build step in kogito-db-migrator-tool (MacOS)
-        if: ${{ runner.os == 'macOS' }}
-        run: |
-          sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+          KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
+          DEPS_BRANCHNAME: ${{ github.head_ref || 'main' }}
+          PNPM_FILTER: ""
+          USE_OSL_ENV_CONFIG: false
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
 
-      - name: "FULL → Build:Prod on Sonataflow Operator with all tests & images"
+      - name: "Use public kube-rbac-proxy image for operator e2e tests"
+        shell: bash
+        run: |
+          sed -i "s|registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:[a-f0-9]*|quay.io/openshift/origin-kube-rbac-proxy:4.22|g" \
+            packages/sonataflow-operator/config/default/manager_auth_proxy_patch.yaml
+
+      - name: "FULL → Build:Prod on Sonataflow Operator with all tests & images, runs also Operator e2e tests."
         shell: bash
         env:
           WEBPACK__minimize: "false"
@@ -169,7 +119,7 @@ jobs:
           MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
-          eval "pnpm -r -F 'sonataflow-operator...' --workspace-concurrency=1 build:prod"
+          eval "pnpm -r -F '@kie-tools/sonataflow-operator...' --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
         if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'

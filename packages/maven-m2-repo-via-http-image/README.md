@@ -30,7 +30,7 @@ Containers referencing this must make use of `settings.xml.envsubst` so that:
 
 Running the container:
 
-- `docker run --name m2-repo-via-http -v ~/.m2/repository:/var/www/html -dit -p 8008:80 docker.io/apache/incubator-kie-tools-maven-m2-repo-via-http:main`
+- `docker run --name m2-repo-via-http -v ~/.m2/repository:/var/www/html -dit -p 8008:80 quay.io/kubesmarts/incubator-kie-tools-maven-m2-repo-via-http:main`
 
 Interpolating settings.xml
 

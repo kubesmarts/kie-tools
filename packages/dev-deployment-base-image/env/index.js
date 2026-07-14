@@ -36,11 +36,11 @@ module.exports = composeEnv([rootEnv], {
       description: "The container Home Path.",
     },
     DEV_DEPLOYMENT_BASE_IMAGE__registry: {
-      default: "docker.io",
-      description: "E.g., `docker.io` or `quay.io`.",
+      default: "quay.io",
+      description: "E.g., `quay.io`.",
     },
     DEV_DEPLOYMENT_BASE_IMAGE__account: {
-      default: "apache",
+      default: "kubesmarts",
       description: "E.g,. `apache` or `kie-tools-bot`",
     },
     DEV_DEPLOYMENT_BASE_IMAGE__name: {

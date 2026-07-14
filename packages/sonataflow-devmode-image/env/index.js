@@ -31,11 +31,11 @@ module.exports = composeEnv([rootEnv, sonataflowImageCommonEnv], {
   vars: varsWithName({
     SONATAFLOW_DEVMODE_IMAGE__registry: {
       default: "quay.io",
-      description: "E.g., `docker.io` or `quay.io`.",
+      description: "E.g., `quay.io`.",
     },
     SONATAFLOW_DEVMODE_IMAGE__account: {
       default: "kubesmarts",
-      description: "E.g,. `apache` or `kie-tools-bot`",
+      description: "E.g,. `kie-tools-bot`",
     },
     SONATAFLOW_DEVMODE_IMAGE__name: {
       default: "incubator-kie-sonataflow-devmode",

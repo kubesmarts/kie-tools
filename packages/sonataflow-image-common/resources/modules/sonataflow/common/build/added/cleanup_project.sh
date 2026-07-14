@@ -41,5 +41,6 @@ find "${KOGITO_HOME}"/.m2/ -name resolver-status.properties -delete
 
 # Remove maven-core from local repo.
 # Plugins declare it with provided scope; the Maven runtime supplies it.
-rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/maven/maven-core
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/maven/maven-core/3.1.1
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/maven/maven-core/3.2.5
 

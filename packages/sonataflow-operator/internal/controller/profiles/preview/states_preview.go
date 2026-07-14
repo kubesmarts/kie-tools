@@ -242,5 +242,5 @@ func (h *deployWithBuildWorkflowState) isWorkflowChanged(workflow *operatorapi.S
 	if err != nil {
 		return false, err
 	}
-	return actualCRC != workflow.Status.FlowCRC, nil
+	return int64(actualCRC) != workflow.Status.FlowCRC, nil
 }

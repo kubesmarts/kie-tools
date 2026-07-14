@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-@docker.io/apache/incubator-kie-sonataflow-builder
+@quay.io/kubesmarts/incubator-kie-sonataflow-builder
 Feature: SonataFlow Builder Static Checks
 
   Scenario: Verify if the sonataflow and quarkus files are under /home/kogito/.m2/repository

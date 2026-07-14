@@ -24,12 +24,12 @@ const rootEnv = require("@kie-tools/root-env/env");
 module.exports = composeEnv([rootEnv], {
   vars: varsWithName({
     SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageRegistry: {
-      default: "docker.io",
-      description: "E.g., `docker.io` or `quay.io`.",
+      default: "quay.io",
+      description: "E.g., `quay.io`.",
     },
     SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageAccount: {
-      default: "apache",
-      description: "E.g,. `apache` or `kie-tools-bot`",
+      default: "kubesmarts",
+      description: "E.g,. `kie-tools-bot`",
     },
     SERVERLESS_LOGIC_WEB_TOOLS__swfDevModeImageName: {
       default: "incubator-kie-serverless-logic-web-tools-swf-dev-mode",

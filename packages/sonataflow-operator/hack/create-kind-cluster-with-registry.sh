@@ -23,6 +23,20 @@ container_engine="$1"
 reg_name='kind-registry'
 reg_port='5001'
 
+# 0. Raise inotify limits so the registry container and Kind pods don't hit
+#    "too many open files". The default max_user_instances (128) is too low
+#    for a multi-container cluster running a local registry.
+current_instances=$(cat /proc/sys/fs/inotify/max_user_instances 2>/dev/null || echo 0)
+if [ "${current_instances}" -lt 1024 ]; then
+  echo "Raising fs.inotify.max_user_instances from ${current_instances} to 8192"
+  sysctl -w fs.inotify.max_user_instances=8192 || \
+    echo "WARNING: could not raise fs.inotify.max_user_instances – registry may crash with 'too many open files'"
+fi
+current_watches=$(cat /proc/sys/fs/inotify/max_user_watches 2>/dev/null || echo 0)
+if [ "${current_watches}" -lt 524288 ]; then
+  echo "Raising fs.inotify.max_user_watches from ${current_watches} to 524288"
+  sysctl -w fs.inotify.max_user_watches=524288 || true
+fi
 
 # 1. Create kind cluster with containerd registry config dir enabled
 # TODO: kind will eventually enable this by default and this patch will
@@ -63,19 +77,14 @@ if ! kubectl wait -n kube-system --for=condition=ready pods --all --timeout=120s
   exit 1
 fi
 
-# 3 Create registry container
+# 3. Create registry container directly on the kind network so its IP is
+#    stable across Docker-managed restarts (--restart=always re-attaches to
+#    the same network, preserving the IP assignment).
 ${container_engine} run \
-  -d --restart=always -p "127.0.0.1:${reg_port}:5000" --network bridge --name "${reg_name}" \
-  -v /tmp:/certs \
+  -d --restart=always -p "127.0.0.1:${reg_port}:5000" --network kind --name "${reg_name}" \
   registry:2
-  
-# 4. Connect the registry to the cluster network if not already connected
-# This allows kind to bootstrap the network but ensures they're on the same network
-if [ "$("${container_engine}" inspect -f='{{json .NetworkSettings.Networks.kind}}' "${reg_name}")" = 'null' ]; then
-  ${container_engine} network connect "kind" "${reg_name}"
-fi
 
-# 5. Add the registry config to the nodes
+# 4. Add the registry config to the nodes
 #
 # This is necessary because localhost resolves to loopback addresses that are
 # network-namespace local.
@@ -97,7 +106,7 @@ for node in $(kind get nodes); do
 EOF
 done
 
-# 6. Document the local registry
+# 5. Document the local registry
 # https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry
 cat <<EOF | kubectl apply -f -
 apiVersion: v1

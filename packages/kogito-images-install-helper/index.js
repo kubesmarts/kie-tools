@@ -77,7 +77,7 @@ function runKogitoImageInstall({
   // 4) Update any .feature files with the new image URL tag
   replaceInFile.sync({
     files: ["**/*.feature"],
-    from: /@docker.io\/apache\/.*/g,
+    from: /@quay.io\/kubesmarts\/.*/g,
     to: `@${imageUrl}`,
   });
 }

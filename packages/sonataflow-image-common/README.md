@@ -39,8 +39,8 @@ The contents of this package are:
 To build and tests the images the package provides a convenient `Makefile` that will do the hard work for you. It relies in the following Envs (or arguments):
 
 - `KOGITO_IMAGE_NAME`: (required) Specifies the image name to build. It should match the image descriptor.
-- `KOGITO_IMAGE_REGISTRY`: Image registry to use, defaults to 'docker.io'
-- `KOGITO_IMAGE_REGISTRY_ACCOUNT`: Image registry account to use, defaults to 'apache'
+- `KOGITO_IMAGE_REGISTRY`: Image registry to use, defaults to 'quay.io'
+- `KOGITO_IMAGE_REGISTRY_ACCOUNT`: Image registry account to use, defaults to 'kubesmarts'
 - `KOGITO_IMAGE_TAG`: Custom tag for the image. If not provided it will use the version in the image descriptor.
 
 - `QUARKUS_PLATFORM_GROUPID`: (required) Quarkus platform groupdId to use inside the image.

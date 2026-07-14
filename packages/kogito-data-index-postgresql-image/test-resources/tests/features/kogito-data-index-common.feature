@@ -17,7 +17,7 @@
 # under the License.
 #
 
-@docker.io/apache/incubator-kie-kogito-data-index-postgresql
+@quay.io/kubesmarts/incubator-kie-kogito-data-index-postgresql
 Feature: Kogito-data-index common feature.
 
   Scenario: Verify default http port

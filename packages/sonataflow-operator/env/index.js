@@ -31,12 +31,12 @@ const rootEnv = require("@kie-tools/root-env/env");
 module.exports = composeEnv([rootEnv, sonataflowBuilderImageEnv, sonataflowDevModeImageEnv], {
   vars: varsWithName({
     SONATAFLOW_OPERATOR__registry: {
-      default: "docker.io",
-      description: "E.g., `docker.io` or `quay.io`.",
+      default: "quay.io",
+      description: "E.g., `quay.io`.",
     },
     SONATAFLOW_OPERATOR__account: {
-      default: "apache",
-      description: "E.g,. `apache` or `kie-tools-bot`",
+      default: "kubesmarts",
+      description: "E.g,. `kie-tools-bot`",
     },
     SONATAFLOW_OPERATOR__name: {
       default: "incubator-kie-sonataflow-operator",

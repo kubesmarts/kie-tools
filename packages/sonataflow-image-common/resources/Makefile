@@ -25,14 +25,14 @@ BUILD_ENGINE_OPTIONS 	 	?= --no-squash
 
 # SWF Image creation envs
 KOGITO_IMAGE_NAME				?= # Image name
-KOGITO_IMAGE_REGISTRY 			?= 'docker.io'
-KOGITO_IMAGE_REGISTRY_ACCOUNT 	?= 'apache'
+KOGITO_IMAGE_REGISTRY 			?= 'quay.io'
+KOGITO_IMAGE_REGISTRY_ACCOUNT 	?= 'kubesmarts'
 KOGITO_IMAGE_TAG 				?= $(shell pnpm exec build-env root.streamName) # Setting a default value if KOGITO_IMAGE_TAG env is not present
 KOGITO_FULL_IMAGE_NAME 			:= $(KOGITO_IMAGE_REGISTRY)/$(KOGITO_IMAGE_REGISTRY_ACCOUNT)/$(KOGITO_IMAGE_NAME)
 KOGITO_IMAGE_FILENAME			:= ${KOGITO_IMAGE_NAME}-image.yaml
 
 # Services Applications Image Build
-KOGITO_APPS_TARGET_URI 		?= 'https://github.com/apache/incubator-kie-kogito-apps.git'
+KOGITO_APPS_TARGET_URI 		?= 'https://github.com/kiegroup/kogito-apps.git'
 
 _check_kogito_image_name:
 ifndef KOGITO_IMAGE_NAME

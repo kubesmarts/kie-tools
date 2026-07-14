@@ -24,11 +24,11 @@ const rootEnv = require("@kie-tools/root-env/env");
 module.exports = composeEnv([rootEnv], {
   vars: varsWithName({
     KOGITO_MANAGEMENT_CONSOLE__registry: {
-      default: "docker.io",
-      description: "E.g., `docker.io` or `quay.io`.",
+      default: "quay.io",
+      description: "E.g., `quay.io`.",
     },
     KOGITO_MANAGEMENT_CONSOLE__account: {
-      default: "apache",
+      default: "kubesmarts",
       description: "E.g,. `apache` or `kie-tools-bot`",
     },
     KOGITO_MANAGEMENT_CONSOLE__name: {

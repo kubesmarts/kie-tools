@@ -62,6 +62,6 @@ const imageUrl = `${env.oslJobsServiceEphemeralImage.account}/${env.oslJobsServi
 // Replace image URL in .feature files
 replaceInFile.sync({
   files: ["**/*.feature"],
-  from: /@docker.io\/apache\/.*/g,
+  from: /@quay.io\/kubesmarts\/.*/g,
   to: `@${imageUrl}`,
 });

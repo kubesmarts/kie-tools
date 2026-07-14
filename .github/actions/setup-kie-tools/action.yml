@@ -40,6 +40,10 @@ inputs:
     description: "kie-tools path"
     required: false
     default: "."
+  USE_OSL_ENV_CONFIG:
+    description: "Whether to run the OSL environment variables setup step"
+    required: false
+    default: "true"
 
 runs:
   using: "composite"
@@ -78,6 +82,7 @@ runs:
       shell: bash
 
     - name: Setup Environment Variables
+      if: inputs.USE_OSL_ENV_CONFIG == 'true'
       run: |
         echo "::group::Setup Environment Variables"
         cd ${{ inputs.WORKING_DIR }}

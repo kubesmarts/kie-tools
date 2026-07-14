@@ -54,7 +54,7 @@ envs:
     description: "If set to true will print the transfer logs for downloading/uploading of maven dependencies. Defaults to false"
     example: "true"
   - name: "DEFAULT_MAVEN_REPO_URL"
-    value: "https://repository.apache.org/content/groups/public/"
+    value: "https://maven.repository.redhat.com/ga/"
     description: "Defines the default Maven repository for Kogito artifacts."
   - name: "MAVEN_REPO_URL"
     description: "Defines an extra Maven repository."

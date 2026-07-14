@@ -59,7 +59,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
 - Start up a clean container with:
 
   ```bash
-  docker run -t -p 8080:8080 -i --rm docker.io/apache/incubator-kie-kogito-management-console:main
+  docker run -t -p 8080:8080 -i --rm quay.io/kubesmarts/incubator-kie-kogito-management-console:main
   ```
 
   Management Console will be up at http://localhost:8080
@@ -89,7 +89,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
 2. Write a custom `Containerfile/Dockerfile` from the image:
 
    ```docker
-   FROM docker.io/apache/incubator-kie-kogito-management-console:main
+   FROM quay.io/kubesmarts/incubator-kie-kogito-management-console:main
 
    ENV RUNTIME_TOOLS_MANAGEMENT_CONSOLE_APP_NAME=<my_app_name>
    ENV RUNTIME_TOOLS_MANAGEMENT_CONSOLE_OIDC_CLIENT_CLIENT_ID=<my_client_id>

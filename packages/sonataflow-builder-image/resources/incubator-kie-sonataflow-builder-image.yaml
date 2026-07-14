@@ -33,7 +33,7 @@
       - name: org.kie.sonataflow.builder.build-config
       - name: org.kie.sonataflow.common.build
 
-- name: "docker.io/apache/incubator-kie-sonataflow-builder"
+- name: "quay.io/kubesmarts/incubator-kie-sonataflow-builder"
   from: "registry.access.redhat.com/ubi9/openjdk-17:1.24"
   version: "main"
   description: "Apache KIE SonataFlow base builder with Quarkus extensions libraries preinstalled"

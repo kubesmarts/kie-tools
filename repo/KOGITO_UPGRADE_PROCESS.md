@@ -105,7 +105,7 @@ You can find an example of the Java / Maven versions upgrade in [this PR](https:
 
 The following commands will help to sync up the gateway apis the GraphQL schema with the new Kogito Data Index GraphQL schema:
 
-- Start a blank Data Index Container, for example `docker run -p8180:8080 docker.io/apache/incubator-kie-kogito-data-index-ephemeral:{$KOGITO_VERSION}`
+- Start a blank Data Index Container, for example `docker run -p8180:8080 quay.io/kubesmarts/incubator-kie-kogito-data-index-ephemeral:{$KOGITO_VERSION}`
 - Run `pnpm -F @kie-tools/runtime-tools-process-gateway-api graphql:codegen`
 - Run `pnpm -F @kie-tools/runtime-tools-swf-gateway-api graphql:codegen`
 

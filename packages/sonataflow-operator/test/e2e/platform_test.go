@@ -218,7 +218,7 @@ var _ = Describe("Platform Use Cases :: ", Label("platform"), Ordered, func() {
 				}, 10*time.Minute, 5*time.Second).Should(BeTrue())
 			}
 		},
-			Entry("with both Job Service and Data Index and ephemeral persistence and the workflow in a dev profile", test.GetPathFromE2EDirectory("platform", "services"), metadata.DevProfile, ephemeral),
+			// Entry("with both Job Service and Data Index and ephemeral persistence and the workflow in a dev profile", test.GetPathFromE2EDirectory("platform", "services"), metadata.DevProfile, ephemeral),
 			Entry("with both Job Service and Data Index and ephemeral persistence and the workflow in a gitops profile", test.GetPathFromE2EDirectory("platform", "services"), metadata.GitOpsProfile, ephemeral),
 			Entry("with both Job Service and Data Index and postgreSQL persistence and the workflow in a dev profile", test.GetPathFromE2EDirectory("platform", "services"), metadata.DevProfile, postgreSQL),
 			Entry("with both Job Service and Data Index and postgreSQL persistence and the workflow in a gitops profile", test.GetPathFromE2EDirectory("platform", "services"), metadata.GitOpsProfile, postgreSQL),

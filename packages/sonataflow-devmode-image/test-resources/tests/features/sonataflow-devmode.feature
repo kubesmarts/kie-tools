@@ -1,10 +1,10 @@
-@docker.io/apache/incubator-kie-sonataflow-devmode
+@quay.io/kubesmarts/incubator-kie-sonataflow-devmode
 Feature: Serverless Workflow devmode images
 
   Scenario: Verify if container starts in devmode by default
     When container is started with env
-      | variable     | value |
-      | SCRIPT_DEBUG | false  |
+      | variable            | value |
+      | SCRIPT_DEBUG        | false |
     Then container log should match regex Installed features:.*kogito-serverless-workflow
     And container log should match regex Installed features:.*kie-addon-knative-eventing-extension
     And container log should match regex Installed features:.*smallrye-health
@@ -17,18 +17,18 @@ Feature: Serverless Workflow devmode images
 
   Scenario: Verify if container starts correctly when continuous testing is enabled
     When container is started with env
-      | variable                   | value    |
-      | SCRIPT_DEBUG               | false     |
-      | QUARKUS_CONTINUOUS_TESTING | enabled  |
+      | variable                   | value   |
+      | SCRIPT_DEBUG               | false   |
+      | QUARKUS_CONTINUOUS_TESTING | enabled |
     Then container log should contain -Dquarkus.test.continuous-testing=enabled
     And container log should match regex Listening on: http://0\.0\.0\.0:8080
     And run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/health/ready in container and immediately check its output contains 200
 
   Scenario: Verify if container starts correctly when QUARKUS_EXTENSIONS env is used
     When container is started with env
-      | variable                   | value                                    |
-      | SCRIPT_DEBUG               | false                                     |
-      | QUARKUS_EXTENSIONS         | io.quarkus:quarkus-elytron-security-jdbc |
+      | variable           | value                                    |
+      | SCRIPT_DEBUG       | false                                    |
+      | QUARKUS_EXTENSIONS | io.quarkus:quarkus-elytron-security-jdbc |
     Then container log should match regex Extension io\.quarkus:quarkus-elytron-security-jdbc.* has been installed
     And container log should match regex Installed features:.*kogito-serverless-workflow
     And container log should match regex Installed features:.*kie-addon-knative-eventing-extension
