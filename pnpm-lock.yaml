@@ -5816,8 +5816,8 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       jsonata:
-        specifier: ^1.8.7
-        version: 1.8.7
+        specifier: ^2.2.0
+        version: 2.2.0
       jsonc-parser:
         specifier: ^3.0.0
         version: 3.3.1
@@ -16898,6 +16898,10 @@ packages:
     resolution: {integrity: sha512-ttBQIIQPDeLjpPOohtUdXuXUVoA2uIB6fEH9HyJ7234s5mBJ5wTx20njxplLZQgLaOfpmPQA7X2t5AX6tIPbog==}
     hasBin: true
 
+  js-yaml@3.15.0:
+    resolution: {integrity: sha512-ttBQIIQPDeLjpPOohtUdXuXUVoA2uIB6fEH9HyJ7234s5mBJ5wTx20njxplLZQgLaOfpmPQA7X2t5AX6tIPbog==}
+    hasBin: true
+
   js-yaml@4.1.1:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
@@ -16981,8 +16985,8 @@ packages:
     engines: {node: '>=6'}
     hasBin: true
 
-  jsonata@1.8.7:
-    resolution: {integrity: sha512-tOW2/hZ+nR2bcQZs+0T62LVe5CHaNa3laFFWb/262r39utN6whJGBF7IR2Wq1QXrDbhftolk5gggW8uUJYlBTQ==}
+  jsonata@2.2.0:
+    resolution: {integrity: sha512-rAsmwxKHDKQIQ8qJBDErhd34BpNHses6QtiEOJVzJwJSY48LRx0S/tb7cJ9EtgfoIyiVx72Lzi88+HYxwnUybw==}
     engines: {node: '>= 8'}
 
   jsonc-parser@3.3.1:
@@ -33267,6 +33271,11 @@ snapshots:
       argparse: 1.0.10
       esprima: 4.0.1
 
+  js-yaml@3.15.0:
+    dependencies:
+      argparse: 1.0.10
+      esprima: 4.0.1
+
   js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
@@ -33386,7 +33395,7 @@ snapshots:
 
   json5@2.2.3: {}
 
-  jsonata@1.8.7: {}
+  jsonata@2.2.0: {}
 
   jsonc-parser@3.3.1: {}
 
