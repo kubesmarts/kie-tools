@@ -22,6 +22,7 @@ package platform
 import (
 	"context"
 	"fmt"
+	"maps"
 
 	v2 "k8s.io/api/autoscaling/v2"
 	policyv1 "k8s.io/api/policy/v1"
@@ -183,6 +184,7 @@ func createOrUpdateDeployment(ctx context.Context, client client.Client, platfor
 		return nil, nil, err
 	}
 	lbl, selectorLbl := getLabels(platform, psh)
+	podTemplateLbl := mergePodTemplateLabels(lbl, psh.GetPodTemplateLabels())
 	serviceDeploymentSpec := appsv1.DeploymentSpec{
 		Selector: &metav1.LabelSelector{
 			MatchLabels: selectorLbl,
@@ -190,7 +192,7 @@ func createOrUpdateDeployment(ctx context.Context, client client.Client, platfor
 		Strategy: psh.GetDeploymentStrategy(),
 		Template: corev1.PodTemplateSpec{
 			ObjectMeta: metav1.ObjectMeta{
-				Labels: lbl,
+				Labels: podTemplateLbl,
 			},
 			Spec: corev1.PodSpec{
 				Volumes: []corev1.Volume{
@@ -487,4 +489,18 @@ func addToSonataFlowPlatformTriggerList(platform *operatorapi.SonataFlowPlatform
 		}
 	}
 	platform.Status.Triggers = append(platform.Status.Triggers, operatorapi.SonataFlowPlatformTriggerRef{Name: trigger.Name, Namespace: trigger.Namespace})
+}
+
+// mergePodTemplateLabels returns a new map[string]string containing the merge of the operator calculated labels for
+// the service (dest), with the user provided podTemplate.metadata.labels (src). The operator calculated labels have
+// priority over the user provided since they are calculated for the normal operation of the service.
+func mergePodTemplateLabels(dest map[string]string, src map[string]string) map[string]string {
+	result := make(map[string]string, len(dest))
+	maps.Copy(result, dest)
+	for key, value := range src {
+		if _, ok := result[key]; !ok {
+			result[key] = value
+		}
+	}
+	return result
 }

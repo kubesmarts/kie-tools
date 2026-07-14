@@ -1,0 +1,49 @@
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+
+apiVersion: sonataflow.org/v1alpha08
+kind: SonataFlowPlatform
+metadata:
+  name: sonataflow-platform
+spec:
+  services:
+    dataIndex:
+      enabled: true
+      podTemplate:
+        metadata:
+          labels:
+            # none of these labels must be applied, since overrides Operator defined ones
+            app: xxx-sonataflow-platform
+            app.kubernetes.io/part-of: xxx-sonataflow-platform
+            app.kubernetes.io/instance: xxx-sonataflow-platform
+            sonataflow.org/service: xxx-sonataflow-platform-data-index-service
+            app.kubernetes.io/version: xxx-main
+            app.kubernetes.io/component: xxx-sonataflow-platform-data-index-service
+            app-namespace: xxx-case3
+            app.kubernetes.io/managed-by: xxx-sonataflow-operator
+            app.kubernetes.io/name: xxx-data-index-service
+            # these labels must be applied
+            my-di-label1: my-di-label1-value
+            my-di-label2: my-di-label2-value
+    jobService:
+      enabled: true
+      podTemplate:
+        metadata:
+          labels:
+            # these labels must be applied
+            my-js-label1: my-js-label1-value
+            my-js-label2: my-js-label2-value

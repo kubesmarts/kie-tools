@@ -732,3 +732,65 @@ func patchHPAMinReplicas(name string, ns string, replicas string) error {
 	}
 	return nil
 }
+
+// verifyPodHasLabels verifies that a pod has the expected set of labels.
+// The pod is found by using the label app.kubernetes.io/name in the given namespace.
+func verifyPodHasLabels(namespace string, k8sNameLabelValue string, expectedLabels map[string]string) bool {
+	var err error
+	podName, err := getPodNameByK8sNameLabel(namespace, k8sNameLabelValue)
+	if err != nil {
+		GinkgoWriter.Println(err)
+		return false
+	}
+	podLabels, err := getPodLabels(namespace, podName)
+	if err != nil {
+		GinkgoWriter.Println(err)
+		return false
+	}
+	for expectedLbl, expectedValue := range expectedLabels {
+		var currentValue string
+		var ok bool
+		currentValue, ok = podLabels[expectedLbl]
+		if !ok {
+			GinkgoWriter.Println(fmt.Errorf("expected label: %s is not present in pod: %s/%s, current label set is: %s", expectedLbl, namespace, podName, podLabels))
+			return false
+		}
+		if currentValue != expectedValue {
+			GinkgoWriter.Println(fmt.Errorf("expected label: %s is must have the expectedValue: %s, but currentValue is: %s, in pod: %s/%s, current label set is: %s", expectedLbl, expectedValue, currentValue, namespace, podName, podLabels))
+			return false
+		}
+	}
+	return true
+}
+
+// getPodNameByK8sNameLabel returns the name of a given pod by finding it by the label app.kubernetes.io/name in the
+// given namespace.
+func getPodNameByK8sNameLabel(namespace string, k8sNameLabelValue string) (string, error) {
+	labelFilter := fmt.Sprintf("app.kubernetes.io/name in (%s)", k8sNameLabelValue)
+	cmd := exec.Command("kubectl", "get", "pod", "-l", labelFilter, "-n", namespace, "-ojsonpath={.items[*].metadata.name}")
+	output, err := utils.Run(cmd)
+	if err != nil {
+		return "", fmt.Errorf("failed to query podName by k8sNameLabelValue: %s in namespace: %s, %v", k8sNameLabelValue, namespace, err)
+	}
+	if strings.TrimSpace(string(output)) == "" {
+		return "", fmt.Errorf("no pod was found for k8sNameLabelValue: %s in namespace: %s", k8sNameLabelValue, namespace)
+	}
+	return string(output), nil
+}
+
+// getPodLabels returns the labels for a given pod in the given namespace.
+func getPodLabels(namespace string, podName string) (map[string]string, error) {
+	cmd := exec.Command("kubectl", "get", "pod", podName, "-n", namespace, "-ojsonpath='{.metadata.labels}'")
+	output, err := utils.Run(cmd)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get pod labels, podName: %s, namespace: %s, %v", podName, namespace, err)
+	}
+	jsonLabels := string(output)
+	jsonLabels = extractFromSingleQuotedResponse(jsonLabels)
+	var labels map[string]string
+	err = json.Unmarshal([]byte(jsonLabels), &labels)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal pod labels, podName: %s, namespace: %s, jsonLabels: %s, %v", podName, namespace, jsonLabels, err)
+	}
+	return labels, nil
+}

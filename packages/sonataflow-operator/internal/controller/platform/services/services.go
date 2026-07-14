@@ -78,6 +78,8 @@ type PlatformServiceHandler interface {
 	GetReplicaCount() int32
 	// GetDeploymentStrategy Returns the deployment strategy for the service
 	GetDeploymentStrategy() appsv1.DeploymentStrategy
+	// GetPodTemplateLabels Returns the PodTemplate labels configured for the given service.
+	GetPodTemplateLabels() map[string]string
 
 	// MergeContainerSpec performs a merge with override using the containerSpec argument and the expected values based on the service's pod template specifications. The returning
 	// object is the merged result
@@ -338,6 +340,13 @@ func (d *DataIndexHandler) GetDeploymentStrategy() appsv1.DeploymentStrategy {
 	return appsv1.DeploymentStrategy{}
 }
 
+func (d *DataIndexHandler) GetPodTemplateLabels() map[string]string {
+	if metadata := d.platform.Spec.Services.DataIndex.PodTemplate.Metadata; metadata != nil {
+		return metadata.Labels
+	}
+	return nil
+}
+
 func (d *DataIndexHandler) GetServiceCmName() string {
 	return fmt.Sprintf("%s-props", d.GetServiceName())
 }
@@ -498,6 +507,13 @@ func (j *JobServiceHandler) GetDeploymentStrategy() appsv1.DeploymentStrategy {
 		Type:          appsv1.RecreateDeploymentStrategyType,
 		RollingUpdate: nil,
 	}
+}
+
+func (d *JobServiceHandler) GetPodTemplateLabels() map[string]string {
+	if metadata := d.platform.Spec.Services.JobService.PodTemplate.Metadata; metadata != nil {
+		return metadata.Labels
+	}
+	return nil
 }
 
 func (j JobServiceHandler) MergeContainerSpec(containerSpec *corev1.Container) (*corev1.Container, error) {
