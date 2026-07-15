@@ -19,7 +19,7 @@
 
 const graphviz = require("graphviz");
 const DatavisTechGraph = require("graph-data-structure");
-const findWorkspacePackages = require("@pnpm/find-workspace-packages").default;
+const { findWorkspacePackages } = require("@pnpm/find-workspace-packages");
 const fs = require("fs");
 const path = require("path");
 const prettier = require("prettier");

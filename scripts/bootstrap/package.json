@@ -8,9 +8,9 @@
   },
   "devDependencies": {
     "@kie-tools-scripts/build-env": "workspace:*",
-    "@pnpm/filter-workspace-packages": "^5.0.27",
-    "@pnpm/find-workspace-packages": "^4.0.27",
-    "@pnpm/logger": "^4.0.0",
+    "@pnpm/filter-workspace-packages": "^1000.1.12",
+    "@pnpm/find-workspace-packages": "^6.0.9",
+    "@pnpm/logger": "^5.2.0",
     "graph-data-structure": "^2.0.0",
     "graphviz": "^0.0.9",
     "markdown-table": "^3.0.2",
