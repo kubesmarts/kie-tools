@@ -65,7 +65,7 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-verbose-reporter": "^0.0.8",
     "karma-webpack": "^5.0.0",
-    "puppeteer": "^13.1.2",
+    "puppeteer": "^25.3.0",
     "rimraf": "^3.0.2"
   },
   "publishConfig": {
