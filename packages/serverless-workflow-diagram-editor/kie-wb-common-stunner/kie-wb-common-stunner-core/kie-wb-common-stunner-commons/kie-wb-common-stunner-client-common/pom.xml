@@ -116,11 +116,6 @@
       <scope>provided</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.kie.j2cl.tools.jakarta</groupId>
-      <artifactId>utils</artifactId>
-    </dependency>
-
     <!-- Test scope. -->
     <dependency>
       <groupId>org.assertj</groupId>
