@@ -137,7 +137,7 @@
     <version.org.kie.kogito>111-SNAPSHOT</version.org.kie.kogito>
 
     <!-- Quarkus -->
-    <version.quarkus>3.27.4</version.quarkus>
+    <version.quarkus>3.27.4.1</version.quarkus>
 
     <!-- 3rd party dependencies -->
     <version.junit>4.13.2</version.junit>
