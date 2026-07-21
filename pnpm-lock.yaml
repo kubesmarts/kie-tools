@@ -3174,8 +3174,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1(ajv@8.18.0)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       copyfiles:
         specifier: ^2.4.1
         version: 2.4.1
@@ -3326,8 +3326,8 @@ importers:
         specifier: 1.5.17
         version: 1.5.17(graphql@14.3.1)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       graphql:
         specifier: 14.3.1
         version: 14.3.1
@@ -3582,8 +3582,8 @@ importers:
         specifier: 1.5.17
         version: 1.5.17(graphql@14.3.1)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -3920,8 +3920,8 @@ importers:
         specifier: 2.6.10
         version: 2.6.10(graphql@14.3.1)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       gql-query-builder:
         specifier: 3.1.3
         version: 3.1.3
@@ -4026,8 +4026,8 @@ importers:
         specifier: 2.6.10
         version: 2.6.10(graphql@14.3.1)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       lodash:
         specifier: ^4.18.1
         version: 4.18.1
@@ -4465,8 +4465,8 @@ importers:
         specifier: 2.6.10
         version: 2.6.10(graphql@14.3.1)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       gql-query-builder:
         specifier: 3.1.3
         version: 3.1.3
@@ -4761,8 +4761,8 @@ importers:
         specifier: 1.5.17
         version: 1.5.17(graphql@14.3.1)
       axios:
-        specifier: ^1.16.0
-        version: 1.17.0
+        specifier: ^1.18.0
+        version: 1.18.1
       bowser:
         specifier: ^2.10.0
         version: 2.11.0
@@ -13604,6 +13604,9 @@ packages:
   axios@1.17.0:
     resolution: {integrity: sha512-J8SwNxprqqpbfenehxWYXE7CW+wM1BB4w3+N+g+/Wx40xM4rsLrfPmHHxSWIxJLYDgSY/HqlFPIYb2/S3rxafw==}
 
+  axios@1.18.1:
+    resolution: {integrity: sha512-3nTvFlvpn9Zu/RkHUqtc7/+al4UpRW5az71ap5zccp6e8RAYEzhMTecX8Dz1wWDYrPpUoB1HAQEGEAEvUr7S9g==}
+
   azure-devops-node-api@12.5.0:
     resolution: {integrity: sha512-R5eFskGvOm3U/GzeAuxRkUsAl0hrAwGgWn6zAd2KrZmrEhWZVqLew4OOupbQlXUuojUzpGtq62SmdhJ06N88og==}
 
@@ -15872,6 +15875,10 @@ packages:
 
   form-data@4.0.5:
     resolution: {integrity: sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==}
+    engines: {node: '>= 6'}
+
+  form-data@4.0.6:
+    resolution: {integrity: sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==}
     engines: {node: '>= 6'}
 
   formdata-polyfill@4.0.10:
@@ -23521,7 +23528,7 @@ snapshots:
       combined-stream: 1.0.8
       extend: 3.0.2
       forever-agent: 0.6.1
-      form-data: 4.0.5
+      form-data: 4.0.6
       http-signature: 1.4.0
       is-typedarray: 1.0.0
       isstream: 0.1.2
@@ -26604,7 +26611,7 @@ snapshots:
 
   '@rhoas/registry-instance-sdk@0.34.4':
     dependencies:
-      axios: 1.17.0
+      axios: 1.18.1
     transitivePeerDependencies:
       - debug
       - supports-color
@@ -29139,17 +29146,27 @@ snapshots:
   axios@1.17.0:
     dependencies:
       follow-redirects: 1.16.0
-      form-data: 4.0.5
+      form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
       - debug
       - supports-color
 
-  axios@1.17.0(debug@4.3.4):
+  axios@1.18.1:
+    dependencies:
+      follow-redirects: 1.16.0
+      form-data: 4.0.6
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 2.1.0
+    transitivePeerDependencies:
+      - debug
+      - supports-color
+
+  axios@1.18.1(debug@4.3.4):
     dependencies:
       follow-redirects: 1.16.0(debug@4.3.4)
-      form-data: 4.0.5
+      form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
     transitivePeerDependencies:
@@ -32140,6 +32157,14 @@ snapshots:
       hasown: 2.0.4
       mime-types: 2.1.35
 
+  form-data@4.0.6:
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      es-set-tostringtag: 2.1.0
+      hasown: 2.0.4
+      mime-types: 2.1.35
+
   formdata-polyfill@4.0.10:
     dependencies:
       fetch-blob: 3.2.0
@@ -33860,7 +33885,7 @@ snapshots:
       decimal.js: 10.4.3
       domexception: 4.0.0
       escodegen: 2.1.0
-      form-data: 4.0.5
+      form-data: 4.0.6
       html-encoding-sniffer: 3.0.0
       http-proxy-agent: 5.0.0
       https-proxy-agent: 5.0.1
@@ -38575,7 +38600,7 @@ snapshots:
 
   wait-on@7.2.0(debug@4.3.4):
     dependencies:
-      axios: 1.17.0(debug@4.3.4)
+      axios: 1.18.1(debug@4.3.4)
       joi: 17.12.0
       lodash: 4.18.1
       minimist: 1.2.8
