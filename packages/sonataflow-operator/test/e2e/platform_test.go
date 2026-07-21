@@ -673,6 +673,53 @@ var _ = Describe("Platform Use Cases :: ", Label("platform"), Ordered, func() {
 		Entry("and the HPA minReplicas is configured with 3", test.GetPathFromE2EDirectory("platform", "persistence", "generic_from_platform_cr_with_pdb_and_hpa"), "3", true, "True", int32(2)),
 		Entry("and the HPA minReplicas is configured with 1", test.GetPathFromE2EDirectory("platform", "persistence", "generic_from_platform_cr_with_pdb_and_hpa"), "1", false, "UnUsed", int32(-1)),
 	)
+
+	DescribeTable("When deploying a SonataFlowPlatform with podTemplate.metadata configuration for the DI and JS services", Label("platform-service-metadata"), func(platformPath string, expectedDILabels map[string]string, expectedJSLabels map[string]string) {
+
+		By("Create the SPF")
+		EventuallyWithOffset(1, func() error {
+			return kubectlApplyFileOnCluster(platformPath, targetNamespace)
+		}, 3*time.Minute, time.Second).Should(Succeed())
+
+		By("Wait for SonataFlowPlatform CR to complete deployments")
+		EventuallyWithOffset(1, func() error {
+			return verifyDataIndexAndJobsServiceAreReady(targetNamespace, "5s")
+		}, 10*time.Minute, 5).Should(Succeed())
+
+		By("Verify that the Data Index has the expected labels")
+		EventuallyWithOffset(1, func() bool {
+			return verifyPodHasLabels(targetNamespace, "data-index-service", expectedDILabels)
+		}, 3*time.Minute, 10*time.Second).Should(BeTrue())
+
+		By("Verify that the Jobs Service has the expected labels")
+		EventuallyWithOffset(1, func() bool {
+			return verifyPodHasLabels(targetNamespace, "jobs-service", expectedJSLabels)
+		}, 3*time.Minute, 10*time.Second).Should(BeTrue())
+	},
+
+		Entry("and DI and JS has podTemplate.metadata.labels", test.GetPathFromE2EDirectory("platform", "service-metadata", "sonataflow_platform-with-service-metadata.yaml"),
+			map[string]string{
+				"app":                          "sonataflow-platform",
+				"app.kubernetes.io/component":  "sonataflow-platform-data-index-service",
+				"app.kubernetes.io/instance":   "sonataflow-platform",
+				"app.kubernetes.io/managed-by": "sonataflow-operator",
+				"app.kubernetes.io/name":       "data-index-service",
+				"app.kubernetes.io/part-of":    "sonataflow-platform",
+				"my-di-label1":                 "my-di-label1-value",
+				"my-di-label2":                 "my-di-label2-value",
+				"sonataflow.org/service":       "sonataflow-platform-data-index-service"},
+			map[string]string{
+				"app":                          "sonataflow-platform",
+				"app.kubernetes.io/component":  "sonataflow-platform-jobs-service",
+				"app.kubernetes.io/instance":   "sonataflow-platform",
+				"app.kubernetes.io/managed-by": "sonataflow-operator",
+				"app.kubernetes.io/name":       "jobs-service",
+				"app.kubernetes.io/part-of":    "sonataflow-platform",
+				"my-js-label1":                 "my-js-label1-value",
+				"my-js-label2":                 "my-js-label2-value",
+				"sonataflow.org/service":       "sonataflow-platform-jobs-service",
+			}),
+	)
 })
 
 func verifyDataIndexAndJobsServiceAreReady(namespace string, timeout string) error {

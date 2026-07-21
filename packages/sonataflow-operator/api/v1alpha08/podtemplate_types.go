@@ -558,6 +558,9 @@ type PodDisruptionBudgetSpec struct {
 // The ContainerSpec describes the container where the service is running. It will override any default definitions.
 // For example, to override the image one can use `.spec.podTemplate.container.image = my/image:tag`.
 type PodTemplateSpec struct {
+	// Defines the metadata for the PodTemplate definition of a service.
+	// +optional
+	Metadata *PodTemplateMeta `json:"metadata,omitempty"`
 	// Container is the Kubernetes container where the application should run.
 	// One can change this attribute in order to override the defaults provided by the operator.
 	// +optional
@@ -571,4 +574,10 @@ type PodTemplateSpec struct {
 	// Currently only apply for the Data Index.
 	// +optional
 	PodDisruptionBudget *PodDisruptionBudgetSpec `json:"podDisruptionBudget,omitempty"`
+}
+
+// PodTemplateMeta describes the metadata for the PodTemplate definition of a service.
+type PodTemplateMeta struct {
+	// +optional
+	Labels map[string]string `json:"labels,omitempty"`
 }
