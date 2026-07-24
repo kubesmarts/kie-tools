@@ -27131,14 +27131,6 @@ snapshots:
       memoizerific: 1.11.3
       storybook: 8.6.18(prettier@3.3.2)
 
-  '@storybook/addon-webpack5-compiler-babel@3.0.5(webpack@5.104.1(esbuild@0.25.12))':
-    dependencies:
-      '@babel/core': 7.29.7
-      babel-loader: 9.2.1(@babel/core@7.29.7)(webpack@5.104.1(esbuild@0.25.12))
-    transitivePeerDependencies:
-      - supports-color
-      - webpack
-
   '@storybook/addon-webpack5-compiler-babel@3.0.5(webpack@5.104.1)':
     dependencies:
       '@babel/core': 7.29.7
@@ -27346,20 +27338,6 @@ snapshots:
   '@storybook/preview-api@8.6.18(storybook@8.6.18(prettier@3.3.2))':
     dependencies:
       storybook: 8.6.18(prettier@3.3.2)
-
-  '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.9.3)(webpack@5.104.1(esbuild@0.25.12))':
-    dependencies:
-      debug: 4.4.3
-      endent: 2.1.0
-      find-cache-dir: 3.3.2
-      flat-cache: 3.0.4
-      micromatch: 4.0.8
-      react-docgen-typescript: 2.2.2(typescript@5.9.3)
-      tslib: 2.8.1
-      typescript: 5.9.3
-      webpack: 5.104.1(esbuild@0.25.12)
-    transitivePeerDependencies:
-      - supports-color
 
   '@storybook/react-docgen-typescript-plugin@1.0.6--canary.9.0c3f3b7.0(typescript@5.9.3)(webpack@5.104.1)':
     dependencies:
@@ -29268,13 +29246,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  babel-loader@9.2.1(@babel/core@7.29.7)(webpack@5.104.1(esbuild@0.25.12)):
-    dependencies:
-      '@babel/core': 7.29.7
-      find-cache-dir: 4.0.0
-      schema-utils: 4.3.3
-      webpack: 5.104.1(esbuild@0.25.12)
-
   babel-loader@9.2.1(@babel/core@7.29.7)(webpack@5.104.1):
     dependencies:
       '@babel/core': 7.29.7
@@ -30571,18 +30542,6 @@ snapshots:
       schema-utils: 3.3.0
       semver: 7.7.4
       webpack: 5.104.1(webpack-cli@5.1.4)
-
-  css-loader@6.7.1(webpack@5.104.1(esbuild@0.25.12)):
-    dependencies:
-      icss-utils: 5.1.0(postcss@8.5.6)
-      postcss: 8.5.6
-      postcss-modules-extract-imports: 3.1.0(postcss@8.5.6)
-      postcss-modules-local-by-default: 4.2.0(postcss@8.5.6)
-      postcss-modules-scope: 3.2.1(postcss@8.5.6)
-      postcss-modules-values: 4.0.0(postcss@8.5.6)
-      postcss-value-parser: 4.2.0
-      semver: 7.8.5
-      webpack: 5.104.1(esbuild@0.25.12)
 
   css-loader@6.7.1(webpack@5.104.1):
     dependencies:
@@ -32210,23 +32169,6 @@ snapshots:
 
   forever-agent@0.6.1: {}
 
-  fork-ts-checker-webpack-plugin@8.0.0(typescript@5.9.3)(webpack@5.104.1(esbuild@0.25.12)):
-    dependencies:
-      '@babel/code-frame': 7.29.7
-      chalk: 4.1.2
-      chokidar: 3.6.0
-      cosmiconfig: 7.0.1
-      deepmerge: 4.2.2
-      fs-extra: 10.1.0
-      memfs: 3.5.3
-      minimatch: 3.1.5
-      node-abort-controller: 3.1.1
-      schema-utils: 3.3.0
-      semver: 7.8.5
-      tapable: 2.3.0
-      typescript: 5.9.3
-      webpack: 5.104.1(esbuild@0.25.12)
-
   fork-ts-checker-webpack-plugin@8.0.0(typescript@5.9.3)(webpack@5.104.1):
     dependencies:
       '@babel/code-frame': 7.29.7
@@ -32756,16 +32698,6 @@ snapshots:
       terser: 5.46.0
 
   html-replace-webpack-plugin@2.6.0: {}
-
-  html-webpack-plugin@5.6.4(webpack@5.104.1(esbuild@0.25.12)):
-    dependencies:
-      '@types/html-minifier-terser': 6.1.0
-      html-minifier-terser: 6.1.0
-      lodash: 4.17.23
-      pretty-error: 4.0.0
-      tapable: 2.3.0
-    optionalDependencies:
-      webpack: 5.104.1(esbuild@0.25.12)
 
   html-webpack-plugin@5.6.4(webpack@5.104.1):
     dependencies:
