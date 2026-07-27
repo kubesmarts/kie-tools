@@ -41,11 +41,11 @@
     repositories:
       - path: modules
     install:
+      - name: org.kubesmarts.packages-update
       - name: org.kie.kogito.system.user
       - name: org.kie.kogito.logging
       - name: org.kie.kogito.project.versions
       - name: org.kie.sonataflow.management.console
-      - name: org.kubesmarts.packages-update
 
   ports:
     - value: 8080

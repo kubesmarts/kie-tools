@@ -23,6 +23,7 @@
     repositories:
       - path: modules
     install:
+      - name: org.kubesmarts.packages-update
       - name: org.kie.kogito.system.user
       - name: org.kie.kogito.logging
       - name: org.kie.kogito.launch.scripts
@@ -32,7 +33,6 @@
       - name: org.kie.sonataflow.common.scripts
       - name: org.kie.sonataflow.builder.build-config
       - name: org.kie.sonataflow.common.build
-      - name: org.kubesmarts.packages-update
 
 - name: "quay.io/kubesmarts/incubator-kie-sonataflow-builder"
   from: "registry.access.redhat.com/ubi9/openjdk-17:1.24"
@@ -61,6 +61,7 @@
     repositories:
       - path: modules
     install:
+      - name: org.kubesmarts.packages-update
       - name: org.kie.kogito.system.user
       - name: org.kie.kogito.logging
       - name: org.kie.kogito.launch.scripts
@@ -71,7 +72,6 @@
       - name: org.kie.sonataflow.common.quarkus.registry
       - name: org.kie.sonataflow.builder.packages
       - name: org.kie.sonataflow.builder.runtime
-      - name: org.kubesmarts.packages-update
 
   run:
     workdir: "/home/kogito/${PROJECT_ARTIFACT_ID}"
