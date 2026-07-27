@@ -45,6 +45,7 @@
       - name: org.kie.kogito.logging
       - name: org.kie.kogito.project.versions
       - name: org.kie.sonataflow.management.console
+      - name: org.kubesmarts.packages-update
 
   ports:
     - value: 8080

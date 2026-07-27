@@ -57,6 +57,7 @@ modules:
     - name: org.kie.kogito.jobs.service.postgresql
     - name: org.kie.kogito.security.custom.truststores
     - name: org.kie.kogito.jobs.service.common
+    - name: org.kubesmarts.packages-update
 
 ports:
   - value: 8080

@@ -57,6 +57,7 @@ modules:
     - name: org.kie.kogito.dataindex.postgresql
     - name: org.kie.kogito.security.custom.truststores
     - name: org.kie.kogito.dataindex.common
+    - name: org.kubesmarts.packages-update
 
 run:
   workdir: "/home/kogito"

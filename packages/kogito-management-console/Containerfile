@@ -22,7 +22,8 @@ ENV KOGITO_MANAGEMENT_CONSOLE_PORT=$KOGITO_MANAGEMENT_CONSOLE_PORT
 
 COPY entrypoint.sh dist-dev/image-env-to-json-linux-amd64 dist-dev/EnvJson.schema.json /tmp/
 
-RUN microdnf --disableplugin=subscription-manager -y install httpd \
+RUN microdnf --disableplugin=subscription-manager -y update \
+  && microdnf --disableplugin=subscription-manager -y install httpd \
   && microdnf --disableplugin=subscription-manager clean all \
   && echo "Mutex posixsem" >> /etc/httpd/conf/httpd.conf \
   && echo "AllowEncodedSlashes NoDecode" >> /etc/httpd/conf/httpd.conf \

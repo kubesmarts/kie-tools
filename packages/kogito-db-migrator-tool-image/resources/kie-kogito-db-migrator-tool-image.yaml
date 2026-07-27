@@ -40,6 +40,7 @@ modules:
     - name: org.kie.kogito.system.user
     - name: org.kie.kogito.project.versions
     - name: org.kie.kogito.db-migrator-tool.db-migration-deps
+    - name: org.kubesmarts.packages-update
 
 run:
   workdir: "/home/kogito/bin"

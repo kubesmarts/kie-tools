@@ -57,6 +57,7 @@ modules:
     - name: org.kie.kogito.maven.common
     - name: org.kie.kogito.project.versions
     - name: org.kie.kogito.security.custom.truststores
+    - name: org.kubesmarts.packages-update
 
 run:
   workdir: "/home/kogito"
