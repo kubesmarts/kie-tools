@@ -27,7 +27,7 @@ MGMT_CONSOLE_HOME="${KOGITO_HOME}/management-console"
 echo "Mutex posixsem" >> "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
 sed -i -e "/#ServerName www.example.com:80/aHeader set Content-Security-Policy \"frame-ancestors 'self';\"" "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
 sed -i -e 's/Options Indexes FollowSymLinks/Options -Indexes +FollowSymLinks/' "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
-sed -i "s/Listen 0\.0\.0\.0:[0-9]*/Listen 0.0.0.0:${SONATAFLOW_MANAGEMENT_CONSOLE_PORT}/g" "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
+sed -i "s/^Listen 80$/Listen ${SONATAFLOW_MANAGEMENT_CONSOLE_PORT}/;s/Listen 0\.0\.0\.0:[0-9]*/Listen 0.0.0.0:${SONATAFLOW_MANAGEMENT_CONSOLE_PORT}/g" "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
 sed -i "s/#ServerName www.example.com:80/ServerName 127.0.0.1:${SONATAFLOW_MANAGEMENT_CONSOLE_PORT}/g" "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
 sed -i '$ a ServerTokens Prod' "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
 sed -i '$ a ServerSignature Off' "${HTTPD_MAIN_CONF_PATH}/httpd.conf"
@@ -59,8 +59,8 @@ cp -v "${SCRIPT_DIR}"/added/* "${MGMT_CONSOLE_HOME}"/launch
 chmod +x "${MGMT_CONSOLE_HOME}/launch/entrypoint.sh" "${MGMT_CONSOLE_HOME}/image-env-to-json-linux-amd64"
 chown -R "${USER_ID}" "${MGMT_CONSOLE_HOME}"
 
-# Fixing /var/www permissions
-chgrp -R 0 ${HTTPD_LOG_PATH} ${HTTPD_VAR_RUN} ${HTTPD_DATA_PATH}/html 
-chmod -R g=u ${HTTPD_LOG_PATH} ${HTTPD_VAR_RUN} ${HTTPD_DATA_PATH}/html 
+# Fixing /var/www and httpd conf permissions
+chgrp -R 0 ${HTTPD_LOG_PATH} ${HTTPD_VAR_RUN} ${HTTPD_DATA_PATH}/html ${HTTPD_MAIN_CONF_PATH} ${HTTPD_MAIN_CONF_D_PATH}
+chmod -R g=u ${HTTPD_LOG_PATH} ${HTTPD_VAR_RUN} ${HTTPD_DATA_PATH}/html ${HTTPD_MAIN_CONF_PATH} ${HTTPD_MAIN_CONF_D_PATH}
 
  if [ -f "${MGMT_CONSOLE_HOME}/app/env.json" ]; then chmod a+w "${MGMT_CONSOLE_HOME}/app/env.json"; fi
