@@ -114,6 +114,8 @@
     <!-- Config -->
     <project.build.outputTimestamp>2024-01-12T00:00:00Z</project.build.outputTimestamp>
     <maven.compiler.parameters>true</maven.compiler.parameters>
+    <!-- Empty default so @{argLine} in surefire/failsafe resolves when jacoco is not active -->
+    <argLine />
 
     <!-- Plugins version -->
     <version.codehaus.flatten.plugin>1.6.0</version.codehaus.flatten.plugin>
@@ -137,7 +139,7 @@
     <version.org.kie.kogito>111-SNAPSHOT</version.org.kie.kogito>
 
     <!-- Quarkus -->
-    <version.quarkus>3.27.4.1</version.quarkus>
+    <version.quarkus>3.33.3</version.quarkus>
 
     <!-- 3rd party dependencies -->
     <version.junit>4.13.2</version.junit>
