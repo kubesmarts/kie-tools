@@ -74,7 +74,7 @@ module.exports = composeEnv([], {
     },
     /* (begin) This part of the file is referenced in `scripts/update-kogito-version` */
     KOGITO_RUNTIME_version: {
-      default: "111-SNAPSHOT",
+      default: "1.39.0",
       description: "Kogito version to be used on dependency declaration.",
     },
     /* (end) */
