@@ -28,7 +28,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.kie.kogito.stunner.serverless.editor</groupId>
   <artifactId>serverless-workflow-diagram-editor-parent</artifactId>
-  <version>111-SNAPSHOT</version>
+  <version>9.106.0</version>
   <packaging>pom</packaging>
 
   <name>KIE Tools :: Serverless Workflow Diagram Editor</name>
