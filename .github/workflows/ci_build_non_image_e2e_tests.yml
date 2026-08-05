@@ -72,6 +72,7 @@ jobs:
         uses: ./.github/actions/setup-ci-patterns
 
       - name: "Setup environment"
+        id: setup_env
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools"
@@ -112,7 +113,7 @@ jobs:
           eval "pnpm -r ${{ env.PNPM_FILTER }} --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
-        if: always() && !cancelled()
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         uses: actions/github-script@v9
         env:
           KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
@@ -130,7 +131,7 @@ jobs:
             await script({ core, glob, patterns });
 
       - name: "Check build-env access errors log"
-        if: always() && !cancelled()
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         shell: bash
         run: |
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
@@ -138,7 +139,7 @@ jobs:
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
-        if: always() && !cancelled()
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         uses: ./.github/actions/upload-ci-reports-and-artifacts
         with:
           partition_index: "non-image"
