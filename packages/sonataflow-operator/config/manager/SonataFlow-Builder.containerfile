@@ -15,7 +15,7 @@
 # specific language governing permissions and limitations
 # under the License.
 
-FROM quay.io/kubesmarts/incubator-kie-sonataflow-builder:main AS builder
+FROM quay.io/kubesmarts/incubator-kie-sonataflow-builder:1.39.0 AS builder
 
 # variables that can be overridden by the builder
 # To add a Quarkus extension to your application
