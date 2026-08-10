@@ -118,10 +118,15 @@ func ConfigureWorkflowPersistence(serviceContainer *corev1.Container, config *op
 		return serviceContainer
 	}
 	c := serviceContainer.DeepCopy()
-	defaultSchema := workflowdef.GetWorkflowId(workflow)
+	defaultSchema := GetWorkflowDefaultSchemaName(workflow)
 	namespace := workflow.Namespace
 	c.Env = append(c.Env, ConfigurePostgreSQLEnv(config.PostgreSQL, defaultSchema, namespace, false)...)
 	return c
+}
+
+// GetWorkflowDefaultSchemaName returns the name of the database schema to use by default for a workflow.
+func GetWorkflowDefaultSchemaName(workflow *operatorapi.SonataFlow) string {
+	return workflowdef.GetWorkflowId(workflow)
 }
 
 func RetrieveConfiguration(primary *v1alpha08.PersistenceOptionsSpec, platformPersistence *v1alpha08.PlatformPersistenceOptionsSpec, schema string) *v1alpha08.PersistenceOptionsSpec {
