@@ -21,6 +21,7 @@ package common
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"github.com/apache/incubator-kie-tools/packages/sonataflow-operator/api/version"
@@ -779,26 +780,44 @@ func TestMergePodSpec_WithServicedPostgreSQL_In_Platform_But_Workflow_CR_Not_Req
 }
 
 func TestDefaultContainer_WithPlatformPersistenceWorkflowWithDefaultProfile(t *testing.T) {
-	workflow := test.GetBaseSonataFlow(t.Name())
-	doTestDefaultContainer_WithPlatformPersistence(t, workflow, true)
+	doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t, "", "", true)
+}
+
+func TestDefaultContainer_WithPlatformPersistenceWorkflowWithDefaultProfileAndWorkflowId(t *testing.T) {
+	doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t, "", "TheWorkflowIdDefaultProfileCase", true)
 }
 
 func TestDefaultContainer_WithPlatformPersistenceWorkflowWithPreviewProfile(t *testing.T) {
-	workflow := test.GetBaseSonataFlow(t.Name())
-	workflowproj.SetWorkflowProfile(workflow, metadata.PreviewProfile)
-	doTestDefaultContainer_WithPlatformPersistence(t, workflow, true)
+	doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t, metadata.PreviewProfile, "", true)
+}
+
+func TestDefaultContainer_WithPlatformPersistenceWorkflowWithPreviewProfileAndWorkflowId(t *testing.T) {
+	doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t, metadata.PreviewProfile, "TheWorkflowIdDefaultPreviewCase", true)
 }
 
 func TestDefaultContainer_WithPlatformPersistenceWorkflowWithGitOpsProfile(t *testing.T) {
-	workflow := test.GetBaseSonataFlow(t.Name())
-	workflowproj.SetWorkflowProfile(workflow, metadata.GitOpsProfile)
-	doTestDefaultContainer_WithPlatformPersistence(t, workflow, true)
+	doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t, metadata.GitOpsProfile, "", true)
+}
+
+func TestDefaultContainer_WithPlatformPersistenceWorkflowWithGitOpsProfileAndWorkflowId(t *testing.T) {
+	doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t, metadata.GitOpsProfile, "TheWorkflowIdGitopsProfileCase", true)
 }
 
 func TestDefaultContainer_WithPlatformPersistenceWorkflowWithDevProfile(t *testing.T) {
 	workflow := test.GetBaseSonataFlow(t.Name())
 	workflowproj.SetWorkflowProfile(workflow, metadata.DevProfile)
 	doTestDefaultContainer_WithPlatformPersistence(t, workflow, false)
+}
+
+func doTestDefaultContainer_WithPlatformPersistenceByProfileWithId(t *testing.T, profile metadata.ProfileType, workflowId string, checkPersistence bool) {
+	workflow := test.GetBaseSonataFlow(t.Name())
+	if len(profile) > 0 {
+		workflowproj.SetWorkflowProfile(workflow, profile)
+	}
+	if len(workflowId) > 0 {
+		workflow.Annotations[metadata.Id] = workflowId
+	}
+	doTestDefaultContainer_WithPlatformPersistence(t, workflow, checkPersistence)
 }
 
 func doTestDefaultContainer_WithPlatformPersistence(t *testing.T, workflow *v1alpha08.SonataFlow, checkPersistence bool) {
@@ -917,6 +936,11 @@ func doTestDefaultContainer_WithPlatformPersistence(t *testing.T, workflow *v1al
 
 	//verify the persistence configuration is present if requested.
 	if checkPersistence {
+		expectedSchema := "greeting"
+		if workflowId, ok := workflow.Annotations[metadata.Id]; ok {
+			expectedSchema = workflowId
+		}
+		expectedJdbc := fmt.Sprintf("jdbc:postgresql://service_name.service_namespace:5432/foo?currentSchema=%s", expectedSchema)
 		expectedEnvVars := []corev1.EnvVar{
 			{
 				Name:  "QUARKUS_DATASOURCE_USERNAME",
@@ -942,7 +966,7 @@ func doTestDefaultContainer_WithPlatformPersistence(t *testing.T, workflow *v1al
 			},
 			{
 				Name:  "QUARKUS_DATASOURCE_JDBC_URL",
-				Value: "jdbc:postgresql://service_name.service_namespace:5432/foo?currentSchema=greeting",
+				Value: expectedJdbc,
 			},
 			{
 				Name:  "KOGITO_PERSISTENCE_TYPE",
