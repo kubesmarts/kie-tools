@@ -21,9 +21,12 @@ package controller
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"k8s.io/client-go/rest"
+
+	"github.com/apache/incubator-kie-tools/packages/sonataflow-operator/api/version"
 
 	"github.com/stretchr/testify/assert"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -82,7 +85,7 @@ func TestSonataFlowControllerAddsFinalizerReplicasAndSelector(t *testing.T) {
 			t.Fatalf("Failed to fetch supposed to exist workflow %v", err)
 		}
 		// status scale selector must have been set.
-		expectedSelector := "app=greeting,app.kubernetes.io/component=serverless-workflow,app.kubernetes.io/instance=greeting,app.kubernetes.io/managed-by=sonataflow-operator,app.kubernetes.io/name=greeting,app.kubernetes.io/version=main,sonataflow.org/workflow-app=greeting,sonataflow.org/workflow-namespace=TestSonataFlowControllerAddsFinalizerReplicasAndSelector/verify_that_workflow_finalizer,_replicas_and_selector_are_early_added_are_if_missing"
+		expectedSelector := fmt.Sprintf("app=greeting,app.kubernetes.io/component=serverless-workflow,app.kubernetes.io/instance=greeting,app.kubernetes.io/managed-by=sonataflow-operator,app.kubernetes.io/name=greeting,app.kubernetes.io/version=%s,sonataflow.org/workflow-app=greeting,sonataflow.org/workflow-namespace=TestSonataFlowControllerAddsFinalizerReplicasAndSelector/verify_that_workflow_finalizer,_replicas_and_selector_are_early_added_are_if_missing", version.GetImageTagVersion())
 		assert.Equal(t, expectedSelector, afterReconcileWorkflow.Status.Selector)
 	})
 }
