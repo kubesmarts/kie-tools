@@ -228,7 +228,7 @@ func defaultContainer(workflow *operatorapi.SonataFlow, plf *operatorapi.SonataF
 		if plf != nil && plf.Spec.Persistence != nil {
 			pper = plf.Spec.Persistence
 		}
-		if p := persistence.RetrieveConfiguration(workflow.Spec.Persistence, pper, workflow.Name); p != nil {
+		if p := persistence.RetrieveConfiguration(workflow.Spec.Persistence, pper, persistence.GetWorkflowDefaultSchemaName(workflow)); p != nil {
 			defaultFlowContainer = persistence.ConfigureWorkflowPersistence(defaultFlowContainer, p, workflow)
 		}
 	}
