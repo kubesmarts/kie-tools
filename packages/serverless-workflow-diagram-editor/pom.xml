@@ -1971,9 +1971,6 @@
                                 They need to be renamed to enable coverage reporting for them.
                                 -->
                               <exclude name="**/target/classes/**/org/kie/server/gateway/KieServerGateway.class" />
-                              <exclude
-                              name="**/target/classes/**/org/kie/server/springboot/samples/KieServerApplication.class"
-                            />
                             </fileset>
                           </classfiles>
                           <sourcefiles encoding="UTF-8">
