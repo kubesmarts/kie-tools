@@ -156,7 +156,6 @@
 
   <dependencyManagement>
     <dependencies>
-
       <!-- Apache KIE -->
       <dependency>
         <groupId>org.kie.kogito</groupId>
