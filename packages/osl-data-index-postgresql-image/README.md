@@ -28,6 +28,7 @@ export OSL_DATA_INDEX_POSTGRESQL_IMAGE__registry__name=logic-data-index-postgres
 export OSL_DATA_INDEX_POSTGRESQL_IMAGE__registry__buildTag=1.34
 # Quarkus/Kogito version. This information will be set in the image labels and internal builds in `root-env`.
 # Optionally you can also use Cekit overrides when building the final image in the internal systems.
+export QUARKUS_version=3.8.6
 export QUARKUS_PLATFORM_version=3.8.6
 export KOGITO_RUNTIME_version=9.101-redhat
 

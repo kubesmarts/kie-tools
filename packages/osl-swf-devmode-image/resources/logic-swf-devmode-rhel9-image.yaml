@@ -24,6 +24,8 @@ description: "Red Hat build of Kogito Serverless Workflow development mode image
   Quarkus extensions libraries preinstalled"
 
 labels:
+  - name: "io.quarkus.version"
+    value: "### SET ME DURING BUILD PROCESS ###"
   - name: "io.quarkus.platform.version"
     value: "## UPDATED DURING BUILD ##"
   - name: "org.kie.kogito.version"

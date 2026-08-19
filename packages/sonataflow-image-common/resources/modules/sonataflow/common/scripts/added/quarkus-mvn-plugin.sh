@@ -24,13 +24,8 @@
 set -e
 
 # Default version variables
-quarkus_version="${QUARKUS_PLATFORM_VERSION}"
+quarkus_version="${QUARKUS_VERSION}"
 kogito_version="${KOGITO_VERSION}"
-
-# Consider a potential override
-if [[ -n "${QUARKUS_VERSION}" && "${QUARKUS_VERSION}" != \#\#\#* ]]; then
-  quarkus_version="${QUARKUS_VERSION}"
-fi
 
 # shellcheck source=/dev/null
 source "${KOGITO_HOME}"/launch/logging.sh

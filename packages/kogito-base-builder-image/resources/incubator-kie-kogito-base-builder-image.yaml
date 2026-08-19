@@ -30,6 +30,8 @@ labels:
     value: "/tmp"
   - name: "io.openshift.expose-services"
     value: "8080:http"
+  - name: "io.quarkus.version"
+    value: "### SET ME DURING BUILD PROCESS ###"
   - name: "io.quarkus.platform.version"
     value: "### SET ME DURING BUILD PROCESS ###"
   - name: "org.kie.kogito.version"

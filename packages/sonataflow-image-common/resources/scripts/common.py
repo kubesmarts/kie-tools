@@ -13,6 +13,9 @@ KOGITO_VERSION_LABEL_NAME = "org.kie.kogito.version"
 
 QUARKUS_PLATFORM_GROUPID_ENV_KEY = "QUARKUS_PLATFORM_GROUPID"
 
+QUARKUS_VERSION_ENV_KEY = "QUARKUS_VERSION"
+QUARKUS_VERSION_LABEL_NAME = "io.quarkus.version"
+
 QUARKUS_PLATFORM_VERSION_ENV_KEY = "QUARKUS_PLATFORM_VERSION"
 QUARKUS_PLATFORM_VERSION_LABEL_NAME = "io.quarkus.platform.version"
 
@@ -161,12 +164,21 @@ def update_quarkus_platform_groupid(quarkus_platform_groupid):
     print("Setting Quarkus groupid: " + quarkus_platform_groupid)
     update_env_value(QUARKUS_PLATFORM_GROUPID_ENV_KEY, quarkus_platform_groupid)
 
+def update_quarkus_version(quarkus_version):
+    """
+    Update quarkus_version version into images/modules
+    :param quarkus_version: quarkus version to set
+    """
+    print("Setting Quarkus version: " + quarkus_version)
+    update_env_value(QUARKUS_VERSION_ENV_KEY, quarkus_version)
+    update_label_value(QUARKUS_VERSION_LABEL_NAME, quarkus_version)
+
 def update_quarkus_platform_version(quarkus_platform_version):
     """
     Update quarkus_platform_version version into images/modules
     :param quarkus_platform_version: quarkus version to set
     """
-    print("Setting Quarkus version: " + quarkus_platform_version)
+    print("Setting Quarkus Platform version: " + quarkus_platform_version)
     update_env_value(QUARKUS_PLATFORM_VERSION_ENV_KEY, quarkus_platform_version)
     update_label_value(QUARKUS_PLATFORM_VERSION_LABEL_NAME, quarkus_platform_version)
 

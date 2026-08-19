@@ -68,9 +68,13 @@ module.exports = composeEnv([], {
       description: `Name of the release/development stream. E.g, 'main', or '10.0.x' etc. Useful for publishing "nightly" or "snapshot" artifacts. Created to reflect the Git branch name without coupling with Git itself.`,
     },
     /* (end) */
+    QUARKUS_version: {
+      default: "3.33.2",
+      description: "Quarkus version to be used on dependency declaration.",
+    },
     QUARKUS_PLATFORM_version: {
       default: "3.33.2.SP3",
-      description: "Quarkus version to be used on dependency declaration.",
+      description: "Quarkus Platform version to be used on dependency declaration.",
     },
     /* (begin) This part of the file is referenced in `scripts/update-kogito-version` */
     KOGITO_RUNTIME_version: {
@@ -109,7 +113,8 @@ module.exports = composeEnv([], {
       },
       versions: {
         kogito: getOrDefault(this.vars.KOGITO_RUNTIME_version),
-        quarkus: getOrDefault(this.vars.QUARKUS_PLATFORM_version),
+        quarkus: getOrDefault(this.vars.QUARKUS_version),
+        quarkusPlatform: getOrDefault(this.vars.QUARKUS_PLATFORM_version),
       },
     };
   },
