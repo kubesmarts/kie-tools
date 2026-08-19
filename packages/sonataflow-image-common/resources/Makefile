@@ -76,7 +76,7 @@ _create_e2e_dir:
 .PHONY test-image: _create_e2e_dir _check_kogito_image_name _test_image
 _test_image:
 	tests/shell/run.sh ${KOGITO_IMAGE_NAME} ${KOGITO_FULL_IMAGE_NAME}:${KOGITO_IMAGE_TAG}
-	${CEKIT_CMD} --descriptor ${KOGITO_IMAGE_FILENAME} test behave
+	${CEKIT_CMD} --descriptor ${KOGITO_IMAGE_FILENAME} test --image ${KOGITO_FULL_IMAGE_NAME}:${KOGITO_IMAGE_TAG} behave
 
 .PHONY build: _check_kogito_image_name _fix_platform_versions _cekit_build
 
