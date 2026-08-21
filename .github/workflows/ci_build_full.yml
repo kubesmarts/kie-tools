@@ -44,6 +44,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
+        # Single-element partition: this workflow does not split the build into
+        # multiple partitions (unlike ci_build.yml, which uses [0, 1]). The value
+        # is kept only so artifact names include a partition index
+        # (e.g. "Linux_0__tests-reports") and stay consistent with ci_build.yml.
+        partition: [0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: "Support longpaths"
