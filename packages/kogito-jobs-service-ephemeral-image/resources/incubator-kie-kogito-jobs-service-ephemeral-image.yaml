@@ -49,6 +49,7 @@ modules:
   repositories:
     - path: modules
   install:
+    - name: org.kubesmarts.packages-update
     - name: org.kie.kogito.system.user
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.project.versions
