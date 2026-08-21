@@ -31,7 +31,9 @@ ENV CORS_PROXY_ALLOWED_ORIGINS=$CORS_PROXY_DEFAULT_ALLOWED_ORIGINS
 ENV CORS_PROXY_VERBOSE=$CORS_PROXY_DEFAULT_VERBOSE
 ENV CORS_PROXY_ALLOW_HOSTS=$CORS_PROXY_DEFAULT_ALLOW_HOSTS
 
-RUN mkdir $HOME \
+RUN microdnf --disableplugin=subscription-manager update -y \
+  && microdnf --disableplugin=subscription-manager clean all \
+  && mkdir $HOME \
   && chgrp -R 0 $HOME \
   && chmod -R g=u $HOME \
   && chown -R 1000:0 $HOME \
