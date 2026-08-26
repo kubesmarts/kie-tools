@@ -44,9 +44,6 @@ jobs:
         uses: ./.github/actions/setup-maven-cache
         with:
           DEPS_BRANCHNAME: 9.106.x-prod
-          DROOLS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/drools"
-          KOGITO_RUNTIMES_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-runtimes"
-          KOGITO_APPS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-apps"
       - name: Setup local maven cache for non-pull request runs
         id: setup_maven_cache_non_pr
         if: "github.event_name != 'pull_request'"
