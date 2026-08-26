@@ -79,7 +79,7 @@ jobs:
         uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
-          DEPS_BRANCHNAME: ${{ github.head_ref || 'main' }}
+          DEPS_BRANCHNAME: ${{ github.base_ref || 'main' }}
           PNPM_FILTER: ""
           USE_OSL_ENV_CONFIG: false
 
