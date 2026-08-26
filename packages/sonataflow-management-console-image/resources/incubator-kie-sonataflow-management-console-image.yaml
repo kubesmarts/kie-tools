@@ -18,7 +18,7 @@
 #
 - name: "quay.io/kubesmarts/incubator-kie-sonataflow-management-console"
   from: "registry.access.redhat.com/ubi9/httpd-24:9.5"
-  version: "main"
+  version: "1.39.0"
   description: "SonataFlow Management Console Image"
 
   labels:
