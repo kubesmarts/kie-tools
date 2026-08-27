@@ -6743,9 +6743,15 @@ importers:
       '@kie-tools/sonataflow-management-console-webapp':
         specifier: workspace:*
         version: link:../sonataflow-management-console-webapp
+      '@kie/kogito-images-install-helper':
+        specifier: workspace:*
+        version: link:../kogito-images-install-helper
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      replace-in-file:
+        specifier: ^7.1.0
+        version: 7.1.0
       rimraf:
         specifier: ^3.0.2
         version: 3.0.2
