@@ -32,6 +32,7 @@ env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
   KOGITO_RUNTIME_version: "9.106.0"
+  KOGITO_RUNTIME_branch: "9.106.x-prod"
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
   MAVEN_REPO_TOKEN: ${{ github.token }}
 
@@ -92,7 +93,7 @@ jobs:
         uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
-          DEPS_BRANCHNAME: ${{ github.head_ref || '9.106.x-prod' }}
+          DEPS_BRANCHNAME: ${{ github.head_ref || env.KOGITO_RUNTIME_branch }}
           PNPM_FILTER: "-F ${{ matrix.package.pnpmName }}..."
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
