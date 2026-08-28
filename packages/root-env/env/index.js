@@ -114,8 +114,8 @@ module.exports = composeEnv([], {
       },
       versions: {
         kogito: getOrDefault(this.vars.KOGITO_RUNTIME_version),
-        quarkus: getOrDefault(this.vars.QUARKUS_PLATFORM_version),
-        quarkusCore: getOrDefault(this.vars.QUARKUS_version),
+        quarkus: getOrDefault(this.vars.QUARKUS_version),
+        quarkusPlatform: getOrDefault(this.vars.QUARKUS_PLATFORM_version),
       },
     };
   },
