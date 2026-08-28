@@ -57,9 +57,9 @@ endif
 # Upgrade Quarkus & Kogito versions in the images and modules
 _run_version_manager:
 ifneq ($(SONATAFLOW_QUARKUS_DEVUI_VERSION),)
-	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_PLATFORM_VERSION} --quarkus-core-version ${QUARKUS_VERSION} --kogito-version ${KOGITO_VERSION} --sonataflow-quarkus-devui-version ${SONATAFLOW_QUARKUS_DEVUI_VERSION}
+	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_VERSION} --quarkus-platform-version ${QUARKUS_PLATFORM_VERSION} --kogito-version ${KOGITO_VERSION} --sonataflow-quarkus-devui-version ${SONATAFLOW_QUARKUS_DEVUI_VERSION}
 else
-	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_PLATFORM_VERSION} --quarkus-core-version ${QUARKUS_VERSION} --kogito-version ${KOGITO_VERSION}
+	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_VERSION} --quarkus-platform-version ${QUARKUS_PLATFORM_VERSION} --kogito-version ${KOGITO_VERSION}
 endif
 
 _fix_platform_versions: _check_versions _run_version_manager
@@ -76,7 +76,7 @@ _create_e2e_dir:
 .PHONY test-image: _create_e2e_dir _check_kogito_image_name _test_image
 _test_image:
 	tests/shell/run.sh ${KOGITO_IMAGE_NAME} ${KOGITO_FULL_IMAGE_NAME}:${KOGITO_IMAGE_TAG}
-	${CEKIT_CMD} --descriptor ${KOGITO_IMAGE_FILENAME} test behave
+	${CEKIT_CMD} --descriptor ${KOGITO_IMAGE_FILENAME} test --image ${KOGITO_FULL_IMAGE_NAME}:${KOGITO_IMAGE_TAG} behave
 
 .PHONY build: _check_kogito_image_name _fix_platform_versions _cekit_build
 
