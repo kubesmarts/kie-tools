@@ -29,7 +29,7 @@ Feature: Serverless Workflow devmode images
       | variable           | value                                    |
       | SCRIPT_DEBUG       | false                                    |
       | QUARKUS_EXTENSIONS | io.quarkus:quarkus-opentelemetry         |
-    Then container log should match regex Extension io\.quarkus:quarkus-opentelemetry* has been installed
+    Then container log should match regex Extension io\.quarkus:quarkus-opentelemetry.* has been installed
     And container log should match regex Installed features:.*kogito-serverless-workflow
     And container log should match regex Installed features:.*kie-addon-knative-eventing-extension
     And container log should match regex Installed features:.*smallrye-health
