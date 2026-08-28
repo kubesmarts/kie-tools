@@ -45,7 +45,10 @@ ifndef QUARKUS_PLATFORM_GROUPID
 	$(error Cannot build image, please provide a valid Quarkus groupId using the QUARKUS_PLATFORM_GROUPID env)
 endif
 ifndef QUARKUS_PLATFORM_VERSION
-	$(error Cannot build image, please provide a valid Quarkus version using the QUARKUS_PLATFORM_VERSION env)
+	$(error Cannot build image, please provide a valid Quarkus Platform version using the QUARKUS_PLATFORM_VERSION env)
+endif
+ifndef QUARKUS_VERSION
+	$(error Cannot build image, please provide a valid Quarkus core version using the QUARKUS_VERSION env)
 endif
 ifndef KOGITO_VERSION
 	$(error Cannot build image, please provide a valid Kogito version using the KOGITO_VERSION env)
@@ -54,9 +57,9 @@ endif
 # Upgrade Quarkus & Kogito versions in the images and modules
 _run_version_manager:
 ifneq ($(SONATAFLOW_QUARKUS_DEVUI_VERSION),)
-	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_PLATFORM_VERSION} --kogito-version ${KOGITO_VERSION} --sonataflow-quarkus-devui-version ${SONATAFLOW_QUARKUS_DEVUI_VERSION}
+	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_PLATFORM_VERSION} --quarkus-core-version ${QUARKUS_VERSION} --kogito-version ${KOGITO_VERSION} --sonataflow-quarkus-devui-version ${SONATAFLOW_QUARKUS_DEVUI_VERSION}
 else
-	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_PLATFORM_VERSION} --kogito-version ${KOGITO_VERSION}
+	python3 scripts/versions_manager.py --quarkus-groupid ${QUARKUS_PLATFORM_GROUPID} --quarkus-version ${QUARKUS_PLATFORM_VERSION} --quarkus-core-version ${QUARKUS_VERSION} --kogito-version ${KOGITO_VERSION}
 endif
 
 _fix_platform_versions: _check_versions _run_version_manager
