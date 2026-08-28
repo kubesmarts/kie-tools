@@ -69,8 +69,13 @@ module.exports = composeEnv([], {
     },
     /* (end) */
     QUARKUS_PLATFORM_version: {
-      default: "3.33.3",
-      description: "Quarkus version to be used on dependency declaration.",
+      default: "3.33.2.SP2-redhat-00002",
+      description: "Quarkus platform version to be used on dependency declaration.",
+    },
+    QUARKUS_VERSION: {
+      default: "3.33.2.redhat-00008",
+      description:
+        "Quarkus core version. May differ from QUARKUS_PLATFORM_version when the platform is rebuilt for a security patch but core libraries are not. Used for io.quarkus groupId artifacts (e.g. quarkus-jdbc-postgresql).",
     },
     /* (begin) This part of the file is referenced in `scripts/update-kogito-version` */
     KOGITO_RUNTIME_version: {
@@ -110,6 +115,7 @@ module.exports = composeEnv([], {
       versions: {
         kogito: getOrDefault(this.vars.KOGITO_RUNTIME_version),
         quarkus: getOrDefault(this.vars.QUARKUS_PLATFORM_version),
+        quarkusCore: getOrDefault(this.vars.QUARKUS_VERSION),
       },
     };
   },
