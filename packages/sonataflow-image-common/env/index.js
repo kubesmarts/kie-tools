@@ -22,7 +22,7 @@ const { varsWithName, getOrDefault, composeEnv } = require("@kie-tools-scripts/b
 module.exports = composeEnv([require("@kie-tools/root-env/env")], {
   vars: varsWithName({
     KOGITO_IMAGES_CEKIT_MODULES__quarkusGroupId: {
-      default: "io.quarkus.platform",
+      default: "com.redhat.quarkus.platform",
       description: "Quarkus platform group id.",
     },
     KOGITO_IMAGES_CEKIT_MODULES_quarkusRegistries: {
