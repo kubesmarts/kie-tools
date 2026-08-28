@@ -16,6 +16,8 @@ QUARKUS_PLATFORM_GROUPID_ENV_KEY = "QUARKUS_PLATFORM_GROUPID"
 QUARKUS_PLATFORM_VERSION_ENV_KEY = "QUARKUS_PLATFORM_VERSION"
 QUARKUS_PLATFORM_VERSION_LABEL_NAME = "io.quarkus.platform.version"
 
+QUARKUS_VERSION_ENV_KEY = "QUARKUS_VERSION"
+
 SONATAFLOW_QUARKUS_DEVUI_VERSION_ENV_KEY = "SONATAFLOW_QUARKUS_DEVUI_VERSION"
 
 
@@ -169,6 +171,15 @@ def update_quarkus_platform_version(quarkus_platform_version):
     print("Setting Quarkus version: " + quarkus_platform_version)
     update_env_value(QUARKUS_PLATFORM_VERSION_ENV_KEY, quarkus_platform_version)
     update_label_value(QUARKUS_PLATFORM_VERSION_LABEL_NAME, quarkus_platform_version)
+
+def update_quarkus_version(quarkus_version):
+    """
+    Update quarkus_version (Quarkus core) into images/modules.
+    This is distinct from the platform version and is used for io.quarkus groupId artifacts.
+    :param quarkus_version: quarkus core version to set
+    """
+    print("Setting Quarkus core version: " + quarkus_version)
+    update_env_value(QUARKUS_VERSION_ENV_KEY, quarkus_version)
 
 def update_sonataflow_quarkus_devui_version(sonataflow_quarkus_devui_version):
     """
