@@ -45,6 +45,38 @@ runs:
         cd ${{ inputs.working_dir }}
         df -h .
 
+    # Disabled: local maven cache for coordinated cross-repository PRs.
+    #
+    # Purpose: when a single change spans kie-tools and its upstream deps
+    # (drools / kogito-runtimes / kogito-apps), this step builds those deps
+    # from the PR author's own forks, using the PR head branch name, so the
+    # kie-tools PR is validated against the matching in-progress upstream
+    # change instead of the default kiegroup branch.
+    #
+    # Why it is disabled here:
+    #   - This composite action is currently used only by osl_sync_main.yml,
+    #     whose triggers are `schedule` and `workflow_dispatch` only (never
+    #     `pull_request`), so `if: github.event_name == 'pull_request'` can
+    #     never be true and the step is unreachable.
+    #   - The owner forks it points at (kubesmarts/{drools,kogito-runtimes,
+    #     kogito-apps}) do not exist, so setup-maven-cache would only fall
+    #     back to kiegroup and produce the same result as the non-PR step
+    #     below.
+    #
+    # Kept as a template: re-enable this block (and point the *_REPO_URL
+    # inputs at real forks) if a `pull_request`-triggered workflow ever
+    # consumes this action.
+    #
+    # - name: Setup local maven cache for PR
+    #   id: setup_maven_cache_pr
+    #   if: "github.event_name == 'pull_request'"
+    #   uses: ./.github/actions/setup-maven-cache
+    #   with:
+    #     DEPS_BRANCHNAME: ${{ github.head_ref }}
+    #     DROOLS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/drools"
+    #     KOGITO_RUNTIMES_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-runtimes"
+    #     KOGITO_APPS_REPO_URL: "https://github.com/${{ github.event.pull_request.head.repo.owner.login }}/kogito-apps"
+
     - name: Setup local maven cache for non-pull request runs
       id: setup_maven_cache_non_pr
       if: "github.event_name != 'pull_request'"
