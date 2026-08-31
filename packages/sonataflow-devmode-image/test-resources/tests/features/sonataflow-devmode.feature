@@ -37,7 +37,7 @@ Feature: Serverless Workflow devmode images
     And container log should match regex Installed features:.*kie-addon-source-files-extension
     And container log should match regex Installed features:.*kogito-addons-quarkus-jobs-service-embedded
     And container log should match regex Installed features:.*kogito-addons-quarkus-data-index-inmemory
-    And container log should match regex Installed features:.*security-jdbc
+    And container log should match regex Installed features:.*opentelemetry
     And container log should match regex Listening on: http://0\.0\.0\.0:8080
     Then run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/health/ready in container and immediately check its output contains 200
 
