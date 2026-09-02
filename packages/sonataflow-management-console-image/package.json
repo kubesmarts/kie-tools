@@ -26,6 +26,7 @@
     "copy:webapp-assets:linux:darwin": "cp -R ./node_modules/@kie-tools/sonataflow-management-console-webapp/dist/ ./dist-dev/sonataflow-management-console-webapp",
     "copy:webapp-assets:win32": "pnpm powershell \"Copy-Item -R ./node_modules/@kie-tools/sonataflow-management-console-webapp/dist/ ./dist-dev/sonataflow-management-console-webapp\"",
     "env-json:schema:generate": "ts-json-schema-generator --tsconfig ./node_modules/@kie-tools/sonataflow-management-console-webapp/tsconfig.json --path ./node_modules/@kie-tools/sonataflow-management-console-webapp/src/env/EnvJson.ts --type EnvJson --id EnvJson --out ./dist-dev/EnvJson.schema.json",
+    "format": "prettier --write . --ignore-path=../../.prettierignore --ignore-path=../../.gitignore",
     "image:cekit:build": "run-script-os",
     "image:cekit:build:darwin:win32": "echo \"Build skipped on Mac and Windows\"",
     "image:cekit:build:linux": "pnpm image:cekit:copy && pnpm image:cekit:setup:env make -C ./dist-dev build",
@@ -33,7 +34,8 @@
     "image:cekit:setup:env": ". ./node_modules/@kie-tools/python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env sonataflowManagementConsoleImageEnv.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env sonataflowManagementConsoleImageEnv.account) KOGITO_IMAGE_NAME=$(build-env sonataflowManagementConsoleImageEnv.name) KOGITO_IMAGE_TAG=$(build-env sonataflowManagementConsoleImageEnv.buildTag) QUARKUS_PLATFORM_GROUPID=$(build-env kogitoImagesCekitModules.quarkusGroupId) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkus) KOGITO_VERSION=$(build-env versions.kogito) SONATAFLOW_MANAGEMENT_CONSOLE_PORT=$(build-env sonataflowManagementConsoleImageEnv.port)",
     "image:test": "run-script-if --ignore-errors \"$(build-env tests.ignoreFailures)\" --bool \"$(build-env endToEndTests.run)\" --then \"mkdir -p dist-dev/target/test/results\" \"run-script-os\" --finally \"cp -R dist-dev/target/test/results dist-tests-e2e/\"",
     "image:test:darwin:win32": "echo \"Tests skipped on Mac and Windows\"",
-    "image:test:linux": "pnpm copy:test-assets && pnpm image:cekit:setup:env make -C ./dist-dev test-image"
+    "image:test:linux": "pnpm copy:test-assets && pnpm image:cekit:setup:env make -C ./dist-dev test-image",
+    "install": "node install.js && pnpm format"
   },
   "devDependencies": {
     "@kie-tools/image-env-to-json": "workspace:*",
@@ -42,7 +44,9 @@
     "@kie-tools/sonataflow-image-common": "workspace:*",
     "@kie-tools/sonataflow-management-console-image-env": "workspace:*",
     "@kie-tools/sonataflow-management-console-webapp": "workspace:*",
+    "@kie/kogito-images-install-helper": "workspace:*",
     "cross-env": "^7.0.3",
+    "replace-in-file": "^7.1.0",
     "rimraf": "^3.0.2",
     "run-script-os": "^1.1.6",
     "start-server-and-test": "^2.0.3",

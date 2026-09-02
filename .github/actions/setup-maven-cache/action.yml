@@ -25,6 +25,10 @@ inputs:
     description: "Branch to use for kiegroup repositories"
     required: false
     default: "main"
+  FALLBACK_BRANCHNAME:
+    description: "Branch to use when DEPS_BRANCHNAME is not found in a kiegroup repository (per stream; on main set this to main)"
+    required: false
+    default: "main"
   WORKING_DIR:
     description: "Working directory"
     required: false
@@ -68,24 +72,24 @@ runs:
         # Get Kiegroup Drools Git Ref
         DROOLS_GIT_REF=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
         if [ -z "$DROOLS_GIT_REF" ]; then
-          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.DROOLS_REPO_URL }}, falling back to kiegroup/drools main branch"
-          DROOLS_GIT_REF=$(git ls-remote "https://github.com/kiegroup/drools" refs/heads/main | awk '{print $1}')
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.DROOLS_REPO_URL }}, falling back to kiegroup/drools ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          DROOLS_GIT_REF=$(git ls-remote "https://github.com/kiegroup/drools" refs/heads/${{ inputs.FALLBACK_BRANCHNAME }} | awk '{print $1}')
         fi
         echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
 
         # Get Kiegroup Runtimes Git Ref
         RUNTIMES_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
         if [ -z "$RUNTIMES_GIT_REF" ]; then
-          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}, falling back to kiegroup/kogito-runtimes main branch"
-          RUNTIMES_GIT_REF=$(git ls-remote "https://github.com/kiegroup/kogito-runtimes" refs/heads/main | awk '{print $1}')
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}, falling back to kiegroup/kogito-runtimes ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          RUNTIMES_GIT_REF=$(git ls-remote "https://github.com/kiegroup/kogito-runtimes" refs/heads/${{ inputs.FALLBACK_BRANCHNAME }} | awk '{print $1}')
         fi
         echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
 
         # Get Kiegroup Apps Git Ref
         APPS_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
         if [ -z "$APPS_GIT_REF" ]; then
-          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_APPS_REPO_URL }}, falling back to kiegroup/kogito-apps main branch"
-          APPS_GIT_REF=$(git ls-remote "https://github.com/kiegroup/kogito-apps" refs/heads/main | awk '{print $1}')
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_APPS_REPO_URL }}, falling back to kiegroup/kogito-apps ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          APPS_GIT_REF=$(git ls-remote "https://github.com/kiegroup/kogito-apps" refs/heads/${{ inputs.FALLBACK_BRANCHNAME }} | awk '{print $1}')
         fi
         echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
@@ -112,9 +116,9 @@ runs:
         # Check if branch exists in the specified repository
         DROOLS_BRANCH_CHECK=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
         if [ -z "$DROOLS_BRANCH_CHECK" ]; then
-          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.DROOLS_REPO_URL }}, using kiegroup/drools main branch"
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.DROOLS_REPO_URL }}, using kiegroup/drools ${{ inputs.FALLBACK_BRANCHNAME }} branch"
           DROOLS_REPO_URL="https://github.com/kiegroup/drools"
-          DROOLS_BRANCH="main"
+          DROOLS_BRANCH="${{ inputs.FALLBACK_BRANCHNAME }}"
         else
           DROOLS_REPO_URL="${{ inputs.DROOLS_REPO_URL }}"
           DROOLS_BRANCH="${{ inputs.DEPS_BRANCHNAME }}"
@@ -131,9 +135,9 @@ runs:
         # Check if branch exists in the specified repository
         RUNTIMES_BRANCH_CHECK=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
         if [ -z "$RUNTIMES_BRANCH_CHECK" ]; then
-          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}, using kiegroup/kogito-runtimes main branch"
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}, using kiegroup/kogito-runtimes ${{ inputs.FALLBACK_BRANCHNAME }} branch"
           RUNTIMES_REPO_URL="https://github.com/kiegroup/kogito-runtimes"
-          RUNTIMES_BRANCH="main"
+          RUNTIMES_BRANCH="${{ inputs.FALLBACK_BRANCHNAME }}"
         else
           RUNTIMES_REPO_URL="${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
           RUNTIMES_BRANCH="${{ inputs.DEPS_BRANCHNAME }}"
@@ -150,9 +154,9 @@ runs:
         # Check if branch exists in the specified repository
         APPS_BRANCH_CHECK=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
         if [ -z "$APPS_BRANCH_CHECK" ]; then
-          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_APPS_REPO_URL }}, using kiegroup/kogito-apps main branch"
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_APPS_REPO_URL }}, using kiegroup/kogito-apps ${{ inputs.FALLBACK_BRANCHNAME }} branch"
           APPS_REPO_URL="https://github.com/kiegroup/kogito-apps"
-          APPS_BRANCH="main"
+          APPS_BRANCH="${{ inputs.FALLBACK_BRANCHNAME }}"
         else
           APPS_REPO_URL="${{ inputs.KOGITO_APPS_REPO_URL }}"
           APPS_BRANCH="${{ inputs.DEPS_BRANCHNAME }}"
