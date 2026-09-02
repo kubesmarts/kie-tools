@@ -25,7 +25,7 @@
   <parent>
     <groupId>org.kie</groupId>
     <artifactId>kie-tools-maven-base</artifactId>
-    <version>111-SNAPSHOT</version>
+    <version>999.106.0</version>
     <relativePath>../maven-base/pom.xml</relativePath>
   </parent>
 
