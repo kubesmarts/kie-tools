@@ -402,9 +402,9 @@ digraph G {
   "@kie-tools/sonataflow-image-common" -> "@kie-tools/kogito-jobs-service-webapp" [ style = "solid", color = "black" ];
   "@kie-tools/sonataflow-image-common" -> "@kie-tools/python-venv" [ style = "dashed", color = "black" ];
   "@kie-tools/sonataflow-management-console-image" -> "@kie-tools/image-env-to-json" [ style = "dashed", color = "black" ];
-  "@kie-tools/sonataflow-management-console-image" -> "@kie-tools/sonataflow-image-common" [ style = "dashed", color = "black" ];
   "@kie-tools/sonataflow-management-console-image" -> "@kie-tools/sonataflow-management-console-image-env" [ style = "dashed", color = "black" ];
   "@kie-tools/sonataflow-management-console-image" -> "@kie-tools/sonataflow-management-console-webapp" [ style = "dashed", color = "black" ];
+  "@kie-tools/sonataflow-management-console-image" -> "@kie/kogito-images-install-helper" [ style = "dashed", color = "black" ];
   "@kie-tools/sonataflow-management-console-image-env" -> "@kie-tools/root-env" [ style = "dashed", color = "black" ];
   "@kie-tools/sonataflow-management-console-webapp" -> "@kie-tools/runtime-tools-process-webapp-components" [ style = "solid", color = "blue" ];
   "@kie-tools/sonataflow-management-console-webapp" -> "@kie-tools/runtime-tools-shared-enveloped-components" [ style = "solid", color = "blue" ];
