@@ -25,7 +25,7 @@
     "build:win32": "pnpm setup:env:win32 make build-win",
     "build:win32:amd": "pnpm setup:env:win32 make build-win-amd64",
     "build:win32:arm": "pnpm setup:env:win32 make build-win-arm64",
-    "install": "go mod tidy",
+    "install": "run-with-retry --then \"go mod tidy\"",
     "powershell": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command",
     "setup:env": "run-script-os",
     "setup:env:darwin:linux": "cross-env IMAGE_ENV_TO_JSON_VERSION=$(build-env imageEnvToJson.version)",
@@ -33,6 +33,7 @@
     "test": "go test ./..."
   },
   "devDependencies": {
+    "@kie-tools-scripts/run-with-retry": "workspace:*",
     "@kie-tools/root-env": "workspace:*",
     "cross-env": "^7.0.3",
     "rimraf": "^3.0.2",

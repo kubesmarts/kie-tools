@@ -34,7 +34,7 @@
     "image:catalog:build:darwin:linux": ". ./node_modules/@kie-tools/python-venv/venv/bin/activate && run-script-if --bool \"$(build-env containerImages.build)\" --then \"make catalog-build\"",
     "image:catalog:build:win32": "echo 'Build Operator catalog image not supported on Windows'",
     "install": "run-script-os",
-    "install:darwin:linux": "rimraf bin && go work sync && go mod tidy && pnpm controllers:update:cfg && pnpm format",
+    "install:darwin:linux": "rimraf bin && run-with-retry --then \"go work sync\" --then \"go mod tidy\" && pnpm controllers:update:cfg && pnpm format",
     "install:win32": "echo 'Install not supported on Windows'",
     "test": "run-script-os",
     "test:darwin:linux": ". ./node_modules/@kie-tools/python-venv/venv/bin/activate && run-script-if --ignore-errors \"$(build-env tests.ignoreFailures)\" --bool \"$(build-env tests.run)\" --then \"make test\"",
@@ -45,6 +45,7 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@kie-tools-scripts/run-with-retry": "workspace:*",
     "@kie-tools/kogito-db-migrator-tool-image": "workspace:*",
     "@kie-tools/python-venv": "workspace:*",
     "@kie-tools/root-env": "workspace:*",
