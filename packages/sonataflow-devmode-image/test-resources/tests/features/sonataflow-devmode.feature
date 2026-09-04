@@ -28,8 +28,8 @@ Feature: Serverless Workflow devmode images
     When container is started with env
       | variable           | value                                    |
       | SCRIPT_DEBUG       | false                                    |
-      | QUARKUS_EXTENSIONS | io.quarkus:quarkus-elytron-security-jdbc |
-    Then container log should match regex Extension io\.quarkus:quarkus-elytron-security-jdbc.* has been installed
+      | QUARKUS_EXTENSIONS | io.quarkus:quarkus-opentelemetry         |
+    Then container log should match regex Extension io\.quarkus:quarkus-opentelemetry.* has been installed
     And container log should match regex Installed features:.*kogito-serverless-workflow
     And container log should match regex Installed features:.*kie-addon-knative-eventing-extension
     And container log should match regex Installed features:.*smallrye-health
@@ -37,7 +37,7 @@ Feature: Serverless Workflow devmode images
     And container log should match regex Installed features:.*kie-addon-source-files-extension
     And container log should match regex Installed features:.*kogito-addons-quarkus-jobs-service-embedded
     And container log should match regex Installed features:.*kogito-addons-quarkus-data-index-inmemory
-    And container log should match regex Installed features:.*security-jdbc
+    And container log should match regex Installed features:.*opentelemetry
     And container log should match regex Listening on: http://0\.0\.0\.0:8080
     Then run curl -fsS -o /dev/null -w %{http_code} http://127.0.0.1:8080/q/health/ready in container and immediately check its output contains 200
 
