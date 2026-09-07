@@ -17,7 +17,7 @@
  * under the License.
  */
 
-const execSync = require("child_process").execSync;
+const execFileSync = require("child_process").execFileSync;
 const path = require("path");
 const fs = require("fs");
 const configFileName = ".eslintrc.js";
@@ -32,20 +32,27 @@ const potentialIgnorePath = path.resolve(".", ".eslintignore");
 console.info("[kie-tools--eslint] Lint path: " + lintPath);
 console.info("[kie-tools--eslint] Config path: " + configPath);
 
-let ignorePathArgument = "";
+const eslintArgs = [
+  "eslint",
+  lintPath,
+  "--ext",
+  ".ts,.tsx",
+  "--config",
+  configPath,
+  "--resolve-plugins-relative-to",
+  defaultConfigPath,
+];
+
 if (fs.existsSync(potentialIgnorePath)) {
   console.info("[kie-tools--eslint] Ignore path: " + potentialIgnorePath);
-  ignorePathArgument = `--ignore-path ${potentialIgnorePath}`;
+  eslintArgs.push("--ignore-path", potentialIgnorePath);
 }
 
 try {
-  execSync(
-    `pnpm eslint ${lintPath} --ext .ts,.tsx --config ${configPath} --resolve-plugins-relative-to ${defaultConfigPath} ${ignorePathArgument}`,
-    {
-      stdio: "inherit",
-      cwd: __dirname,
-    }
-  );
+  execFileSync("pnpm", eslintArgs, {
+    stdio: "inherit",
+    cwd: __dirname,
+  });
 } catch (e) {
   console.info("[kie-tools--eslint] Error.");
   process.exit(1);
