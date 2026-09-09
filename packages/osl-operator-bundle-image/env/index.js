@@ -42,7 +42,7 @@ module.exports = composeEnv([rootEnv, redHatEnv, sonataflowOperatorEnv], {
     },
     OSL_OPERATOR_BUNDLE__proxyImage: {
       default:
-        "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:4564ca3dc5bac80d6faddaf94c817fbbc270698a9399d8a21ee1005d85ceda56",
+        "registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:60c82c96d93e575eeddf576318425c9fdc2e0e86a234ae63734dd7ac8d59e350",
       description: "Internal proxy image for the Operator Manager Proxy Pod. Must come from a valid Red Hat registry.",
     },
     OSL_OPERATOR_BUNDLE__namespace: {
