@@ -24,7 +24,7 @@
     "build-all:win32": "pnpm powershell \"cross-env DDUS_VERSION=$(build-env root.version) make build-all\"",
     "build-install-script:dev": "node scripts/generateInstallScript.js --dev",
     "build-install-script:prod": "node scripts/generateInstallScript.js",
-    "install": "go mod tidy",
+    "install": "run-with-retry --then \"go mod tidy\"",
     "powershell": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command",
     "start": "make start",
     "start-test-servers": "run-script-if --bool \"$(build-env containerImages.build)\" --then \"node scripts/runTestServers.js\"",
@@ -34,6 +34,7 @@
     "test:win32": "echo 'Not supported'"
   },
   "devDependencies": {
+    "@kie-tools-scripts/run-with-retry": "workspace:*",
     "@kie-tools/jest-base": "workspace:*",
     "@kie-tools/root-env": "workspace:*",
     "@types/jest": "^29.5.12",

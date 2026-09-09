@@ -1,0 +1,35 @@
+{
+  "name": "@kie-tools-scripts/run-with-retry",
+  "version": "0.0.0",
+  "description": "CLI tool to run a command (or a batch of commands) with bounded retries and backoff, to survive transient failures such as flaky network access during dependency resolution",
+  "license": "Apache-2.0",
+  "keywords": [],
+  "homepage": "https://github.com/apache/incubator-kie-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/incubator-kie-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
+  "bin": {
+    "run-with-retry": "bin.js"
+  },
+  "files": [
+    "bin.js",
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "install": "rimraf dist && tsc"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@kie-tools/tsconfig": "workspace:*",
+    "@types/yargs": "^17.0.35",
+    "rimraf": "^3.0.2",
+    "typescript": "^5.9.3"
+  }
+}
