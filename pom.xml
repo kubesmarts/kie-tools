@@ -51,12 +51,10 @@
     <maven.compiler.target>17</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.outputTimestamp>2024-01-12T00:00:00Z</project.build.outputTimestamp>
-    <version.maven.artifact.plugin>3.4.1</version.maven.artifact.plugin>
-    <compiler-plugin.version>3.13.0</compiler-plugin.version>
-    <version.resources.plugin>3.2.0</version.resources.plugin>
-    <version.jacoco.maven.plugin>0.8.12</version.jacoco.maven.plugin>
+    <compiler-plugin.version>3.16.0</compiler-plugin.version>
+    <version.jacoco.maven.plugin>0.8.15</version.jacoco.maven.plugin>
 
-    <version.frontend.plugin>1.15.4</version.frontend.plugin>
+    <version.frontend.plugin>2.0.2</version.frontend.plugin>
     <version.node>v24.18.0</version.node>
     <version.npm>11.17.0</version.npm>
     <version.pnpm>10.34.4</version.pnpm>
