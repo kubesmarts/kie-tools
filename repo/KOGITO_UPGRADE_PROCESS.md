@@ -89,7 +89,7 @@ The suggested strategy is to check all:
 
 To double-check that all the versions are correctly updated, please perform a search with grep (or the IDE-integrated search) if the old version is still referenced somewhere. As a key, you can use:
 
-- The version number (E.g., `17` for Java and `3.9.11` for Maven);
+- The version number (E.g., `17` for Java and `3.9.16` for Maven);
 - OpenJDK references (`openjdk`);
 - Apache Maven references (`apache-maven`);
 - GitHub Action references (`java-version` and `maven-version`);
