@@ -27,7 +27,7 @@
     "image:cekit:dist:win32": "echo \"Build skipped on Windows\"",
     "image:cekit:fixversions": "pnpm setup:env make -C ./dist _fix_platform_versions",
     "install": "node install.js && pnpm format",
-    "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env oslJobsServiceEphemeralImage.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env oslJobsServiceEphemeralImage.account) KOGITO_IMAGE_NAME=$(build-env oslJobsServiceEphemeralImage.name) KOGITO_IMAGE_TAG=$(build-env oslJobsServiceEphemeralImage.buildTag) QUARKUS_PLATFORM_GROUPID=$(build-env kogitoImagesCekitModules.quarkusGroupId) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkus) KOGITO_VERSION=$(build-env versions.kogito)"
+    "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env oslJobsServiceEphemeralImage.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env oslJobsServiceEphemeralImage.account) KOGITO_IMAGE_NAME=$(build-env oslJobsServiceEphemeralImage.name) KOGITO_IMAGE_TAG=$(build-env oslJobsServiceEphemeralImage.buildTag) QUARKUS_PLATFORM_GROUPID=$(build-env kogitoImagesCekitModules.quarkusGroupId) QUARKUS_VERSION=$(build-env versions.quarkus) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkusPlatform) KOGITO_VERSION=$(build-env versions.kogito)"
   },
   "devDependencies": {
     "@kie-tools/maven-base": "workspace:*",

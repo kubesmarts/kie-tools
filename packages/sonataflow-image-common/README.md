@@ -45,6 +45,7 @@ To build and tests the images the package provides a convenient `Makefile` that 
 
 - `QUARKUS_PLATFORM_GROUPID`: (required) Quarkus platform groupdId to use inside the image.
 - `QUARKUS_PLATFORM_VERSION`: (required) Quarkus platform version to use inside the image.
+- `QUARKUS_VERSION`: (required) Quarkus version to use inside the image.
 - `KOGITO_VERSION`: (required) Kogito platform version to use inside the image.
 
 - `CEKIT_BUILD_OPTIONS`: extra build options, please refer to [docs.cekit.io](https://docs.cekit.io/en/latest/index.html)
