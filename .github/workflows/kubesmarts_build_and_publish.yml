@@ -39,7 +39,7 @@ on:
       KIE1_EMAIL:
         required: true
 env:
-  MAVEN_ARGS: "-B -s ${{ github.workspace }}/kie-tools/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
   MAVEN_REPO_TOKEN: ${{ github.token }}
   KIE_TOOLS_BUILD__buildContainerImages: "false"
@@ -77,28 +77,23 @@ jobs:
       - name: "Clone kie-tools"
         uses: actions/checkout@v7
         with:
-          path: kie-tools
           ref: ${{ inputs.tag }}
 
       - name: "Setup environment"
-        uses: ./kie-tools/.github/actions/setup-env
-        with:
-          working_dir: kie-tools
+        uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools repository"
-        uses: ./kie-tools/.github/actions/setup-kie-tools
+        uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.tag }}
           PNPM_FILTER: "-F @kie-tools/serverless-logic-web-tools..."
-          WORKING_DIR: kie-tools
           USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}
 
       - name: "Parse `commit_sha`"
         id: commit_sha
         shell: bash
         run: |
-          cd kie-tools
           echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: "Build serverless-logic-web-tools"
@@ -109,7 +104,6 @@ jobs:
             export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.version }} (staging) @ ${{ steps.commit_sha.outputs.commit_sha }}"
           fi
           echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
-          cd kie-tools
           pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
 
       - name: "Checkout serverless-logic-sandbox-deployment"
@@ -139,7 +133,7 @@ jobs:
             rm -rf $DEPLOYMENT_DIR
             mkdir -p $DEPLOYMENT_DIR
           fi
-          cp -r ../kie-tools/packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
+          cp -r ../packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
           git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
           git config --global user.email "${{ secrets.KIE1_EMAIL }}"
           echo "Commit changes"
