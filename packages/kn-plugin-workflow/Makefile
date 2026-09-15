@@ -37,7 +37,7 @@ LDFLAGS                       := "-X $(SET_QUARKUS_PLATFORM_GROUP_ID) -X $(SET_Q
 KIND_VERSION ?= v0.20.0
 OLM_VERSION = v0.31.0
 KIND_CLUSTER ?= kind
-KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.13.1
+KUBE_RBAC_PROXY_SRC := registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:11d95cfa44633fe822fec1ac24a6ddd16af6035d85125daad9fb9d8bdedbf938
 KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 
 ARCH := $(shell uname -m)
