@@ -193,6 +193,7 @@ func (m GoAPI) ExecuteCreate(gvr schema.GroupVersionResource, object *unstructur
 	if err != nil {
 		if errors.IsAlreadyExists(err) {
 			fmt.Printf("✅ Resource %q already exists\n", object.GetName())
+			return nil, nil
 		}
 		return nil, fmt.Errorf("❌ Failed to create resource: %v", err)
 	}
