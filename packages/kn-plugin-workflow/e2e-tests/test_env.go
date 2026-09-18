@@ -20,3 +20,10 @@
 package e2e_tests
 
 var testPrintCmdOutput = false
+
+// Custom catalog mode env vars.
+// When CatalogIndexImage is non-empty, the E2E tests install the operator from a custom
+// OLM CatalogSource (product/OSL build) instead of the public operatorhubio-catalog.
+var CatalogIndexImage string
+var OperatorBundleImage string
+var OperatorImage string
