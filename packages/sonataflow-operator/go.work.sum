@@ -4208,6 +4208,7 @@ knative.dev/caching v0.0.0-20231017130712-54d0758671ef h1:92Gn5HUcgMJ78mbSpkCfUx
 knative.dev/caching v0.0.0-20231017130712-54d0758671ef/go.mod h1:plGN+mIBKRtVxZ0vQeZ3Gt02RIaj0niwIMnQNkQHycw=
 knative.dev/caching v0.0.0-20260422140616-453ad996bbe2 h1:HXtegm/lH8phaAGKTnluecHlc2pAPG/5zqeqXJFdW5c=
 knative.dev/caching v0.0.0-20260422140616-453ad996bbe2/go.mod h1:SeXUtQmuH+GKPo0WdP7mdktlzqHt69kwvMfyi5Ag+0M=
+knative.dev/eventing v0.49.2/go.mod h1:Zp+LliK3dEJwFVxiHTpPRwYycvvok/HOISTFRMcjloo=
 knative.dev/hack v0.0.0-20230417170854-f591fea109b3/go.mod h1:yk2OjGDsbEnQjfxdm0/HJKS2WqTLEFg/N6nUs6Rqx3Q=
 knative.dev/hack v0.0.0-20231016131700-2c938d4918da h1:xy+fvuz2LDOMsZ5UwXRaMF70NYUs9fsG+EF5/ierYBg=
 knative.dev/hack v0.0.0-20231016131700-2c938d4918da/go.mod h1:yk2OjGDsbEnQjfxdm0/HJKS2WqTLEFg/N6nUs6Rqx3Q=
@@ -4220,6 +4221,7 @@ knative.dev/hack/schema v0.0.0-20260421155212-aeb7b4a9bf96 h1:4ToyLixtDPZWuPLl6i
 knative.dev/hack/schema v0.0.0-20260421155212-aeb7b4a9bf96/go.mod h1:KkibP1IazICP5ClxwN5D26LDSygsqbYnVGuGFTsHNOQ=
 knative.dev/pkg v0.0.0-20230525143525-9bda38b21643 h1:DoGHeW3ckr509v87NcYSSuRHEnxKIxyJxWrrDO/71CY=
 knative.dev/pkg v0.0.0-20230525143525-9bda38b21643/go.mod h1:dqC6IrvyBE7E+oZocs5PkVhq1G59pDTA7r8U17EAKMk=
+knative.dev/pkg v0.0.0-20260531000007-52dbd5ece63f/go.mod h1:EZeB2nBW4QcpZuCPB5a/UnoVIH2N+5z5fwNw1PUeqMg=
 knative.dev/reconciler-test v0.0.0-20210915181908-49fac7555086 h1:IAM7f2XCCfxwH9WODJ3+Puv0lrdK5IhqQloYaO4lfvg=
 knative.dev/reconciler-test v0.0.0-20231024072442-5fb93a792b99 h1:RyJ5EZ0XMhTn4CdjI355ceeZmjpPhz4edMu2XRC67bA=
 knative.dev/reconciler-test v0.0.0-20231024072442-5fb93a792b99/go.mod h1:ojrPzMaQ7FugThq5SAG3mF1+8/N6gM8b/gFM3kHUXJU=
