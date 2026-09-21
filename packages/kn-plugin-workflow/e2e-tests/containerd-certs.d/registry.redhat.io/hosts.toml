@@ -1,0 +1,6 @@
+server = "https://registry.redhat.io"
+
+[host."https://registry-proxy.engineering.redhat.com"]
+  capabilities = ["pull", "resolve"]
+  skip_verify = true
+  override_path = true

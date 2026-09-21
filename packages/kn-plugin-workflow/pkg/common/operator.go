@@ -214,17 +214,27 @@ func (m OperatorManager) InstallSonataflowOperator() error {
 		sourceNamespace = "olm"
 	}
 
+	return m.installOperatorWithSource(metadata.SonataFlowOperatorName, "stable", source, sourceNamespace)
+}
+
+// InstallOperatorFromCatalog installs the operator using the provided operator name, channel,
+// catalog source name, and catalog source namespace. Used by the E2E custom-catalog (product) path.
+func (m OperatorManager) InstallOperatorFromCatalog(operatorName, channel, source, sourceNamespace string) error {
+	return m.installOperatorWithSource(operatorName, channel, source, sourceNamespace)
+}
+
+func (m OperatorManager) installOperatorWithSource(operatorName, channel, source, sourceNamespace string) error {
 	subscriptionUnstructured := &unstructured.Unstructured{
 		Object: map[string]interface{}{
 			"apiVersion": "operators.coreos.com/v1alpha1",
 			"kind":       "Subscription",
 			"metadata": map[string]interface{}{
-				"name":      metadata.SonataFlowOperatorName,
+				"name":      operatorName,
 				"namespace": m.namespace,
 			},
 			"spec": map[string]interface{}{
-				"channel":         "alpha",
-				"name":            "sonataflow-operator",
+				"channel":         channel,
+				"name":            operatorName,
 				"source":          source,
 				"sourceNamespace": sourceNamespace,
 			},
@@ -236,6 +246,50 @@ func (m OperatorManager) InstallSonataflowOperator() error {
 		return fmt.Errorf("❌ Failed to create subscription: %v", err)
 	}
 	fmt.Println("✅ Subscription created successfully")
+
+	return nil
+}
+
+// CreateCustomCatalogSource creates an OLM CatalogSource of type grpc backed by the given index image.
+// Used in E2E tests to install the operator from a product/OSL build index image.
+// If the CatalogSource already exists it is left unchanged (idempotent).
+func (m OperatorManager) CreateCustomCatalogSource(name, namespace, indexImage string) error {
+	catalogSource := &unstructured.Unstructured{
+		Object: map[string]interface{}{
+			"apiVersion": "operators.coreos.com/v1alpha1",
+			"kind":       "CatalogSource",
+			"metadata": map[string]interface{}{
+				"name":      name,
+				"namespace": namespace,
+			},
+			"spec": map[string]interface{}{
+				"sourceType":  "grpc",
+				"image":       indexImage,
+				"displayName": name,
+			},
+		},
+	}
+
+	_, err := ExecuteCreate(catalogSourcesGVR, catalogSource, namespace)
+	if err != nil {
+		if errors.IsAlreadyExists(err) {
+			fmt.Printf("✅ CatalogSource %q already exists in namespace %q, reusing it\n", name, namespace)
+			return nil
+		}
+		return fmt.Errorf("❌ Failed to create CatalogSource %q in namespace %q: %v", name, namespace, err)
+	}
+	fmt.Printf("✅ CatalogSource %q created successfully in namespace %q\n", name, namespace)
+
+	return nil
+}
+
+// RemoveCustomCatalogSource deletes the CatalogSource with the given name from the given namespace.
+func (m OperatorManager) RemoveCustomCatalogSource(name, namespace string) error {
+	err := ExecuteDeleteGVR(catalogSourcesGVR, name, namespace)
+	if err != nil {
+		return fmt.Errorf("❌ Failed to delete CatalogSource %q in namespace %q: %v", name, namespace, err)
+	}
+	fmt.Printf("✅ CatalogSource %q deleted successfully from namespace %q\n", name, namespace)
 
 	return nil
 }
@@ -283,18 +337,34 @@ func (m OperatorManager) GetSonataflowOperatorStats() error {
 }
 
 func (m OperatorManager) RemoveSubscription() error {
-	fmt.Println("🔧 Deleting the SonataFlow Operator subscription...")
+	return m.removeSubscriptionByName(metadata.SonataFlowOperatorName)
+}
 
-	err := ExecuteDeleteGVR(subscriptionsGVR, metadata.SonataFlowOperatorName, m.namespace)
+func (m OperatorManager) RemoveSubscriptionByName(operatorName string) error {
+	return m.removeSubscriptionByName(operatorName)
+}
+
+func (m OperatorManager) removeSubscriptionByName(operatorName string) error {
+	fmt.Printf("🔧 Deleting the %s subscription...\n", operatorName)
+
+	err := ExecuteDeleteGVR(subscriptionsGVR, operatorName, m.namespace)
 	if err != nil {
-		return fmt.Errorf("❌ Failed to delete subscription `sonataflow-operator` in namespace %s: %v\n", m.namespace, err)
+		return fmt.Errorf("❌ Failed to delete subscription %q in namespace %s: %v\n", operatorName, m.namespace, err)
 	}
-	fmt.Printf("✅ Subscription `sonataflow-operator` deleted successfully in namespace %s\n", m.namespace)
+	fmt.Printf("✅ Subscription %q deleted successfully in namespace %s\n", operatorName, m.namespace)
 
 	return nil
 }
 
 func (m OperatorManager) RemoveCSV() error {
+	return m.removeCSVByPrefix(metadata.SonataFlowOperatorName)
+}
+
+func (m OperatorManager) RemoveCSVByPrefix(operatorName string) error {
+	return m.removeCSVByPrefix(operatorName)
+}
+
+func (m OperatorManager) removeCSVByPrefix(operatorNamePrefix string) error {
 	resources, err := ExecuteList(clusterServiceVersionsGVR, m.namespace)
 	if err != nil {
 		return fmt.Errorf("❌ ERROR: failed to get CSV resources: %v", err)
@@ -304,16 +374,16 @@ func (m OperatorManager) RemoveCSV() error {
 		if err != nil || !found {
 			continue
 		}
-		if strings.HasPrefix(name, metadata.SonataFlowOperatorName) {
+		if strings.HasPrefix(name, operatorNamePrefix) {
 			err := ExecuteDeleteGVR(clusterServiceVersionsGVR, name, m.namespace)
 			if err != nil {
-				return fmt.Errorf("❌ ERROR: Failed to delete CSV `sonataflow-operator` in namespace %s: %v\n", m.namespace, err)
+				return fmt.Errorf("❌ ERROR: Failed to delete CSV %q in namespace %s: %v\n", name, m.namespace, err)
 			}
-			fmt.Printf("✅ CSV `sonataflow-operator` deleted successfully in namespace %s\n", m.namespace)
+			fmt.Printf("✅ CSV %q deleted successfully in namespace %s\n", name, m.namespace)
 			return nil
 		}
 	}
-	return fmt.Errorf("❌ ERROR: CSV `sonataflow-operator` not found in namespace %s\n", m.namespace)
+	return fmt.Errorf("❌ ERROR: CSV with prefix %q not found in namespace %s\n", operatorNamePrefix, m.namespace)
 }
 
 func (m OperatorManager) ListOperatorResources() ([]unstructured.Unstructured, error) {
@@ -327,7 +397,9 @@ func (m OperatorManager) ListOperatorResources() ([]unstructured.Unstructured, e
 	}
 	var result []unstructured.Unstructured
 	for _, csv := range resources.Items {
-		if strings.HasPrefix(csv.GetName(), metadata.SonataFlowOperatorName) {
+		name := csv.GetName()
+		if strings.HasPrefix(name, metadata.SonataFlowOperatorName) ||
+			strings.HasPrefix(name, metadata.LogicOperatorName) {
 			result = append(result, csv)
 		}
 	}
@@ -335,9 +407,17 @@ func (m OperatorManager) ListOperatorResources() ([]unstructured.Unstructured, e
 }
 
 func (m OperatorManager) RemoveCRD() error {
-	subscription, err := ExecuteGet(subscriptionsGVR, metadata.SonataFlowOperatorName, m.namespace)
+	return m.removeCRDBySubscription(metadata.SonataFlowOperatorName)
+}
+
+func (m OperatorManager) RemoveCRDBySubscription(operatorName string) error {
+	return m.removeCRDBySubscription(operatorName)
+}
+
+func (m OperatorManager) removeCRDBySubscription(operatorName string) error {
+	subscription, err := ExecuteGet(subscriptionsGVR, operatorName, m.namespace)
 	if err != nil {
-		return fmt.Errorf("failed to get subscription %s: %v", metadata.SonataFlowOperatorName, err)
+		return fmt.Errorf("failed to get subscription %s: %v", operatorName, err)
 	}
 
 	installedCSV, found, err := unstructured.NestedString(subscription.Object, "status", "installedCSV")
