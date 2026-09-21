@@ -31,8 +31,8 @@ env:
   KOGITO_RUNTIME_branch: "main"
   SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
   SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
-  QUARKUS_PLATFORM_version: "3.33.3"
-  QUARKUS_VERSION: "3.23.3"
+  QUARKUS_PLATFORM_version: "3.33.3.2"
+  QUARKUS_VERSION: "3.33.3.2"
 
 permissions:
   packages: read
