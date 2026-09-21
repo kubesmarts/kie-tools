@@ -32,7 +32,7 @@ module.exports = composeEnv([rootEnv, sonataflowBuilderImageEnv, sonataflowDevMo
     },
     KN_PLUGIN_WORKFLOW__quarkusPlatformGroupId: {
       name: "KN_PLUGIN_WORKFLOW__quarkusPlatformGroupId",
-      default: "io.quarkus.platform",
+      default: "com.redhat.quarkus.platform",
       description: "Quarkus group to be used when creating the SonataFlow project",
     },
     KN_PLUGIN_WORKFLOW__devModeImageUrl: {
