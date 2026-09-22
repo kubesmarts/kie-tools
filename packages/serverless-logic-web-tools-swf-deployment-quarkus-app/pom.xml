@@ -46,12 +46,12 @@
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <io.swagger.parser.v3.swagger-parser-v3.version>2.1.20</io.swagger.parser.v3.swagger-parser-v3.version>
-    <org.apache.commons.commons-compress.version>1.26.0</org.apache.commons.commons-compress.version>
-    <com.github.erosb.everit-json-schema.version>1.14.2</com.github.erosb.everit-json-schema.version>
-    <surefire-plugin.version>3.5.0</surefire-plugin.version>
+    <io.swagger.parser.v3.swagger-parser-v3.version>2.1.46</io.swagger.parser.v3.swagger-parser-v3.version>
+    <org.apache.commons.commons-compress.version>1.28.0</org.apache.commons.commons-compress.version>
+    <com.github.erosb.everit-json-schema.version>1.14.6</com.github.erosb.everit-json-schema.version>
+    <surefire-plugin.version>3.6.0</surefire-plugin.version>
     <version.org.kie.kogito>${project.version}</version.org.kie.kogito>
-    <version.quarkus>3.33.3</version.quarkus>
+    <version.quarkus>3.33.3.2</version.quarkus>
   </properties>
 
   <dependencyManagement>
