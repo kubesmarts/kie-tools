@@ -15,21 +15,7 @@
    under the License.
 -->
 
-<p align="center"><img width=40% src="docs/kie.svg"></p>
-
----
-
-**[Apache KIE](http://kie.apache.org)** is a home for leading Open Source projects that play a role in delivering solutions around Business Automation and Artificial Intelligence in the Cloud.
-
-[![GitHub Stars](https://img.shields.io/github/stars/apache/incubator-kie-tools.svg)](https://github.com/apache/incubator-kie-tools/stargazers)
-[![GitHub Forks](https://img.shields.io/github/forks/apache/incubator-kie-tools.svg)](https://github.com/apache/incubator-kie-tools/network/members)
-[![GitHub Issues](https://img.shields.io/github/issues/apache/incubator-kie-tools.svg)]()
-[![Pull Requests](https://img.shields.io/github/issues-pr/apache/incubator-kie-tools.svg?style=flat-square)](https://github.com/apache/incubator-kie-tools/pulls)
-[![Contributors](https://img.shields.io/github/contributors/apache/incubator-kie-tools.svg?style=flat-square)](https://github.com/apache/incubator-kie-tools/graphs/contributors)
-[![License](https://img.shields.io/github/license/apache/incubator-kie-tools.svg)](https://github.com/apache/incubator-kie-tools/blob/main/LICENSE)
-[![Twitter Follow](https://img.shields.io/twitter/follow/KieCommunity.svg?label=Follow&style=social)](https://twitter.com/KieCommunity?lang=en)
-
-This repository contains tooling applications and libraries for Apache KIE projects.
+This repository contains tooling applications and libraries for Logic projects. It is a fork of the original Apache KIE kie-tools repository with packages required for Logic projects left in the repository. If you are looking for Apache KIE projects, please check the [Apache KIE project](https://kie.apache.org/). 
 
 ## Contribute
 
@@ -189,7 +175,7 @@ This repository contains several applications. To develop each one of them indiv
 1. Open Chrome and go to `chrome://extensions`. Enable "Developer mode" in the top-right corner and click on "Load unpacked". Choose the `packages/chrome-extension-serverless-workflow-editor/dist` folder.
 1. From now on you can use the development version of the extension. **Remember!** After each change, you have to rebuild the changed modules and hit the "Refresh" button of the extension card.
 
-#### KIE Sandbox
+#### Sandbox
 
 1. After you've successfully built the project following the instructions above, go to `packages/online-editor`.
 2. Open a terminal and run `pnpm start`. This will start a `webpack serve` instance with the Online Editor resources.
