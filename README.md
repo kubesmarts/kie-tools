@@ -15,7 +15,7 @@
    under the License.
 -->
 
-This repository contains tooling applications and libraries for Logic projects. It is a fork of the original Apache KIE kie-tools repository with packages required for Logic projects left in the repository. If you are looking for Apache KIE projects, please check the [Apache KIE project](https://kie.apache.org/). 
+This repository contains tooling applications and libraries for Logic projects. It is a fork of the original Apache KIE kie-tools repository with packages required for Logic projects left in the repository. If you are looking for Apache KIE projects, please check the [Apache KIE project](https://kie.apache.org/).
 
 ## Contribute
 
