@@ -1,17 +1,17 @@
 {
-  "private": true,
   "name": "@osl/osl-db-migrator-tool-image",
   "version": "0.0.0",
+  "private": true,
   "description": "",
-  "license": "Apache-2.0",
   "homepage": "https://github.com/kubesmarts/kie-tools",
+  "bugs": {
+    "url": "https://issues.redhat.com/projects/SRVLOGIC"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kubesmarts/kie-tools.git"
   },
-  "bugs": {
-    "url": "https://issues.redhat.com/projects/SRVLOGIC"
-  },
+  "license": "Apache-2.0",
   "scripts": {
     "build:dev": "pnpm image:cekit:dist",
     "build:prod": "pnpm build:dev",
