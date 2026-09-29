@@ -50,8 +50,7 @@ onlyBuiltDependencies:
   - "nice-napi"
   - "puppeteer"
 patchedDependencies:
-  "immer@10.0.3": "patches/immer@10.0.3.patch"
-  "karma-firefox-launcher@2.1.2": "patches/karma-firefox-launcher@2.1.2.patch"
+  "immer@10.2.0": "patches/immer@10.2.0.patch"
   "run-script-os@1.1.6": "patches/run-script-os@1.1.6.patch"
-  "zustand@4.4.2": "patches/zustand@4.4.2.patch"
+  "zustand@4.5.7": "patches/zustand@4.5.7.patch"
 minimumReleaseAge: 4320
