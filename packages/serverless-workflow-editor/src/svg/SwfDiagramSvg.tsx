@@ -93,8 +93,8 @@ export function SwfDiagramSvg({
             <CallbackstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -103,8 +103,8 @@ export function SwfDiagramSvg({
             <EventstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -113,8 +113,8 @@ export function SwfDiagramSvg({
             <ForeachstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -123,8 +123,8 @@ export function SwfDiagramSvg({
             <InjectstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -133,8 +133,8 @@ export function SwfDiagramSvg({
             <OperationstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -143,8 +143,8 @@ export function SwfDiagramSvg({
             <ParallelstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -153,8 +153,8 @@ export function SwfDiagramSvg({
             <SleepstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -163,8 +163,8 @@ export function SwfDiagramSvg({
             <SwitchstateSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...shapeStyle}
             />
@@ -173,8 +173,8 @@ export function SwfDiagramSvg({
             <UnknownNodeSvg
               width={node.width!}
               height={node.height!}
-              x={node.positionAbsolute!.x}
-              y={node.positionAbsolute!.y}
+              x={node.positionAbsolute!.x as number}
+              y={node.positionAbsolute!.y as number}
               {...style}
               {...(shapeStyle as any)}
             />
