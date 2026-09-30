@@ -48,8 +48,7 @@ export type CreateDeploymentTemplateArgs = {
 
 export type CreateDeploymentArgs = CreateResourceFetchArgs &
   (
-    | CreateDeploymentTemplateArgs
-    | { descriptor: DeploymentDescriptor; resourceDataSource: ResourceDataSource.PROVIDED }
+    CreateDeploymentTemplateArgs | { descriptor: DeploymentDescriptor; resourceDataSource: ResourceDataSource.PROVIDED }
   );
 
 export type DeploymentDescriptor = IDeployment & ResourceMetadataEnforcer;

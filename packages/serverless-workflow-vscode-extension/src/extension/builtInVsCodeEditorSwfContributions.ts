@@ -223,7 +223,7 @@ export function setupBuiltInVsCodeEditorSwfContributions(args: {
               insertText:
                 lsCompletionItem.insertTextFormat === ls.InsertTextFormat.Snippet
                   ? new vscode.SnippetString(lsCompletionItem.insertText ?? lsCompletionItem.textEdit?.newText ?? "")
-                  : lsCompletionItem.insertText ?? lsCompletionItem.textEdit?.newText ?? "",
+                  : (lsCompletionItem.insertText ?? lsCompletionItem.textEdit?.newText ?? ""),
               command: lsCompletionItem.command
                 ? {
                     command: COMMAND_IDS.swfLsCommand,

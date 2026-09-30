@@ -23,7 +23,8 @@ export {
   SchemaRequestService,
   WorkspaceContextService,
 } from "yaml-language-server/lib/esm/languageservice/yamlLanguageService";
-export { Telemetry } from "yaml-language-server/lib/esm/languageserver/telemetry";
+export { Telemetry } from "yaml-language-server/lib/esm/languageservice/telemetry";
+export { TelemetryImpl } from "yaml-language-server/lib/esm/languageserver/telemetry";
 export { LanguageSettings } from "yaml-language-server/lib/esm/languageservice/yamlLanguageService";
 export { SettingsState } from "yaml-language-server/lib/esm/yamlSettings";
 export { YAMLSchemaService } from "yaml-language-server/lib/esm/languageservice/services/yamlSchemaService";

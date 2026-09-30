@@ -22,7 +22,7 @@ import {
   LanguageSettings,
   SchemaRequestService,
   SettingsState,
-  Telemetry,
+  TelemetryImpl,
   WorkspaceContextService,
 } from "@kie-tools/yaml-language-server";
 import { JSONSchema } from "vscode-json-languageservice";
@@ -169,8 +169,8 @@ export class EditorYamlLanguageService implements IEditorLanguageService {
     };
 
     const connection = {} as Connection;
-    connection.onRequest = () => null;
-    const telemetry = new Telemetry(connection);
+    connection.onRequest = () => ({ dispose: () => undefined });
+    const telemetry = new TelemetryImpl(connection);
 
     const yamlSettings = { yamlFormatterSettings: { enable: false } } as SettingsState;
     const yamlLanguageSettings: LanguageSettings = {
@@ -181,7 +181,7 @@ export class EditorYamlLanguageService implements IEditorLanguageService {
       isKubernetes: false,
       schemas: [{ fileMatch: args.fileMatch, uri: args.jsonSchema.$id! }],
     };
-    const yamlLs = getLanguageService(schemaRequestService, workspaceContext, connection, telemetry, yamlSettings);
+    const yamlLs = getLanguageService({ schemaRequestService, workspaceContext, connection, telemetry, yamlSettings });
     yamlLs.configure(yamlLanguageSettings);
     return yamlLs.doValidation(args.textDocument, false);
   }

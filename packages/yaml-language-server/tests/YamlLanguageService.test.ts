@@ -23,7 +23,7 @@ import {
   LanguageSettings,
   SchemaRequestService,
   SettingsState,
-  Telemetry,
+  TelemetryImpl,
   WorkspaceContextService,
 } from "@kie-tools/yaml-language-server";
 import { TextDocument } from "vscode-json-languageservice";
@@ -45,8 +45,8 @@ describe("YAMLValidation tests", () => {
   };
 
   const connection = {} as Connection;
-  connection.onRequest = () => null;
-  const telemetry = new Telemetry(connection);
+  connection.onRequest = () => ({ dispose: () => undefined });
+  const telemetry = new TelemetryImpl(connection);
 
   const yamlSettings = { yamlFormatterSettings: { enable: false } } as SettingsState;
   const yamlLanguageSettings: LanguageSettings = {
@@ -60,7 +60,7 @@ describe("YAMLValidation tests", () => {
   let yamlLs: LanguageService;
 
   beforeEach(() => {
-    yamlLs = getLanguageService(schemaRequestService, workspaceContext, connection, telemetry, yamlSettings);
+    yamlLs = getLanguageService({ schemaRequestService, workspaceContext, connection, telemetry, yamlSettings });
     yamlLs.configure(yamlLanguageSettings);
   });
 

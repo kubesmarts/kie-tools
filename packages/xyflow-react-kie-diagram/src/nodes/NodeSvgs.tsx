@@ -21,12 +21,7 @@ import * as RF from "reactflow";
 import "./NodeSvgs.css";
 
 export type NodeLabelPosition =
-  | "center-bottom"
-  | "center-center"
-  | "top-center"
-  | "center-left"
-  | "top-left"
-  | "center-left-vertical";
+  "center-bottom" | "center-center" | "top-center" | "center-left" | "top-left" | "center-left-vertical";
 
 export type NodeSvgProps = RF.Dimensions &
   RF.XYPosition & {
