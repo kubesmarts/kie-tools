@@ -2,17 +2,17 @@
   "name": "@kie-tools/chrome-extension-test-helper",
   "version": "0.0.0",
   "description": "Chrome extension test helper",
-  "license": "Apache-2.0",
-  "publisher": "kie-group",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "publisher": "kie-group",
   "scripts": {
     "build": "rimraf dist && tsc",
     "prepare": "pnpm run build"

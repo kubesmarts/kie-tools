@@ -2,21 +2,21 @@
   "name": "@kie-tools/accelerator-git-http-server",
   "version": "0.0.0",
   "description": "Reusable Git HTTP server for accelerator packages",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
   "bin": {
     "kie-tools--accelerator-git-http-server": "bin.js"
   },
-  "types": "dist/server.d.ts",
-  "main": "dist/server.js",
   "files": [
     "bin.js",
     "dist",

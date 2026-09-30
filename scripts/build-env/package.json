@@ -2,20 +2,20 @@
   "name": "@kie-tools-scripts/build-env",
   "version": "0.0.0",
   "description": "",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
   "bin": {
     "build-env": "bin.js"
   },
-  "main": "dist/index.js",
   "files": [
     "bin.js",
     "dist",
