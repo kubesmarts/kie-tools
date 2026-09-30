@@ -21,11 +21,7 @@ import * as path from "path";
 import * as vscode from "vscode";
 
 type ConfigurationValueInterpolationToken =
-  | "${workspaceFolder}"
-  | "${fileDirname}"
-  | "${fileExtname}"
-  | "${fileBasename}"
-  | "${fileBasenameNoExtension}";
+  "${workspaceFolder}" | "${fileDirname}" | "${fileExtname}" | "${fileBasename}" | "${fileBasenameNoExtension}";
 
 export const configurationTokenKeys: Record<
   ConfigurationValueInterpolationToken,

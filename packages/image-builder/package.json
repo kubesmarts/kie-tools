@@ -1,22 +1,22 @@
 {
-  "private": true,
   "name": "@kie-tools/image-builder",
   "version": "0.0.0",
+  "private": true,
   "description": "",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
   "bin": {
     "kie-tools--image-builder": "bin.js"
   },
-  "main": "dist/index.js",
   "files": [
     "bin.js",
     "dist",

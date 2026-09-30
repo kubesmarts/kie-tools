@@ -46,8 +46,7 @@ export interface ResourceGroupDescriptor<T extends ResourceDescriptor> {
 }
 
 export type Resource<T extends ResourceDescriptor = ResourceDescriptor> =
-  | ResourceDescriptor
-  | ResourceGroupDescriptor<T>;
+  ResourceDescriptor | ResourceGroupDescriptor<T>;
 
 export interface EnvVar {
   name: string;

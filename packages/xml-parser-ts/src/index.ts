@@ -265,7 +265,7 @@ export function parse(args: {
         // with it. We treat it as having no namespace, instead of
         // potentially using the default namespace mapped with `xmlns=`.
         const attrName = resolvedAttrQName.isQualified
-          ? resolvedAttrQName.subsedName ?? resolvedAttrQName.nsedName
+          ? (resolvedAttrQName.subsedName ?? resolvedAttrQName.nsedName)
           : attr.name;
 
         const attrPropType = elemMetaType?.[`@_${attrName}`];
@@ -628,7 +628,8 @@ function applyInstanceNs({
 //////////////////
 
 export type NamespacedProperty<P extends string, K> = K extends string
-  ? K extends `@_${string}` | `${string}:${string}` | "__$$text" | "__$$element" // @_xxx are attributes, xxx:xxx are elements referencing other namespaces; __$$element and __$$text are special properties with no domain-related characteristcs. Therefore, not namespace-able.
+  ? K extends
+      `@_${string}` | `${string}:${string}` | "__$$text" | "__$$element" // @_xxx are attributes, xxx:xxx are elements referencing other namespaces; __$$element and __$$text are special properties with no domain-related characteristcs. Therefore, not namespace-able.
     ? K
     : `${P}:${K}`
   : never;

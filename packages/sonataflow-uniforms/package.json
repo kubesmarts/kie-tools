@@ -2,18 +2,18 @@
   "name": "@kie-tools/sonataflow-uniforms",
   "version": "0.0.0",
   "description": "Patternfly forms for SonataFlow",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
-  "types": "./dist/esm/index.d.ts",
+  "license": "Apache-2.0",
   "main": "dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "files": [
     "dist"
   ],

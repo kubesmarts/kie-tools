@@ -45,9 +45,7 @@ export interface SharedValueProvider<T> {
 }
 
 export type FunctionPropertyNames<T extends ApiDefinition<T>> =
-  | SharedValueProviderPropertyNames<T>
-  | NotificationPropertyNames<T>
-  | RequestPropertyNames<T>;
+  SharedValueProviderPropertyNames<T> | NotificationPropertyNames<T> | RequestPropertyNames<T>;
 
 export type ApiDefinition<T> = { [P in keyof T]: (...a: any) => Promise<any> | SharedValueProvider<any> | void };
 

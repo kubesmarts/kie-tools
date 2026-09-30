@@ -61,9 +61,11 @@ export interface CustomWindow extends Window {
 
 declare let window: CustomWindow;
 
-export class GwtEditorWrapperFactory<E extends GwtEditorWrapper>
-  implements EditorFactory<E, KogitoEditorEnvelopeApi, KogitoEditorChannelApi>
-{
+export class GwtEditorWrapperFactory<E extends GwtEditorWrapper> implements EditorFactory<
+  E,
+  KogitoEditorEnvelopeApi,
+  KogitoEditorChannelApi
+> {
   constructor(
     private readonly languageData: GwtLanguageData,
     private readonly gwtEditorDelegate: (factory: GwtEditorWrapperFactory<E>, initArgs: EditorInitArgs) => E,

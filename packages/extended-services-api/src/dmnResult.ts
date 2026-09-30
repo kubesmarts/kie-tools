@@ -34,13 +34,7 @@ export interface DmnEvaluationMessages {
 }
 
 export type DmnEvaluationResult =
-  | boolean
-  | number
-  | null
-  | Record<string, any>
-  | Record<string, any>[]
-  | string
-  | DmnEvaluationResult[];
+  boolean | number | null | Record<string, any> | Record<string, any>[] | string | DmnEvaluationResult[];
 
 export interface DecisionResult {
   decisionId: string;
