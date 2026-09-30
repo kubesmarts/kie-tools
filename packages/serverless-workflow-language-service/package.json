@@ -2,18 +2,18 @@
   "name": "@kie-tools/serverless-workflow-language-service",
   "version": "0.0.0",
   "description": "",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
-  "types": "./dist/index.d.ts",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -35,7 +35,7 @@
     "jsonc-parser": "^3.0.0",
     "path-browserify": "^1.0.1",
     "vscode-json-languageservice": "^4.2.1",
-    "vscode-languageserver": "^7.0.0",
+    "vscode-languageserver": "^9.0.0",
     "vscode-languageserver-textdocument": "^1.0.4",
     "vscode-languageserver-types": "^3.16.0",
     "yaml-language-server-parser": "^0.1.3"
