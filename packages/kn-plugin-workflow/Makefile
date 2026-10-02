@@ -40,6 +40,9 @@ KIND_CLUSTER ?= kind
 KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.13.1
 KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 
+KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.13.1
+KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
+
 # Optional: set the following variables to install the operator from a custom OLM CatalogSource
 # (product/OSL builds) instead of the public operatorhubio-catalog.
 # Only CATALOG_INDEX_IMAGE is required to activate the custom-catalog install path.
@@ -135,6 +138,9 @@ create-cluster: install-kind
 install-operator-framework:
 	curl -sL https://github.com/operator-framework/operator-lifecycle-manager/releases/download/$(OLM_VERSION)/install.sh | bash -s $(OLM_VERSION)
 
+# Optional: set TEST_SKIP to a regex to skip matching tests, e.g. TEST_SKIP=Quarkus
+TEST_SKIP ?=
+
 .PHONY: go-test-e2e
 go-test-e2e:
 	rm -rf dist-tests-e2e
@@ -142,7 +148,9 @@ go-test-e2e:
 	CATALOG_INDEX_IMAGE=$(CATALOG_INDEX_IMAGE) \
 	OPERATOR_BUNDLE_IMAGE=$(OPERATOR_BUNDLE_IMAGE) \
 	OPERATOR_IMAGE=$(OPERATOR_IMAGE) \
-	go test -v ./e2e-tests/... -tags e2e_tests -run TestQuarkusRunCommand -timeout 20m 2>&1 | tee ./dist-tests-e2e/go-test-output-e2e.txt
+	go test -v ./e2e-tests/... -tags e2e_tests -timeout 20m \
+		$(if $(TEST_SKIP),-skip $(TEST_SKIP)) \
+		2>&1 | tee ./dist-tests-e2e/go-test-output-e2e.txt
 
 .PHONY: go-test-e2e-report
 go-test-e2e-report:
@@ -154,15 +162,18 @@ go-test-e2e-report:
 .PHONY: kind-preload-images
 kind-preload-images:
 	@if [ -n "$(KUBE_RBAC_PROXY_SRC)" ] && [ -n "$(KUBE_RBAC_PROXY_DST)" ]; then \
-		echo "Preloading kube-rbac-proxy image into kind..."; \
+		echo "Preloading kube-rbac-proxy image $(KUBE_RBAC_PROXY_SRC) -> $(KUBE_RBAC_PROXY_DST) into kind..."; \
 		docker pull $(KUBE_RBAC_PROXY_SRC); \
-		docker tag $(KUBE_RBAC_PROXY_SRC) $(KUBE_RBAC_PROXY_DST); \
-		kind load docker-image --name $(KIND_CLUSTER) $(KUBE_RBAC_PROXY_DST); \
+		docker save $(KUBE_RBAC_PROXY_SRC) -o /tmp/kube-rbac-proxy.tar; \
+		docker exec -i $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images import --digests --base-name $(KUBE_RBAC_PROXY_DST) - < /tmp/kube-rbac-proxy.tar; \
+		rm -f /tmp/kube-rbac-proxy.tar; \
 	fi
 	@if [ -n "$(CATALOG_INDEX_IMAGE)" ]; then \
 		echo "Preloading index image $(CATALOG_INDEX_IMAGE) into kind..."; \
 		docker pull $(CATALOG_INDEX_IMAGE); \
-		kind load docker-image --name $(KIND_CLUSTER) $(CATALOG_INDEX_IMAGE); \
+		docker save $(CATALOG_INDEX_IMAGE) -o /tmp/catalog-index-image.tar; \
+		docker exec -i $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images import --digests - < /tmp/catalog-index-image.tar; \
+		rm -f /tmp/catalog-index-image.tar; \
 	fi
 	@if [ -n "$(OPERATOR_IMAGE)" ] && [ -n "$(OPERATOR_IMAGE_RHT)" ]; then \
 		echo "Preloading operator image $(OPERATOR_IMAGE) -> $(OPERATOR_IMAGE_RHT) into kind..."; \
@@ -199,8 +210,16 @@ kind-preload-images:
 	@if [ -n "$(KUBE_RBAC_PROXY_PRODUCT)" ] && [ -n "$(KUBE_RBAC_PROXY_PRODUCT_RHT)" ]; then \
 		echo "Preloading product kube-rbac-proxy $(KUBE_RBAC_PROXY_PRODUCT) -> $(KUBE_RBAC_PROXY_PRODUCT_RHT) into kind..."; \
 		docker pull $(KUBE_RBAC_PROXY_PRODUCT); \
-		kind load docker-image --name $(KIND_CLUSTER) $(KUBE_RBAC_PROXY_PRODUCT); \
-		KUBE_RBAC_RHT_NAME=$$(echo "$(KUBE_RBAC_PROXY_PRODUCT_RHT)" | cut -d'@' -f1); \
-		docker tag $(KUBE_RBAC_PROXY_PRODUCT) $$KUBE_RBAC_RHT_NAME; \
-		kind load docker-image --name $(KIND_CLUSTER) $$KUBE_RBAC_RHT_NAME; \
+		docker save $(KUBE_RBAC_PROXY_PRODUCT) -o /tmp/kube-rbac-proxy-product.tar; \
+		KUBE_RBAC_RHT_BASE=$$(echo "$(KUBE_RBAC_PROXY_PRODUCT_RHT)" | cut -d'@' -f1); \
+		KUBE_RBAC_RHT_DIGEST=$$(echo "$(KUBE_RBAC_PROXY_PRODUCT_RHT)" | cut -d'@' -f2); \
+		docker exec -i $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images import --digests --base-name $$KUBE_RBAC_RHT_BASE - < /tmp/kube-rbac-proxy-product.tar; \
+		MANIFEST_DIGEST=$$(docker exec $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images ls 2>/dev/null | grep "$$KUBE_RBAC_RHT_BASE@" | grep "manifest.v1" | awk '{print $$1}' | head -1 | cut -d'@' -f2); \
+		if [ -n "$$MANIFEST_DIGEST" ] && [ "$$MANIFEST_DIGEST" != "$$KUBE_RBAC_RHT_DIGEST" ]; then \
+			echo "Adding digest alias $$KUBE_RBAC_RHT_DIGEST -> $$MANIFEST_DIGEST in containerd..."; \
+			docker exec $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images tag \
+				"$$KUBE_RBAC_RHT_BASE@$$MANIFEST_DIGEST" \
+				"$$KUBE_RBAC_RHT_BASE@$$KUBE_RBAC_RHT_DIGEST"; \
+		fi; \
+		rm -f /tmp/kube-rbac-proxy-product.tar; \
 	fi
