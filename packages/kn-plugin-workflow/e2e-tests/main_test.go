@@ -59,10 +59,12 @@ func TestMain(m *testing.M) {
 	CatalogIndexImage = os.Getenv("CATALOG_INDEX_IMAGE")
 	OperatorBundleImage = os.Getenv("OPERATOR_BUNDLE_IMAGE")
 	OperatorImage = os.Getenv("OPERATOR_IMAGE")
+	OperatorStartingCSV = os.Getenv("OPERATOR_STARTING_CSV")
 
 	fmt.Printf("🔧 CATALOG_INDEX_IMAGE:   %s\n", orNotSet(CatalogIndexImage))
 	fmt.Printf("🔧 OPERATOR_BUNDLE_IMAGE: %s\n", orNotSet(OperatorBundleImage))
 	fmt.Printf("🔧 OPERATOR_IMAGE:        %s\n", orNotSet(OperatorImage))
+	fmt.Printf("🔧 OPERATOR_STARTING_CSV: %s\n", orNotSet(OperatorStartingCSV))
 	if CatalogIndexImage != "" {
 		fmt.Println("🔧 Custom catalog mode: enabled (product build)")
 	} else {
