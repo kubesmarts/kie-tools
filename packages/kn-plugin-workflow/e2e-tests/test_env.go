@@ -27,3 +27,6 @@ var testPrintCmdOutput = false
 var CatalogIndexImage string
 var OperatorBundleImage string
 var OperatorImage string
+// OperatorStartingCSV pins the subscription to a specific CSV (e.g. "logic-operator.v1.37.3")
+// so OLM never attempts an automatic upgrade during the test run.
+var OperatorStartingCSV string
