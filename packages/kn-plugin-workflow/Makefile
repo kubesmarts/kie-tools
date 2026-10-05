@@ -38,9 +38,6 @@ KIND_VERSION   ?= v0.20.0
 KIND_CLUSTER   ?= kind
 OLM_VERSION     = v0.31.0
 
-KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.13.1
-KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
-
 # Optional: set the following variables to install the operator from a custom OLM CatalogSource
 # (product/OSL builds) instead of the public operatorhubio-catalog.
 # Only CATALOG_INDEX_IMAGE is required to activate the custom-catalog install path.
