@@ -64,6 +64,8 @@ OPERATOR_IMAGE ?=
 OPERATOR_IMAGE_RHT ?=
 KUBE_RBAC_PROXY_PRODUCT ?=
 KUBE_RBAC_PROXY_PRODUCT_RHT ?=
+KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.13.1
+KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 
 ARCH := $(shell uname -m)
 ifeq ($(ARCH),arm64)
@@ -121,7 +123,8 @@ create-cluster: install-kind
 		echo "Copying registry TLS/mirror config into kind node..."; \
 		docker cp $(CONTAINERD_CERTS_SRC)/. $(KIND_CLUSTER)-control-plane:$(CONTAINERD_CERTS_DST)/; \
 		echo "Copying docker credentials into kind node for authenticated registry pulls..."; \
-		docker cp $(HOME)/.docker/config.json $(KIND_CLUSTER)-control-plane:/var/lib/kubelet/config.json; \
+		DOCKER_CFG=$${DOCKER_CONFIG:-$(HOME)/.docker}/config.json; \
+		docker cp $$DOCKER_CFG $(KIND_CLUSTER)-control-plane:/var/lib/kubelet/config.json; \
 		docker exec $(KIND_CLUSTER)-control-plane systemctl restart containerd; \
 		echo "Waiting for containerd to restart..."; \
 		sleep 5; \
