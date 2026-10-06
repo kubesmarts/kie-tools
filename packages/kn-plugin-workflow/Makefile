@@ -37,8 +37,6 @@ LDFLAGS                       := "-X $(SET_QUARKUS_PLATFORM_GROUP_ID) -X $(SET_Q
 KIND_VERSION ?= v0.20.0
 OLM_VERSION = v0.31.0
 KIND_CLUSTER ?= kind
-KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.22.0
-KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.0
 
 # Optional: set the following variables to install the operator from a custom OLM CatalogSource
 # (product/OSL builds) instead of the public operatorhubio-catalog.
@@ -66,7 +64,7 @@ OPERATOR_IMAGE ?=
 OPERATOR_IMAGE_RHT ?=
 KUBE_RBAC_PROXY_PRODUCT ?=
 KUBE_RBAC_PROXY_PRODUCT_RHT ?=
-KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.13.1
+KUBE_RBAC_PROXY_SRC := quay.io/brancz/kube-rbac-proxy:v0.22.0
 KUBE_RBAC_PROXY_DST := gcr.io/kubebuilder/kube-rbac-proxy:v0.13.1
 
 ARCH := $(shell uname -m)
