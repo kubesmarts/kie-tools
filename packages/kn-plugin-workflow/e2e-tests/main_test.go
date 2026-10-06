@@ -55,6 +55,22 @@ func TestMain(m *testing.M) {
 
 	checkAndBuildExecutable()
 
+	// Read custom catalog mode env vars and log them for CI traceability.
+	CatalogIndexImage = os.Getenv("CATALOG_INDEX_IMAGE")
+	OperatorBundleImage = os.Getenv("OPERATOR_BUNDLE_IMAGE")
+	OperatorImage = os.Getenv("OPERATOR_IMAGE")
+	OperatorStartingCSV = os.Getenv("OPERATOR_STARTING_CSV")
+
+	fmt.Printf("🔧 CATALOG_INDEX_IMAGE:   %s\n", orNotSet(CatalogIndexImage))
+	fmt.Printf("🔧 OPERATOR_BUNDLE_IMAGE: %s\n", orNotSet(OperatorBundleImage))
+	fmt.Printf("🔧 OPERATOR_IMAGE:        %s\n", orNotSet(OperatorImage))
+	fmt.Printf("🔧 OPERATOR_STARTING_CSV: %s\n", orNotSet(OperatorStartingCSV))
+	if CatalogIndexImage != "" {
+		fmt.Println("🔧 Custom catalog mode: enabled (product build)")
+	} else {
+		fmt.Println("🔧 Custom catalog mode: disabled (using public catalog)")
+	}
+
 	InstallOperator()
 	// Run tests
 	exitCode := m.Run()
@@ -206,3 +222,4 @@ func isExecAny(filePath string) bool {
 	fileMode := fileInfo.Mode()
 	return fileMode&0111 != 0
 }
+
