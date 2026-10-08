@@ -27,4 +27,9 @@ module.exports = {
     ...babelTransform,
     ...typescriptTransform,
   },
+  moduleNameMapper: {
+    "^vscode-languageserver-types$": require.resolve("vscode-languageserver-types"),
+    "^vscode-languageserver-textdocument$": require.resolve("vscode-languageserver-textdocument"),
+    "^vscode-uri$": require.resolve("vscode-uri"),
+  },
 };

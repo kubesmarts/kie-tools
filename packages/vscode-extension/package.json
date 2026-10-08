@@ -1,20 +1,21 @@
 {
   "name": "@kie-tools-core/vscode-extension",
+  "displayName": "KIE :: Kogito Editors",
   "version": "0.0.0",
   "description": "",
-  "license": "Apache-2.0",
-  "publisher": "kie-group",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
-  "types": "./dist/index.d.ts",
+  "license": "Apache-2.0",
+  "publisher": "kie-group",
   "main": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "src"
@@ -54,6 +55,5 @@
     "rimraf": "^3.0.2",
     "ts-jest": "^29.1.5",
     "typescript": "^5.9.3"
-  },
-  "displayName": "KIE :: Kogito Editors"
+  }
 }

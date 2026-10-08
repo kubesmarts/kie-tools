@@ -52,14 +52,11 @@ class JavaCodeCompletionService implements JavaCodeCompletionApi {
   }
 }
 
-export class VsCodeServerlessWorkflowDiagramEditorFactory
-  implements
-    EditorFactory<
-      ServerlessWorkflowDiagramEditor,
-      ServerlessWorkflowDiagramEditorEnvelopeApi,
-      VsCodeServerlessWorkflowDiagramEditorChannelApi
-    >
-{
+export class VsCodeServerlessWorkflowDiagramEditorFactory implements EditorFactory<
+  ServerlessWorkflowDiagramEditor,
+  ServerlessWorkflowDiagramEditorEnvelopeApi,
+  VsCodeServerlessWorkflowDiagramEditorChannelApi
+> {
   constructor(private readonly gwtEditorEnvelopeConfig: { shouldLoadResourcesDynamically: boolean }) {}
 
   public createEditor(

@@ -82,7 +82,7 @@ export function SwfDiagramSvg({
 
       nodesById.set(node.id, node);
 
-      const { height, width, ...style } = node.style!;
+      const { height, width, x: _x, y: _y, ...style } = node.style!;
 
       //Name is mandatory
       const label = node.data!.swfObject!.name!;
@@ -91,92 +91,92 @@ export function SwfDiagramSvg({
         <g data-kie-swf-node-id={node.id} key={node.id}>
           {node.type === NODE_TYPES.callbackState && (
             <CallbackstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.eventState && (
             <EventstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.foreachState && (
             <ForeachstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.injectState && (
             <InjectstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.operationState && (
             <OperationstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.parallelState && (
             <ParallelstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.sleepState && (
             <SleepstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.switchState && (
             <SwitchstateSvg
+              {...style}
+              {...shapeStyle}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...shapeStyle}
             />
           )}
           {node.type === NODE_TYPES.unknown && (
             <UnknownNodeSvg
+              {...style}
+              {...(shapeStyle as any)}
               width={node.width!}
               height={node.height!}
               x={node.positionAbsolute!.x}
               y={node.positionAbsolute!.y}
-              {...style}
-              {...(shapeStyle as any)}
             />
           )}
           <>

@@ -22,6 +22,7 @@ import { SnapGrid } from "../../store/Store";
 import { snapBoundsDimensions, snapBoundsPosition } from "../SnapGrid";
 import { PositionalNodeHandleId } from "../connections/PositionalNodeHandles";
 import { AutoPositionedEdgeMarker } from "../edges/AutoPositionedEdgeMarker";
+import { NodeType } from "../connections/graphStructure";
 import { NODE_TYPES } from "../nodes/SwfNodeTypes";
 import { NodeSwfObjects } from "../nodes/SwfNodes";
 import { Bounds, getCenter } from "./Maths";
@@ -276,12 +277,12 @@ export function getBounds({
 }
 
 // Fetch node types
-export function getNodeTypeFromSwfObject(swfObject: NodeSwfObjects) {
+export function getNodeTypeFromSwfObject(swfObject: NodeSwfObjects): NodeType | undefined {
   if (!swfObject) {
     return NODE_TYPES.unknown;
   }
 
-  const type = switchExpression(swfObject.type, {
+  const type = switchExpression<string, NodeType | undefined>(swfObject.type, {
     sleep: NODE_TYPES.sleepState,
     event: NODE_TYPES.eventState,
     operation: NODE_TYPES.operationState,

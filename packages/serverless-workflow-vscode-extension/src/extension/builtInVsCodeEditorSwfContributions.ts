@@ -223,7 +223,7 @@ export function setupBuiltInVsCodeEditorSwfContributions(args: {
               insertText:
                 lsCompletionItem.insertTextFormat === ls.InsertTextFormat.Snippet
                   ? new vscode.SnippetString(lsCompletionItem.insertText ?? lsCompletionItem.textEdit?.newText ?? "")
-                  : lsCompletionItem.insertText ?? lsCompletionItem.textEdit?.newText ?? "",
+                  : (lsCompletionItem.insertText ?? lsCompletionItem.textEdit?.newText ?? ""),
               command: lsCompletionItem.command
                 ? {
                     command: COMMAND_IDS.swfLsCommand,
@@ -294,7 +294,7 @@ async function setSwfDiagnostics(
           new vscode.Position(lsDiagnostic.range.start.line, lsDiagnostic.range.start.character),
           new vscode.Position(lsDiagnostic.range.end.line, lsDiagnostic.range.end.character)
         ),
-        lsDiagnostic.message,
+        typeof lsDiagnostic.message === "string" ? lsDiagnostic.message : lsDiagnostic.message.value,
         vscode.DiagnosticSeverity.Warning
       )
   );
