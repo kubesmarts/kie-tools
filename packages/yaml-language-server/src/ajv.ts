@@ -21,4 +21,12 @@ export default class AJVStub {
   compile() {
     return () => true;
   }
+
+  defaultMeta() {
+    return "";
+  }
+
+  getSchema() {
+    return () => true;
+  }
 }
