@@ -22,10 +22,12 @@
 package e2e_tests
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 	"sync"
 	"testing"
 	"time"
@@ -90,6 +92,9 @@ func RunQuarkusRunTest(t *testing.T, cfgTestInputPrepareQuarkusCreateRun CfgTest
 
 	// Create and build the quarkus project
 	projectName := RunQuarkusCreateTest(t, cfgTestInputPrepareQuarkusCreateRun)
+	if t.Failed() {
+		return projectName
+	}
 	projectDir := filepath.Join(TempTestsPath, projectName)
 
 	err = os.Chdir(projectDir)
@@ -101,11 +106,15 @@ func RunQuarkusRunTest(t *testing.T, cfgTestInputPrepareQuarkusCreateRun CfgTest
 	var wg sync.WaitGroup
 	wg.Add(1)
 
-	// Run the `quarkus run` command
+	// runFailed is closed by the goroutine if the run process outputs a fatal error line.
+	runFailed := make(chan string, 1)
+	processDone := make(chan error, 1)
+
+	// Run the `quarkus run` command, watching stdout for early-failure markers.
 	go func() {
 		defer wg.Done()
-		_, err = ExecuteKnWorkflowQuarkusWithCmd(cmd, transformQuarkusRunCmdCfgToArgs(test.input)...)
-		require.Truef(t, err == nil || IsSignalInterrupt(err), "Expected nil error or signal interrupt, got %v", err)
+		_, runErr := executeKnWorkflowQuarkusWithCmdAndErrWatch(cmd, runFailed, transformQuarkusRunCmdCfgToArgs(test.input)...)
+		processDone <- runErr
 	}()
 
 	// Check if the project is successfully run and accessible within a specified time limit.
@@ -118,6 +127,13 @@ func RunQuarkusRunTest(t *testing.T, cfgTestInputPrepareQuarkusCreateRun CfgTest
 	select {
 	case <-ready:
 		cmd.Process.Signal(os.Interrupt)
+	case runErr := <-processDone:
+		if runErr != nil && !IsSignalInterrupt(runErr) {
+			t.Fatalf("quarkus run process exited with error before becoming ready: %v", runErr)
+		}
+	case errLine := <-runFailed:
+		cmd.Process.Signal(os.Interrupt)
+		t.Fatalf("quarkus run process reported a fatal error before becoming ready: %s", errLine)
 	case <-time.After(timeout):
 		t.Fatalf("Test case timed out after %s. The project was not ready within the specified time.", timeout)
 		cmd.Process.Signal(os.Interrupt)
@@ -126,4 +142,43 @@ func RunQuarkusRunTest(t *testing.T, cfgTestInputPrepareQuarkusCreateRun CfgTest
 	wg.Wait()
 
 	return projectName
+}
+
+// executeKnWorkflowQuarkusWithCmdAndErrWatch runs `kn-workflow quarkus <args>` and streams stdout.
+// If a line matching a known fatal-error pattern is seen, it sends that line to errCh so the
+// caller can fail fast without waiting for the process to exit on its own.
+func executeKnWorkflowQuarkusWithCmdAndErrWatch(cmd *exec.Cmd, errCh chan<- string, args ...string) (string, error) {
+	newArgs := append([]string{"quarkus"}, args...)
+	cmd.Args = append([]string{cmd.Path}, newArgs...)
+
+	stdoutPipe, err := cmd.StdoutPipe()
+	if err != nil {
+		return "", fmt.Errorf("failed to create stdout pipe: %w", err)
+	}
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Start(); err != nil {
+		return "", fmt.Errorf("failed to start process: %w", err)
+	}
+
+	var buf strings.Builder
+	scanner := bufio.NewScanner(stdoutPipe)
+	for scanner.Scan() {
+		line := scanner.Text()
+		buf.WriteString(line + "\n")
+		if *TestPrintCmdOutput {
+			fmt.Println(line)
+		}
+		// Detect the kn-workflow error prefix — means Maven failed and the process
+		// is stuck in ReadyCheck; signal failure immediately rather than timing out.
+		if strings.HasPrefix(line, "❌ ERROR:") {
+			select {
+			case errCh <- line:
+			default:
+			}
+		}
+	}
+
+	runErr := cmd.Wait()
+	return buf.String(), runErr
 }
