@@ -91,6 +91,7 @@ func TestDeployProjectSuccess(t *testing.T) {
 			require.NoErrorf(t, err, "Expected nil error, got %v", err)
 
 			cmd := command.NewDeployCommand()
+			cmd.SetArgs([]string{})
 			err = cmd.Execute()
 			require.NoError(t, err)
 		})
@@ -202,6 +203,7 @@ func TestDeployProjectSuccessWithoutResultEventRef(t *testing.T) {
 
 	t.Run(fmt.Sprintf("Test deploy project with resultEventRef"), func(t *testing.T) {
 		cmd := command.NewDeployCommand()
+		cmd.SetArgs([]string{})
 		err = cmd.Execute()
 		require.NoError(t, err)
 	})
