@@ -162,8 +162,9 @@ kind-preload-images:
 	@if [ -n "$(KUBE_RBAC_PROXY_SRC)" ] && [ -n "$(KUBE_RBAC_PROXY_DST)" ]; then \
 		echo "Preloading kube-rbac-proxy image $(KUBE_RBAC_PROXY_SRC) -> $(KUBE_RBAC_PROXY_DST) into kind..."; \
 		docker pull $(KUBE_RBAC_PROXY_SRC); \
-		docker save $(KUBE_RBAC_PROXY_SRC) -o /tmp/kube-rbac-proxy.tar; \
-		docker exec -i $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images import --digests --base-name $(KUBE_RBAC_PROXY_DST) - < /tmp/kube-rbac-proxy.tar; \
+		docker tag $(KUBE_RBAC_PROXY_SRC) $(KUBE_RBAC_PROXY_DST); \
+		docker save $(KUBE_RBAC_PROXY_DST) -o /tmp/kube-rbac-proxy.tar; \
+		docker exec -i $(KIND_CLUSTER)-control-plane ctr --namespace k8s.io images import --digests - < /tmp/kube-rbac-proxy.tar; \
 		rm -f /tmp/kube-rbac-proxy.tar; \
 	fi
 	@if [ -n "$(CATALOG_INDEX_IMAGE)" ]; then \
