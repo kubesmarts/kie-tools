@@ -34,6 +34,8 @@ env:
   QUARKUS_PLATFORM_version: "3.33.2.SP2-redhat-00002"
   QUARKUS_version: "3.33.2.redhat-00008"
   QUARKUS_PLATFORM_GROUPID: "com.redhat.quarkus.platform"
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  MAVEN_REPO_TOKEN: ${{ github.token }}
 
 permissions:
   packages: read
