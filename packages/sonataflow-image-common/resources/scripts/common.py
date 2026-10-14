@@ -167,7 +167,7 @@ def update_quarkus_platform_groupid(quarkus_platform_groupid):
 def update_quarkus_platform_version(quarkus_platform_version):
     """
     Update quarkus_platform_version version into images/modules
-    :param quarkus_platform_version: quarkus version to set
+    :param quarkus_platform_version: quarkus platform version to set
     """
     print("Setting Quarkus Platform version: " + quarkus_platform_version)
     update_env_value(QUARKUS_PLATFORM_VERSION_ENV_KEY, quarkus_platform_version)

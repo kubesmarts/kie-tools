@@ -34,7 +34,7 @@ if __name__ == "__main__":
     parser.add_argument('--bump-to', dest='bump_to', help='Bump all images and yamls to the next version')
     parser.add_argument('--source-folder', dest='source_folder')
     parser.add_argument('--quarkus-groupid', dest='quarkus_groupid', help='Sets the image Quarkus groupId')
-    parser.add_argument('--quarkus-version', dest='quarkus_version', help='Sets the image Quarkus Platform Version')
+    parser.add_argument('--quarkus-version', dest='quarkus_version', help='Sets the image Quarkus Version')
     parser.add_argument('--quarkus-platform-version', dest='quarkus_platform_version', help='Sets the image Quarkus Platform Version')
     parser.add_argument('--kogito-version', dest='kogito_version', help='Sets the image Kogito Version')
     parser.add_argument('--sonataflow-quarkus-devui-version', dest='sonataflow_quarkus_devui_version', help='Sets the image SonataFlow Quarkus DevUI Version', required=False)
