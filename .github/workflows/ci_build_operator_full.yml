@@ -126,7 +126,6 @@ jobs:
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
           eval "pnpm -r -F '@kie-tools/sonataflow-operator...' --workspace-concurrency=1 build:prod"
