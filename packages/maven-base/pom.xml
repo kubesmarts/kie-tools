@@ -137,7 +137,7 @@
     <version.org.kie.kogito>111-SNAPSHOT</version.org.kie.kogito>
 
     <!-- Quarkus -->
-    <version.quarkus>3.33.3.2</version.quarkus>
+    <version.quarkus>3.33.4</version.quarkus>
 
     <!-- 3rd party dependencies -->
     <version.junit>4.13.2</version.junit>
@@ -148,7 +148,7 @@
     <version.org.junit.jupiter>6.0.3</version.org.junit.jupiter>
     <version.org.mockito>5.18.0</version.org.mockito>
     <version.org.kie.j2cl.tools.yaml.mapper>0.8</version.org.kie.j2cl.tools.yaml.mapper>
-    <version.io.netty>4.1.138.Final</version.io.netty>
+    <version.io.netty>4.1.139.Final</version.io.netty>
   </properties>
 
   <dependencyManagement>
