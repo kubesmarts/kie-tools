@@ -26,13 +26,13 @@ set -e
 # quarkus_version is used for io.quarkus core artifacts (e.g. quarkus-resteasy-reactive).
 # It is set independently from QUARKUS_PLATFORM_VERSION because the platform may be rebuilt
 # for a security patch while core libraries retain their original version (e.g. 3.33.2.redhat-XXXXX
-# vs 3.33.2.SP2-redhat-XXXXX). Falls back to QUARKUS_PLATFORM_VERSION only if QUARKUS_VERSION
-# was not baked in during the image build.
-if [[ -n "${QUARKUS_VERSION}" && "${QUARKUS_VERSION}" != \#\#\#* ]]; then
-  quarkus_version="${QUARKUS_VERSION}"
-else
-  quarkus_version="${QUARKUS_PLATFORM_VERSION}"
+# vs 3.33.2.SP2-redhat-XXXXX). io.quarkus:* artifacts never carry the platform SP version, so
+# falling back to QUARKUS_PLATFORM_VERSION would always produce an unresolvable artifact coordinate.
+if [[ -z "${QUARKUS_VERSION}" || "${QUARKUS_VERSION}" == \#\#\#* ]]; then
+  echo "ERROR: QUARKUS_VERSION is not set or was not baked in during the image build (got: '${QUARKUS_VERSION}'). The image may have been built incorrectly." >&2
+  exit 1
 fi
+quarkus_version="${QUARKUS_VERSION}"
 kogito_version="${KOGITO_VERSION}"
 
 # shellcheck source=/dev/null
