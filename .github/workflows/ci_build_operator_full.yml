@@ -31,8 +31,11 @@ env:
   KOGITO_RUNTIME_branch: "main"
   SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
   SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
-  QUARKUS_PLATFORM_version: "3.33.4"
-  QUARKUS_VERSION: "3.33.4"
+  QUARKUS_PLATFORM_version: "3.33.2.SP2-redhat-00002"
+  QUARKUS_version: "3.33.2.redhat-00008"
+  QUARKUS_PLATFORM_GROUPID: "com.redhat.quarkus.platform"
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  MAVEN_REPO_TOKEN: ${{ github.token }}
 
 permissions:
   packages: read
@@ -123,7 +126,6 @@ jobs:
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
           eval "pnpm -r -F '@kie-tools/sonataflow-operator...' --workspace-concurrency=1 build:prod"
