@@ -1,17 +1,17 @@
 {
-  "private": true,
   "name": "@kie-tools/sonataflow-builder-image",
   "version": "0.0.0",
+  "private": true,
   "description": "",
-  "license": "Apache-2.0",
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
   "scripts": {
     "build": "run-script-if --bool \"$(build-env containerImages.build)\" --then \"pnpm m2-repo-via-http:container:run\" \"pnpm copy-assets\" \"pnpm test\" \"pnpm image:build\" --finally \"pnpm m2-repo-via-http:container:kill\" \"rimraf ./dist/tmp-m2\"",
     "build:dev": "pnpm build",

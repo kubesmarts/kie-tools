@@ -2,20 +2,20 @@
   "name": "@kie-tools/playwright-base",
   "version": "0.0.0",
   "description": "",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "main": "dist/bin.js",
   "bin": {
     "playwright-base-container": "bin.js"
   },
-  "main": "dist/bin.js",
   "files": [
     "bin.js",
     "dist",
@@ -36,7 +36,7 @@
     "@kie-tools-scripts/run-script-if": "workspace:*",
     "@kie-tools/root-env": "workspace:*",
     "@kie-tools/tsconfig": "workspace:*",
-    "@playwright/test": "^1.45.2",
+    "@playwright/test": "^1.63.0",
     "@types/yargs": "^17.0.35",
     "rimraf": "^3.0.2",
     "run-script-os": "^1.1.6",

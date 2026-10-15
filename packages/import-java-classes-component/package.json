@@ -2,10 +2,10 @@
   "name": "@kie-tools/import-java-classes-component",
   "version": "0.0.0",
   "description": "This component imports Java classes as data types",
-  "license": "Apache-2.0",
   "keywords": [],
-  "types": "dist/index.d.ts",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build:dev": "rimraf dist && pnpm copy:css && tsc -p tsconfig.json",
     "build:prod": "rimraf dist && pnpm copy:css && pnpm lint && tsc -p tsconfig.json && pnpm test",

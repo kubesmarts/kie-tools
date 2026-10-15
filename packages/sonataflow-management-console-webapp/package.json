@@ -1,17 +1,17 @@
 {
   "name": "@kie-tools/sonataflow-management-console-webapp",
   "version": "0.0.0",
-  "license": "Apache-2.0",
-  "author": "",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "build:dev": "rimraf dist && webpack --env dev",

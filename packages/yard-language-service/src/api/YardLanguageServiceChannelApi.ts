@@ -48,5 +48,6 @@ export type YardLanguageServiceCommandHandlers = EditorLanguageServiceCommandHan
   YardLanguageServiceCommandArgs
 >;
 
-export interface YardLanguageServiceCommandExecution<T extends YardLanguageServiceCommandTypes>
-  extends EditorLanguageServiceCommandExecution<T, YardLanguageServiceCommandArgs> {}
+export interface YardLanguageServiceCommandExecution<
+  T extends YardLanguageServiceCommandTypes,
+> extends EditorLanguageServiceCommandExecution<T, YardLanguageServiceCommandArgs> {}

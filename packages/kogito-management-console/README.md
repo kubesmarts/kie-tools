@@ -68,7 +68,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
 
 1. Run a container with custom environment variables:
 
-   [comment]: <> (//TODO: Use EnvJson.schema.json to generate this documentation somehow.. See https://github.com/kiegroup/kie-issues/issues/16)
+   [comment]: <> "//TODO: Use EnvJson.schema.json to generate this documentation somehow.. See https://github.com/kiegroup/kie-issues/issues/16"
 
    |                             Name                              |                             Description                              |                                            Default                                            |
    | :-----------------------------------------------------------: | :------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------: |
@@ -77,7 +77,6 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
    | `RUNTIME_TOOLS_MANAGEMENT_CONSOLE_OIDC_CLIENT_DEFAULT_SCOPES` | OpenID Connect default scopes when connecting to Identity Providers. | See [ defaultEnvJson.js ](../runtime-tools-management-console-webapp/build/defaultEnvJson.js) |
 
    ### Examples
-
    1. Using a different Client ID.
 
       ```bash

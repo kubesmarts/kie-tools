@@ -1,17 +1,17 @@
 {
-  "private": true,
   "name": "@osl/osl-management-console-image",
   "version": "0.0.0",
+  "private": true,
   "description": "Red Hat OpenShift Serverless Logic Management Console Image",
-  "license": "Apache-2.0",
   "homepage": "https://github.com/kiegroup/kie-tools",
+  "bugs": {
+    "url": "https://github.com/kiegroup/kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kiegroup/kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/kiegroup/kie-tools/issues"
-  },
+  "license": "Apache-2.0",
   "scripts": {
     "build:dev": "run-script-os",
     "build:dev:linux:darwin": "pnpm image:cekit:dist",

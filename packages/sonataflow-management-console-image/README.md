@@ -68,7 +68,7 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
 
 1. Run a container with custom environment variables:
 
-   [comment]: <> (//TODO: Use EnvJson.schema.json to generate this documentation somehow.. See https://github.com/kiegroup/kie-issues/issues/16)
+   [comment]: <> "//TODO: Use EnvJson.schema.json to generate this documentation somehow.. See https://github.com/kiegroup/kie-issues/issues/16"
 
    |                        Name                         |                          Description                          |                                          Default                                           |
    | :-------------------------------------------------: | :-----------------------------------------------------------: | :----------------------------------------------------------------------------------------: |
@@ -84,7 +84,6 @@ This package contains the `Containerfile/Dockerfile` and scripts to build a cont
    |        `KOGITO_CONSOLES_KEYCLOAK_CLIENT_ID`         |                      Keycloak Client ID.                      | See [ defaultEnvJson.ts ](../sonataflow-management-console-webapp/build/defaultEnvJson.ts) |
 
    ### Examples
-
    1. Using a different Data Index Service.
 
       ```bash

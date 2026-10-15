@@ -1,18 +1,18 @@
 {
-  "private": true,
   "name": "@kie-tools/sonataflow-dev-app",
   "version": "0.0.0",
-  "license": "Apache-2.0",
-  "author": "",
+  "private": true,
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "lint": "run-script-if --bool \"$(build-env linters.run)\" --then \"kie-tools--eslint ./src\"",

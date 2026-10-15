@@ -2,16 +2,16 @@
   "name": "@kie-tools/serverless-workflow-editor",
   "version": "0.0.0",
   "description": "",
-  "license": "Apache-2.0",
   "keywords": [],
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
   "files": [
     "dist",
     "src"
@@ -73,7 +73,7 @@
     "@kie-tools/root-env": "workspace:*",
     "@kie-tools/storybook-base": "workspace:*",
     "@kie-tools/tsconfig": "workspace:*",
-    "@playwright/test": "^1.45.2",
+    "@playwright/test": "^1.63.0",
     "@storybook/addon-links": "^8.4.2",
     "@storybook/addon-webpack5-compiler-babel": "^3.0.5",
     "@storybook/blocks": "^8.4.2",

@@ -2,22 +2,22 @@
   "name": "@kie-tools/uniforms-patternfly",
   "version": "0.0.0",
   "description": "Patternfly forms for uniforms",
+  "keywords": [],
+  "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/incubator-kie-tools.git"
+  },
   "license": "Apache-2.0",
   "author": {
     "name": "Gianluca",
     "email": "gzuccare@redhat.com"
   },
-  "keywords": [],
-  "homepage": "https://github.com/apache/incubator-kie-tools",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/apache/incubator-kie-tools.git"
-  },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
-  "types": "./dist/esm/index.d.ts",
   "main": "dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "files": [
     "dist"
   ],

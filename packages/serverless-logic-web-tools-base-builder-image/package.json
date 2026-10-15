@@ -1,17 +1,17 @@
 {
-  "private": true,
   "name": "@kie-tools/serverless-logic-web-tools-base-builder-image",
   "version": "0.0.0",
+  "private": true,
   "description": "",
-  "license": "Apache-2.0",
   "homepage": "https://github.com/apache/incubator-kie-tools",
+  "bugs": {
+    "url": "https://github.com/apache/incubator-kie-tools/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/apache/incubator-kie-tools.git"
   },
-  "bugs": {
-    "url": "https://github.com/apache/incubator-kie-tools/issues"
-  },
+  "license": "Apache-2.0",
   "scripts": {
     "build:dev": "echo Nothing to do",
     "build:prod": "pnpm cleanup && run-script-os",
