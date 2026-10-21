@@ -29,4 +29,4 @@ envs:
     # When adding Quarkus extensions remember to also add the `deployment` counterpart of each dependency.
     # This is required because they are not transitive dependencies, but added by Quarkus during the `quarkus-plugin` and built time execution.
   - name: ADDITIONAL_DEPENDENCIES
-    value: org.kie:kie-addons-quarkus-persistence-jdbc:${KOGITO_VERSION},org.kie:kie-addons-quarkus-persistence-jdbc-deployment:${KOGITO_VERSION},io.quarkus:quarkus-jdbc-postgresql:${QUARKUS_PLATFORM_VERSION},io.quarkus:quarkus-jdbc-postgresql-deployment:${QUARKUS_PLATFORM_VERSION}
+    value: org.kie:kie-addons-quarkus-persistence-jdbc:${KOGITO_VERSION},org.kie:kie-addons-quarkus-persistence-jdbc-deployment:${KOGITO_VERSION},io.quarkus:quarkus-jdbc-postgresql:${QUARKUS_VERSION},io.quarkus:quarkus-jdbc-postgresql-deployment:${QUARKUS_VERSION}

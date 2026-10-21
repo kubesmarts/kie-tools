@@ -108,6 +108,24 @@ runs:
         sed -i '' "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${{ inputs.KOGITO_VERSION }}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
         echo "::endgroup::"
 
+    - name: Update version.quarkus in maven-base pom.xml (Linux)
+      if: runner.os == 'Linux' && env.QUARKUS_version != ''
+      shell: bash
+      run: |
+        echo "::group::Update version.quarkus in maven-base pom.xml (Linux)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
+    - name: Update version.quarkus in maven-base pom.xml (macOS)
+      if: runner.os == 'macOS' && env.QUARKUS_version != ''
+      shell: bash
+      run: |
+        echo "::group::Update version.quarkus in maven-base pom.xml (macOS)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i '' "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
     - name: Run pnpm bootstrap - second time
       run: |
         echo "::group::Run pnpm bootstrap - second time"
@@ -169,6 +187,54 @@ runs:
         echo "Detected version.kogito: $ROOT_ENV_KOGITO_VERSION"
         if [ "$ROOT_ENV_KOGITO_VERSION" != "${{ inputs.KOGITO_VERSION }}"  ]; then
           echo "Root-env KOGITO_VERSION is not ${{ inputs.KOGITO_VERSION }}, got: $ROOT_ENV_KOGITO_VERSION"
+          exit 1
+        fi
+        echo "::endgroup::"
+
+    - name: Verify maven-base version.quarkus
+      shell: bash
+      run: |
+        echo "::group::Verify maven-base version.quarkus"
+        cd ${{ inputs.WORKING_DIR }}
+        if [ -z "${QUARKUS_version:-}" ]; then
+          echo "QUARKUS_version is not set, skipping verification."
+          echo "::endgroup::"
+          exit 0
+        fi
+        MAVEN_BASE_QUARKUS_VERSION=$(mvn help:evaluate \
+          -Dexpression=version.quarkus \
+          -q -DforceStdout \
+          -f packages/maven-base/pom.xml)
+
+        echo "Detected version.quarkus: $MAVEN_BASE_QUARKUS_VERSION"
+        if [ "$MAVEN_BASE_QUARKUS_VERSION" != "${QUARKUS_version}" ]; then
+          echo "Maven-base version.quarkus is not ${QUARKUS_version}, got: $MAVEN_BASE_QUARKUS_VERSION"
+          exit 1
+        fi
+        echo "::endgroup::"
+
+    - name: Verify root-env versions.quarkus and versions.quarkusPlatform
+      shell: bash
+      run: |
+        echo "::group::Verify root-env versions.quarkus and versions.quarkusPlatform"
+        cd ${{ inputs.WORKING_DIR }}
+        if [ -z "${QUARKUS_version:-}" ] || [ -z "${QUARKUS_PLATFORM_version:-}" ]; then
+          echo "QUARKUS_version or QUARKUS_PLATFORM_version is not set, skipping verification."
+          echo "::endgroup::"
+          exit 0
+        fi
+        ROOT_ENV_QUARKUS_VERSION=$(node -p "require('./packages/root-env/env').env.versions.quarkus")
+        ROOT_ENV_QUARKUS_PLATFORM_VERSION=$(node -p "require('./packages/root-env/env').env.versions.quarkusPlatform")
+
+        echo "Detected versions.quarkus: $ROOT_ENV_QUARKUS_VERSION"
+        echo "Detected versions.quarkusPlatform: $ROOT_ENV_QUARKUS_PLATFORM_VERSION"
+
+        if [ "$ROOT_ENV_QUARKUS_VERSION" != "${QUARKUS_version}" ]; then
+          echo "Root-env versions.quarkus is not ${QUARKUS_version}, got: $ROOT_ENV_QUARKUS_VERSION"
+          exit 1
+        fi
+        if [ "$ROOT_ENV_QUARKUS_PLATFORM_VERSION" != "${QUARKUS_PLATFORM_version}" ]; then
+          echo "Root-env versions.quarkusPlatform is not ${QUARKUS_PLATFORM_version}, got: $ROOT_ENV_QUARKUS_PLATFORM_VERSION"
           exit 1
         fi
         echo "::endgroup::"

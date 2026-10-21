@@ -29,7 +29,7 @@
     "image:cekit:dist": "pnpm cleanup && pnpm copy:assets && pnpm image:cekit:copy && pnpm image:cekit:cache:artifacts && pnpm image:cekit:fixversions && pnpm format",
     "image:cekit:fixversions": "pnpm setup:env make -C ./dist _fix_platform_versions",
     "install": "node install.js && pnpm format",
-    "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env oslManagementConsoleImage.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env oslManagementConsoleImage.account) KOGITO_IMAGE_NAME=$(build-env oslManagementConsoleImage.name) KOGITO_IMAGE_TAG=$(build-env oslManagementConsoleImage.buildTag) QUARKUS_PLATFORM_GROUPID=$(build-env kogitoImagesCekitModules.quarkusGroupId) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkus) KOGITO_VERSION=$(build-env versions.kogito) SONATAFLOW_MANAGEMENT_CONSOLE_PORT=$(build-env oslManagementConsoleImage.port)"
+    "setup:env": ". ./node_modules/@osl/redhat-python-venv/venv/bin/activate && cross-env KOGITO_IMAGE_REGISTRY=$(build-env oslManagementConsoleImage.registry) KOGITO_IMAGE_REGISTRY_ACCOUNT=$(build-env oslManagementConsoleImage.account) KOGITO_IMAGE_NAME=$(build-env oslManagementConsoleImage.name) KOGITO_IMAGE_TAG=$(build-env oslManagementConsoleImage.buildTag) QUARKUS_PLATFORM_GROUPID=$(build-env kogitoImagesCekitModules.quarkusGroupId) QUARKUS_VERSION=$(build-env versions.quarkus) QUARKUS_PLATFORM_VERSION=$(build-env versions.quarkusPlatform) KOGITO_VERSION=$(build-env versions.kogito) SONATAFLOW_MANAGEMENT_CONSOLE_PORT=$(build-env oslManagementConsoleImage.port)"
   },
   "devDependencies": {
     "@kie-tools/image-env-to-json": "workspace:*",
