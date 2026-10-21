@@ -24,8 +24,7 @@ export type PartialWithMandatoryDefault<K extends SwitchExpressionValue, V> =
   { default: V } & Partial<Record<K, V>>;
 
 export type SwitchExpressionCases<K extends SwitchExpressionValue, V> =
-  | PartialWithMandatoryDefault<K, V>
-  | Record<K, V>;
+  PartialWithMandatoryDefault<K, V> | Record<K, V>;
 
 export const switchExpression = <
   S extends SwitchExpressionValue,

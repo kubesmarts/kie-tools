@@ -21,5 +21,4 @@ import { JavaCodeCompletionChannelApi } from "@kie-tools-core/vscode-java-code-c
 import { ServerlessWorkflowDiagramEditorChannelApi } from "../../api";
 
 export interface VsCodeServerlessWorkflowDiagramEditorChannelApi
-  extends ServerlessWorkflowDiagramEditorChannelApi,
-    JavaCodeCompletionChannelApi {}
+  extends ServerlessWorkflowDiagramEditorChannelApi, JavaCodeCompletionChannelApi {}

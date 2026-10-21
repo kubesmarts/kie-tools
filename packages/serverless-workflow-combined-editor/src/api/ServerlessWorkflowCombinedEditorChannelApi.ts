@@ -23,7 +23,8 @@ import { SwfPreviewOptionsChannelApi } from "./SwfPreviewOptionsChannelApi";
 import { SwfStaticEnvelopeContentProviderChannelApi } from "./SwfStaticEnvelopeContentProviderChannelApi";
 
 export interface ServerlessWorkflowCombinedEditorChannelApi
-  extends KogitoEditorChannelApi,
+  extends
+    KogitoEditorChannelApi,
     SwfLanguageServiceChannelApi,
     SwfPreviewOptionsChannelApi,
     SwfStaticEnvelopeContentProviderChannelApi {

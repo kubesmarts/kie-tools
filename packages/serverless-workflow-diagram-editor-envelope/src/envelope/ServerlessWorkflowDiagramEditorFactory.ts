@@ -44,14 +44,11 @@ export interface CustomWindow {
 
 declare let window: CustomWindow;
 
-export class ServerlessWorkflowDiagramEditorFactory
-  implements
-    EditorFactory<
-      ServerlessWorkflowDiagramEditor,
-      ServerlessWorkflowDiagramEditorEnvelopeApi,
-      ServerlessWorkflowDiagramEditorChannelApi
-    >
-{
+export class ServerlessWorkflowDiagramEditorFactory implements EditorFactory<
+  ServerlessWorkflowDiagramEditor,
+  ServerlessWorkflowDiagramEditorEnvelopeApi,
+  ServerlessWorkflowDiagramEditorChannelApi
+> {
   constructor(private readonly gwtEditorEnvelopeConfig: { shouldLoadResourcesDynamically: boolean }) {}
 
   public createEditor(

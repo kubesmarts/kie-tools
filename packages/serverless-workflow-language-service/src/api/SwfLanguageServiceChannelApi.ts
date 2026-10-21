@@ -71,5 +71,6 @@ export type SwfLanguageServiceCommandHandlers = EditorLanguageServiceCommandHand
   SwfLanguageServiceCommandArgs
 >;
 
-export interface SwfLanguageServiceCommandExecution<T extends SwfLanguageServiceCommandTypes>
-  extends EditorLanguageServiceCommandExecution<T, SwfLanguageServiceCommandArgs> {}
+export interface SwfLanguageServiceCommandExecution<
+  T extends SwfLanguageServiceCommandTypes,
+> extends EditorLanguageServiceCommandExecution<T, SwfLanguageServiceCommandArgs> {}

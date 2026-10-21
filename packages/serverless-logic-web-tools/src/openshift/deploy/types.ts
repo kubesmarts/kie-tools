@@ -50,8 +50,7 @@ export enum DeploymentStrategyKind {
 }
 
 export type DeploymentStrategyFactoryArgs =
-  | { kind: DeploymentStrategyKind.KOGITO_SWF_MODEL }
-  | { kind: DeploymentStrategyKind.KOGITO_PROJECT };
+  { kind: DeploymentStrategyKind.KOGITO_SWF_MODEL } | { kind: DeploymentStrategyKind.KOGITO_PROJECT };
 
 export interface InitDeployArgs {
   factoryArgs: DeploymentStrategyFactoryArgs;

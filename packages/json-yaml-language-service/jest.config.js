@@ -22,7 +22,7 @@ const { config, babelTransform, typescriptTransform } = require("@kie-tools/jest
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
   ...config,
-  testEnvironment: "jsdom",
+  testEnvironment: "node",
   transform: {
     ...babelTransform,
     ...typescriptTransform,

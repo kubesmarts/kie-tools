@@ -239,8 +239,8 @@ async function getPartitions(): Promise<Array<None | Full | Partial>> {
       );
 
       const relevantPackageNamesInPartition = new Set(
-        [...(await getDirsOfDependencies(affectedPackageNamesInPartition))].map(
-          (pkgDir) => packageNamesByDir.get(pkgDir)!
+        [...(await getDirsOfDependencies(affectedPackageNamesInPartition))].map((pkgDir) =>
+          packageNamesByDir.get(pkgDir)!
         )
       );
 
