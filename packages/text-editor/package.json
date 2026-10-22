@@ -42,7 +42,7 @@
     "@kie-tools/tsconfig": "workspace:*",
     "@types/react": "^17.0.6",
     "rimraf": "^3.0.2",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^3.0.13",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {

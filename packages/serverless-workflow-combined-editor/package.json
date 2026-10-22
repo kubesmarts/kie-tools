@@ -63,7 +63,7 @@
     "csp-html-webpack-plugin": "^5.1.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "rimraf": "^3.0.2",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^3.0.13",
     "typescript": "^5.9.3",
     "vscode-json-languageservice": "^4.2.1",
     "webpack": "^5.104.1",
