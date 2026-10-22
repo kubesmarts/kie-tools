@@ -46,7 +46,7 @@
     "@storybook/theming": "^8.4.2",
     "@types/vscode": "1.67.0",
     "rimraf": "^3.0.2",
-    "storybook": "^8.4.2",
+    "storybook": "^8.6.19",
     "typescript": "^5.9.3",
     "webpack": "^5.104.1",
     "webpack-merge": "^5.9.0"
