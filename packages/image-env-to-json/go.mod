@@ -3,7 +3,7 @@ module github.com/apache/incubator-kie-tools/packages/image-env-to-json
 go 1.26.0
 
 require (
-	github.com/santhosh-tekuri/jsonschema/v6 v6.0.1
+	github.com/santhosh-tekuri/jsonschema/v6 v6.0.3
 	github.com/spf13/cobra v1.8.1
 	github.com/stretchr/testify v1.10.0
 )
