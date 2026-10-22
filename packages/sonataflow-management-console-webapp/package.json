@@ -96,7 +96,7 @@
     "node-polyfill-webpack-plugin": "^4.1.0",
     "rimraf": "^3.0.2",
     "sass-loader": "^13.3.0",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^3.0.13",
     "stream-http": "^3.2.0",
     "style-loader": "^2.0.0",
     "svg-url-loader": "^8.0.0",
