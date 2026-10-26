@@ -17,6 +17,7 @@ overrides:
   flatted: ^3.4.4
   form-data: ^4.0.6
   http-cache-semantics: ^4.3.0
+  launch-editor: ^2.14.2
   immutable@^3: ^3.8.4
   '@apidevtools/json-schema-ref-parser>js-yaml': ^3.14.2
   '@istanbuljs/load-nyc-config>js-yaml': ^3.14.2
@@ -17488,8 +17489,8 @@ packages:
     resolution: {integrity: sha512-OlT0qgHj0W7hJQdc0HzbdYUpK3LcMaKg43yqeEsUsq1gCAldfzEaMyhifNylMud3dWglPQ+5Jt6sFyIr3XTdvg==}
     engines: {node: '>=14'}
 
-  launch-editor@2.14.1:
-    resolution: {integrity: sha512-QWBrQsMpH7gPr965dsKD/3cKWiNoTjpATQf++Xq63N6sKRGMwlVXz41O1IZTMfZQgBctD/K5Zt06+/I6pP6+HA==}
+  launch-editor@2.14.2:
+    resolution: {integrity: sha512-NHJEb30MGBCkmZXLZwz25t37QR4aY03ZzPYUJXOJaOa92uWwExI9SBQUuIznBYc1xkD7cJNGX7oc3Nl3sq2kQQ==}
 
   lazy-ass@2.0.3:
     resolution: {integrity: sha512-/O3/DoQmI1XAhklDvF1dAjFf/epE8u3lzOZegQfLZ8G7Ud5bTRSZiFOpukHCu6jODrCA4gtIdwUCC7htxcDACA==}
@@ -34374,7 +34375,7 @@ snapshots:
       '@kubernetes-models/validate': 3.0.0
       tslib: 2.8.1
 
-  launch-editor@2.14.1:
+  launch-editor@2.14.2:
     dependencies:
       picocolors: 1.1.1
       shell-quote: 1.12.0
@@ -38885,7 +38886,7 @@ snapshots:
       graceful-fs: 4.2.11
       http-proxy-middleware: 2.0.10(@types/express@4.17.25)
       ipaddr.js: 2.4.0
-      launch-editor: 2.14.1
+      launch-editor: 2.14.2
       open: 10.2.0
       p-retry: 6.2.1
       schema-utils: 4.3.3
@@ -38925,7 +38926,7 @@ snapshots:
       graceful-fs: 4.2.11
       http-proxy-middleware: 2.0.10(@types/express@4.17.25)
       ipaddr.js: 2.4.0
-      launch-editor: 2.14.1
+      launch-editor: 2.14.2
       open: 10.2.0
       p-retry: 6.2.1
       schema-utils: 4.3.3
