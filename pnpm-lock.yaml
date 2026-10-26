@@ -14,6 +14,7 @@ overrides:
   decode-uri-component: ^0.2.2
   dset: ^3.1.4
   engine.io: ^6.6.10
+  flatted: ^3.4.4
   immutable@^3: ^3.8.4
   '@apidevtools/json-schema-ref-parser>js-yaml': ^3.14.2
   '@istanbuljs/load-nyc-config>js-yaml': ^3.14.2
@@ -15843,8 +15844,8 @@ packages:
     resolution: {integrity: sha512-b6suED+5/3rTpUBdG1gupIl8MPFCAMA0QXwmljLhvCUKcUvdE4gWky9zpuGCcXHOsz4J9wPGNWq6OKpmIzz3hQ==}
     hasBin: true
 
-  flatted@3.2.4:
-    resolution: {integrity: sha512-8/sOawo8tJ4QOBX8YlQBMxL8+RLZfxMQOif9o0KUKTNTjMYElWPE0r/m5VNFxTRd0NSw8qSy8dajrwX4RYI1Hw==}
+  flatted@3.4.4:
+    resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
 
   focus-trap@7.5.4:
     resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
@@ -32188,12 +32189,12 @@ snapshots:
 
   flat-cache@3.0.4:
     dependencies:
-      flatted: 3.2.4
+      flatted: 3.4.4
       rimraf: 3.0.2
 
   flat@5.0.2: {}
 
-  flatted@3.2.4: {}
+  flatted@3.4.4: {}
 
   focus-trap@7.5.4:
     dependencies:
@@ -34537,7 +34538,7 @@ snapshots:
     dependencies:
       date-format: 4.0.3
       debug: 4.4.3
-      flatted: 3.2.4
+      flatted: 3.4.4
       rfdc: 1.4.1
       streamroller: 3.0.2
     transitivePeerDependencies:
