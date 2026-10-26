@@ -30,6 +30,7 @@ overrides:
   ua-parser-js: ^0.7.41
   webpack-dev-middleware: ^7.4.6
   ws: ^8.22.0
+  yaml: ^2.9.1
   immutable@^3: ^3.8.4
   '@apidevtools/json-schema-ref-parser>js-yaml': ^3.14.2
   '@istanbuljs/load-nyc-config>js-yaml': ^3.14.2
@@ -3302,8 +3303,8 @@ importers:
         specifier: ^1.1.6
         version: 1.1.6(patch_hash=82e28a047ef68998aa768f2d01885d4c96b061f05645c133026c22738f9a8753)
       yaml:
-        specifier: ^2.8.3
-        version: 2.8.3
+        specifier: ^2.9.1
+        version: 2.9.1
 
   packages/runtime-tools-management-console-webapp:
     dependencies:
@@ -4854,8 +4855,8 @@ importers:
         specifier: ^3.16.0
         version: 3.17.2
       yaml:
-        specifier: ^2.8.3
-        version: 2.8.3
+        specifier: ^2.9.1
+        version: 2.9.1
     devDependencies:
       '@babel/core':
         specifier: ^7.29.6
@@ -6353,8 +6354,8 @@ importers:
         specifier: ^3.16.0
         version: 3.17.2
       yaml:
-        specifier: ^2.8.3
-        version: 2.8.3
+        specifier: ^2.9.1
+        version: 2.9.1
     devDependencies:
       '@kie-tools-core/webpack-base':
         specifier: workspace:*
@@ -8465,8 +8466,8 @@ importers:
         specifier: ^3.16.0
         version: 3.17.2
       yaml:
-        specifier: ^2.8.3
-        version: 2.8.3
+        specifier: ^2.9.1
+        version: 2.9.1
     devDependencies:
       '@kie-tools-core/webpack-base':
         specifier: workspace:*
@@ -21599,25 +21600,8 @@ packages:
     resolution: {integrity: sha512-bGE5lObc8PBXDQ8QKEWUVFw85/g1R3TVbtLPswNY+YXR2fLb1RF6PW3CKNI0gshXTSKleywhAyORrXi7fjwpzg==}
     hasBin: true
 
-  yaml@1.10.3:
-    resolution: {integrity: sha512-vIYeF1u3CjlhAFekPPAk2h/Kv4T3mAkMox5OymRiJQB0spDP10LHvt+K7G9Ny6NuuMAb25/6n1qyUjAcGNf/AA==}
-    engines: {node: '>= 6'}
-
-  yaml@2.0.0-11:
-    resolution: {integrity: sha512-5kGSQrzDyjCk0BLuFfjkoUE9vYcoyrwZIZ+GnpOSM9vhkvPjItYiWJ1jpRSo0aU4QmsoNrFwDT4O7XS2UGcBQg==}
-    engines: {node: '>= 12'}
-
-  yaml@2.3.2:
-    resolution: {integrity: sha512-N/lyzTPaJasoDmfV7YTrYCI0G/3ivm/9wdG0aHuheKowWQwGTsK0Eoiw6utmzAnI6pkJa0DUVygvp3spqqEKXg==}
-    engines: {node: '>= 14'}
-
-  yaml@2.8.3:
-    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
-    engines: {node: '>= 14.6'}
-    hasBin: true
-
-  yaml@2.9.0:
-    resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
+  yaml@2.9.1:
+    resolution: {integrity: sha512-3NxN8+78OdzbT7C/WjGsyfPAtJaN3FNDsWxv7Y7mcDsT/oOmgW8BpyQQFFBnvZE3j9Y2Sdz1ULFLezL7Eb2yFw==}
     engines: {node: '>= 14.6'}
     hasBin: true
 
@@ -23856,7 +23840,7 @@ snapshots:
       ts-log: 2.2.5
       ts-node: 10.9.2(@swc/core@1.3.92)(@types/node@26.1.1)(typescript@5.9.3)
       tslib: 2.8.1
-      yaml: 1.10.3
+      yaml: 2.9.1
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@babel/core'
@@ -26514,7 +26498,7 @@ snapshots:
       '@pnpm/yaml.document-sync': 1000.0.0
       ramda: '@pnpm/ramda@0.28.1'
       write-file-atomic: 5.0.1
-      yaml: 2.9.0
+      yaml: 2.9.1
 
   '@pnpm/workspace.pkgs-graph@1000.0.42(@pnpm/logger@5.2.0)':
     dependencies:
@@ -26554,7 +26538,7 @@ snapshots:
 
   '@pnpm/yaml.document-sync@1000.0.0':
     dependencies:
-      yaml: 2.9.0
+      yaml: 2.9.1
 
   '@prettier/plugin-xml@3.4.1(prettier@3.3.2)':
     dependencies:
@@ -30485,7 +30469,7 @@ snapshots:
       import-fresh: 3.3.1
       parse-json: 5.2.0
       path-type: 4.0.0
-      yaml: 1.10.3
+      yaml: 2.9.1
 
   cosmiconfig@7.0.1:
     dependencies:
@@ -30493,7 +30477,7 @@ snapshots:
       import-fresh: 3.3.1
       parse-json: 5.2.0
       path-type: 4.0.0
-      yaml: 1.10.3
+      yaml: 2.9.1
 
   cosmiconfig@8.0.0:
     dependencies:
@@ -35008,7 +34992,7 @@ snapshots:
       vscode-languageserver-textdocument: 1.0.7
       vscode-languageserver-types: 3.17.2
       vscode-uri: 3.1.0
-      yaml: 2.3.2
+      yaml: 2.9.1
 
   mongo-object@0.1.4: {}
 
@@ -39363,19 +39347,11 @@ snapshots:
       vscode-languageserver-types: 3.17.2
       vscode-nls: 5.2.0
       vscode-uri: 3.1.0
-      yaml: 2.0.0-11
+      yaml: 2.9.1
     optionalDependencies:
       prettier: 2.0.5
 
-  yaml@1.10.3: {}
-
-  yaml@2.0.0-11: {}
-
-  yaml@2.3.2: {}
-
-  yaml@2.8.3: {}
-
-  yaml@2.9.0: {}
+  yaml@2.9.1: {}
 
   yargs-parser@18.1.3:
     dependencies:
