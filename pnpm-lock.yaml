@@ -11,6 +11,7 @@ overrides:
   braces: ^3.0.3
   browserslist: ^4.28.7
   compression: ^1.8.2
+  decode-uri-component: ^0.2.2
   immutable@^3: ^3.8.4
   '@apidevtools/json-schema-ref-parser>js-yaml': ^3.14.2
   '@istanbuljs/load-nyc-config>js-yaml': ^3.14.2
@@ -14919,8 +14920,8 @@ packages:
   decimal.js@10.4.3:
     resolution: {integrity: sha512-VBBaLc1MgL5XpzgIP7ny5Z6Nx3UrRkIViUkPUdtl9aya5amy3De1gsUUSB1g3+3sExYNjCAsAznmukyxCb1GRA==}
 
-  decode-uri-component@0.2.0:
-    resolution: {integrity: sha512-hjf+xovcEn31w/EUYdTXQh/8smFL/dzYjohQGEIgjyNavaJfBY2p5F527Bo1VPATxv0VYTUC2bOcXvqFwk78Og==}
+  decode-uri-component@0.2.2:
+    resolution: {integrity: sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==}
     engines: {node: '>=0.10'}
 
   decompress-response@6.0.0:
@@ -30869,7 +30870,7 @@ snapshots:
 
   decimal.js@10.4.3: {}
 
-  decode-uri-component@0.2.0: {}
+  decode-uri-component@0.2.2: {}
 
   decompress-response@6.0.0:
     dependencies:
@@ -37268,7 +37269,7 @@ snapshots:
   source-map-resolve@0.5.3:
     dependencies:
       atob: 2.1.2
-      decode-uri-component: 0.2.0
+      decode-uri-component: 0.2.2
       resolve-url: 0.2.1
       source-map-url: 0.4.0
       urix: 0.1.0
