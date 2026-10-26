@@ -16,6 +16,7 @@ overrides:
   "form-data": "^4.0.6"
   "http-cache-semantics": "^4.3.0"
   "launch-editor": "^2.14.2"
+  "linkify-it": "^5.0.2"
   "immutable@^3": "^3.8.4"
   "@apidevtools/json-schema-ref-parser>js-yaml": "^3.14.2"
   "@istanbuljs/load-nyc-config>js-yaml": "^3.14.2"
