@@ -23,6 +23,8 @@ overrides:
   "cross-spawn": "^7.0.6"
   "d3-color": "3.1.0"
   "fast-xml-parser@^5": "5.8.0"
+  "glob@^10": "10.5.0"
+  "glob@^11": "11.1.0"
   "graphql": "14.3.1"
   "json-refs>js-yaml": "^3.14.2"
   "minimatch@^10": "10.2.6"
