@@ -26,6 +26,7 @@ overrides:
   socket.io-parser: ^4.2.7
   source-map-js: ^1.2.2
   tar: ^7.5.22
+  tmp: ^0.2.7
   immutable@^3: ^3.8.4
   '@apidevtools/json-schema-ref-parser>js-yaml': ^3.14.2
   '@istanbuljs/load-nyc-config>js-yaml': ^3.14.2
@@ -18458,10 +18459,6 @@ packages:
   os-browserify@0.3.0:
     resolution: {integrity: sha512-gjcpUc3clBf9+210TRaDWbf+rZZZEshZ+DlXMRCeAjp0xhTrnQsKHypIy1J3d5hKdUzj69t708EHtU8P6bUn0A==}
 
-  os-tmpdir@1.0.2:
-    resolution: {integrity: sha512-D2FR03Vir7FIu45XBY20mTb+/ZSWB00sjU9jdQXt83gDrI4Ztz5Fs7/yy74g2N5SVQY4xY1qDr4rNddwYRVX0g==}
-    engines: {node: '>=0.10.0'}
-
   ospath@1.2.2:
     resolution: {integrity: sha512-o6E5qJV5zkAbIDNhGSIlyOhScKXgQrSRMilfph0clDfM0nEnBOlKlH4sWDmG95BW/CvwNz0vmm7dJVtU2KlMiA==}
 
@@ -20701,12 +20698,8 @@ packages:
     resolution: {integrity: sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==}
     hasBin: true
 
-  tmp@0.0.33:
-    resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
-    engines: {node: '>=0.6.0'}
-
-  tmp@0.2.5:
-    resolution: {integrity: sha512-voyz6MApa1rQGUxT3E+BK7/ROe8itEx7vD8/HEvt4xwXucvQ5G5oeEiHkmHZJuBO21RpOf+YYm9MOivj709jow==}
+  tmp@0.2.7:
+    resolution: {integrity: sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw==}
     engines: {node: '>=14.14'}
 
   tmpl@1.0.5:
@@ -28495,7 +28488,7 @@ snapshots:
       read: 1.0.7
       secretlint: 10.2.2
       semver: 7.7.4
-      tmp: 0.2.5
+      tmp: 0.2.7
       typed-rest-client: 1.8.4
       url-join: 4.0.1
       xml2js: 0.5.0
@@ -30823,7 +30816,7 @@ snapshots:
       request-progress: 3.0.0
       supports-color: 8.1.1
       systeminformation: 5.33.16
-      tmp: 0.2.5
+      tmp: 0.2.7
       tree-kill: 1.2.2
       untildify: 4.0.0
       yauzl: 3.4.0
@@ -31971,7 +31964,7 @@ snapshots:
     dependencies:
       chardet: 0.7.0
       iconv-lite: 0.4.24
-      tmp: 0.0.33
+      tmp: 0.2.7
 
   extglob@2.0.4:
     dependencies:
@@ -34265,7 +34258,7 @@ snapshots:
       rimraf: 3.0.2
       socket.io: 4.8.3
       source-map: 0.6.1
-      tmp: 0.2.5
+      tmp: 0.2.7
       ua-parser-js: 0.7.31
       yargs: 16.2.0
     transitivePeerDependencies:
@@ -35426,8 +35419,6 @@ snapshots:
       wcwidth: 1.0.1
 
   os-browserify@0.3.0: {}
-
-  os-tmpdir@1.0.2: {}
 
   ospath@1.2.2: {}
 
@@ -37010,7 +37001,7 @@ snapshots:
     dependencies:
       '@bazel/runfiles': 6.3.1
       jszip: 3.10.1
-      tmp: 0.2.5
+      tmp: 0.2.7
       ws: 8.19.0
     transitivePeerDependencies:
       - bufferutil
@@ -38038,11 +38029,7 @@ snapshots:
     dependencies:
       tldts-core: 6.1.86
 
-  tmp@0.0.33:
-    dependencies:
-      os-tmpdir: 1.0.2
-
-  tmp@0.2.5: {}
+  tmp@0.2.7: {}
 
   tmpl@1.0.5: {}
 
