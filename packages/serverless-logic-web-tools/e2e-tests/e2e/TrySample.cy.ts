@@ -22,10 +22,12 @@ const controlOrMeta = Cypress.platform === "darwin" ? "Meta" : "Control";
 
 describe("Serverless Logic Web Tools - Try sample test", () => {
   // CYPRESS_E2E_TEST_GITHUB_TOKEN env. variable
-  const E2E_TEST_GITHUB_TOKEN = Cypress.env("E2E_TEST_GITHUB_TOKEN");
+  beforeEach(function () {
+    cy.env(["E2E_TEST_GITHUB_TOKEN"]).then(({ E2E_TEST_GITHUB_TOKEN }) => {
+      if (!E2E_TEST_GITHUB_TOKEN) {
+        this.skip();
+      }
 
-  if (E2E_TEST_GITHUB_TOKEN) {
-    beforeEach(() => {
       cy.visit("/");
 
       // allow clipboard permissions in browser
@@ -48,69 +50,69 @@ describe("Serverless Logic Web Tools - Try sample test", () => {
       });
       cy.ouia({ ouiaId: "signed-in-text" }).should("have.text", "You're signed in with GitHub.");
     });
+  });
 
-    it("should check greeting sample", () => {
-      // open samples catalog
-      cy.ouia({ ouiaId: "app-title" }).click();
-      cy.goToSidebarLink({ ouiaId: "samples-catalog-nav" });
+  it("should check greeting sample", () => {
+    // open samples catalog
+    cy.ouia({ ouiaId: "app-title" }).click();
+    cy.goToSidebarLink({ ouiaId: "samples-catalog-nav" });
 
-      // open greeting example
-      cy.ouia({ ouiaId: "sample-category-dropdown" }).click();
-      cy.ouia({ ouiaId: "serverless-workflow-dropdown-item" }).click();
-      cy.ouia({ ouiaId: "samples-count-text" })
-        .should("contain.text", "Showing")
-        .should("contain.text", "sample")
-        .should("not.contain.text", "Showing 0");
-      cy.ouia({ ouiaId: "greeting-json-try-sample-button" }).click();
+    // open greeting example
+    cy.ouia({ ouiaId: "sample-category-dropdown" }).click();
+    cy.ouia({ ouiaId: "serverless-workflow-dropdown-item" }).click();
+    cy.ouia({ ouiaId: "samples-count-text" })
+      .should("contain.text", "Showing")
+      .should("contain.text", "sample")
+      .should("not.contain.text", "Showing 0");
+    cy.ouia({ ouiaId: "greeting-json-try-sample-button" }).click();
 
-      cy.loadEditor();
+    cy.loadEditor();
 
-      // check header type and name
-      cy.ouia({ ouiaId: "file-type-label" }).should("have.text", "Serverless Workflow");
-      cy.ouia({ ouiaId: "file-name-input" }).should("have.value", "greeting");
+    // check header type and name
+    cy.ouia({ ouiaId: "file-type-label" }).should("have.text", "Serverless Workflow");
+    cy.ouia({ ouiaId: "file-name-input" }).should("have.value", "greeting");
 
-      cy.getEditor().within(() => {
-        cy.iframe("#kogito-iframe[src='./serverless-workflow-text-editor-envelope.html']").within(() => {
-          // check text editor contains text
-          cy.get(".monaco-editor textarea")
-            .should("contain.value", '"id": "jsongreet"')
-            .should("contain.value", '"name": "Greeting workflow",');
+    cy.getEditor().within(() => {
+      cy.iframe("#kogito-iframe[src='./serverless-workflow-text-editor-envelope.html']").within(() => {
+        // check text editor contains text
+        cy.get(".monaco-editor textarea")
+          .should("contain.value", '"id": "jsongreet"')
+          .should("contain.value", '"name": "Greeting workflow",');
+
+        // check shortcuts modal dialog
+        cy.ouia({ ouiaId: "keyboard-shortcuts-icon" }).click();
+        cy.get(".kie-tools--keyboard-shortcuts.pf-c-modal-box")
+          .should("contain.text", "Keyboard shortcuts")
+          .should("contain.text", `${ctrlOrCmd} + Z`)
+          .should("contain.text", "Undo last edit");
+        cy.get(".kie-tools--keyboard-shortcuts.pf-c-modal-box .pf-c-button").click();
+      });
+
+      cy.iframe("#kogito-iframe[src='./serverless-workflow-diagram-editor-envelope.html']")
+        .trigger("mouseover")
+        .within(() => {
+          // check canvas is present
+          cy.get("#canvasPanel").should("have.descendants", "canvas").should("be.visible");
+
+          // check zoom controls are present
+          cy.ouia({ ouiaId: "zoom-controls-panel" })
+            .should("be.visible")
+            .should("have.descendants", "button[data-ouia-component-id='reset-zoom-button']")
+            .should("have.descendants", "button[data-ouia-component-id='minus-zoom-button']")
+            .should("have.descendants", "button[data-ouia-component-id='plus-zoom-button']")
+            .should("have.descendants", "div[data-ouia-component-id='select-zoom-button']");
 
           // check shortcuts modal dialog
           cy.ouia({ ouiaId: "keyboard-shortcuts-icon" }).click();
           cy.get(".kie-tools--keyboard-shortcuts.pf-c-modal-box")
             .should("contain.text", "Keyboard shortcuts")
-            .should("contain.text", `${ctrlOrCmd} + Z`)
-            .should("contain.text", "Undo last edit");
+            .should("contain.text", `${ctrlOrCmd} + Alt`)
+            .should("contain.text", "Hold to Preview");
           cy.get(".kie-tools--keyboard-shortcuts.pf-c-modal-box .pf-c-button").click();
         });
-
-        cy.iframe("#kogito-iframe[src='./serverless-workflow-diagram-editor-envelope.html']")
-          .trigger("mouseover")
-          .within(() => {
-            // check canvas is present
-            cy.get("#canvasPanel").should("have.descendants", "canvas").should("be.visible");
-
-            // check zoom controls are present
-            cy.ouia({ ouiaId: "zoom-controls-panel" })
-              .should("be.visible")
-              .should("have.descendants", "button[data-ouia-component-id='reset-zoom-button']")
-              .should("have.descendants", "button[data-ouia-component-id='minus-zoom-button']")
-              .should("have.descendants", "button[data-ouia-component-id='plus-zoom-button']")
-              .should("have.descendants", "div[data-ouia-component-id='select-zoom-button']");
-
-            // check shortcuts modal dialog
-            cy.ouia({ ouiaId: "keyboard-shortcuts-icon" }).click();
-            cy.get(".kie-tools--keyboard-shortcuts.pf-c-modal-box")
-              .should("contain.text", "Keyboard shortcuts")
-              .should("contain.text", `${ctrlOrCmd} + Alt`)
-              .should("contain.text", "Hold to Preview");
-            cy.get(".kie-tools--keyboard-shortcuts.pf-c-modal-box .pf-c-button").click();
-          });
-      });
-
-      // check there are no problems in JSON file
-      cy.get("#total-notifications").should("have.text", 0);
     });
-  }
+
+    // check there are no problems in JSON file
+    cy.get("#total-notifications").should("have.text", 0);
+  });
 });
