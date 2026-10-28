@@ -29,7 +29,9 @@ overrides:
   tmp: ^0.2.7
   ua-parser-js: ^0.7.41
   webpack-dev-middleware: ^7.4.6
-  ws: ^8.22.0
+  ws@^8: ^8.22.0
+  ws@^7: ^7.5.13
+  ws@^6: ^6.2.6
   yaml: ^2.9.1
   immutable@^3: ^3.8.4
   '@apidevtools/json-schema-ref-parser>js-yaml': ^3.14.2
@@ -13618,6 +13620,9 @@ packages:
     resolution: {integrity: sha512-Z7tMw1ytTXt5jqMcOP+OQteU1VuNK9Y02uuJtKQ1Sv69jXQKKg5cibLwGJow8yzZP+eAc18EmLGPal0bp36rvQ==}
     engines: {node: '>=8'}
 
+  async-limiter@1.0.1:
+    resolution: {integrity: sha512-csOlWGAcRFJaI6m+F2WKdnMKr4HhdhFVBk0H/QbJFMCr+uO2kwohwXQPxw/9OCxp05r5ghVBFSyioixx3gfkNQ==}
+
   async-lock@1.4.1:
     resolution: {integrity: sha512-Az2ZTpuytrtqENulXwO3GGv1Bztugx6TT37NIo7imr/Qo0gsYiGtSdBa2B6fsXhTpVZDNfu1Qn3pk531e3q+nQ==}
 
@@ -21518,6 +21523,29 @@ packages:
     resolution: {integrity: sha512-FdNA4RyH1L43TlvGG8qOMIfcEczwA5ij+zLXUy3Z83CjxhLvcV7/Q/8pk22wnCgYw7PJhtK+7lhO+qqyT4NdvQ==}
     engines: {node: '>=16.14'}
 
+  ws@6.2.6:
+    resolution: {integrity: sha512-XTrf1gv7kXoVf1hbC3PAyAiPgR8Wz1blcrYIjEsUmr08BLksT41R8KbjmS9408C2ERx7v1JDLD/BkpLEttjfKA==}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@7.5.13:
+    resolution: {integrity: sha512-rsKI6xDBFVf4r/x8XyChGK04QR/XHroxs/jUcoWvtEZM8TPU/X/uIY9B1CsSzYws9ZJb/6bbBu7dPhFW00CAoA==}
+    engines: {node: '>=8.3.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
   ws@8.22.0:
     resolution: {integrity: sha512-Ydggc987+RO0AnWtZ/7Wq9FtNvcrL1b/RO0ud9mWjUPgDrsAAwQSF51sm2hm1XofbU/4jkpGEsLFsZZxU+1DOg==}
     engines: {node: '>=10.0.0'}
@@ -29248,6 +29276,8 @@ snapshots:
 
   astral-regex@2.0.0: {}
 
+  async-limiter@1.0.1: {}
+
   async-lock@1.4.1: {}
 
   async-retry@1.3.3:
@@ -30096,7 +30126,7 @@ snapshots:
   chrome-remote-interface@0.27.2:
     dependencies:
       commander: 2.11.0
-      ws: 8.22.0
+      ws: 6.2.6
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -30104,7 +30134,7 @@ snapshots:
   chrome-remote-interface@0.33.3:
     dependencies:
       commander: 2.11.0
-      ws: 8.22.0
+      ws: 7.5.13
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -39284,6 +39314,12 @@ snapshots:
     dependencies:
       js-yaml: 4.3.2
       write-file-atomic: 5.0.1
+
+  ws@6.2.6:
+    dependencies:
+      async-limiter: 1.0.1
+
+  ws@7.5.13: {}
 
   ws@8.22.0: {}
 
