@@ -47,6 +47,7 @@ jobs:
           repository: kubesmarts/osl-images
           token: ${{ secrets.KIE1_TOKEN }}
           path: target-repo
+          ref: 9.106.x-prod
       - name: Consolidate Dist Outputs to Target Repo
         run: |
           set -euo pipefail
