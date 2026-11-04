@@ -31,8 +31,8 @@ env:
   KOGITO_RUNTIME_branch: "9.106.x-prod"
   SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
   SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
-  QUARKUS_PLATFORM_version: "3.33.3"
-  QUARKUS_VERSION: "3.23.3"
+  QUARKUS_PLATFORM_version: "3.33.4.1"
+  QUARKUS_VERSION: "3.33.4.1"
 
 permissions:
   packages: read
@@ -47,6 +47,11 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
+        # Single-element partition: this workflow does not split the build into
+        # multiple partitions (unlike ci_build.yml, which uses [0, 1]). The value
+        # is kept only so artifact names include a partition index
+        # (e.g. "Linux_0__tests-reports") and stay consistent with ci_build.yml.
+        partition: [0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: "Support longpaths"
@@ -74,6 +79,7 @@ jobs:
         uses: ./.github/actions/setup-ci-patterns
 
       - name: "Setup environment"
+        id: setup_env
         uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools"
@@ -123,7 +129,7 @@ jobs:
           eval "pnpm -r -F '@kie-tools/sonataflow-operator...' --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         uses: actions/github-script@v9
         env:
           KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
@@ -141,7 +147,7 @@ jobs:
             await script({ core, glob, patterns });
 
       - name: "Check build-env access errors log"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         shell: bash
         run: |
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
@@ -149,7 +155,7 @@ jobs:
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         uses: ./.github/actions/upload-ci-reports-and-artifacts
         with:
           partition_index: ${{ matrix.partition }}
