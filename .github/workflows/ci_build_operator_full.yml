@@ -31,8 +31,8 @@ env:
   KOGITO_RUNTIME_branch: "9.106.x-prod"
   SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
   SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
-  QUARKUS_PLATFORM_version: "3.33.2.SP2-redhat-00002"
-  QUARKUS_version: "3.33.2.redhat-00008"
+  QUARKUS_PLATFORM_version: "3.33.4.SP2-redhat-00001"
+  QUARKUS_version: "3.33.4.redhat-00004"
   QUARKUS_PLATFORM_GROUPID: "com.redhat.quarkus.platform"
   MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
   MAVEN_REPO_TOKEN: ${{ github.token }}
