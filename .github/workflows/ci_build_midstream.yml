@@ -40,6 +40,7 @@ jobs:
         uses: ./.github/actions/setup-maven-cache
         with:
           DEPS_BRANCHNAME: 9.105.x-prod
+          MAVEN_SETTINGS_FILE: ".github/supporting-files/ci/midstream-mvn-config/settings.xml"
       - name: Run pnpm bootstrap - first time
         run: pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
         env:

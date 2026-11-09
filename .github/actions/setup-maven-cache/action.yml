@@ -28,6 +28,10 @@ inputs:
     description: "Working directory"
     required: false
     default: "."
+  MAVEN_SETTINGS_FILE:
+    description: "Optional path to a Maven settings.xml, relative to the workspace root ($GITHUB_WORKSPACE), used for building Drools, Runtimes and Apps. When empty, the default Maven settings are used."
+    required: false
+    default: ""
   DROOLS_REPO_URL:
     description: "Drools repository URL"
     required: false
@@ -88,8 +92,18 @@ runs:
       env:
         MAVEN_OPTIONS: -B -Dquickly -Dproductized
         REMOVE_MODULES: ./productized/remove_modules.sh ./productized/modules
+        MAVEN_SETTINGS_FILE: ${{ inputs.MAVEN_SETTINGS_FILE }}
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
+
+        if [ -n "$MAVEN_SETTINGS_FILE" ]; then
+          if [ ! -f "$GITHUB_WORKSPACE/$MAVEN_SETTINGS_FILE" ]; then
+            echo "Maven settings file not found: $GITHUB_WORKSPACE/$MAVEN_SETTINGS_FILE"
+            exit 1
+          fi
+          MAVEN_OPTIONS="$MAVEN_OPTIONS -s $GITHUB_WORKSPACE/$MAVEN_SETTINGS_FILE"
+        fi
+
         cd ..
 
         echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
