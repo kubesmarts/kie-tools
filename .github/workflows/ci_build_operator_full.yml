@@ -1,0 +1,169 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+name: "CI :: Operator - E2E Test Suite"
+
+on:
+  pull_request:
+    branches: ["**"]
+    types: [opened, reopened, ready_for_review, synchronize]
+
+env:
+  TMPDIR: "/tmp"
+  BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
+  KOGITO_RUNTIME_version: "9.106.0"
+  KOGITO_RUNTIME_branch: "9.106.x-prod"
+  SONATAFLOW_QUARKUS_DEVUI_VERSION: "111-SNAPSHOT"
+  SONATAFLOW_DEVMODE_IMAGE__sonataflowQuarkusDevUiVersion: "111-SNAPSHOT"
+  QUARKUS_PLATFORM_version: "3.33.4.SP3-redhat-00001"
+  QUARKUS_version: "3.33.4.redhat-00005"
+  QUARKUS_PLATFORM_GROUPID: "com.redhat.quarkus.platform"
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  MAVEN_REPO_TOKEN: ${{ github.token }}
+
+permissions:
+  packages: read
+  pull-requests: write
+  statuses: write
+
+jobs:
+  run:
+    if: |
+      (github.event_name == 'pull_request' && github.event.pull_request.draft == false && contains(github.event.pull_request.body, 'run operator e2e'))
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        # Single-element partition: this workflow does not split the build into
+        # multiple partitions (unlike ci_build.yml, which uses [0, 1]). The value
+        # is kept only so artifact names include a partition index
+        # (e.g. "Linux_0__tests-reports") and stay consistent with ci_build.yml.
+        partition: [0]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: "Support longpaths"
+        if: runner.os == 'Windows'
+        run: git config --system core.longpaths true
+
+      - name: "Checkout"
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+
+      - name: "Setup pnpm"
+        uses: pnpm/action-setup@v6
+        with:
+          version: 10.34.4
+
+      - name: "Setup Node"
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.18.0
+
+      - name: "Setup CI patterns"
+        id: ci_patterns
+        uses: ./.github/actions/setup-ci-patterns
+
+      - name: "Setup environment"
+        id: setup_env
+        uses: ./.github/actions/setup-env
+
+      - name: "Setup kie-tools"
+        uses: ./.github/actions/setup-kie-tools
+        with:
+          KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
+          DEPS_BRANCHNAME: ${{ github.head_ref || env.KOGITO_RUNTIME_branch }}
+          PNPM_FILTER: ""
+          USE_OSL_ENV_CONFIG: false
+
+      - name: Modify pom.xml of sonataflow-quarkus-devui
+        run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
+
+      - name: "Use public kube-rbac-proxy image for operator e2e tests"
+        shell: bash
+        run: |
+          sed -i "s|registry.redhat.io/openshift4/ose-kube-rbac-proxy@sha256:[a-f0-9]*|quay.io/openshift/origin-kube-rbac-proxy:4.22|g" \
+            packages/sonataflow-operator/config/default/manager_auth_proxy_patch.yaml
+
+      - name: "FULL → Build:Prod on Sonataflow Operator with all tests & images, runs also Operator e2e tests."
+        shell: bash
+        env:
+          WEBPACK__minimize: "false"
+          WEBPACK__tsLoaderTranspileOnly: "false"
+          KIE_TOOLS_BUILD__runLinters: "true"
+          KIE_TOOLS_BUILD__runTests: "true"
+          KIE_TOOLS_BUILD__runEndToEndTests: "false"
+          SONATAFLOW_OPERATOR__runE2ETests: "true"
+          KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
+          KIE_TOOLS_BUILD__buildContainerImages: "true"
+          KIE_TOOLS_BUILD__buildExamples: "false"
+          KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
+          KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
+          PLAYWRIGHT_BASE__enableChromiumProject: "true"
+          PLAYWRIGHT_BASE__enableGoogleChromeProject: "true"
+          PLAYWRIGHT_BASE__enableWebkitProject: "true"
+          PLAYWRIGHT_BASE__projectTimeout: "90000"
+          PLAYWRIGHT_BASE__expectTimeout: "30000"
+          PLAYWRIGHT_BASE__retries: "3"
+          PLAYWRIGHT_BASE__workers: "2"
+          DISPLAY: ":99.0"
+          START_SERVER_AND_TEST_INSECURE: "true"
+          NODE_OPTIONS: "--max_old_space_size=6144"
+          MAVEN_OPTS: "-Xmx2g"
+        run: >-
+          eval "pnpm -r -F '@kie-tools/sonataflow-operator...' --workspace-concurrency=1 build:prod"
+
+      - name: "Check tests result (`main` only)"
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
+        uses: actions/github-script@v9
+        env:
+          KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
+            ${{ steps.ci_patterns.outputs.tests_reports_patterns }}
+            ${{ steps.ci_patterns.outputs.end_to_end_tests_reports_patterns }}
+        with:
+          result-encoding: string
+          script: |
+            const patterns = process.env["KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS"]
+                                .split("\n")
+                                .map(p => p.trim())
+                                .filter(p => p);
+
+            const script = require("./scripts/check-junit-report-results/src/index.js");
+            await script({ core, glob, patterns });
+
+      - name: "Check build-env access errors log"
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
+        shell: bash
+        run: |
+          touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
+          cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
+          [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
+
+      - name: "Upload reports and artifacts"
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
+        uses: ./.github/actions/upload-ci-reports-and-artifacts
+        with:
+          partition_index: ${{ matrix.partition }}
+
+      - name: "Print storage usage (after build)"
+        if: always() && !cancelled()
+        shell: bash
+        run: |
+          df -h .
