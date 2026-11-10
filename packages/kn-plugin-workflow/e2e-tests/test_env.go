@@ -20,3 +20,13 @@
 package e2e_tests
 
 var testPrintCmdOutput = false
+
+// Custom catalog mode env vars.
+// When CatalogIndexImage is non-empty, the E2E tests install the operator from a custom
+// OLM CatalogSource (product/OSL build) instead of the public operatorhubio-catalog.
+var CatalogIndexImage string
+var OperatorBundleImage string
+var OperatorImage string
+// OperatorStartingCSV pins the subscription to a specific CSV (e.g. "logic-operator.v1.37.3")
+// so OLM never attempts an automatic upgrade during the test run.
+var OperatorStartingCSV string

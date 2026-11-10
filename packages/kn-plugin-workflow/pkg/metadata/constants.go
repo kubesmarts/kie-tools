@@ -54,9 +54,18 @@ var SonataflowCRDs = []string{"sonataflows.sonataflow.org", "sonataflowbuilds.so
 var KnativeCoreServingCRDs = []string{"images.caching.internal.knative.dev", "certificates.networking.internal.knative.dev", "configurations.serving.knative.dev", "clusterdomainclaims.networking.internal.knative.dev", "domainmappings.serving.knative.dev", "ingresses.networking.internal.knative.dev", "metrics.autoscaling.internal.knative.dev", "podautoscalers.autoscaling.internal.knative.dev", "revisions.serving.knative.dev", "routes.serving.knative.dev", "services.serving.knative.dev", "serverlessservices.networking.internal.knative.dev"}
 
 // OLM CatalogSources
-var OLMCatalogSourcesMap = map[string]string{"operatorhubio-catalog": "olm", "community-operators": "openshift-marketplace"}
+var OLMCatalogSourcesMap = map[string]string{
+	"operatorhubio-catalog": "olm",
+	"community-operators":   "openshift-marketplace",
+	// Custom catalog source used in E2E tests when CATALOG_INDEX_IMAGE is set (product/OSL builds).
+	"osl-catalog": "olm",
+}
 
 var SonataFlowOperatorName = "sonataflow-operator"
+
+// LogicOperatorName is the product operator name used in OSL (OpenShift Serverless Logic) builds.
+// It is used when installing the operator from a custom CatalogSource (CATALOG_INDEX_IMAGE is set).
+var LogicOperatorName = "logic-operator"
 
 
 const (
