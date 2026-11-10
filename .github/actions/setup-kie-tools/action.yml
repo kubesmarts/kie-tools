@@ -126,6 +126,24 @@ runs:
         sed -i '' "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
         echo "::endgroup::"
 
+    - name: Update version.quarkus in maven-base pom.xml (Linux)
+      if: runner.os == 'Linux' && env.QUARKUS_version != ''
+      shell: bash
+      run: |
+        echo "::group::Update version.quarkus in maven-base pom.xml (Linux)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
+    - name: Update version.quarkus in maven-base pom.xml (macOS)
+      if: runner.os == 'macOS' && env.QUARKUS_version != ''
+      shell: bash
+      run: |
+        echo "::group::Update version.quarkus in maven-base pom.xml (macOS)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i '' "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
     - name: Run pnpm bootstrap - second time
       run: |
         echo "::group::Run pnpm bootstrap - second time"
