@@ -22,6 +22,8 @@
   description: "SonataFlow Management Console Image"
 
   labels:
+    - name: "io.quarkus.version"
+      value: "### SET ME DURING BUILD PROCESS ###"
     - name: "io.quarkus.platform.version"
       value: "### SET ME DURING BUILD PROCESS ###"
     - name: "org.kie.kogito.version"
