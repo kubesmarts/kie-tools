@@ -69,11 +69,11 @@ module.exports = composeEnv([], {
     },
     /* (end) */
     QUARKUS_PLATFORM_version: {
-      default: "3.33.4.SP3-redhat-00001",
+      default: "3.27.6.SP3-redhat-00002",
       description: "Quarkus platform version to be used on dependency declaration.",
     },
     QUARKUS_version: {
-      default: "3.33.4.redhat-00005",
+      default: "3.27.6.redhat-00006",
       description:
         "Quarkus core version. May differ from QUARKUS_PLATFORM_version when the platform is rebuilt for a security patch but core libraries are not. Used for io.quarkus groupId artifacts (e.g. quarkus-jdbc-postgresql).",
     },
