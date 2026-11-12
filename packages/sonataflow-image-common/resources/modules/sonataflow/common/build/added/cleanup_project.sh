@@ -44,3 +44,16 @@ find "${KOGITO_HOME}"/.m2/ -name resolver-status.properties -delete
 rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/maven/maven-core/3.1.1
 rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/maven/maven-core/3.2.5
 
+# Remove old, vulnerable versions of build-plugin transitive dependencies that
+# "dependency:resolve-plugins"/"dependency:go-offline" cache defensively but are never
+# actually used: Quarkus apps package via the quarkus-maven-plugin (quarkus:build), so
+# maven-jar-plugin/maven-assembly-plugin/maven-dependency-plugin/maven-site-plugin never run
+# in this project's lifecycle. Verified empirically: "mvn clean install" succeeds identically
+# with these removed, and never re-downloads them. Re-check for new old/vulnerable versions
+# whenever Quay/Clair reports a new CVE here.
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/codehaus/plexus/plexus-archiver/4.2.7
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/commons/commons-compress/1.20
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/commons/commons-compress/1.21
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/apache/commons/commons-compress/1.26.1
+rm -rf "${KOGITO_HOME}"/.m2/repository/org/jsoup/jsoup/1.10.2
+

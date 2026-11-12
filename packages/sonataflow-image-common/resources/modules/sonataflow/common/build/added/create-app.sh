@@ -120,6 +120,36 @@ if [ ! -z "${exclusion_jobs_service}" ]; then
     sed -i.bak "s|$pattern_jobs_service|$exclusion_jobs_service|" pom.xml
 fi
 
+# Pin build-plugin versions so that IF these plugins are ever actually invoked (e.g. by a
+# hand-modified Containerfile/pom.xml bypassing Quarkus's own quarkus:build packaging), they
+# resolve to releases that no longer depend on the old, vulnerable plexus-archiver/commons-compress
+# /jsoup versions removed from the local repo in cleanup_project.sh, instead of Maven's old
+# inherited defaults. This is defense-in-depth: the plugins don't run in the standard build, but a
+# customized one could reach them. Bump these whenever Maven Central ships a newer safe release.
+cat > /tmp/plugin-version-overrides.xml <<'EOF'
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.5.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>3.8.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.11.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+EOF
+sed -i.bak "/<build>/r /tmp/plugin-version-overrides.xml" pom.xml
+rm /tmp/plugin-version-overrides.xml
+
 if [ "${SCRIPT_DEBUG^^}" = "TRUE" ]; then
     cat pom.xml
 fi
