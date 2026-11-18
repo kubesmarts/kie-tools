@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-24.04]
         # Single-element partition: this workflow does not split the build into
         # multiple partitions (unlike ci_build.yml, which uses [0, 1]). The value
         # is kept only so artifact names include a partition index

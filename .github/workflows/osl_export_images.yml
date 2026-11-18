@@ -16,7 +16,7 @@ env:
 
 jobs:
   export_dist:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     if: ${{ vars.ENABLE_OSL_DIST_EXPORT == 'yes' }}
 
     permissions:

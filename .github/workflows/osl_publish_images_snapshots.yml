@@ -41,7 +41,7 @@ permissions:
 
 jobs:
   publish_images_snapshots:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: "Print workflow inputs"
         run: |

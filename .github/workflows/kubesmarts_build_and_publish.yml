@@ -72,7 +72,7 @@ env:
 jobs:
   build:
     if: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO != '' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: "Clone kie-tools"
         uses: actions/checkout@v7

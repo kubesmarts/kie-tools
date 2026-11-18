@@ -64,7 +64,7 @@ jobs:
             pnpmName: "@kie-tools/sonataflow-devmode-image"
           - name: sonataflow-management-console-image
             pnpmName: "@kie-tools/sonataflow-management-console-image"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: "run (${{ matrix.package.name }})"
     steps:
       - name: "Checkout"

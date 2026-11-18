@@ -23,7 +23,7 @@ jobs:
   sync_main_apache:
     if: ${{ vars.ENABLE_OSL_SYNC_MAIN == 'yes' }}
     name: Sync main branch
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Merge local branch with upstream/main (no commit)
