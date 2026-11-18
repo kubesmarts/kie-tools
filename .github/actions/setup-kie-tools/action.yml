@@ -28,11 +28,11 @@ inputs:
   KOGITO_VERSION:
     description: "The version for Kogito Runtime"
     required: false
-    default: "999-SNAPSHOT"
+    default: "9.105.0"
   DEPS_BRANCHNAME:
     description: "The branch to pull for Drools, Runtimes and Apps repositories"
     required: false
-    default: "main"
+    default: "9.105.x-prod"
   PNPM_FILTER:
     description: "The filter to use for the bootstrap step"
     required: true
@@ -40,6 +40,10 @@ inputs:
     description: "kie-tools path"
     required: false
     default: "."
+  USE_OSL_ENV_CONFIG:
+    description: "Whether to run the OSL environment variables setup step"
+    required: false
+    default: "true"
 
 runs:
   using: "composite"
@@ -47,32 +51,24 @@ runs:
     - name: Setup local maven cache
       if: inputs.USE_REMOTE_ARTIFACTS == 'false'
       id: setup_maven_cache
-      uses: kubesmarts/kie-tools/.github/actions/setup-maven-cache@9.105.x-prod
+      uses: ./.github/actions/setup-maven-cache
       with:
         DEPS_BRANCHNAME: ${{ inputs.DEPS_BRANCHNAME }}
         WORKING_DIR: ${{ inputs.WORKING_DIR }}
 
     - name: Apply midstream settings.xml files
-      if: inputs.USE_REMOTE_ARTIFACTS == 'true'
       shell: bash
       run: |
         cd ${{ inputs.WORKING_DIR }}
-        cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml
-        cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
         cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
         cp -f .github/supporting-files/ci/midstream-mvn-config/sonataflow-image-common/maven-m2-repo-via-http-settings.xml.envsubst packages/sonataflow-image-common/resources/modules/kogito-maven/common/maven/maven-m2-repo-via-http-settings.xml.envsubst
 
     - name: "Install parent POMs"
       shell: bash
       run: |
-        if [ "${{ inputs.USE_REMOTE_ARTIFACTS }}" == "true" ]; then
-          SETTINGS_ARG="-s settings.xml"
-        else
-          SETTINGS_ARG=""
-        fi
         cd ${{ inputs.WORKING_DIR }}
-        mvn -f pom.xml $SETTINGS_ARG -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
-        mvn -f packages/pom.xml $SETTINGS_ARG -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
+        mvn -f pom.xml -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
+        mvn -f packages/pom.xml -Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }} install -N
 
     - name: Run pnpm bootstrap - first time
       run: |
@@ -86,6 +82,7 @@ runs:
       shell: bash
 
     - name: Setup Environment Variables
+      if: inputs.USE_OSL_ENV_CONFIG == 'true'
       run: |
         echo "::group::Setup Environment Variables"
         cd ${{ inputs.WORKING_DIR }}
@@ -93,15 +90,40 @@ runs:
         echo "::endgroup::"
       shell: bash
 
-    - name: Prepare maven-base with .mvn/maven.config
-      id: prepare_maven_base_config
+    - name: Update version.org.kie.kogito in maven-base pom.xml (Linux)
+      if: runner.os == 'Linux'
       shell: bash
       run: |
-        echo "::group::Prepare maven-base with .mvn/maven.config"
+        echo "::group::Update version.org.kie.kogito in maven-base pom.xml (Linux)"
         cd ${{ inputs.WORKING_DIR }}
-        mkdir -p ./packages/maven-base/.mvn
-        echo "-Dversion.org.kie.kogito=${{ inputs.KOGITO_VERSION }}" > "./packages/maven-base/.mvn/maven.config"
-        echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
+        sed -i "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${{ inputs.KOGITO_VERSION }}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
+    - name: Update version.org.kie.kogito in maven-base pom.xml (macOS)
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        echo "::group::Update version.org.kie.kogito in maven-base pom.xml (macOS)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i '' "s|<version.org.kie.kogito>.*</version.org.kie.kogito>|<version.org.kie.kogito>${{ inputs.KOGITO_VERSION }}</version.org.kie.kogito>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
+    - name: Update version.quarkus in maven-base pom.xml (Linux)
+      if: runner.os == 'Linux' && env.QUARKUS_version != ''
+      shell: bash
+      run: |
+        echo "::group::Update version.quarkus in maven-base pom.xml (Linux)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
+        echo "::endgroup::"
+
+    - name: Update version.quarkus in maven-base pom.xml (macOS)
+      if: runner.os == 'macOS' && env.QUARKUS_version != ''
+      shell: bash
+      run: |
+        echo "::group::Update version.quarkus in maven-base pom.xml (macOS)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i '' "s|<version.quarkus>.*</version.quarkus>|<version.quarkus>${QUARKUS_version}</version.quarkus>|g" ./packages/maven-base/pom.xml
         echo "::endgroup::"
 
     - name: Run pnpm bootstrap - second time
@@ -118,12 +140,22 @@ runs:
         DROOLS_AND_KOGITO__kogitoAppsRepoGitRef: "${{ steps.setup_maven_cache.outputs.kogitoAppsRepoGitRef }}"
       shell: bash
 
-    - name: Replace pre-build step in kogito-db-migrator-tool
+    - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
+      if: runner.os == 'Linux'
       shell: bash
       run: |
-        echo "::group::Replace pre-build step in kogito-db-migrator-tool"
+        echo "::group::Replace pre-build step in kogito-db-migrator-tool (Linux)"
         cd ${{ inputs.WORKING_DIR }}
         sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+        echo "::endgroup::"
+
+    - name: Replace pre-build step in kogito-db-migrator-tool (macOS)
+      if: runner.os == 'macOS'
+      shell: bash
+      run: |
+        echo "::group::Replace pre-build step in kogito-db-migrator-tool (macOS)"
+        cd ${{ inputs.WORKING_DIR }}
+        sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
         echo "::endgroup::"
 
     - name: Verify maven-base version.org.kie.kogito
@@ -155,6 +187,54 @@ runs:
         echo "Detected version.kogito: $ROOT_ENV_KOGITO_VERSION"
         if [ "$ROOT_ENV_KOGITO_VERSION" != "${{ inputs.KOGITO_VERSION }}"  ]; then
           echo "Root-env KOGITO_VERSION is not ${{ inputs.KOGITO_VERSION }}, got: $ROOT_ENV_KOGITO_VERSION"
+          exit 1
+        fi
+        echo "::endgroup::"
+
+    - name: Verify maven-base version.quarkus
+      shell: bash
+      run: |
+        echo "::group::Verify maven-base version.quarkus"
+        cd ${{ inputs.WORKING_DIR }}
+        if [ -z "${QUARKUS_version:-}" ]; then
+          echo "QUARKUS_version is not set, skipping verification."
+          echo "::endgroup::"
+          exit 0
+        fi
+        MAVEN_BASE_QUARKUS_VERSION=$(mvn help:evaluate \
+          -Dexpression=version.quarkus \
+          -q -DforceStdout \
+          -f packages/maven-base/pom.xml)
+
+        echo "Detected version.quarkus: $MAVEN_BASE_QUARKUS_VERSION"
+        if [ "$MAVEN_BASE_QUARKUS_VERSION" != "${QUARKUS_version}" ]; then
+          echo "Maven-base version.quarkus is not ${QUARKUS_version}, got: $MAVEN_BASE_QUARKUS_VERSION"
+          exit 1
+        fi
+        echo "::endgroup::"
+
+    - name: Verify root-env versions.quarkus and versions.quarkusPlatform
+      shell: bash
+      run: |
+        echo "::group::Verify root-env versions.quarkus and versions.quarkusPlatform"
+        cd ${{ inputs.WORKING_DIR }}
+        if [ -z "${QUARKUS_version:-}" ] || [ -z "${QUARKUS_PLATFORM_version:-}" ]; then
+          echo "QUARKUS_version or QUARKUS_PLATFORM_version is not set, skipping verification."
+          echo "::endgroup::"
+          exit 0
+        fi
+        ROOT_ENV_QUARKUS_VERSION=$(node -p "require('./packages/root-env/env').env.versions.quarkus")
+        ROOT_ENV_QUARKUS_PLATFORM_VERSION=$(node -p "require('./packages/root-env/env').env.versions.quarkusPlatform")
+
+        echo "Detected versions.quarkus: $ROOT_ENV_QUARKUS_VERSION"
+        echo "Detected versions.quarkusPlatform: $ROOT_ENV_QUARKUS_PLATFORM_VERSION"
+
+        if [ "$ROOT_ENV_QUARKUS_VERSION" != "${QUARKUS_version}" ] && [ "$ROOT_ENV_QUARKUS_VERSION" != "${QUARKUS_PLATFORM_version}" ]; then
+          echo "Root-env versions.quarkus is neither ${QUARKUS_version} nor ${QUARKUS_PLATFORM_version}, got: $ROOT_ENV_QUARKUS_VERSION"
+          exit 1
+        fi
+        if [ "$ROOT_ENV_QUARKUS_PLATFORM_VERSION" != "undefined" ] && [ "$ROOT_ENV_QUARKUS_PLATFORM_VERSION" != "${QUARKUS_PLATFORM_version}" ]; then
+          echo "Root-env versions.quarkusPlatform is not ${QUARKUS_PLATFORM_version}, got: $ROOT_ENV_QUARKUS_PLATFORM_VERSION"
           exit 1
         fi
         echo "::endgroup::"

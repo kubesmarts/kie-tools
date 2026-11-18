@@ -39,10 +39,9 @@ on:
       KIE1_EMAIL:
         required: true
 env:
-  DASHBUILDER__viewerImageAccount: "kubesmarts"
-  DASHBUILDER__viewerImageName: "incubator-kie-dashbuilder-viewer"
-  DASHBUILDER__viewerImageRegistry: "quay.io"
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
   GITHUB_TOKEN: ${{ secrets.KIE1_TOKEN }}
+  MAVEN_REPO_TOKEN: ${{ github.token }}
   KIE_TOOLS_BUILD__buildContainerImages: "false"
   KIE_TOOLS_BUILD__runEndToEndTests: "false"
   KIE_TOOLS_BUILD__runLinters: "false"
@@ -55,7 +54,6 @@ env:
   SERVERLESS_LOGIC_WEB_TOOLS__baseBuilderImageTag: "${{ inputs.tag }}"
   SERVERLESS_LOGIC_WEB_TOOLS__buildInfo: ""
   SERVERLESS_LOGIC_WEB_TOOLS__corsProxyUrl: ${{(inputs.environment == 'dev' && vars.SERVERLESS_LOGIC_CORS_PROXY_DEV_DEPLOYMENT) || (inputs.environment == 'staging' && vars.SERVERLESS_LOGIC_CORS_PROXY_STAGING_DEPLOYMENT) || vars.SERVERLESS_LOGIC_CORS_PROXY_PROD_DEPLOYMENT}}
-  SERVERLESS_LOGIC_WEB_TOOLS__dashbuilderViewerImageTag: "${{ inputs.tag }}"
   SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryName: "sandbox-catalog"
   SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryOrg: "kubesmarts"
   SERVERLESS_LOGIC_WEB_TOOLS__samplesRepositoryRef: ${{ (inputs.environment == 'dev' && 'main') || inputs.version }}
@@ -71,39 +69,31 @@ env:
   WEBPACK__minimize: "true"
   WEBPACK__tsLoaderTranspileOnly: "false"
 
-permissions:
-  contents: write
-
 jobs:
   build:
     if: ${{ vars.SERVERLESS_LOGIC_SANDBOX_DEPLOYMENT_REPO != '' }}
     runs-on: ubuntu-latest
     steps:
       - name: "Clone kie-tools"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
-          path: kie-tools
           ref: ${{ inputs.tag }}
 
       - name: "Setup environment"
-        uses: ./kie-tools/.github/actions/setup-env
-        with:
-          working_dir: kie-tools
+        uses: ./.github/actions/setup-env
 
       - name: "Setup kie-tools repository"
-        uses: ./kie-tools/.github/actions/setup-kie-tools
+        uses: ./.github/actions/setup-kie-tools
         with:
           KOGITO_VERSION: ${{ inputs.KOGITO_VERSION }}
           DEPS_BRANCHNAME: ${{ inputs.tag }}
           PNPM_FILTER: "-F @kie-tools/serverless-logic-web-tools..."
-          WORKING_DIR: kie-tools
           USE_REMOTE_ARTIFACTS: ${{ inputs.USE_REMOTE_ARTIFACTS }}
 
       - name: "Parse `commit_sha`"
         id: commit_sha
         shell: bash
         run: |
-          cd kie-tools
           echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: "Build serverless-logic-web-tools"
@@ -114,11 +104,10 @@ jobs:
             export SERVERLESS_LOGIC_WEB_TOOLS__buildInfo="${{ inputs.version }} (staging) @ ${{ steps.commit_sha.outputs.commit_sha }}"
           fi
           echo "SERVERLESS_LOGIC_WEB_TOOLS__buildInfo=$SERVERLESS_LOGIC_WEB_TOOLS__buildInfo"
-          cd kie-tools
           pnpm -F @kie-tools/serverless-logic-web-tools... build:prod
 
       - name: "Checkout serverless-logic-sandbox-deployment"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.KIE1_TOKEN }}
           path: serverless-logic-sandbox-deployment
@@ -144,7 +133,7 @@ jobs:
             rm -rf $DEPLOYMENT_DIR
             mkdir -p $DEPLOYMENT_DIR
           fi
-          cp -r ../kie-tools/packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
+          cp -r ../packages/serverless-logic-web-tools/dist/* $DEPLOYMENT_DIR
           git config --global user.name "${{ secrets.KIE1_USER_NAME }}"
           git config --global user.email "${{ secrets.KIE1_EMAIL }}"
           echo "Commit changes"

@@ -14,7 +14,7 @@ on:
         description: Tag for the images and kie-tools branch, leave default for dev environment
         type: string
         required: true
-        default: main
+        default: 9.105.x-prod
       version:
         description: Sandbox version, leave default for dev environment.
         type: string
@@ -37,6 +37,7 @@ concurrency:
 
 permissions:
   contents: write
+  packages: read
 
 jobs:
   build_and_publish:

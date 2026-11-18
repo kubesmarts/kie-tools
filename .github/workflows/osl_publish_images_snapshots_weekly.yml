@@ -1,0 +1,18 @@
+name: "CI :: OSL :: Publish Images Snapshots Weekly"
+on:
+  schedule:
+    - cron: "0 10 * * 5"
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  call-images-publishing-workflow:
+    uses: ./.github/workflows/osl_publish_images_snapshots.yml
+    with:
+      dry_run: false
+      USE_REMOTE_ARTIFACTS: false
+      KOGITO_VERSION: "9.105.0"
+      IMAGE_TAG: "9.105.x-prod"
+    secrets: inherit
