@@ -34,6 +34,12 @@ func TestManipulatePom(t *testing.T) {
 	metadata.KogitoVersion = "1.0.0.Final"
 	metadata.PluginVersion = "0.0.0"
 	metadata.KogitoBomDependency.Version = "0.0.0"
+	// KogitoDependencies is initialized before KogitoVersion is set here (in the binary it is set by -ldflags -X)
+	for i := range metadata.KogitoDependencies {
+		if metadata.KogitoDependencies[i].ArtifactId == "sonataflow-quarkus-devui" {
+			metadata.KogitoDependencies[i].Version = metadata.KogitoVersion
+		}
+	}
 
 	inputPath := "testdata/pom1-input.xml_no_auto_formatting"
 	expectedPath := "testdata/pom1-expected.xml_no_auto_formatting"

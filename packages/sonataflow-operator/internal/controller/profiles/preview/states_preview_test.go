@@ -32,8 +32,10 @@ import (
 func Test_deployWithBuildWorkflowState_isWorkflowChanged(t *testing.T) {
 	workflow1 := test.GetBaseSonataFlow(t.Name())
 	workflow2 := test.GetBaseSonataFlow(t.Name())
-	workflow1.Status.FlowCRC, _ = utils.Crc32Checksum(workflow1.Spec.Flow)
-	workflow2.Status.FlowCRC, _ = utils.Crc32Checksum(workflow2.Spec.Flow)
+	crc1, _ := utils.Crc32Checksum(workflow1.Spec.Flow)
+	workflow1.Status.FlowCRC = int64(crc1)
+	crc2, _ := utils.Crc32Checksum(workflow2.Spec.Flow)
+	workflow2.Status.FlowCRC = int64(crc2)
 	deployWithBuildWorkflowState := &deployWithBuildWorkflowState{
 		StateSupport: &common.StateSupport{C: test.NewSonataFlowClientBuilder().WithRuntimeObjects(workflow1).Build()},
 	}
