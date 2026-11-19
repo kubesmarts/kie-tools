@@ -19,7 +19,7 @@
 
 ///usr/bin/env jbang "$0" "$@" ; exit $?
 //JAVA 17
-//REPOS droolsAndKogito=file://${droolsAndKogitoLocalM2Repo},mavencentral
+//REPOS droolsAndKogito=file://${droolsAndKogitoLocalM2Repo},localm2=file://${user.home}/.m2/repository,redhatga=https://maven.repository.redhat.com/ga/,mavencentral
 //DEPS org.kie:drools-build-parent:${kogito-runtime.version}@pom
 //DEPS ch.qos.logback:logback-classic:1.2.13
 //DEPS info.picocli:picocli:4.7.5
