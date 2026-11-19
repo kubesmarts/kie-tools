@@ -98,7 +98,7 @@ jobs:
           KIE_TOOLS_BUILD__runTests: "true"
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__buildContainerImages: "true"
-          KIE_TOOLS_BUILD__buildExamples: "true"
+          KIE_TOOLS_BUILD__buildExamples: "false"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
           PLAYWRIGHT_BASE__enableChromiumProject: "true"
