@@ -20,7 +20,7 @@ schema_version: 1
 
 name: "quay.io/kubesmarts/incubator-kie-kogito-jobs-service-ephemeral"
 version: "main"
-from: "registry.access.redhat.com/ubi9/openjdk-17-runtime:1.24"
+from: "registry.access.redhat.com/ubi9/ubi-minimal:latest"
 description: "Runtime image for Kogito in memory Jobs Service"
 
 labels:
@@ -51,6 +51,7 @@ modules:
   install:
     - name: org.kubesmarts.packages-update
     - name: org.kie.kogito.system.user
+    - name: org.kie.kogito.jdk.runtime
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.project.versions
     - name: org.kie.kogito.dynamic.resources

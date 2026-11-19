@@ -18,7 +18,7 @@
 #
 schema_version: 1
 name: "openshift-serverless-1/logic-swf-devmode-rhel9"
-from: "registry.access.redhat.com/ubi9/openjdk-17:1.24"
+from: "registry.access.redhat.com/ubi9/ubi-minimal:latest"
 version: "main"
 description: "Red Hat build of Kogito Serverless Workflow development mode image with
   Quarkus extensions libraries preinstalled"
@@ -48,6 +48,8 @@ modules:
   install:
     - name: com.redhat.osl.image.dependencies
     - name: org.kie.kogito.system.user
+    - name: org.kie.kogito.jdk.devel
+    - name: org.kie.kogito.maven.binary
     - name: org.kie.kogito.logging
     - name: org.kie.kogito.launch.scripts
     - name: org.kie.kogito.dynamic.resources

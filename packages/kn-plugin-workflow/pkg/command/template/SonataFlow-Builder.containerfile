@@ -39,9 +39,12 @@ RUN /home/kogito/launch/build-app.sh ./resources
 #=============================
 # Runtime Run
 #=============================
-FROM registry.access.redhat.com/ubi9/openjdk-17-runtime:1.24
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en'
+
+# Install the Java 17 runtime (JRE), previously provided by the ubi9/openjdk-17-runtime base image
+RUN microdnf install -y java-17-openjdk-headless && microdnf clean all && rm -rf /var/cache/yum
 
 # We make four distinct layers so if there are application changes the library layers can be re-used
 COPY --from=builder --chown=185 /home/kogito/serverless-workflow-project/target/quarkus-app/lib/ /deployments/lib/
@@ -52,6 +55,8 @@ COPY --from=builder --chown=185 /home/kogito/serverless-workflow-project/target/
 EXPOSE 8080
 USER 185
 
-ENV AB_JOLOKIA_OFF=""
 ENV JAVA_OPTS="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV JAVA_APP_JAR="/deployments/quarkus-run.jar"
+WORKDIR /deployments
+# The openjdk base image provided run-java.sh as the default CMD; launch the application explicitly instead.
+CMD ["sh", "-c", "exec java ${JAVA_OPTS} -jar ${JAVA_APP_JAR}"]
