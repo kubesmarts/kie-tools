@@ -107,7 +107,7 @@ runs:
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
       env:
-        ADDITIONAL_MAVEN_OPTIONS: -Dquickly
+        ADDITIONAL_MAVEN_OPTIONS: -B -DskipTests
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
         cd ..
