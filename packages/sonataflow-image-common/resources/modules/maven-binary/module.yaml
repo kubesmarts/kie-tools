@@ -1,0 +1,42 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+schema_version: 1
+name: org.kie.kogito.maven.binary
+version: "main"
+description: >-
+  Installs Apache Maven into /usr/share/maven, previously provided by the
+  ubi9/openjdk-17 base image. Used by the builder and devmode images. The
+  version matches the 3.9 line that the openjdk base image shipped and that
+  Quarkus expects (the RHEL AppStream RPM is 3.8.5).
+
+# tar/gzip are required to extract the Maven distribution and are not guaranteed
+# to be present on the ubi-minimal base image.
+packages:
+  manager: microdnf
+  install:
+    - tar
+    - gzip
+
+artifacts:
+  - name: apache-maven-3.9.16-bin.tar.gz
+    url: "https://archive.apache.org/dist/maven/maven-3/3.9.16/binaries/apache-maven-3.9.16-bin.tar.gz"
+    sha512: "831a8591fe20c8243b1dbe7d71e3244f31d1665b0804b2e825e38cbbe5ce0cafb8338851f90780735568773e0a6cd07bbec107cda0b896b008b861075358b6f6"
+
+execute:
+  - script: configure

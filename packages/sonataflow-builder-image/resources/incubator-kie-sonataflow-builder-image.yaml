@@ -17,7 +17,7 @@
 # under the License.
 #
 - name: builder
-  from: "registry.access.redhat.com/ubi9/openjdk-17:1.24"
+  from: "registry.access.redhat.com/ubi9/ubi-minimal:latest"
   version: "main"
   modules:
     repositories:
@@ -25,6 +25,8 @@
     install:
       - name: org.kubesmarts.packages-update
       - name: org.kie.kogito.system.user
+      - name: org.kie.kogito.jdk.devel
+      - name: org.kie.kogito.maven.binary
       - name: org.kie.kogito.logging
       - name: org.kie.kogito.launch.scripts
       - name: org.kie.kogito.dynamic.resources
@@ -35,7 +37,7 @@
       - name: org.kie.sonataflow.common.build
 
 - name: "quay.io/kubesmarts/incubator-kie-sonataflow-builder"
-  from: "registry.access.redhat.com/ubi9/openjdk-17:1.24"
+  from: "registry.access.redhat.com/ubi9/ubi-minimal:latest"
   version: "main"
   description: "Apache KIE SonataFlow base builder with Quarkus extensions libraries preinstalled"
 
@@ -65,6 +67,8 @@
     install:
       - name: org.kubesmarts.packages-update
       - name: org.kie.kogito.system.user
+      - name: org.kie.kogito.jdk.devel
+      - name: org.kie.kogito.maven.binary
       - name: org.kie.kogito.logging
       - name: org.kie.kogito.launch.scripts
       - name: org.kie.kogito.dynamic.resources

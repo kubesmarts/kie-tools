@@ -26,6 +26,12 @@ execute:
   - script: configure
 
 envs:
+  # Previously inherited from the ubi9/openjdk base image. This module populates
+  # this directory with its own java-default-options/debug-options/container-limits
+  # scripts (see configure), so the path must be defined for the launch scripts
+  # that source them at runtime.
+  - name: JBOSS_CONTAINER_JAVA_JVM_MODULE
+    value: "/opt/jboss/container/java/jvm"
   - name: JAVA_OPTIONS
     description: User specified Java options to be appended to generated options in JAVA_OPTS (internal use).
     example: "-verbose:class"
