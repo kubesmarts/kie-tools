@@ -72,7 +72,8 @@ func GetSonataFlow(testFile, namespace string) *operatorapi.SonataFlow {
 	GetKubernetesResource(testFile, ksw)
 	klog.V(log.D).InfoS("Successfully read KSW", "ksw", spew.Sprint(ksw))
 	ksw.Namespace = namespace
-	ksw.Status.FlowCRC, _ = utils.Crc32Checksum(ksw.Spec.Flow)
+	crc, _ := utils.Crc32Checksum(ksw.Spec.Flow)
+	ksw.Status.FlowCRC = int64(crc)
 	return ksw
 }
 

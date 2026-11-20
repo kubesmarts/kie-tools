@@ -9,6 +9,11 @@ permissions:
   contents: write
   pull-requests: write
   actions: write
+  packages: read
+
+env:
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  MAVEN_REPO_TOKEN: ${{ github.token }}
 
 concurrency:
   group: sync-main
@@ -18,7 +23,7 @@ jobs:
   sync_main_apache:
     if: ${{ vars.ENABLE_OSL_SYNC_MAIN == 'yes' }}
     name: Sync main branch
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Merge local branch with upstream/main (no commit)
@@ -34,7 +39,6 @@ jobs:
 
       - name: "Bootstrap"
         env:
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx3g"
         uses: ./.github/actions/bootstrap
         with:

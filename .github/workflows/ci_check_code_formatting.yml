@@ -32,15 +32,10 @@ concurrency:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - name: "Checkout @ GitHub default"
-        uses: actions/checkout@v3
-
-      - name: "Checkout @ Simulated squashed-merge if PR"
-        uses: ./.github/actions/checkout-pr
-        with:
-          ref: ${{ github.base_ref }}
+      - name: "Checkout"
+        uses: actions/checkout@v7
 
       - name: "Setup environment"
         uses: ./.github/actions/setup-env

@@ -1059,7 +1059,6 @@ The views and conclusions contained in the software and documentation are those 
 
 ---------------------------------------------------------------------------------
 for packages/dmn-editor-standalone/tests-e2e/__fixtures__/files/scorecard.pmml
-    packages/online-editor/static/samples/Sample.pmml
     packages/pmml-editor-marshaller/tests/marshaller/TestData_AnomalyDetectionModel.ts
     packages/pmml-editor-marshaller/tests/marshaller/TestData_AssociationModel.ts
     packages/pmml-editor-marshaller/tests/marshaller/TestData_BaselineModel.ts

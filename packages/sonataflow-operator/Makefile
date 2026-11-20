@@ -148,7 +148,7 @@ test: manifests generate test-api ## Run tests.
 .PHONY: test-api
 test-api:
 	@echo "🔄 Running API tests..."
-	@cd api && make test > /dev/null 2>&1
+	@cd api && make test
 	@echo "✅  API tests completed successfully."
 
 
@@ -469,8 +469,42 @@ else
 	@echo "❌  Invalid label. Please use one of: cluster, platform, flows-ephemeral, flows-persistence, flows-monitoring, flows-hpa, flows-pdb, flows-pdb-with-hpa"
 endif
 
+# Kaniko (used by the operator to build workflows) pulls the base builder image on its own, it does not use the
+# kind node's containerd image store, so `kind load docker-image` is not enough for the builder image.
+# Locally built images always take precedence: we push the local builder image into the kind registry and point the
+# operator to it via RELATED_IMAGE_BASE_BUILDER. This also works for tags that are only available locally.
+KIND_REGISTRY_NAME ?= kind-registry
+KIND_REGISTRY_HOST_PORT ?= 5001
+OPERATOR_NAMESPACE ?= sonataflow-operator-system
+OPERATOR_DEPLOYMENT ?= sonataflow-operator-controller-manager
+# Must match LeaderElectionID in cmd/main.go
+OPERATOR_LEADER_LEASE ?= 1be5e57d.kie.org
+
+.PHONY: use-local-builder-image
+use-local-builder-image:
+	@SRC="$(shell pnpm exec build-env sonataFlowOperator.sonataflowBuilderImage)"; \
+	NAME="$${SRC#*/}"; \
+	REG_IP="$$($(BUILDER) inspect --format='{{(index .NetworkSettings.Networks "kind").IPAddress}}' $(KIND_REGISTRY_NAME))"; \
+	test -n "$$REG_IP" || { echo "Cannot find the IP of $(KIND_REGISTRY_NAME) in the kind network"; exit 1; }; \
+	echo "📦 Pushing $$SRC to the kind registry as $$REG_IP:5000/$$NAME"; \
+	$(BUILDER) tag "$$SRC" "localhost:$(KIND_REGISTRY_HOST_PORT)/$$NAME" && \
+	$(BUILDER) push $(if $(filter podman,$(BUILDER)),--tls-verify=false) "localhost:$(KIND_REGISTRY_HOST_PORT)/$$NAME" && \
+	kubectl set env deploy/$(OPERATOR_DEPLOYMENT) -n $(OPERATOR_NAMESPACE) RELATED_IMAGE_BASE_BUILDER="$$REG_IP:5000/$$NAME" && \
+	kubectl rollout status deploy/$(OPERATOR_DEPLOYMENT) -n $(OPERATOR_NAMESPACE) --timeout=120s
+	@# The restarted operator cannot reconcile anything until it acquires the leader election lease, and the lease held
+	@# by the previous pod must expire first (up to ~1 minute). A Ready pod is not necessarily the leader yet.
+	@echo "⏳ Waiting for the restarted operator to become the leader..."
+	@for i in $$(seq 1 36); do \
+		POD="$$(kubectl get pod -n $(OPERATOR_NAMESPACE) -l app.kubernetes.io/name=sonataflow-operator -o go-template='{{range .items}}{{if not .metadata.deletionTimestamp}}{{.metadata.name}}{{end}}{{end}}')"; \
+		HOLDER="$$(kubectl get lease $(OPERATOR_LEADER_LEASE) -n $(OPERATOR_NAMESPACE) -o jsonpath='{.spec.holderIdentity}' 2>/dev/null)"; \
+		if [ -n "$$POD" ]; then case "$$HOLDER" in "$$POD"_*) echo "✅  $$POD is the leader"; exit 0;; esac; fi; \
+		sleep 5; \
+	done; \
+	echo "❌  The restarted operator did not become the leader in time"; exit 1
+
 .PHONY: full-test-e2e
 full-test-e2e: create-cluster load-docker-image deploy deploy-knative deploy-prometheus
+	@$(MAKE) use-local-builder-image
 	sleep 30
 	kubectl wait pod -A -l app.kubernetes.io/name=sonataflow-operator --for condition=Ready --timeout 120s
 	@$(MAKE) test-e2e label=platform
@@ -483,11 +517,18 @@ full-test-e2e: create-cluster load-docker-image deploy deploy-knative deploy-pro
 before-pr: generate-all test ## Run generate-all before executing tests.
 	@echo "✅  Your working branch is done."
 
+# Loads into the kind nodes every image the operator may start (the operator itself and all the RELATED_IMAGE_* it
+# manages), since kubelet would otherwise try to pull them from the remote registry, where the tag might not exist.
 .PHONY: load-docker-image
 load-docker-image: install-kind
 	kind load docker-image $(IMG)
 	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.sonataflowBuilderImage)
 	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.sonataflowDevModeImage)
+	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.kogitoJobsServicePostgresqlImage)
+	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.kogitoJobsServiceEphemeralImage)
+	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.kogitoDataIndexPostgresqlImage)
+	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.kogitoDataIndexEphemeralImage)
+	kind load docker-image $(shell pnpm exec build-env sonataFlowOperator.kogitoDBMigratorToolImage)
 
 .PHONY: install-kind
 install-kind:

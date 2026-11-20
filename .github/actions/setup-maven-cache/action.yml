@@ -19,9 +19,14 @@
 
 name: "Prepare local maven repository and build Drools, Runtimes, Apps"
 description: ""
+
 inputs:
   DEPS_BRANCHNAME:
     description: "Branch to use for kiegroup repositories"
+    required: false
+    default: "9.105.x-prod"
+  FALLBACK_BRANCHNAME:
+    description: "Branch to use when DEPS_BRANCHNAME is not found in a kiegroup repository (per stream; on main set this to main)"
     required: false
     default: "9.105.x-prod"
   WORKING_DIR:
@@ -40,41 +45,56 @@ inputs:
     description: "Kogito Apps repository URL"
     required: false
     default: "https://github.com/kiegroup/kogito-apps"
+
 outputs:
   droolsRepoGitRef:
     description: "Resolved drools commit SHA"
     value: ${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef }}
   kogitoRuntimesRepoGitRef:
-    description: "Resolved runtimes commit SHA"
+    description: "Resolved kogito-runtimes commit SHA"
     value: ${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}
   kogitoAppsRepoGitRef:
-    description: "Resolved apps commit SHA"
+    description: "Resolved kogito-apps commit SHA"
     value: ${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
   m2CacheHit:
     description: "Whether the Maven cache was hit"
     value: ${{ steps.m2_cache.outputs.cache-hit }}
+
 runs:
   using: "composite"
   steps:
-    - name: Get Kiegroup git ref urls
+    - name: Get Kiegroup git refs
       id: get_kiegroup_git_refs
       shell: bash
       run: |
         echo "::group::Get Kiegroup git ref urls"
 
         # Get Kiegroup Drools Git Ref
-        DROOLS_GIT_REF=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        DROOLS_GIT_REF=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
+        if [ -z "$DROOLS_GIT_REF" ]; then
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.DROOLS_REPO_URL }}, falling back to kiegroup/drools ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          DROOLS_GIT_REF=$(git ls-remote "https://github.com/kiegroup/drools" refs/heads/${{ inputs.FALLBACK_BRANCHNAME }} | awk '{print $1}')
+        fi
         echo "DROOLS_AND_KOGITO__droolsRepoGitRef=$DROOLS_GIT_REF" >> "$GITHUB_OUTPUT"
 
         # Get Kiegroup Runtimes Git Ref
-        RUNTIMES_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        RUNTIMES_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
+        if [ -z "$RUNTIMES_GIT_REF" ]; then
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}, falling back to kiegroup/kogito-runtimes ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          RUNTIMES_GIT_REF=$(git ls-remote "https://github.com/kiegroup/kogito-runtimes" refs/heads/${{ inputs.FALLBACK_BRANCHNAME }} | awk '{print $1}')
+        fi
         echo "DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef=$RUNTIMES_GIT_REF" >> "$GITHUB_OUTPUT"
 
         # Get Kiegroup Apps Git Ref
-        APPS_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} | awk '{print $1}')
+        APPS_GIT_REF=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
+        if [ -z "$APPS_GIT_REF" ]; then
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_APPS_REPO_URL }}, falling back to kiegroup/kogito-apps ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          APPS_GIT_REF=$(git ls-remote "https://github.com/kiegroup/kogito-apps" refs/heads/${{ inputs.FALLBACK_BRANCHNAME }} | awk '{print $1}')
+        fi
         echo "DROOLS_AND_KOGITO__kogitoAppsRepoGitRef=$APPS_GIT_REF" >> "$GITHUB_OUTPUT"
 
         echo "::endgroup::"
+
     - name: "Cache Maven repository"
       id: m2_cache
       uses: actions/cache@v4
@@ -82,39 +102,69 @@ runs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-maven-drools-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__droolsRepoGitRef}}-runtimes-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoRuntimesRepoGitRef }}-apps-${{ steps.get_kiegroup_git_refs.outputs.DROOLS_AND_KOGITO__kogitoAppsRepoGitRef }}
         restore-keys: ${{ runner.os }}-maven
+
     - name: Clone and Build Drools, Runtimes and Apps repositories
       if: steps.m2_cache.outputs.cache-hit != 'true'
       shell: bash
       env:
-        MAVEN_OPTIONS: -B -Dquickly -Dproductized
-        REMOVE_MODULES: ./productized/remove_modules.sh ./productized/modules
+        ADDITIONAL_MAVEN_OPTIONS: -B -DskipTests
       run: |
         echo "KOGITO_RUNTIME_version is $KOGITO_RUNTIME_version: Cloning and building extra repositories."
         cd ..
 
         echo "::group::Cloning drools ${{ inputs.DEPS_BRANCHNAME }} branch..."
-        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.DROOLS_REPO_URL }}
+        # Check if branch exists in the specified repository
+        DROOLS_BRANCH_CHECK=$(git ls-remote "${{ inputs.DROOLS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
+        if [ -z "$DROOLS_BRANCH_CHECK" ]; then
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.DROOLS_REPO_URL }}, using kiegroup/drools ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          DROOLS_REPO_URL="https://github.com/kiegroup/drools"
+          DROOLS_BRANCH="${{ inputs.FALLBACK_BRANCHNAME }}"
+        else
+          DROOLS_REPO_URL="${{ inputs.DROOLS_REPO_URL }}"
+          DROOLS_BRANCH="${{ inputs.DEPS_BRANCHNAME }}"
+        fi
+        echo "git clone --depth 1 --branch $DROOLS_BRANCH $DROOLS_REPO_URL"
+        git clone --depth 1 --branch $DROOLS_BRANCH $DROOLS_REPO_URL
         cd drools
-        mvn clean install $MAVEN_OPTIONS
+        mvn clean install $ADDITIONAL_MAVEN_OPTIONS
         cd ..
         rm -rf drools
         echo "::endgroup::"
 
         echo "::group::Cloning kogito-runtimes ${{ inputs.DEPS_BRANCHNAME }} branch..."
-        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}
+        # Check if branch exists in the specified repository
+        RUNTIMES_BRANCH_CHECK=$(git ls-remote "${{ inputs.KOGITO_RUNTIMES_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
+        if [ -z "$RUNTIMES_BRANCH_CHECK" ]; then
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_RUNTIMES_REPO_URL }}, using kiegroup/kogito-runtimes ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          RUNTIMES_REPO_URL="https://github.com/kiegroup/kogito-runtimes"
+          RUNTIMES_BRANCH="${{ inputs.FALLBACK_BRANCHNAME }}"
+        else
+          RUNTIMES_REPO_URL="${{ inputs.KOGITO_RUNTIMES_REPO_URL }}"
+          RUNTIMES_BRANCH="${{ inputs.DEPS_BRANCHNAME }}"
+        fi
+        echo "git clone --depth 1 --branch $RUNTIMES_BRANCH $RUNTIMES_REPO_URL"
+        git clone --depth 1 --branch $RUNTIMES_BRANCH $RUNTIMES_REPO_URL
         cd kogito-runtimes
-        mvn clean install $MAVEN_OPTIONS
+        mvn clean install $ADDITIONAL_MAVEN_OPTIONS
         cd ..
         rm -rf kogito-runtimes
         echo "::endgroup::"
 
         echo "::group::Cloning kogito-apps ${{ inputs.DEPS_BRANCHNAME }} branch..."
-        echo "git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}"
-        git clone --depth 1 --branch ${{ inputs.DEPS_BRANCHNAME }} ${{ inputs.KOGITO_APPS_REPO_URL }}
+        # Check if branch exists in the specified repository
+        APPS_BRANCH_CHECK=$(git ls-remote "${{ inputs.KOGITO_APPS_REPO_URL }}" refs/heads/${{ inputs.DEPS_BRANCHNAME }} 2>/dev/null | awk '{print $1}' || true)
+        if [ -z "$APPS_BRANCH_CHECK" ]; then
+          echo "::warning::Branch ${{ inputs.DEPS_BRANCHNAME }} not found in ${{ inputs.KOGITO_APPS_REPO_URL }}, using kiegroup/kogito-apps ${{ inputs.FALLBACK_BRANCHNAME }} branch"
+          APPS_REPO_URL="https://github.com/kiegroup/kogito-apps"
+          APPS_BRANCH="${{ inputs.FALLBACK_BRANCHNAME }}"
+        else
+          APPS_REPO_URL="${{ inputs.KOGITO_APPS_REPO_URL }}"
+          APPS_BRANCH="${{ inputs.DEPS_BRANCHNAME }}"
+        fi
+        echo "git clone --depth 1 --branch $APPS_BRANCH $APPS_REPO_URL"
+        git clone --depth 1 --branch $APPS_BRANCH $APPS_REPO_URL
         cd kogito-apps
-        mvn clean install $MAVEN_OPTIONS
+        mvn clean install $ADDITIONAL_MAVEN_OPTIONS
         cd ..
         rm -rf kogito-apps
         echo "::endgroup::"

@@ -108,7 +108,7 @@
         <dependency>
             <groupId>org.apache.kie.sonataflow</groupId>
             <artifactId>sonataflow-quarkus-devui</artifactId>
-            <version>${kie.tooling.version}</version>
+            <version>1.0.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>

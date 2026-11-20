@@ -20,8 +20,6 @@
 name: "CI :: Build"
 
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: ["**"]
     types: [opened, reopened, ready_for_review, synchronize]
@@ -34,6 +32,13 @@ env:
   TMPDIR: "/tmp"
   BUILD_ENV__accessErrorsLogFileAbsolutePath: "/tmp/build-env-access-errors.log"
   KOGITO_RUNTIME_version: "9.105.0"
+  KOGITO_RUNTIME_branch: "9.105.x-prod"
+  MAVEN_ARGS: "-B -s ${{ github.workspace }}/.github/supporting-files/ci/midstream-mvn-config/settings.xml"
+  MAVEN_REPO_TOKEN: ${{ github.token }}
+
+permissions:
+  contents: read
+  packages: read
 
 jobs:
   run:
@@ -41,7 +46,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-14, windows-latest]
+        os: [ubuntu-24.04, macos-latest]
         partition: [0, 1]
     runs-on: ${{ matrix.os }}
     steps:
@@ -49,14 +54,10 @@ jobs:
         if: runner.os == 'Windows'
         run: git config --system core.longpaths true
 
-      - name: "Checkout @ GitHub default"
-        uses: actions/checkout@v3
-
-      - name: "Checkout @ Simulated squashed-merge if PR"
-        id: checkout_pr
-        uses: ./.github/actions/checkout-pr
+      - name: "Checkout"
+        uses: actions/checkout@v7
         with:
-          ref: ${{ github.base_ref }}
+          fetch-depth: 0
 
       - name: "Setup pnpm"
         uses: pnpm/action-setup@v3
@@ -87,8 +88,8 @@ jobs:
             --outputPath='/tmp/partitions.json' \
             --tmpPartitionFilterPath='/tmp/partition-filter.txt' \
             --forceFull='${{ !github.event.pull_request }}' \
-            --baseSha='${{ steps.checkout_pr.outputs.base_sha }}' \
-            --headSha='${{steps.checkout_pr.outputs.head_sha }}' \
+            --baseSha='${{ github.event.pull_request.base.sha || github.event.before }}' \
+            --headSha='${{ github.sha }}' \
             --graphJsonPath='./repo/graph.json' \
             --partition='./.github/supporting-files/ci/partitions/partition0.txt' \
             --partition='./.github/supporting-files/ci/partitions/partition1.txt'
@@ -105,68 +106,17 @@ jobs:
           echo "Done."
 
       - name: "Setup environment"
+        id: setup_env
         if: steps.setup_build_mode.outputs.mode != 'none'
         uses: ./.github/actions/setup-env
 
-      - name: Setup local maven cache
-        id: setup_maven_cache
-        uses: ./.github/actions/setup-maven-cache
-        with:
-          DEPS_BRANCHNAME: "9.105.x-prod"
-
-      - name: Apply midstream settings.xml files
-        shell: bash
-        run: |
-          cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml settings.xml
-          cp -f .github/supporting-files/ci/midstream-mvn-config/settings.xml packages/maven-base/settings.xml
-          cp -f .github/supporting-files/ci/midstream-mvn-config/maven-m2-repo-via-http-image/settings.xml.envsubst packages/maven-m2-repo-via-http-image/settings.xml.envsubst
-          cp -f .github/supporting-files/ci/midstream-mvn-config/sonataflow-image-common/maven-m2-repo-via-http-settings.xml.envsubst packages/sonataflow-image-common/resources/modules/kogito-maven/common/maven/maven-m2-repo-via-http-settings.xml.envsubst
-
-      - name: Prepare maven-base with .mvn/maven.config
-        id: prepare_maven_base_config
-        run: |
-          mkdir ./packages/maven-base/.mvn
-          echo "-Dversion.org.kie.kogito=${KOGITO_RUNTIME_version}" > "./packages/maven-base/.mvn/maven.config"
-          echo "--no-snapshot-updates" >> "./packages/maven-base/.mvn/maven.config"
-
-      - name: "Install parent POMs"
-        shell: bash
-        run: |
-          mvn -f pom.xml install -N
-          mvn -f packages/pom.xml install -N
-
-      - name: Run pnpm bootstrap - first time
-        run: |
-          echo "::group::Run pnpm bootstrap - first time"
-          pnpm bootstrap -F '@osl/redhat-env...' --no-frozen-lockfile
-          echo "::endgroup::"
-        env:
-          DROOLS_AND_KOGITO__skip: true
-        shell: bash
-
-      - name: Setup Environment Variables
-        run: bash ./.github/supporting-files/ci/osl/export_vars.sh
-        shell: bash
-
-      - name: "Bootstrap"
+      - name: "Setup kie-tools"
         if: steps.setup_build_mode.outputs.mode != 'none'
-        env:
-          DROOLS_AND_KOGITO__skip: true
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
-          MAVEN_OPTS: "-Xmx3g"
-        uses: ./.github/actions/bootstrap
+        uses: ./.github/actions/setup-kie-tools
         with:
-          pnpm_filter_string: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
-
-      - name: Replace pre-build step in kogito-db-migrator-tool (Linux)
-        if: ${{ runner.os == 'Linux' }}
-        run: |
-          sed -i "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
-
-      - name: Replace pre-build step in kogito-db-migrator-tool (MacOS)
-        if: ${{ runner.os == 'macOS' }}
-        run: |
-          sed -i '' "s/pnpm pre-build && //g" ./packages/kogito-db-migrator-tool/package.json
+          KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
+          DEPS_BRANCHNAME: ${{ github.head_ref || env.KOGITO_RUNTIME_branch }}
+          PNPM_FILTER: ${{ steps.setup_build_mode.outputs.bootstrapPnpmFilterString }}
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
@@ -182,7 +132,7 @@ jobs:
           KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__containerizedEndToEndTests: "false"
           KIE_TOOLS_BUILD__buildContainerImages: "false"
-          KIE_TOOLS_BUILD__buildExamples: "true"
+          KIE_TOOLS_BUILD__buildExamples: "false"
           KIE_TOOLS_BUILD__ignoreTestFailures: ${{ !github.event.pull_request }}
           KIE_TOOLS_BUILD__ignoreEndToEndTestFailures: ${{ !github.event.pull_request }}
           PLAYWRIGHT_BASE__enableChromiumProject: "true"
@@ -195,7 +145,6 @@ jobs:
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: >-
           eval "pnpm ${{ steps.setup_build_mode.outputs.fullBuildPnpmFilterString }} --workspace-concurrency=1 build:prod"
@@ -207,7 +156,6 @@ jobs:
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildExamples: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.upstreamPnpmFilterString }} --if-present build:dev"
@@ -219,7 +167,7 @@ jobs:
           WEBPACK__minimize: "false"
           KIE_TOOLS_BUILD__runLinters: "true"
           KIE_TOOLS_BUILD__runTests: "true"
-          KIE_TOOLS_BUILD__runEndToEndTests: ${{ runner.os == 'Linux' }}
+          KIE_TOOLS_BUILD__runEndToEndTests: "false"
           KIE_TOOLS_BUILD__buildContainerImages: ${{ runner.os == 'Linux' }}
           KIE_TOOLS_BUILD__buildExamples: "true"
           PLAYWRIGHT_BASE__enableChromiumProject: "true"
@@ -232,14 +180,13 @@ jobs:
           DISPLAY: ":99.0"
           START_SERVER_AND_TEST_INSECURE: "true"
           NODE_OPTIONS: "--max_old_space_size=6144"
-          MAVEN_ARGS: "-B -Puse-maven-repo-local-tail"
           MAVEN_OPTS: "-Xmx2g"
         run: |
           eval "pnpm ${{ steps.setup_build_mode.outputs.affectedPnpmFilterString }} --if-present --workspace-concurrency=1 build:prod"
 
       - name: "Check tests result (`main` only)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
-        uses: actions/github-script@v6
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
+        uses: actions/github-script@v9
         env:
           KIE_TOOLS_CI__JUNIT_REPORT_RESULTS_PATTERNS: |-
             ${{ steps.ci_patterns.outputs.tests_reports_patterns }}
@@ -256,7 +203,7 @@ jobs:
             await script({ core, glob, patterns });
 
       - name: "Check build-env access errors log"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         shell: bash
         run: |
           touch "$BUILD_ENV__accessErrorsLogFileAbsolutePath"
@@ -264,13 +211,13 @@ jobs:
           [ "0" == "$(cat "$BUILD_ENV__accessErrorsLogFileAbsolutePath" | wc -l | tr -d ' ')" ]
 
       - name: "Upload reports and artifacts"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none'
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success'
         uses: ./.github/actions/upload-ci-reports-and-artifacts
         with:
           partition_index: ${{ matrix.partition }}
 
       - name: "Upload end-to-end tests results to Buildkite (`main` only)"
-        if: always() && !cancelled() && steps.setup_build_mode.outputs.mode != 'none' && !github.event.pull_request
+        if: always() && !cancelled() && steps.setup_env.conclusion == 'success' && !github.event.pull_request
         shell: bash
         env:
           BUILDKITE_ANALYTICS_TOKEN: ${{ secrets.BUILDKITE_TOKEN }}

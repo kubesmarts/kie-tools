@@ -21,6 +21,14 @@
     </mirror>
   </mirrors>
 
+  <servers>
+    <server>
+      <id>github</id>
+      <username>kubesmarts</username>
+      <password>${env.MAVEN_REPO_TOKEN}</password>
+    </server>
+  </servers>
+
   <profiles>
     <profile>
       <id>redhat-ga-public-repository</id>
@@ -65,6 +73,14 @@
       </activation>
       <repositories>
         <repository>
+          <id>central</id>
+          <name>Central Repository</name>
+          <url>https://repo.maven.apache.org/maven2</url>
+          <snapshots>
+            <enabled>false</enabled>
+          </snapshots>
+        </repository>
+        <repository>
           <id>redhat-ga-public-repository</id>
           <name>RedHat GA Public Repository</name>
           <url>https://maven.repository.redhat.com/ga/</url>
@@ -79,42 +95,16 @@
           </snapshots>
         </repository>
         <repository>
-          <id>apache.snapshots</id>
-          <name>Apache Snapshot Repository</name>
-          <url>https://repository.apache.org/snapshots</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
+          <id>github</id>
+          <name>GitHub Repository</name>
+          <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
           <snapshots>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>central</id>
-          <name>Central Repository</name>
-          <url>https://repo.maven.apache.org/maven2</url>
-          <snapshots>
-            <enabled>false</enabled>
+            <enabled>true</enabled>
           </snapshots>
         </repository>
         <repository>
           <id>apache-public-repository-group</id>
           <name>Apache Public Repository Group</name>
-          <url>https://repo.maven.apache.org/maven2</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
-          <snapshots>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
-          </snapshots>
-        </repository>
-        <repository>
-          <id>jboss-public-repository-group</id>
-          <name>JBOSS Public Repository Group</name>
           <url>https://repo.maven.apache.org/maven2</url>
           <layout>default</layout>
           <releases>
@@ -141,17 +131,12 @@
           </snapshots>
         </pluginRepository>
         <pluginRepository>
-          <id>apache-public-repository-group</id>
-          <name>Apache Public Repository Group</name>
-          <url>https://repository.apache.org/content/groups/public/</url>
+          <id>github</id>
+          <name>GitHub Repository</name>
+          <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
           <layout>default</layout>
-          <releases>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
-          </releases>
           <snapshots>
-            <enabled>false</enabled>
-            <updatePolicy>never</updatePolicy>
+            <enabled>true</enabled>
           </snapshots>
         </pluginRepository>
       </pluginRepositories>

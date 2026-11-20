@@ -227,13 +227,6 @@ This repository contains several applications. To develop each one of them indiv
 1. Open Chrome and go to `chrome://extensions`. Enable "Developer mode" in the top-right corner and click on "Load unpacked". Choose the `packages/chrome-extension-serverless-workflow-editor/dist` folder.
 1. From now on you can use the development version of the extension. **Remember!** After each change, you have to rebuild the changed modules and hit the "Refresh" button of the extension card.
 
-#### KIE Sandbox
-
-1. After you've successfully built the project following the instructions above, go to `packages/online-editor`.
-2. Open a terminal and run `pnpm start`. This will start a `webpack serve` instance with the Online Editor resources.
-3. From now on you can use the development version of the Online Editor by accessing `https://localhost:9001`.
-4. Run the CORS Proxy by running `pnpm start` at `packages/cors-proxy`.
-
 #### Serverless Logic Web Tools
 
 1. After you've successfully built the project following the instructions above, go to `packages/serverless-logic-web-tools`.

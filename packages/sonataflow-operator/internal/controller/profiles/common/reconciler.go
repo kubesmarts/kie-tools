@@ -58,7 +58,8 @@ func (s *StateSupport) PerformStatusUpdate(ctx context.Context, workflow *operat
 		return false, err
 	}
 	workflow.Status.ObservedGeneration = workflow.Generation
-	workflow.Status.FlowCRC, err = utils.Crc32Checksum(workflow.Spec.Flow)
+	crc, err := utils.Crc32Checksum(workflow.Spec.Flow)
+	workflow.Status.FlowCRC = int64(crc)
 	if err != nil {
 		return false, err
 	}
