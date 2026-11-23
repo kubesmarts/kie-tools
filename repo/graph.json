@@ -43,7 +43,6 @@
       { "id": "@kie-tools/dev-deployment-base-image" },
       { "id": "@kie-tools/maven-base" },
       { "id": "@kie-tools/dev-deployment-upload-service" },
-      { "id": "@kie-tools-core/drools-and-kogito" },
       { "id": "@kie-tools-core/envelope-bus" },
       { "id": "@kie-tools-core/operating-system" },
       { "id": "@kie-tools-core/i18n" },
@@ -139,9 +138,11 @@
       { "id": "@kie-tools/serverless-workflow-jq-expressions" },
       { "id": "@kie-tools/serverless-workflow-service-catalog" },
       { "id": "swf-vscode-extension" },
-      { "id": "vscode-extension-dashbuilder-editor" },
-      { "id": "vscode-extension-kie-ba-bundle" },
-      { "id": "vscode-extension-kogito-bundle" },
+      { "id": "@kie-tools-core/vscode-extension" },
+      { "id": "@kie-tools/vscode-extension-common-test-helpers" },
+      { "id": "@kie-tools/vscode-java-code-completion-extension-plugin" },
+      { "id": "@kie-tools/xml-parser-ts-codegen" },
+      { "id": "@kie-tools/xyflow-react-kie-diagram" },
       { "id": "@kie-tools/yard-validator-worker" },
       { "id": "@kie-tools/yard-model" },
       { "id": "yard-vscode-extension" }
@@ -291,10 +292,8 @@
         "weight": 1
       },
       { "source": "@kie-tools/dev-deployment-base-image", "target": "@kie-tools/image-builder", "weight": 1 },
-      { "source": "@kie-tools/maven-base", "target": "@kie-tools-core/drools-and-kogito", "weight": 1 },
+      { "source": "@kie-tools/maven-base", "target": "@kie-tools/root-env", "weight": 1 },
       { "source": "@kie-tools/dev-deployment-upload-service", "target": "@kie-tools/jest-base", "weight": 1 },
-      { "source": "@kie-tools-core/drools-and-kogito", "target": "@kie-tools-scripts/build-env", "weight": 1 },
-      { "source": "@kie-tools-core/drools-and-kogito", "target": "@kie-tools/root-env", "weight": 1 },
       { "source": "@kie-tools-core/envelope-bus", "target": "@kie-tools/eslint", "weight": 1 },
       { "source": "@kie-tools-core/envelope-bus", "target": "@kie-tools/jest-base", "weight": 1 },
       { "source": "@kie-tools-core/envelope-bus", "target": "@kie-tools/tsconfig", "weight": 1 },
@@ -486,9 +485,31 @@
       { "source": "@kie-tools/kogito-data-index-webapp", "target": "@kie-tools-core/webpack-base", "weight": 1 },
       { "source": "@kie-tools/kogito-db-migrator-tool", "target": "@kie-tools/maven-base", "weight": 1 },
       { "source": "@kie-tools/kogito-jobs-service-webapp", "target": "@kie-tools-core/webpack-base", "weight": 1 },
-      { "source": "@kie/kogito-jit-runner-image", "target": "@kie/kogito-images-install-helper", "weight": 1 },
-      { "source": "@kie-tools/unitables", "target": "@kie-tools/boxed-expression-component", "weight": 1 },
-      { "source": "@kie-tools/unitables", "target": "@kie-tools/dmn-runner", "weight": 1 },
+      { "source": "@kie-tools/kogito-management-console", "target": "@kie-tools/image-builder", "weight": 1 },
+      { "source": "@kie-tools/kogito-management-console", "target": "@kie-tools/image-env-to-json", "weight": 1 },
+      {
+        "source": "@kie-tools/kogito-management-console",
+        "target": "@kie-tools/runtime-tools-management-console-webapp",
+        "weight": 1
+      },
+      {
+        "source": "@kie-tools/runtime-tools-management-console-webapp",
+        "target": "@kie-tools-core/workspaces-git-fs",
+        "weight": 1
+      },
+      {
+        "source": "@kie-tools/runtime-tools-management-console-webapp",
+        "target": "@kie-tools/jbpm-quarkus-devui",
+        "weight": 1
+      },
+      { "source": "@kie-tools-core/workspaces-git-fs", "target": "@kie-tools-core/envelope-bus", "weight": 1 },
+      { "source": "@kie-tools-core/workspaces-git-fs", "target": "@kie-tools-core/react-hooks", "weight": 1 },
+      { "source": "@kie-tools-core/workspaces-git-fs", "target": "@kie-tools-core/workspace", "weight": 1 },
+      { "source": "@kie-tools-core/workspaces-git-fs", "target": "@kie-tools/cors-proxy-api", "weight": 1 },
+      { "source": "@kie-tools-core/workspaces-git-fs", "target": "@kie-tools/kie-sandbox-fs", "weight": 1 },
+      { "source": "@kie-tools-core/kubernetes-bridge", "target": "@kie-tools/cors-proxy-api", "weight": 1 },
+      { "source": "@kie-tools/maven-m2-repo-via-http-image", "target": "@kie-tools/image-builder", "weight": 1 },
+      { "source": "@kie-tools/maven-m2-repo-via-http-image", "target": "@kie-tools/root-env", "weight": 1 },
       {
         "source": "@osl/osl-data-index-ephemeral-image",
         "target": "@kie/kogito-data-index-ephemeral-image",
@@ -542,17 +563,17 @@
       },
       {
         "source": "@kie-tools/sonataflow-management-console-image",
-        "target": "@kie-tools/sonataflow-image-common",
-        "weight": 1
-      },
-      {
-        "source": "@kie-tools/sonataflow-management-console-image",
         "target": "@kie-tools/sonataflow-management-console-image-env",
         "weight": 1
       },
       {
         "source": "@kie-tools/sonataflow-management-console-image",
         "target": "@kie-tools/sonataflow-management-console-webapp",
+        "weight": 1
+      },
+      {
+        "source": "@kie-tools/sonataflow-management-console-image",
+        "target": "@kie/kogito-images-install-helper",
         "weight": 1
       },
       { "source": "@kie-tools/sonataflow-management-console-image-env", "target": "@kie-tools/root-env", "weight": 1 },
@@ -596,8 +617,8 @@
       { "source": "@osl/osl-swf-devmode-image", "target": "@kie-tools/sonataflow-devmode-image", "weight": 1 },
       { "source": "@osl/osl-swf-devmode-image", "target": "@osl/osl-images-modules", "weight": 1 },
       { "source": "@osl/osl-swf-devmode-image", "target": "@osl/redhat-env", "weight": 1 },
-      { "source": "pmml-vscode-extension", "target": "@kie-tools-core/vscode-extension", "weight": 1 },
-      { "source": "pmml-vscode-extension", "target": "@kie-tools/pmml-editor", "weight": 1 },
+      { "source": "@kie-tools/playwright-base", "target": "@kie-tools-scripts/run-script-if", "weight": 1 },
+      { "source": "@kie-tools/playwright-base", "target": "@kie-tools/root-env", "weight": 1 },
       { "source": "@kie-tools/runtime-tools-components", "target": "@kie-tools-core/editor", "weight": 1 },
       {
         "source": "@kie-tools/runtime-tools-components",
@@ -906,24 +927,27 @@
         "weight": 1
       },
       { "source": "swf-vscode-extension", "target": "@kie-tools/vscode-extension-common-test-helpers", "weight": 1 },
-      { "source": "vscode-extension-dashbuilder-editor", "target": "@kie-tools-core/vscode-extension", "weight": 1 },
+      { "source": "@kie-tools-core/vscode-extension", "target": "@kie-tools-core/editor", "weight": 1 },
       {
-        "source": "vscode-extension-dashbuilder-editor",
-        "target": "@kie-tools/dashbuilder-language-service",
+        "source": "@kie-tools-core/vscode-extension",
+        "target": "@kie-tools-core/vscode-java-code-completion",
         "weight": 1
       },
-      { "source": "vscode-extension-dashbuilder-editor", "target": "@kie-tools/dashbuilder-viewer", "weight": 1 },
+      { "source": "@kie-tools/vscode-extension-common-test-helpers", "target": "@kie-tools/tsconfig", "weight": 1 },
       {
-        "source": "vscode-extension-dashbuilder-editor",
-        "target": "@kie-tools/vscode-extension-common-test-helpers",
+        "source": "@kie-tools/vscode-java-code-completion-extension-plugin",
+        "target": "@kie-tools/maven-base",
         "weight": 1
       },
-      { "source": "vscode-extension-kie-ba-bundle", "target": "@kie-tools-core/webpack-base", "weight": 1 },
-      { "source": "vscode-extension-kie-ba-bundle", "target": "@kie-tools/eslint", "weight": 1 },
-      { "source": "vscode-extension-kie-ba-bundle", "target": "@kie-tools/tsconfig", "weight": 1 },
-      { "source": "vscode-extension-kogito-bundle", "target": "@kie-tools-core/webpack-base", "weight": 1 },
-      { "source": "vscode-extension-kogito-bundle", "target": "@kie-tools/eslint", "weight": 1 },
-      { "source": "vscode-extension-kogito-bundle", "target": "@kie-tools/tsconfig", "weight": 1 },
+      { "source": "@kie-tools/xml-parser-ts-codegen", "target": "@kie-tools/xml-parser-ts", "weight": 1 },
+      { "source": "@kie-tools/xyflow-react-kie-diagram", "target": "@kie-tools-core/operating-system", "weight": 1 },
+      {
+        "source": "@kie-tools/xyflow-react-kie-diagram",
+        "target": "@kie-tools-core/switch-expression-ts",
+        "weight": 1
+      },
+      { "source": "@kie-tools/xyflow-react-kie-diagram", "target": "@kie-tools/i18n-common-dictionary", "weight": 1 },
+      { "source": "@kie-tools/xyflow-react-kie-diagram", "target": "@kie-tools/xml-parser-ts", "weight": 1 },
       { "source": "@kie-tools/yard-validator-worker", "target": "@kie-tools/yard-model", "weight": 1 },
       { "source": "@kie-tools/yard-model", "target": "@kie-tools/maven-base", "weight": 1 },
       { "source": "yard-vscode-extension", "target": "@kie-tools-core/vscode-extension", "weight": 1 },
@@ -952,7 +976,6 @@
     ["@kie-tools/cors-proxy-image", "packages/cors-proxy-image"],
     ["@kie-tools/dev-deployment-base-image", "packages/dev-deployment-base-image"],
     ["@kie-tools/dev-deployment-upload-service", "packages/dev-deployment-upload-service"],
-    ["@kie-tools-core/drools-and-kogito", "packages/drools-and-kogito"],
     ["@kie-tools-core/editor", "packages/editor"],
     ["@kie-tools-core/envelope", "packages/envelope"],
     ["@kie-tools-core/envelope-bus", "packages/envelope-bus"],
