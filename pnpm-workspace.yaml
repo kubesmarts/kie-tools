@@ -65,4 +65,30 @@ overrides:
   "superagent": "10.2.2"
   "xmlbuilder2>js-yaml": "^3.14.2"
   "yauzl@^2": "^3.4.0"
+packageExtensions:
+  "monaco-editor-webpack-plugin":
+    peerDependencies:
+      "monaco-yaml": "*"
+onlyBuiltDependencies:
+  - "@apollo/protobufjs"
+  - "@jbangdev/jbang"
+  - "@parcel/watcher"
+  - "@playwright/browser-chromium"
+  - "@scarf/scarf"
+  - "@swc/core"
+  - "@vscode/vsce-sign"
+  - "core-js"
+  - "core-js-pure"
+  - "cypress"
+  - "esbuild"
+  - "keytar"
+  - "lmdb"
+  - "msgpackr-extract"
+  - "nice-napi"
+  - "puppeteer"
+patchedDependencies:
+  "immer@10.0.3": "patches/immer@10.0.3.patch"
+  "karma-firefox-launcher@2.1.2": "patches/karma-firefox-launcher@2.1.2.patch"
+  "run-script-os@1.1.6": "patches/run-script-os@1.1.6.patch"
+  "zustand@4.4.2": "patches/zustand@4.4.2.patch"
 minimumReleaseAge: 4320
