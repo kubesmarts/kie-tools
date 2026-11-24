@@ -17,7 +17,7 @@
  * under the License.
  */
 
-const findWorkspacePackages = require("@pnpm/find-workspace-packages").default;
+const { findWorkspacePackages } = require("@pnpm/find-workspace-packages");
 const fs = require("fs");
 const path = require("path");
 

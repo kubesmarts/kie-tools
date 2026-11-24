@@ -18,7 +18,7 @@
  */
 
 const { filterPackages } = require("@pnpm/filter-workspace-packages");
-const findWorkspacePackages = require("@pnpm/find-workspace-packages").default;
+const { findWorkspacePackages } = require("@pnpm/find-workspace-packages");
 
 const workspaceDir = ".";
 
