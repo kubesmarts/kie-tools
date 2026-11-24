@@ -18,7 +18,7 @@
 ARG BASE_IMAGE_TAG
 ARG KOGITO_RUNTIME_version
 
-FROM --platform=linux/amd64 $BASE_IMAGE_TAG
+FROM --platform=linux/amd64 $BASE_IMAGE_TAG AS builder
 
 ENV PATH="${PATH}:/usr/share/maven/bin"
 
@@ -43,6 +43,24 @@ RUN chown kogito /home/kogito/.m2 && \
   -Dquarkus-profiles=build,dev && \
   chmod -R 775 /home/kogito && \
   mkdir -p -m 777 /tmp/app
+
+# Re-based on a fresh copy of the base image and collapsed into a single COPY layer, instead of
+# `docker-squash`-ing the whole image: `docker-squash` doesn't support the Docker Engine version used
+# by GitHub-hosted runners and produces a manifest that quay.io rejects as invalid on push. BuildKit/buildx
+# has no native replacement for `--squash` (see https://github.com/docker/buildx/issues/727), so this is
+# the recommended multi-stage alternative; it preserves all of the base image's env/labels/config since we
+# `FROM` it directly rather than `scratch`, and only flattens the layers this Containerfile adds.
+FROM --platform=linux/amd64 $BASE_IMAGE_TAG
+
+ARG KOGITO_RUNTIME_version
+
+ENV PATH="${PATH}:/usr/share/maven/bin"
+ENV KOGITO_RUNTIME_version=${KOGITO_RUNTIME_version}
+
+COPY --from=builder /home/kogito /home/kogito
+COPY --from=builder /tmp/app /tmp/app
+
+WORKDIR /home/kogito/serverless-logic-web-tools-swf-deployment-quarkus-app/
 
 USER kogito
 
