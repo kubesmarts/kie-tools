@@ -7946,8 +7946,8 @@ importers:
   packages/pmml-editor-marshaller:
     dependencies:
       jsonata:
-        specifier: ^2.2.1
-        version: 2.2.2
+        specifier: ^1.8.7
+        version: 1.8.9
       xml-js:
         specifier: ^1.6.11
         version: 1.6.11
@@ -24472,6 +24472,10 @@ packages:
     resolution: {integrity: sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==}
     engines: {node: '>=6'}
     hasBin: true
+
+  jsonata@1.8.9:
+    resolution: {integrity: sha512-Vk6QF2zjeprCS6FXCK/3yTaTbB3wxh6C4Adp4Gt4FJ3e53kGKRLwfTLDWVWfwAHEsVYegsQRgBDUl8TdFSt7Qg==}
+    engines: {node: '>= 8'}
 
   jsonata@2.2.2:
     resolution: {integrity: sha512-XDFH2PuaAXv0AXJEWwElXbqADmKFGKMLMkFb+qOz0EhjQW2EIJ6pgtordLU+4u3IVERyBfqy6bi6kZKEncvRqA==}
@@ -44022,6 +44026,8 @@ snapshots:
 
   json5@2.2.3: {}
 
+  jsonata@1.8.9: {}
+
   jsonata@2.2.2: {}
 
   jsonc-parser@3.3.1: {}
@@ -49982,7 +49988,7 @@ snapshots:
       watchpack: 2.5.1
       webpack-sources: 3.3.3
     optionalDependencies:
-      webpack-cli: 5.1.4(webpack-dev-server@5.2.7)(webpack@5.104.1)
+      webpack-cli: 5.1.4(webpack@5.104.1)
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
