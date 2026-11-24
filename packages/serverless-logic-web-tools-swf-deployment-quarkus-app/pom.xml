@@ -223,11 +223,6 @@
       <name>GitHub Repository</name>
       <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
     </repository>
-    <repository>
-      <id>jboss</id>
-      <name>JBoss Public Repo</name>
-      <url>https://repository.jboss.org/nexus/content/groups/public</url>
-    </repository>
   </repositories>
   <pluginRepositories>
     <pluginRepository>

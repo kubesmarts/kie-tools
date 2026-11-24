@@ -83,11 +83,6 @@
       <url>https://maven.pkg.github.com/kubesmarts/logic-maven-repository</url>
     </repository>
     <repository>
-      <id>jboss</id>
-      <name>JBoss Public Repo</name>
-      <url>https://repository.jboss.org/nexus/content/groups/public</url>
-    </repository>
-    <repository>
       <id>sonatype-public</id>
       <name>Sonatype Public Snapshots Repo</name>
       <url>https://oss.sonatype.org/content/repositories/public</url>
