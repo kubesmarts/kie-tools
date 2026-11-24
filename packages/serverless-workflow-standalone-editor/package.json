@@ -25,7 +25,7 @@
     "test": "run-script-if --ignore-errors \"$(build-env tests.ignoreFailures)\" --bool \"$(build-env tests.run)\" --then \"jest --silent --verbose --passWithNoTests\""
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@kie-tools-core/editor": "workspace:*",
@@ -61,7 +61,7 @@
     "jest-environment-jsdom": "^29.7.0",
     "jest-junit": "^16.0.0",
     "jest-when": "^3.6.0",
-    "minimatch": "^3.0.5",
+    "minimatch": "^4.2.5",
     "monaco-editor": "^0.39.0",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "monaco-yaml": "^4.0.4",
@@ -70,16 +70,16 @@
     "react-dom": "^17.0.2",
     "rimraf": "^3.0.2",
     "run-script-os": "^1.1.6",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^3.0.13",
     "ts-jest": "^29.1.5",
     "typescript": "^5.9.3",
-    "underscore": "^1.13.1",
+    "underscore": "^1.13.8",
     "vscode-json-languageservice": "^4.2.1",
     "vscode-languageserver-textdocument": "^1.0.4",
     "vscode-languageserver-types": "^3.16.0",
     "webpack": "^5.104.1",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.15.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.6",
     "webpack-merge": "^5.9.0",
     "yaml-language-server-parser": "^0.1.3"
   }

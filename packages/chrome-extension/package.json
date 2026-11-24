@@ -31,10 +31,10 @@
     "@kie-tools-core/patternfly-base": "workspace:*",
     "@kie-tools-core/workspace": "workspace:*",
     "@octokit/rest": "^18.5.3",
-    "minimatch": "^3.0.5"
+    "minimatch": "^4.2.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@kie-tools/eslint": "workspace:*",

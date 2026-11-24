@@ -23,7 +23,7 @@
     "test-e2e:start": "pnpm start"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@kie-tools-core/chrome-extension": "workspace:*",
@@ -55,14 +55,14 @@
     "monaco-yaml": "^4.0.4",
     "process": "^0.11.10",
     "rimraf": "^3.0.2",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^3.0.13",
     "ts-jest": "^29.1.5",
     "typescript": "^5.9.3",
     "vscode-languageserver-textdocument": "^1.0.4",
     "vscode-languageserver-types": "^3.16.0",
     "webpack": "^5.104.1",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.15.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.6",
     "webpack-merge": "^5.9.0",
     "zip-webpack-plugin": "^4.0.1"
   }
