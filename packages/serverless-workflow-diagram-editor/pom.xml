@@ -159,10 +159,6 @@
     <version.org.webjars.bower.jqueryui>1.12.1</version.org.webjars.bower.jqueryui>
     <!-- Make OSGi happy -->
     <osgi.snapshot.qualifier>${maven.build.timestamp}</osgi.snapshot.qualifier>
-    <jboss.releases.repo.url
-    >https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</jboss.releases.repo.url>
-    <jboss.snapshots.repo.url
-    >https://repository.jboss.org/nexus/content/repositories/snapshots/</jboss.snapshots.repo.url>
 
     <version.org.uberfire.latestFinal.release>1.4.0.Final</version.org.uberfire.latestFinal.release>
     <revapi.oldUberFireVersion>${version.org.uberfire.latestFinal.release}</revapi.oldUberFireVersion>
