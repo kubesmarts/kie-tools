@@ -61,7 +61,7 @@ module.exports = (webpackEnv) =>
     devServer: {
       static: [{ directory: path.join(__dirname, "./dist") }],
       compress: true,
-      https: false,
+      server: "http",
       port: env.dmnEditorStandaloneOnWebappExample.port,
       client: {
         overlay: false,

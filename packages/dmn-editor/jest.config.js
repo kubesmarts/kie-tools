@@ -27,4 +27,5 @@ module.exports = {
     ...babelTransform,
     ...typescriptTransform,
   },
+  transformIgnorePatterns: ["node_modules/(?!.pnpm|uuid)"],
 };

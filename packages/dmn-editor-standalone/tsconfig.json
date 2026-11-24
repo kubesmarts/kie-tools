@@ -5,6 +5,7 @@
     "jsx": "react-jsx",
     // Skip declarations, they are bundled manually in another step
     "declarationMap": false,
-    "declaration": false
+    "declaration": false,
+    "typeRoots": ["./node_modules/@types", "./src/tsExt"]
   }
 }
