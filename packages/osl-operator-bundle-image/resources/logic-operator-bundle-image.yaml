@@ -38,9 +38,9 @@ labels:
   - name: operators.operatorframework.io.bundle.package.v1
     value: logic-operator
   - name: operators.operatorframework.io.bundle.channels.v1
-    value: "stable"
+    value: "stable-1.38"
   - name: operators.operatorframework.io.bundle.channel.default.v1
-    value: stable
+    value: stable-1.38
   - name: operators.operatorframework.io.metrics.mediatype.v1
     value: metrics+v1
   - name: operators.operatorframework.io.metrics.builder

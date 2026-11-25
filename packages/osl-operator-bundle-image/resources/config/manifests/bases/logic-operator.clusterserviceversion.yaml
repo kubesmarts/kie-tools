@@ -282,7 +282,7 @@ spec:
     - name: Documentation
       url: https://docs.openshift.com/serverless/
     - name: Source Repository
-      url: https://github.com/kiegroup/kogito-serverless-operator/
+      url: https://github.com/kubesmarts/kie-tools
   maintainers:
     - email: serverless-logic-team@redhat.com
       name: Red Hat

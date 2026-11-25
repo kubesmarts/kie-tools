@@ -84,7 +84,12 @@ fi
 
 if [[ -n "${GITHUB_ENV:-}" ]]; then
   # GitHub Actions: append into $GITHUB_ENV removing empty lines
-  grep -v -E '^\s*$' "$MERGED" >> "$GITHUB_ENV"
+  # GitHub takes everything after '=' literally, so write the value the shell resolved
+  # (quotes and trailing spaces from .env are removed) instead of the raw line.
+  grep -v -E '^\s*$' "$MERGED" | while IFS= read -r line; do
+    key="${line%%=*}"
+    printf '%s=%s\n' "$key" "${!key}"
+  done >> "$GITHUB_ENV"
 else
   # Local: print to stdout
   cat "$MERGED"

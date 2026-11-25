@@ -39,7 +39,7 @@ execSync(
 
 execSync(
   `${activateCmd} && \
-  python3 resources/scripts/bump_csv.py ${env.oslOperatorBundleImage.version}`,
+  python3 resources/scripts/bump_csv.py "${env.oslOperatorBundleImage.version}" "${env.oslOperatorBundleImage.replacesVersion}" "${env.oslOperatorBundleImage.olmSkipRange}"`,
   { stdio: "inherit" }
 );
 
@@ -59,5 +59,11 @@ fs.renameSync(originalYamlPath, newYamlFilePath);
 execSync(
   `${activateCmd} && \
   python3 ${oslImagesModulesDir}/resources/scripts/update_osbs_branch.py --version ${env.osl.branchName} --file ${newYamlFilePath}`,
+  { stdio: "inherit" }
+);
+
+execSync(
+  `${activateCmd} && \
+  python3 resources/scripts/update_channel.py "${env.oslOperatorBundleImage.channel}" "${newYamlFilePath}"`,
   { stdio: "inherit" }
 );
