@@ -78,7 +78,7 @@
     "dexie": "^3.2.2",
     "fuse.js": "^6.6.2",
     "kubernetes-models": "^4.1.0",
-    "moment": "^2.29.4",
+    "moment": "^2.31.0",
     "monaco-editor": "^0.39.0",
     "openapi-types": "^7.0.1",
     "react": "^17.0.2",
