@@ -25,7 +25,7 @@ def previous_version(version: str) -> str:
     return f"{major}.{minor}.{patch}"
 
 
-def update_versioning_csv(new_version: str) -> None:
+def update_versioning_csv(new_version: str, replaces_version: str = "", olm_skip_range: str = "") -> None:
     yaml = ruamel.yaml.YAML()
     yaml.preserve_quotes = True          # keep original quoting
     yaml.indent(mapping=2, sequence=4)
@@ -33,26 +33,34 @@ def update_versioning_csv(new_version: str) -> None:
     with CSV_BASE_PATH.open("r") as f:
         data = yaml.load(f)
 
+    replaces = replaces_version or previous_version(new_version)
+
     data["metadata"]["name"] = f"logic-operator.v{new_version}"
     data["spec"]["version"] = new_version
-    data["spec"]["replaces"] = f"logic-operator.v{previous_version(new_version)}"
+    data["spec"]["replaces"] = f"logic-operator.v{replaces}"
+
+    annotations = data["metadata"]["annotations"]
+    if olm_skip_range:
+        annotations["olm.skipRange"] = olm_skip_range
+    else:
+        annotations.pop("olm.skipRange", None)
 
     with CSV_BASE_PATH.open("w") as f:
         yaml.dump(data, f)
 
     print(
         f"{CSV_BASE_PATH} updated to {new_version} "
-        f"(replaces {previous_version(new_version)})."
+        f"(replaces {replaces})."
     )
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python bump_csv.py <new_version>")
+    if len(sys.argv) not in (2, 3, 4):
+        print("Usage: python bump_csv.py <new_version> [<replaces_version> [<olm_skip_range>]]")
         sys.exit(1)
 
     try:
-        update_versioning_csv(sys.argv[1])
+        update_versioning_csv(*sys.argv[1:])
     except ValueError as e:
         print(f"Error: {e}")
         sys.exit(1)
