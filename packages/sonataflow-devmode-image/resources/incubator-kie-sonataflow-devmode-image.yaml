@@ -42,6 +42,8 @@
   description: "Kogito Serverless Workflow development mode with Quarkus extensions libraries preinstalled"
 
   labels:
+    - name: "io.quarkus.version"
+      value: "### SET ME DURING BUILD PROCESS ###"
     - name: "io.quarkus.platform.version"
       value: "### SET ME DURING BUILD PROCESS ###"
     - name: "org.kie.kogito.version"
