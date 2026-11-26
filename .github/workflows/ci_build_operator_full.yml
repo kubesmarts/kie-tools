@@ -85,11 +85,13 @@ jobs:
         id: setup_env
         uses: ./.github/actions/setup-env
 
-      - name: Setup local maven cache
-        id: setup_maven_cache
-        uses: ./.github/actions/setup-maven-cache
+      - name: "Setup kie-tools"
+        uses: ./.github/actions/setup-kie-tools
         with:
-          DEPS_BRANCHNAME: "9.105.x-prod"
+          KOGITO_VERSION: ${{ env.KOGITO_RUNTIME_version }}
+          DEPS_BRANCHNAME: ${{ github.head_ref || env.KOGITO_RUNTIME_branch }}
+          PNPM_FILTER: ""
+          USE_OSL_ENV_CONFIG: false
 
       - name: Modify pom.xml of sonataflow-quarkus-devui
         run: python .github/supporting-files/ci/osl/pom-manipulation/inject-fmp-executions.py
