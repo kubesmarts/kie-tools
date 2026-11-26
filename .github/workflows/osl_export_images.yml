@@ -29,7 +29,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           token: ${{ secrets.KIE1_TOKEN }}
-          ref: 9.105.x-prod
+          ref: 9.105.x-prod-SRVLOGIC-1344
 
       - name: Setup Git Environment
         run: |
