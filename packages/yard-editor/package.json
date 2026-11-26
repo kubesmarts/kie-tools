@@ -39,7 +39,7 @@
     "@patternfly/react-icons": "^5.4.1",
     "@types/js-yaml": "^4.0.5",
     "csstype": "^3.0.11",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^4.3.2",
     "json-schema": "^0.4.0",
     "monaco-editor": "^0.39.0",
     "monaco-yaml": "^4.0.4",
@@ -48,7 +48,7 @@
     "vscode-languageserver-types": "^3.16.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@kie-tools-core/webpack-base": "workspace:*",
@@ -63,11 +63,11 @@
     "copyfiles": "^2.4.1",
     "monaco-editor-webpack-plugin": "^7.0.1",
     "rimraf": "^3.0.2",
-    "start-server-and-test": "^2.0.3",
+    "start-server-and-test": "^3.0.13",
     "typescript": "^5.9.3",
     "webpack": "^5.104.1",
-    "webpack-cli": "^4.10.0",
-    "webpack-dev-server": "^4.15.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.2.6",
     "webpack-merge": "^5.9.0"
   },
   "peerDependencies": {

@@ -86,11 +86,6 @@
     <!-- Make OSGi happy -->
     <osgi.snapshot.qualifier>${maven.build.timestamp}</osgi.snapshot.qualifier>
 
-    <jboss.releases.repo.url
-    >https://repository.jboss.org/nexus/service/local/staging/deploy/maven2/</jboss.releases.repo.url>
-    <jboss.snapshots.repo.url
-    >https://repository.jboss.org/nexus/content/repositories/snapshots/</jboss.snapshots.repo.url>
-
     <version.org.infinispan.protostream>4.6.2.Final</version.org.infinispan.protostream>
 
     <!-- Newer version in kie-parent causes ServiceLoader error -->

@@ -13,6 +13,11 @@
       "policy": "sameRange"
     },
     {
+      "label": "jsonata v2's evaluate() is always-async, incompatible with pmml-editor-marshaller's synchronous API",
+      "dependencies": ["jsonata"],
+      "packages": ["@kie-tools/pmml-editor-marshaller"]
+    },
+    {
       "label": "Use workspace protocol when developing local packages",
       "dependencies": ["$LOCAL"],
       "dependencyTypes": ["prod", "dev"],

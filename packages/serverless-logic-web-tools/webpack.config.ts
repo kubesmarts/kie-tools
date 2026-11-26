@@ -196,7 +196,7 @@ export default async (webpackEnv: any, webpackArgv: any) => {
         ignoreWarnings: [/Failed to parse source map/],
       }),
       devServer: {
-        https: true,
+        server: "https",
         historyApiFallback: false,
         static: [{ directory: path.join(__dirname, "./dist") }, { directory: path.join(__dirname, "./static") }],
         compress: true,

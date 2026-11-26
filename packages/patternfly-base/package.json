@@ -22,7 +22,7 @@
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "raw-loader": "^4.0.2",
-    "sass": "^1.90.0",
+    "sass": "^1.104.0",
     "sass-loader": "^13.3.0",
     "style-loader": "^2.0.0",
     "svg-url-loader": "^8.0.0",

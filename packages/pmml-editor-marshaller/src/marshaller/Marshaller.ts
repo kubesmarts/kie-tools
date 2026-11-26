@@ -76,7 +76,29 @@ export function XML2PMML(xml: string): PMML {
 
   const pmml: PMML = expression.evaluate(doc);
 
-  return pmml;
+  return normalizeNullPrototypes(pmml);
+}
+
+// jsonata >=1.8.8 builds object-constructor results with Object.create(null) (hardening against
+// prototype pollution, see CVE-2026-77415) instead of plain {} objects. Consumers of the PMML model
+// (e.g. immer-based state management) expect plain objects with Object.prototype, so null-prototype
+// objects are normalized back to plain objects, while actual model class instances (e.g. Scorecard,
+// SimplePredicate) are left untouched.
+function normalizeNullPrototypes<T>(obj: T): T {
+  if (obj === null || typeof obj !== "object") {
+    return obj;
+  }
+  if (Object.getPrototypeOf(obj) === null) {
+    const plain: any = {};
+    for (const key of Object.keys(obj)) {
+      plain[key] = normalizeNullPrototypes((obj as any)[key]);
+    }
+    return plain;
+  }
+  for (const key of Object.keys(obj)) {
+    (obj as any)[key] = normalizeNullPrototypes((obj as any)[key]);
+  }
+  return obj;
 }
 
 //See https://github.com/jsonata-js/jsonata/issues/457
@@ -106,7 +128,9 @@ function clone(obj: any) {
   if (obj === null || typeof obj !== "object") {
     return obj;
   }
-  const temp: any = new obj.constructor(obj);
+  // jsonata >=1.8.8 builds object-constructor results with Object.create(null) (hardening against
+  // prototype pollution, see CVE-2026-77415), which has no .constructor to call.
+  const temp: any = obj.constructor ? new obj.constructor(obj) : {};
   for (const key in obj) {
     temp[key] = clone(obj[key]);
   }
@@ -146,7 +170,10 @@ export function PMML2XML(pmml: PMML): string {
   const expression: Expression = JSONata(ui2json);
   expression.registerFunction("singletonArray", singletonArray);
 
-  const json: any = expression.evaluate(pmml);
+  // jsonata >=1.8.8 builds its object-constructor results with Object.create(null) (hardening against
+  // prototype pollution, see CVE-2026-77415), but xml-js's js2xml expects plain objects and calls
+  // attributes.hasOwnProperty(...) directly, so the result needs round-tripping through JSON first.
+  const json: any = JSON.parse(JSON.stringify(expression.evaluate(pmml)));
   const xml: string = XMLJS.js2xml(json, { spaces: 2 });
 
   return xml;

@@ -35,10 +35,10 @@
   },
   "dependencies": {
     "@kie-tools/xml-parser-ts": "workspace:*",
-    "uuid": "^8.3.2"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@kie-tools/dmn-marshaller-backend-compatibility-tester": "workspace:*",
